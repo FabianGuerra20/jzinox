@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="JZINOX — Equipamiento gastronómico en acero inoxidable">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7f8f9"/>
+      <stop offset="55%" stop-color="#dfe3e6"/>
+      <stop offset="100%" stop-color="#b9bfc4"/>
+    </linearGradient>
+    <linearGradient id="steelText" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d9dcde"/>
+      <stop offset="18%" stop-color="#ffffff"/>
+      <stop offset="46%" stop-color="#8f959b"/>
+      <stop offset="53%" stop-color="#3c434a"/>
+      <stop offset="68%" stop-color="#7d838a"/>
+      <stop offset="88%" stop-color="#eceef0"/>
+      <stop offset="100%" stop-color="#a9aeb3"/>
+    </linearGradient>
+    <linearGradient id="brush" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="30%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="62%" stop-color="#2b3138" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#brush)"/>
+
+  <text x="600" y="300" text-anchor="middle"
+        font-family="Archivo, 'Segoe UI', Helvetica, Arial, sans-serif"
+        font-size="150" font-weight="700" letter-spacing="6"
+        fill="url(#steelText)">JZINOX</text>
+
+  <text x="600" y="360" text-anchor="middle"
+        font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif"
+        font-size="34" font-weight="500" fill="#2b3138">Equipamiento gastronómico en acero inoxidable</text>
+
+  <text x="600" y="418" text-anchor="middle"
+        font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif"
+        font-size="26" fill="#555b62">Soldadura TIG · Estructuras a medida · Cerrillos, RM</text>
+
+  <rect x="470" y="462" width="260" height="8" rx="4" fill="#c0392b"/>
+  <rect y="606" width="1200" height="24" fill="#6f757a"/>
+</svg>

@@ -1,0 +1,228 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { services } from "../data/services.js";
+import { site } from "../data/site.js";
+---
+
+<Layout
+	title="Contacto"
+	description={`Cotiza tu proyecto de equipamiento gastronómico en acero inoxidable. ${site.street}, ${site.city}, ${site.region}.`}
+>
+	<section class="section page-hero">
+		<div class="container">
+			<span class="eyebrow">Contacto</span>
+			<h1>Cuéntanos sobre tu proyecto</h1>
+			<p>
+				Escríbenos con las medidas de tu cocina o el plano que tengas. Te respondemos con una
+				cotización detallada, plazos de fabricación e instalación.
+			</p>
+		</div>
+	</section>
+
+	<section class="section section--alt contact">
+		<div class="container contact__grid">
+			<div class="contact__info">
+				<h2>Datos de contacto</h2>
+
+				<ul class="contact__list">
+					<li>
+						<strong>Teléfono / WhatsApp</strong>
+						<a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>
+					</li>
+					<li>
+						<strong>Correo</strong>
+						<a href={`mailto:${site.email}`}>{site.email}</a>
+					</li>
+					<li>
+						<strong>Taller</strong>
+						<span>{site.street}<br />{site.city}, {site.region}</span>
+					</li>
+					<li>
+						<strong>Horario de atención</strong>
+						<span>
+							{site.hoursLines.map((line) => <span class="contact__line">{line}</span>)}
+						</span>
+					</li>
+				</ul>
+
+				<a
+					href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="btn btn--ghost contact__wa"
+				>
+					Escríbenos por WhatsApp
+				</a>
+			</div>
+
+			<form class="card contact__form" action={site.formsubmitEndpoint} method="POST">
+				<input type="hidden" name="_subject" value={`Nueva consulta desde ${site.domain}`} />
+				<input type="hidden" name="_template" value="table" />
+				<input type="hidden" name="_next" value={`${site.siteUrl}/gracias`} />
+				<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
+
+				<div class="field">
+					<label for="name">Nombre completo</label>
+					<input type="text" id="name" name="Nombre" required placeholder="Tu nombre" />
+				</div>
+
+				<div class="field-row">
+					<div class="field">
+						<label for="phone">Teléfono</label>
+						<input type="tel" id="phone" name="Teléfono" required placeholder="+56 9 ..." />
+					</div>
+					<div class="field">
+						<label for="email">Correo</label>
+						<input type="email" id="email" name="Correo" required placeholder="tucorreo@ejemplo.com" />
+					</div>
+				</div>
+
+				<div class="field">
+					<label for="service">Servicio de interés</label>
+					<select id="service" name="Servicio">
+						{services.map((service) => <option value={service.title}>{service.title}</option>)}
+						<option value="Otro">Otro</option>
+					</select>
+				</div>
+
+				<div class="field">
+					<label for="message">Cuéntanos tu proyecto</label>
+					<textarea
+						id="message"
+						name="Mensaje"
+						rows="5"
+						required
+						placeholder="Describe tu proyecto, medidas y plazos estimados"></textarea>
+				</div>
+
+				<button type="submit" class="btn btn--primary contact__submit">Enviar consulta</button>
+				<p class="contact__legal">Te responderemos dentro del horario de atención.</p>
+			</form>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.contact__grid {
+		display: grid;
+		gap: 2.5rem;
+		grid-template-columns: 1fr;
+		align-items: start;
+	}
+
+	@media (min-width: 900px) {
+		.contact__grid {
+			grid-template-columns: 1fr 1.15fr;
+		}
+	}
+
+	.contact__list {
+		display: flex;
+		flex-direction: column;
+		gap: 1.2rem;
+		margin-top: 1.5rem;
+	}
+
+	.contact__list strong {
+		display: block;
+		font-family: var(--font-heading);
+		font-size: 0.78rem;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--color-steel);
+		margin-bottom: 0.2rem;
+	}
+
+	.contact__list a,
+	.contact__list span {
+		color: var(--color-graphite);
+		font-size: 1rem;
+		line-height: 1.5;
+	}
+
+	.contact__line {
+		display: block;
+	}
+
+	.contact__list a:hover {
+		color: var(--color-accent);
+	}
+
+	.contact__wa {
+		margin-top: 1.8rem;
+	}
+
+	.contact__form {
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+	}
+
+	.field {
+		display: flex;
+		flex-direction: column;
+		gap: 0.35rem;
+	}
+
+	.field-row {
+		display: grid;
+		gap: 1rem;
+		grid-template-columns: 1fr;
+	}
+
+	@media (min-width: 560px) {
+		.field-row {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.field label {
+		font-family: var(--font-heading);
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		color: var(--color-steel);
+	}
+
+	.field input,
+	.field select,
+	.field textarea {
+		width: 100%;
+		background-color: #fff;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		color: var(--color-graphite);
+		font-family: var(--font-body);
+		font-size: 0.95rem;
+		padding: 0.7rem 0.85rem;
+	}
+
+	.field textarea {
+		resize: vertical;
+	}
+
+	.field input::placeholder,
+	.field textarea::placeholder {
+		color: #9aa0a7;
+	}
+
+	.field input:focus,
+	.field select:focus,
+	.field textarea:focus {
+		outline: none;
+		border-color: var(--color-accent);
+		box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.14);
+	}
+
+	.contact__submit {
+		margin-top: 0.4rem;
+	}
+
+	.contact__legal {
+		margin: 0;
+		font-size: 0.8rem;
+		color: var(--color-steel);
+		text-align: center;
+	}
+</style>

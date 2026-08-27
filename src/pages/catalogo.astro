@@ -1,0 +1,187 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { catalog, catalogCategories } from "../data/catalog.js";
+import { site } from "../data/site.js";
+
+const formatPrice = (price) =>
+	price > 0
+		? new Intl.NumberFormat("es-CL", { style: "currency", currency: "CLP", maximumFractionDigits: 0 }).format(price)
+		: "A cotizar";
+
+const slugify = (value) =>
+	value
+		.toLowerCase()
+		.normalize("NFD")
+		.replace(/[\u0300-\u036f]/g, "")
+		.replace(/[^a-z0-9]+/g, "-")
+		.replace(/(^-|-$)/g, "");
+
+const groups = catalogCategories
+	.filter((category) => category !== "Todos")
+	.map((category) => ({
+		name: category,
+		id: slugify(category),
+		items: catalog.filter((item) => item.category === category),
+	}))
+	.filter((group) => group.items.length > 0);
+---
+
+<Layout
+	title="Catálogo"
+	description="Catálogo y lista de precios referenciales de JZINOX: mesones, lavaplatos, campanas de extracción, estanterías y estructuras en acero inoxidable."
+>
+	<section class="section page-hero">
+		<div class="container">
+			<span class="eyebrow">Catálogo</span>
+			<h1>Catálogo y precios referenciales</h1>
+			<p>
+				Valores de referencia para dimensionar tu proyecto. El precio final depende de las
+				medidas, el espesor de la plancha y la complejidad de la instalación.
+			</p>
+
+			<nav class="catalog-nav" aria-label="Categorías del catálogo">
+				{groups.map((group) => (
+					<a href={`#${group.id}`}>{group.name}</a>
+				))}
+			</nav>
+		</div>
+	</section>
+
+	{
+		groups.map((group, index) => (
+			<section class:list={["section", { "section--alt": index % 2 === 0 }]} id={group.id}>
+				<div class="container">
+					<h2 class="catalog-group-title">{group.name}</h2>
+
+					<div class="grid grid--3 catalog-grid">
+						{group.items.map((item) => (
+							<article class="card catalog-card">
+								<span class="tag">{item.category}</span>
+								<h3>{item.name}</h3>
+								<p>{item.description}</p>
+								<div class="catalog-card__price">
+									<strong>{formatPrice(item.price)}</strong>
+									{item.price > 0 && <span>/ {item.unit}</span>}
+								</div>
+								<a
+									href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(`Hola JZINOX, me interesa cotizar: ${item.name}`)}`}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="btn btn--ghost catalog-card__cta"
+								>
+									Cotizar este ítem
+								</a>
+							</article>
+						))}
+					</div>
+				</div>
+			</section>
+		))
+	}
+
+	<section class="section">
+		<div class="container">
+			<p class="catalog-note">
+				* Precios en pesos chilenos (CLP), referenciales al {new Date().getFullYear()}. No
+				incluyen instalación en todos los casos ni traslados fuera de la {site.region}.
+			</p>
+
+			<div class="cta-band__inner catalog-cta">
+				<div>
+					<h2>¿No encuentras lo que buscas?</h2>
+					<p>Fabricamos a medida según tus planos o el levantamiento en terreno.</p>
+				</div>
+				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.catalog-nav {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 1.5rem;
+	}
+
+	.catalog-nav a {
+		font-size: 0.85rem;
+		font-weight: 500;
+		color: var(--color-graphite);
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: 100px;
+		padding: 0.4rem 0.95rem;
+		transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+	}
+
+	.catalog-nav a:hover {
+		background-color: var(--color-accent);
+		border-color: var(--color-accent);
+		color: #fff;
+	}
+
+	.catalog-group-title {
+		margin-bottom: 1.8rem;
+		padding-bottom: 0.8rem;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.catalog-card {
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		align-items: flex-start;
+	}
+
+	.catalog-card h3 {
+		margin: 0.6rem 0 0;
+		font-size: 1.05rem;
+	}
+
+	.catalog-card p {
+		font-size: 0.9rem;
+		flex-grow: 1;
+		margin-bottom: 0;
+	}
+
+	.catalog-card__price {
+		display: flex;
+		align-items: baseline;
+		gap: 0.4rem;
+		font-family: var(--font-heading);
+		font-weight: 700;
+		color: var(--color-accent);
+		font-size: 1.25rem;
+		margin: 0.4rem 0 0.6rem;
+	}
+
+	.catalog-card__price span {
+		font-family: var(--font-body);
+		font-weight: 400;
+		font-size: 0.8rem;
+		color: var(--color-text-muted);
+	}
+
+	.catalog-card__cta {
+		font-size: 0.82rem;
+		padding: 0.55rem 1.1rem;
+	}
+
+	.catalog-note {
+		font-size: 0.82rem;
+		color: var(--color-steel);
+		text-align: center;
+		max-width: 70ch;
+		margin: 0 auto 2.5rem;
+	}
+
+	.catalog-cta {
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-left: 4px solid var(--color-accent);
+		border-radius: var(--radius);
+		padding: 2.2rem 2.4rem;
+	}
+</style>

@@ -1,0 +1,167 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { history, values, stats } from "../data/company.js";
+---
+
+<Layout title="Nosotros" description="Conoce la historia, la misión y los valores de JZINOX, taller de equipamiento gastronómico en acero inoxidable en Cerrillos.">
+	<section class="section page-hero">
+		<div class="container">
+			<span class="eyebrow">Nosotros</span>
+			<h1>Un taller de Cerrillos especializado en cocinas que trabajan de verdad</h1>
+			<p>
+				Fabricamos, instalamos y mantenemos equipamiento gastronómico en acero inoxidable
+				para restaurantes, casinos, hoteles y panaderías de la Región Metropolitana.
+			</p>
+		</div>
+	</section>
+
+	<section class="section section--alt history">
+		<div class="container history__grid">
+			<div class="history__text">
+				<span class="eyebrow">{history.eyebrow}</span>
+				<h2>{history.title}</h2>
+				{history.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+			</div>
+			<div class="history__stats">
+				{stats.map((stat) => (
+					<div class="history__stat">
+						<strong>{stat.value}</strong>
+						<span>{stat.label}</span>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<div class="section-head">
+				<span class="eyebrow">Misión y visión</span>
+				<h2>Trabajo sólido, prolijo y a tiempo</h2>
+			</div>
+			<div class="grid grid--2 mission-grid">
+				<div class="card">
+					<h3>Misión</h3>
+					<p>
+						Entregar equipamiento en acero inoxidable que aguante el ritmo real de una cocina:
+						bien medido, bien soldado y fácil de higienizar, con plazos que se cumplen.
+					</p>
+				</div>
+				<div class="card">
+					<h3>Visión</h3>
+					<p>
+						Ser el taller de referencia en equipamiento gastronómico de la Región Metropolitana,
+						reconocido por la terminación sanitaria de cada pieza que sale de nuestro taller.
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="section section--alt">
+		<div class="container">
+			<div class="section-head">
+				<span class="eyebrow">Nuestros valores</span>
+				<h2>Lo que guía cada proyecto que entregamos</h2>
+			</div>
+			<div class="grid grid--4">
+				{values.map((value) => (
+					<div class="card value-card">
+						<h3>{value.title}</h3>
+						<p>{value.description}</p>
+					</div>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section class="section cta-band">
+		<div class="container cta-band__inner">
+			<div>
+				<h2>Conversemos sobre tu proyecto</h2>
+				<p>Escríbenos y te contamos cómo podemos ayudarte.</p>
+			</div>
+			<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.history__grid {
+		display: grid;
+		gap: 3rem;
+	}
+
+	@media (min-width: 900px) {
+		.history__grid {
+			grid-template-columns: 1.4fr 1fr;
+		}
+	}
+
+	.history__text p {
+		font-size: 0.98rem;
+	}
+
+	.history__stats {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1.2rem;
+		align-content: start;
+	}
+
+	.history__stat {
+		background-color: #fff;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		padding: 1.4rem;
+		text-align: center;
+	}
+
+	.history__stat strong {
+		display: block;
+		font-family: var(--font-heading);
+		font-size: 1.9rem;
+		color: var(--color-accent);
+	}
+
+	.history__stat span {
+		font-size: 0.8rem;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--color-text-muted);
+	}
+
+	.mission-grid .card p {
+		margin-bottom: 0;
+	}
+
+	.value-card {
+		border-top: 3px solid var(--color-accent);
+	}
+
+	.value-card p {
+		font-size: 0.92rem;
+		margin-bottom: 0;
+	}
+
+	.cta-band__inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-left: 4px solid var(--color-accent);
+		border-radius: var(--radius);
+		padding: 2.2rem 2.4rem;
+	}
+
+	.cta-band__inner h2 {
+		margin-bottom: 0.4rem;
+	}
+
+	.cta-band__inner p {
+		margin: 0;
+	}
+</style>

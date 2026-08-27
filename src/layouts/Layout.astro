@@ -1,23 +1,63 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import FloatingContact from "../components/FloatingContact.astro";
+import WeldingCursor from "../components/WeldingCursor.astro";
+import Seo from "../components/Seo.astro";
+import { site } from "../data/site.js";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.description } = Astro.props;
+const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.tagline}`;
+---
+
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<meta name="description" content={description} />
+		<title>{pageTitle}</title>
+		<Seo title={pageTitle} description={description} />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 	<body>
-		<slot />
+		<a href="#main-content" class="skip-link">Saltar al contenido</a>
+		<Header />
+		<main id="main-content">
+			<slot />
+		</main>
+		<Footer />
+		<FloatingContact />
+		<WeldingCursor />
+
+		<script>
+			document.querySelectorAll(".js-toggle-label").forEach((label) => {
+				label.addEventListener("keydown", (event) => {
+					if (event.key === "Enter" || event.key === " ") {
+						event.preventDefault();
+						const forId = label.getAttribute("for");
+						const input = forId ? document.getElementById(forId) : null;
+						if (input instanceof HTMLInputElement) {
+							input.checked = !input.checked;
+						}
+					}
+				});
+			});
+		</script>
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

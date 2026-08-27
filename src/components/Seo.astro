@@ -1,0 +1,57 @@
+---
+import { site } from "../data/site.js";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props as Props;
+
+const canonicalUrl = new URL(Astro.url.pathname, site.siteUrl).toString();
+const ogImageUrl = new URL(site.ogImage, site.siteUrl).toString();
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: site.name,
+  alternateName: `${site.name} — ${site.tagline}`,
+  description: site.description,
+  image: ogImageUrl,
+  url: site.siteUrl,
+  telephone: `+${site.whatsappNumber}`,
+  email: site.email,
+  priceRange: "$$",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: site.street,
+    addressLocality: site.city,
+    addressRegion: site.region,
+    addressCountry: site.country,
+  },
+  areaServed: site.region,
+  openingHoursSpecification: site.openingHours.map((slot) => ({
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: slot.days,
+    opens: slot.opens,
+    closes: slot.closes,
+  })),
+};
+---
+
+<link rel="canonical" href={canonicalUrl} />
+
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:locale" content="es_CL" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

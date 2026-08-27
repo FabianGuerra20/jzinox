@@ -1,0 +1,44 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { site } from "../data/site.js";
+---
+
+<Layout title="Gracias" description="Gracias por contactar a JZINOX.">
+	<section class="section thanks">
+		<div class="container thanks__inner">
+			<span class="eyebrow">Mensaje enviado</span>
+			<h1>¡Gracias por escribirnos!</h1>
+			<p>
+				Recibimos tu mensaje y te responderemos a la brevedad. Si tu consulta es urgente,
+				contáctanos directamente por WhatsApp.
+			</p>
+			<div class="thanks__actions">
+				<a href={`https://wa.me/${site.whatsappNumber}`} target="_blank" rel="noopener noreferrer" class="btn btn--primary">
+					Escribir por WhatsApp
+				</a>
+				<a href="/" class="btn btn--ghost">Volver al inicio</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.thanks {
+		padding-top: 6rem;
+		padding-bottom: 6rem;
+		text-align: center;
+	}
+
+	.thanks__inner {
+		max-width: 560px;
+		margin: 0 auto;
+	}
+
+	.thanks__actions {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 1rem;
+		margin-top: 1.5rem;
+	}
+</style>

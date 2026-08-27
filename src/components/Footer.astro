@@ -1,0 +1,140 @@
+---
+import { navItems, footerExtraItems, site } from "../data/site.js";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__grid">
+    <div class="footer__col">
+      <a href="/" class="footer__brand">{site.name}</a>
+      <address class="footer__address">
+        {site.street},<br />
+        {site.city}, {site.region}, Chile
+      </address>
+      <ul class="footer__contact">
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a></li>
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4>Navegación</h4>
+      <ul>
+        {[...navItems, ...footerExtraItems].map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer__col">
+      <h4>Horario de Atención</h4>
+      <ul>
+        {site.hoursLines.map((line) => (
+          <li>{line}</li>
+        ))}
+      </ul>
+      <a href="/contacto" class="btn btn--primary footer__cta">Cotizar Proyecto</a>
+    </div>
+  </div>
+
+  <div class="footer__bottom">
+    <div class="container footer__bottom-inner">
+      <p>&copy; {year} {site.name}. Todos los derechos reservados.</p>
+      <p>Sitio web en construcción — contenido de referencia.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--color-bg-alt);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .footer__grid {
+    display: grid;
+    gap: 2.5rem;
+    padding: 3.5rem 1.5rem 2.5rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 720px) {
+    .footer__grid {
+      grid-template-columns: 1.5fr 1fr 1fr;
+    }
+  }
+
+  .footer__brand {
+    display: inline-block;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.35rem;
+    letter-spacing: 0.03em;
+    color: var(--color-graphite);
+    margin-bottom: 0.9rem;
+  }
+
+  .footer__address {
+    font-style: normal;
+    font-size: 0.92rem;
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: 0.9rem;
+  }
+
+  .footer__col h4 {
+    font-size: 0.95rem;
+    color: var(--color-graphite);
+    margin-bottom: 1rem;
+  }
+
+  .footer__col ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .footer__col li,
+  .footer__contact li {
+    font-size: 0.92rem;
+    color: var(--color-text-muted);
+  }
+
+  .footer__col a {
+    color: var(--color-text-muted);
+    transition: color 0.15s ease;
+  }
+
+  .footer__col a:hover {
+    color: var(--color-accent);
+  }
+
+  .footer__cta {
+    margin-top: 1.4rem;
+    padding: 0.65rem 1.3rem;
+    font-size: 0.88rem;
+  }
+
+  .footer__cta:hover {
+    color: #fff;
+  }
+
+  .footer__bottom {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .footer__bottom-inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    justify-content: space-between;
+    padding: 1.2rem 1.5rem;
+  }
+
+  .footer__bottom p {
+    margin: 0;
+    font-size: 0.78rem;
+    color: var(--color-steel);
+  }
+</style>

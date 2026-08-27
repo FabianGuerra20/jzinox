@@ -1,0 +1,141 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ServiceIcon from "../components/ServiceIcon.astro";
+import { services } from "../data/services.js";
+---
+
+<Layout
+	title="Servicios"
+	description="Fabricación, instalación y mantención de equipamiento gastronómico en acero inoxidable: cocinas industriales, campanas, mesones, lavaplatos y soldadura TIG."
+>
+	<section class="section page-hero">
+		<div class="container">
+			<span class="eyebrow">Servicios</span>
+			<h1>Del levantamiento en terreno a la instalación final</h1>
+			<p>
+				Trabajamos el proyecto completo: medimos tu cocina, fabricamos en taller propio,
+				instalamos en terreno y después mantenemos lo que instalamos.
+			</p>
+		</div>
+	</section>
+
+	<section class="section section--alt">
+		<div class="container">
+			<div class="grid grid--2 services-grid">
+				{services.map((service) => (
+					<article class="card service-detail" id={service.slug}>
+						<div class="service-detail__icon">
+							<ServiceIcon name={service.icon} />
+						</div>
+						<h2 class="service-detail__title">{service.title}</h2>
+						<p>{service.summary}</p>
+						<ul class="check-list">
+							{service.details.map((detail) => <li>{detail}</li>)}
+						</ul>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<section class="section">
+		<div class="container">
+			<div class="section-head">
+				<span class="eyebrow">Cómo trabajamos</span>
+				<h2>Cuatro etapas, sin sorpresas a mitad de camino</h2>
+			</div>
+
+			<ol class="steps">
+				<li class="card steps__item">
+					<span class="steps__num">01</span>
+					<h3>Levantamiento</h3>
+					<p>Visitamos tu cocina, medimos el espacio real y revisamos el flujo de trabajo.</p>
+				</li>
+				<li class="card steps__item">
+					<span class="steps__num">02</span>
+					<h3>Cotización</h3>
+					<p>Te entregamos el detalle de piezas, materiales, plazos de taller e instalación.</p>
+				</li>
+				<li class="card steps__item">
+					<span class="steps__num">03</span>
+					<h3>Fabricación</h3>
+					<p>Cortamos, plegamos y soldamos con TIG en nuestro taller de Cerrillos.</p>
+				</li>
+				<li class="card steps__item">
+					<span class="steps__num">04</span>
+					<h3>Instalación</h3>
+					<p>Montamos en terreno, nivelamos y dejamos el equipamiento operativo.</p>
+				</li>
+			</ol>
+		</div>
+	</section>
+
+	<section class="section section--alt cta-band">
+		<div class="container cta-band__inner">
+			<div>
+				<h2>¿Listo para cotizar?</h2>
+				<p>Cuéntanos qué necesitas y te respondemos con un presupuesto detallado.</p>
+			</div>
+			<div class="cta-band__actions">
+				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+				<a href="/catalogo" class="btn btn--ghost">Ver catálogo</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.service-detail__icon {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 46px;
+		height: 46px;
+		border-radius: var(--radius);
+		background-color: var(--color-surface);
+		color: var(--color-accent);
+		margin-bottom: 1.1rem;
+	}
+
+	.service-detail__title {
+		font-size: 1.2rem;
+	}
+
+	.steps {
+		display: grid;
+		gap: 1.6rem;
+		grid-template-columns: 1fr;
+		counter-reset: step;
+	}
+
+	@media (min-width: 640px) {
+		.steps {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 960px) {
+		.steps {
+			grid-template-columns: repeat(4, 1fr);
+		}
+	}
+
+	.steps__num {
+		display: block;
+		font-family: var(--font-heading);
+		font-weight: 700;
+		font-size: 1.6rem;
+		color: var(--color-accent);
+		margin-bottom: 0.5rem;
+	}
+
+	.steps__item h3 {
+		font-size: 1.05rem;
+		margin-bottom: 0.4rem;
+	}
+
+	.steps__item p {
+		font-size: 0.92rem;
+		margin-bottom: 0;
+	}
+</style>
