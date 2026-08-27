@@ -1,120 +1,253 @@
-<canvas id="welding-sparks" aria-hidden="true"></canvas>
+---
+/**
+ * Estela de soldadura TIG que sigue al puntero.
+ *
+ * Partículas DOM en vez de canvas: el efecto se apoya en `box-shadow` para el
+ * halo incandescente y en `translate3d` para que el compositor resuelva el
+ * movimiento sin provocar reflow. El pool de nodos se crea una sola vez y se
+ * recicla, así que durante la animación no se inserta ni se borra ningún
+ * elemento.
+ */
+---
+
+<div id="tig-sparks" aria-hidden="true"></div>
 
 <style>
-  #welding-sparks {
+  #tig-sparks {
     position: fixed;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+    overflow: hidden;
+    pointer-events: none; /* nunca debe interceptar clics */
     z-index: 9999;
+    contain: strict; /* aísla layout y paint del resto de la página */
+  }
+
+  /* `:global` es obligatorio: las partículas las crea el script en runtime y
+     por eso nunca reciben el atributo de scope que Astro añade al template. */
+  #tig-sparks :global(.spark) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Filamento alargado, no un círculo: fino y estirado en el eje de avance */
+    width: 2px;
+    height: 11px;
+    border-radius: 40%;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+
+  /* Sin puntero fino, o con movimiento reducido, el efecto no existe */
+  @media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+    #tig-sparks {
+      display: none;
+    }
   }
 </style>
 
 <script>
-  const canFineHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (canFineHover && !prefersReducedMotion) {
-    const canvas = document.getElementById("welding-sparks");
-    const ctx = canvas.getContext("2d");
+  if (finePointer && !reducedMotion) {
+    const layer = document.getElementById("tig-sparks");
 
-    const COLORS = ["#c0392b", "#d8503f", "#5c6267", "#2b3138"];
-    const MAX_PARTICLES = 140;
-    const SPAWN_DISTANCE = 7;
-    const GRAVITY = 0.22;
-    const FRICTION = 0.965;
+    /* --- Constantes físicas: unidades por segundo, no por frame --- */
+    const POOL_SIZE = 90;
+    const GRAVITY = 980; // px/s² de caída
+    const FRICTION = 0.12; // fracción de velocidad que sobrevive cada segundo
+    const SPREAD = 2.5; // apertura del abanico en radianes (~143°)
+    const SPAWN_DISTANCE = 9; // px que recorre el puntero antes de emitir
+    const MAX_DT = 0.05; // corta el salto acumulado al volver de otra pestaña
+    const MAX_DRAG_SPEED = 1400; // techo px/s de la velocidad heredada del puntero
 
-    let particles = [];
-    let dpr = Math.min(window.devicePixelRatio || 1, 2);
+    /* --- Ciclo térmico: del blanco incandescente al rojo óxido apagado ---
+       glow = radio del halo en px, se apaga a medida que la chispa se enfría. */
+    const HEAT = [
+      { t: 0.0, c: [255, 253, 244], glow: 13 }, // blanco
+      { t: 0.18, c: [255, 236, 160], glow: 11 }, // amarillo
+      { t: 0.45, c: [255, 168, 56], glow: 8 }, // naranja
+      { t: 0.75, c: [216, 80, 63], glow: 4 }, // naranja óxido, color de marca
+      { t: 1.0, c: [124, 33, 22], glow: 0 }, // rojo apagado
+    ];
+
+    function heatAt(t) {
+      let a = HEAT[0];
+      let b = HEAT[HEAT.length - 1];
+      for (let i = 0; i < HEAT.length - 1; i++) {
+        if (t >= HEAT[i].t && t <= HEAT[i + 1].t) {
+          a = HEAT[i];
+          b = HEAT[i + 1];
+          break;
+        }
+      }
+      const span = b.t - a.t || 1;
+      const k = (t - a.t) / span;
+      return {
+        r: Math.round(a.c[0] + (b.c[0] - a.c[0]) * k),
+        g: Math.round(a.c[1] + (b.c[1] - a.c[1]) * k),
+        b: Math.round(a.c[2] + (b.c[2] - a.c[2]) * k),
+        glow: a.glow + (b.glow - a.glow) * k,
+      };
+    }
+
+    /* --- Pool de nodos: se crea una vez y se recicla --- */
+    const pool = [];
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < POOL_SIZE; i++) {
+      const el = document.createElement("span");
+      el.className = "spark";
+      frag.appendChild(el);
+      pool.push({ el, alive: false, x: 0, y: 0, vx: 0, vy: 0, age: 0, life: 1, scale: 1 });
+    }
+    layer.appendChild(frag);
+
+    let cursor = 0;
     let rafId = null;
+    let lastFrame = 0;
     let lastX = null;
     let lastY = null;
+    let lastMoveTime = 0;
 
-    function resize() {
-      dpr = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    function emit(x, y, dragVx, dragVy) {
+      const p = pool[cursor];
+      cursor = (cursor + 1) % POOL_SIZE;
+
+      // Abanico sesgado hacia arriba, como la salpicadura de un arco eléctrico
+      const angle = -Math.PI / 2 + (Math.random() - 0.5) * SPREAD;
+      // Una de cada ocho es una chispa "madre": más grande, rápida y longeva
+      const heavy = Math.random() < 0.12;
+      const speed = (heavy ? 260 : 120) + Math.random() * (heavy ? 220 : 180);
+
+      p.x = x;
+      p.y = y;
+      // Hereda parte del arrastre del puntero, para que la estela siga al mouse
+      p.vx = Math.cos(angle) * speed + dragVx * 0.18;
+      p.vy = Math.sin(angle) * speed + dragVy * 0.18;
+      p.age = 0;
+      p.life = (heavy ? 0.62 : 0.34) + Math.random() * 0.38;
+      p.scale = heavy ? 1.15 + Math.random() * 0.5 : 0.55 + Math.random() * 0.5;
+      p.alive = true;
     }
 
-    function spawnSparks(x, y, count) {
-      for (let i = 0; i < count; i++) {
-        if (particles.length >= MAX_PARTICLES) particles.shift();
-        const angle = Math.random() * Math.PI * 2;
-        const speed = 1 + Math.random() * 3.2;
-        const life = 22 + Math.random() * 20;
-        particles.push({
-          x,
-          y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - 1.2,
-          life,
-          maxLife: life,
-          size: 1 + Math.random() * 1.8,
-          color: COLORS[Math.floor(Math.random() * COLORS.length)],
-        });
+    function frame(now) {
+      const dt = Math.min((now - lastFrame) / 1000, MAX_DT);
+      lastFrame = now;
+
+      // Fricción exponencial: el frenado no depende de los FPS
+      const drag = Math.pow(FRICTION, dt);
+      let living = 0;
+
+      for (let i = 0; i < POOL_SIZE; i++) {
+        const p = pool[i];
+        if (!p.alive) continue;
+
+        p.age += dt;
+        if (p.age >= p.life) {
+          p.alive = false;
+          p.el.style.opacity = "0";
+          continue;
+        }
+        living++;
+
+        p.vx *= drag;
+        p.vy = p.vy * drag + GRAVITY * dt;
+        p.x += p.vx * dt;
+        p.y += p.vy * dt;
+
+        const t = p.age / p.life;
+        const heat = heatAt(t);
+
+        // El filamento se orienta según su vector de avance y se estira con la
+        // velocidad: cuanto más rápido va, más largo es el trazo.
+        const speed = Math.hypot(p.vx, p.vy);
+        const angle = (Math.atan2(p.vy, p.vx) * 180) / Math.PI + 90;
+        const stretch = Math.min(0.5 + speed / 260, 2.6);
+
+        // Brilla pleno hasta pasada la mitad de la vida y después se apaga
+        const alpha = t < 0.55 ? 1 : 1 - (t - 0.55) / 0.45;
+        const rgb = heat.r + "," + heat.g + "," + heat.b;
+
+        // translate3d primero (lo resuelve el compositor); el translate(-50%,-50%)
+        // final centra el filamento sobre su propio eje antes de rotarlo.
+        p.el.style.transform =
+          "translate3d(" + p.x.toFixed(2) + "px," + p.y.toFixed(2) + "px,0) rotate(" +
+          angle.toFixed(1) + "deg) scale(" + p.scale.toFixed(2) + "," +
+          (p.scale * stretch).toFixed(2) + ") translate(-50%,-50%)";
+        p.el.style.backgroundColor = "rgb(" + rgb + ")";
+        p.el.style.boxShadow =
+          "0 0 " + heat.glow.toFixed(1) + "px rgba(" + rgb + ",0.85), 0 0 " +
+          (heat.glow * 2.4).toFixed(1) + "px rgba(" + rgb + ",0.35)";
+        p.el.style.opacity = alpha.toFixed(3);
       }
-      startLoop();
-    }
 
-    function step() {
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-      particles = particles.filter((p) => p.life > 0);
-
-      for (const p of particles) {
-        p.vx *= FRICTION;
-        p.vy = p.vy * FRICTION + GRAVITY;
-        p.x += p.vx;
-        p.y += p.vy;
-        p.life -= 1;
-
-        const alpha = Math.max(p.life / p.maxLife, 0);
-        ctx.globalAlpha = alpha;
-        ctx.fillStyle = p.color;
-        ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
-      }
-
-      ctx.globalAlpha = 1;
-
-      if (particles.length > 0) {
-        rafId = requestAnimationFrame(step);
-      } else {
-        rafId = null;
-      }
+      rafId = living > 0 ? requestAnimationFrame(frame) : null;
     }
 
     function startLoop() {
       if (rafId === null) {
-        rafId = requestAnimationFrame(step);
+        lastFrame = performance.now();
+        rafId = requestAnimationFrame(frame);
       }
     }
 
     function onPointerMove(event) {
-      const { clientX: x, clientY: y } = event;
+      const x = event.clientX;
+      const y = event.clientY;
+      const now = performance.now();
+
       if (lastX === null) {
         lastX = x;
         lastY = y;
+        lastMoveTime = now;
         return;
       }
+
       const dx = x - lastX;
       const dy = y - lastY;
-      const distance = Math.sqrt(dx * dx + dy * dy);
+      const distance = Math.hypot(dx, dy);
+      if (distance < SPAWN_DISTANCE) return;
 
-      if (distance >= SPAWN_DISTANCE) {
-        const steps = Math.min(Math.floor(distance / SPAWN_DISTANCE), 4);
-        for (let i = 0; i < steps; i++) {
-          const t = (i + 1) / steps;
-          spawnSparks(lastX + dx * t, lastY + dy * t, 1 + Math.floor(Math.random() * 2));
-        }
-        lastX = x;
-        lastY = y;
+      // Velocidad del puntero en px/s, para que las chispas hereden el arrastre.
+      // Se acota: dos eventos en el mismo milisegundo darían una velocidad
+      // enorme y la chispa saldría disparada fuera de la pantalla.
+      const elapsed = Math.max((now - lastMoveTime) / 1000, 0.008);
+      let dragVx = dx / elapsed;
+      let dragVy = dy / elapsed;
+      const dragSpeed = Math.hypot(dragVx, dragVy);
+      if (dragSpeed > MAX_DRAG_SPEED) {
+        const k = MAX_DRAG_SPEED / dragSpeed;
+        dragVx *= k;
+        dragVy *= k;
       }
+
+      // Emite repartido a lo largo del tramo recorrido, no solo en el destino
+      const steps = Math.min(Math.round(distance / SPAWN_DISTANCE), 5);
+      for (let i = 1; i <= steps; i++) {
+        const k = i / steps;
+        const burst = 1 + Math.floor(Math.random() * 2);
+        for (let n = 0; n < burst; n++) {
+          emit(lastX + dx * k, lastY + dy * k, dragVx, dragVy);
+        }
+      }
+
+      lastX = x;
+      lastY = y;
+      lastMoveTime = now;
+      startLoop();
     }
 
-    resize();
-    window.addEventListener("resize", resize);
     window.addEventListener("pointermove", onPointerMove, { passive: true });
+
+    // Con la pestaña oculta se detiene todo: evita el salto al volver
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && rafId !== null) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+        for (let i = 0; i < POOL_SIZE; i++) {
+          pool[i].alive = false;
+          pool[i].el.style.opacity = "0";
+        }
+      }
+    });
   }
 </script>

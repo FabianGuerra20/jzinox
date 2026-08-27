@@ -7,7 +7,15 @@ const currentPath = Astro.url.pathname;
 <header class="header">
   <div class="header__brandbar">
     <a href="/" class="brand" aria-label={`${site.name} — inicio`}>
-      <span class="brand__mark">JZINOX</span>
+      <img
+        class="brand__logo"
+        src="/logo-jzinox.png"
+        alt=""
+        width="709"
+        height="163"
+        fetchpriority="high"
+        decoding="async"
+      />
       <span class="brand__tagline">{site.tagline}</span>
     </a>
   </div>
@@ -66,35 +74,11 @@ const currentPath = Astro.url.pathname;
     gap: 0.25rem;
   }
 
-  .brand__mark {
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: clamp(2.4rem, 7vw, 4rem);
-    line-height: 1;
-    letter-spacing: 0.02em;
-    color: var(--color-graphite);
-    background-image: linear-gradient(
-      180deg,
-      #d9dcde 0%,
-      #ffffff 16%,
-      #8f959b 44%,
-      #3c434a 52%,
-      #7d838a 64%,
-      #eceef0 86%,
-      #a9aeb3 100%
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 1px 0 rgba(43, 49, 56, 0.35));
-  }
-
-  /* Si el navegador no soporta el recorte de fondo, el texto queda en grafito sólido */
-  @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
-    .brand__mark {
-      -webkit-text-fill-color: currentColor;
-      background-image: none;
-    }
+  /* Logotipo del cliente. El ancho manda y la altura la fija el aspect-ratio
+     intrínseco (709x163), así no hay salto de layout al cargar. */
+  .brand__logo {
+    width: clamp(210px, 40vw, 400px);
+    height: auto;
   }
 
   .brand__tagline {

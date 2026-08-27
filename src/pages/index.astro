@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import HeroBento from "../components/HeroBento.astro";
 import ServiceIcon from "../components/ServiceIcon.astro";
 import { services } from "../data/services.js";
 import { stats } from "../data/company.js";
@@ -11,43 +12,7 @@ const featured = catalog.slice(0, 4);
 ---
 
 <Layout title="Inicio">
-	<section class="hero">
-		<div class="container hero__top">
-			<div class="hero__media">
-				<img
-					src="/hero-placeholder.svg"
-					alt="Línea de cocción industrial en acero inoxidable fabricada por JZINOX"
-					width="960"
-					height="600"
-				/>
-				<span class="hero__media-tag">Imagen referencial — a reemplazar</span>
-			</div>
-
-			<aside class="hero__panel" aria-labelledby="destacados">
-				<h2 id="destacados" class="hero__panel-title">Productos destacados</h2>
-				<ul class="hero__panel-list">
-					{featured.map((item) => (
-						<li>
-							<a href="/catalogo">
-								<strong>{item.name}</strong>
-								<span>{item.description}</span>
-							</a>
-						</li>
-					))}
-				</ul>
-				<a href="/catalogo" class="hero__panel-link">Ver catálogo completo</a>
-			</aside>
-		</div>
-
-		<div class="container hero__pitch">
-			<h1>JZINOX: Soluciones de Acero de Precisión para su Cocina</h1>
-			<p>Equipamiento industrial, soldadura TIG y estructuras a medida.</p>
-			<div class="hero__actions">
-				<a href="/catalogo" class="btn btn--primary">Ver Catálogo</a>
-				<a href="/servicios" class="btn btn--primary">Ver Servicios</a>
-			</div>
-		</div>
-	</section>
+	<HeroBento products={featured} />
 
 	<section class="section--steel stats">
 		<div class="container stats__grid">
@@ -68,15 +33,19 @@ const featured = catalog.slice(0, 4);
 				<p>Fabricamos, instalamos y mantenemos equipamiento gastronómico en acero inoxidable.</p>
 			</div>
 
-			<div class="grid grid--3">
-				{featuredServices.map((service) => (
-					<div class="card service-card">
-						<div class="service-card__icon">
-							<ServiceIcon name={service.icon} />
+			{/* Seis celdas cosidas en una sola placa, no seis tarjetas sueltas */}
+			<div class="bento bento--3">
+				{featuredServices.map((service, i) => (
+					<article class="bento__cell bento__cell--hover service-card">
+						<div class="service-card__head">
+							<div class="bento__icon">
+								<ServiceIcon name={service.icon} />
+							</div>
+							<span class="bento__index">{String(i + 1).padStart(2, "0")}</span>
 						</div>
 						<h3>{service.title}</h3>
 						<p>{service.summary}</p>
-					</div>
+					</article>
 				))}
 			</div>
 
@@ -87,37 +56,40 @@ const featured = catalog.slice(0, 4);
 	</section>
 
 	<section class="section">
-		<div class="container why__grid">
-			<div>
-				<span class="eyebrow">Por qué JZINOX</span>
-				<h2>Acero inoxidable con terminación sanitaria</h2>
-				<p>
-					Trabajamos con soldadura TIG y pulido posterior, sin aristas vivas ni juntas donde
-					se acumule suciedad. Cada pieza se mide en terreno antes de cortarse, para que
-					entre y calce a la primera.
-				</p>
-				<ul class="check-list">
-					<li>Levantamiento y medición en tu cocina</li>
-					<li>Fabricación en taller propio en Cerrillos</li>
-					<li>Instalación y puesta en marcha incluidas</li>
-					<li>Mantención posventa del equipamiento instalado</li>
-				</ul>
-			</div>
-			<div class="why__aside card">
-				<h3>¿Tienes un plano o una idea?</h3>
-				<p>
-					Envíanos las medidas de tu cocina y te preparamos una cotización con plazos de
-					fabricación e instalación.
-				</p>
-				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
-				<a
-					href={`https://wa.me/${site.whatsappNumber}`}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="btn btn--ghost why__wa"
-				>
-					Escríbenos por WhatsApp
-				</a>
+		<div class="container">
+			<div class="bento why__bento">
+				<div class="bento__cell why__main">
+					<span class="eyebrow">Por qué JZINOX</span>
+					<h2>Acero inoxidable con terminación sanitaria</h2>
+					<p>
+						Trabajamos con soldadura TIG y pulido posterior, sin aristas vivas ni juntas donde
+						se acumule suciedad. Cada pieza se mide en terreno antes de cortarse, para que
+						entre y calce a la primera.
+					</p>
+					<ul class="check-list">
+						<li>Levantamiento y medición en tu cocina</li>
+						<li>Fabricación en taller propio en Cerrillos</li>
+						<li>Instalación y puesta en marcha incluidas</li>
+						<li>Mantención posventa del equipamiento instalado</li>
+					</ul>
+				</div>
+
+				<div class="bento__cell bento__cell--accent why__aside">
+					<h3>¿Tienes un plano o una idea?</h3>
+					<p>
+						Envíanos las medidas de tu cocina y te preparamos una cotización con plazos de
+						fabricación e instalación.
+					</p>
+					<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+					<a
+						href={`https://wa.me/${site.whatsappNumber}`}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="btn btn--ghost why__wa"
+					>
+						Escríbenos por WhatsApp
+					</a>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -137,127 +109,7 @@ const featured = catalog.slice(0, 4);
 </Layout>
 
 <style>
-	.hero {
-		padding: 2.5rem 0 4rem;
-	}
-
-	.hero__top {
-		display: grid;
-		gap: 1.6rem;
-		grid-template-columns: 1fr;
-	}
-
-	@media (min-width: 900px) {
-		.hero__top {
-			grid-template-columns: 1.9fr 1fr;
-			align-items: stretch;
-		}
-	}
-
-	.hero__media {
-		position: relative;
-		border-radius: var(--radius);
-		overflow: hidden;
-		background-color: var(--color-surface);
-	}
-
-	.hero__media img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	.hero__media-tag {
-		position: absolute;
-		left: 0.8rem;
-		bottom: 0.8rem;
-		background-color: rgba(43, 49, 56, 0.82);
-		color: #fff;
-		font-size: 0.7rem;
-		letter-spacing: 0.04em;
-		padding: 0.3rem 0.6rem;
-		border-radius: 2px;
-	}
-
-	.hero__panel {
-		background-color: var(--color-surface);
-		border-radius: var(--radius);
-		padding: 1.4rem 1.3rem;
-	}
-
-	.hero__panel-title {
-		font-size: 1.05rem;
-		margin-bottom: 1rem;
-		padding-bottom: 0.7rem;
-		border-bottom: 1px solid var(--color-border);
-	}
-
-	.hero__panel-list {
-		display: flex;
-		flex-direction: column;
-		gap: 0.9rem;
-	}
-
-	.hero__panel-list a {
-		display: block;
-	}
-
-	.hero__panel-list strong {
-		display: block;
-		font-size: 0.88rem;
-		color: var(--color-graphite);
-		line-height: 1.35;
-	}
-
-	.hero__panel-list span {
-		display: block;
-		font-size: 0.8rem;
-		color: var(--color-text-muted);
-		line-height: 1.45;
-	}
-
-	.hero__panel-list a:hover strong {
-		color: var(--color-accent);
-	}
-
-	.hero__panel-link {
-		display: inline-block;
-		margin-top: 1.1rem;
-		font-size: 0.85rem;
-		font-weight: 600;
-		color: var(--color-accent);
-	}
-
-	.hero__panel-link:hover {
-		text-decoration: underline;
-	}
-
-	.hero__pitch {
-		text-align: center;
-		margin-top: 3rem;
-	}
-
-	.hero__pitch h1 {
-		max-width: 18ch;
-		margin-left: auto;
-		margin-right: auto;
-	}
-
-	.hero__pitch p {
-		font-size: 1.05rem;
-		max-width: 52ch;
-		margin-left: auto;
-		margin-right: auto;
-	}
-
-	.hero__actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 1rem;
-		justify-content: center;
-		margin-top: 1.6rem;
-	}
-
+	/* --- Banda de cifras en acero cepillado --- */
 	.stats {
 		padding: 2.2rem 0;
 	}
@@ -288,29 +140,35 @@ const featured = catalog.slice(0, 4);
 		color: rgba(255, 255, 255, 0.85);
 	}
 
-	.service-card__icon {
+	/* --- Placa de servicios --- */
+	.service-card__head {
 		display: flex;
 		align-items: center;
-		justify-content: center;
-		width: 46px;
-		height: 46px;
-		border-radius: var(--radius);
-		background-color: var(--color-surface);
-		color: var(--color-accent);
+		justify-content: space-between;
 		margin-bottom: 1.1rem;
 	}
 
-	.why__grid {
-		display: grid;
-		gap: 2.5rem;
-		grid-template-columns: 1fr;
-		align-items: start;
+	.service-card__head .bento__index {
+		margin-bottom: 0;
 	}
 
+	.service-card p:last-child {
+		margin-bottom: 0;
+	}
+
+	/* --- Placa "Por qué JZINOX" --- */
 	@media (min-width: 900px) {
-		.why__grid {
-			grid-template-columns: 1.3fr 1fr;
+		.why__bento {
+			grid-template-columns: 7fr 5fr;
 		}
+	}
+
+	.why__main {
+		padding: 2.5rem 2rem;
+	}
+
+	.why__aside {
+		padding: 2.5rem 2rem;
 	}
 
 	.why__aside .btn {

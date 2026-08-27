@@ -21,10 +21,10 @@ import { services } from "../data/services.js";
 
 	<section class="section section--alt">
 		<div class="container">
-			<div class="grid grid--2 services-grid">
+			<div class="bento bento--2">
 				{services.map((service) => (
-					<article class="card service-detail" id={service.slug}>
-						<div class="service-detail__icon">
+					<article class="bento__cell bento__cell--hover service-detail" id={service.slug}>
+						<div class="bento__icon service-detail__icon">
 							<ServiceIcon name={service.icon} />
 						</div>
 						<h2 class="service-detail__title">{service.title}</h2>
@@ -45,23 +45,23 @@ import { services } from "../data/services.js";
 				<h2>Cuatro etapas, sin sorpresas a mitad de camino</h2>
 			</div>
 
-			<ol class="steps">
-				<li class="card steps__item">
+			<ol class="bento bento--4 steps">
+				<li class="bento__cell steps__item">
 					<span class="steps__num">01</span>
 					<h3>Levantamiento</h3>
 					<p>Visitamos tu cocina, medimos el espacio real y revisamos el flujo de trabajo.</p>
 				</li>
-				<li class="card steps__item">
+				<li class="bento__cell steps__item">
 					<span class="steps__num">02</span>
 					<h3>Cotización</h3>
 					<p>Te entregamos el detalle de piezas, materiales, plazos de taller e instalación.</p>
 				</li>
-				<li class="card steps__item">
+				<li class="bento__cell steps__item">
 					<span class="steps__num">03</span>
 					<h3>Fabricación</h3>
 					<p>Cortamos, plegamos y soldamos con TIG en nuestro taller de Cerrillos.</p>
 				</li>
-				<li class="card steps__item">
+				<li class="bento__cell steps__item">
 					<span class="steps__num">04</span>
 					<h3>Instalación</h3>
 					<p>Montamos en terreno, nivelamos y dejamos el equipamiento operativo.</p>
@@ -86,14 +86,6 @@ import { services } from "../data/services.js";
 
 <style>
 	.service-detail__icon {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 46px;
-		height: 46px;
-		border-radius: var(--radius);
-		background-color: var(--color-surface);
-		color: var(--color-accent);
 		margin-bottom: 1.1rem;
 	}
 
@@ -102,29 +94,17 @@ import { services } from "../data/services.js";
 	}
 
 	.steps {
-		display: grid;
-		gap: 1.6rem;
-		grid-template-columns: 1fr;
-		counter-reset: step;
+		list-style: none;
+		margin: 0;
+		padding: 0;
 	}
 
-	@media (min-width: 640px) {
-		.steps {
-			grid-template-columns: repeat(2, 1fr);
-		}
-	}
-
-	@media (min-width: 960px) {
-		.steps {
-			grid-template-columns: repeat(4, 1fr);
-		}
-	}
-
+	/* Numeración monoespaciada, como la viñeta de un plano */
 	.steps__num {
 		display: block;
-		font-family: var(--font-heading);
+		font-family: var(--font-mono);
 		font-weight: 700;
-		font-size: 1.6rem;
+		font-size: 1.5rem;
 		color: var(--color-accent);
 		margin-bottom: 0.5rem;
 	}

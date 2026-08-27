@@ -20,8 +20,9 @@ import { site } from "../data/site.js";
 	</section>
 
 	<section class="section section--alt contact">
-		<div class="container contact__grid">
-			<div class="contact__info">
+		<div class="container">
+			<div class="bento contact__grid">
+			<div class="bento__cell bento__cell--accent contact__info">
 				<h2>Datos de contacto</h2>
 
 				<ul class="contact__list">
@@ -55,7 +56,7 @@ import { site } from "../data/site.js";
 				</a>
 			</div>
 
-			<form class="card contact__form" action={site.formsubmitEndpoint} method="POST">
+			<form class="bento__cell contact__form" action={site.formsubmitEndpoint} method="POST">
 				<input type="hidden" name="_subject" value={`Nueva consulta desde ${site.domain}`} />
 				<input type="hidden" name="_template" value="table" />
 				<input type="hidden" name="_next" value={`${site.siteUrl}/gracias`} />
@@ -98,22 +99,21 @@ import { site } from "../data/site.js";
 				<button type="submit" class="btn btn--primary contact__submit">Enviar consulta</button>
 				<p class="contact__legal">Te responderemos dentro del horario de atención.</p>
 			</form>
+			</div>
 		</div>
 	</section>
 </Layout>
 
 <style>
-	.contact__grid {
-		display: grid;
-		gap: 2.5rem;
-		grid-template-columns: 1fr;
-		align-items: start;
-	}
-
 	@media (min-width: 900px) {
 		.contact__grid {
 			grid-template-columns: 1fr 1.15fr;
 		}
+	}
+
+	.contact__info,
+	.contact__form {
+		padding: 2.5rem 2rem;
 	}
 
 	.contact__list {

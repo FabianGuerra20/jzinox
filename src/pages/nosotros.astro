@@ -22,9 +22,9 @@ import { history, values, stats } from "../data/company.js";
 				<h2>{history.title}</h2>
 				{history.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
 			</div>
-			<div class="history__stats">
+			<div class="bento history__stats">
 				{stats.map((stat) => (
-					<div class="history__stat">
+					<div class="bento__cell history__stat">
 						<strong>{stat.value}</strong>
 						<span>{stat.label}</span>
 					</div>
@@ -39,15 +39,15 @@ import { history, values, stats } from "../data/company.js";
 				<span class="eyebrow">Misión y visión</span>
 				<h2>Trabajo sólido, prolijo y a tiempo</h2>
 			</div>
-			<div class="grid grid--2 mission-grid">
-				<div class="card">
+			<div class="bento bento--2">
+				<div class="bento__cell">
 					<h3>Misión</h3>
 					<p>
 						Entregar equipamiento en acero inoxidable que aguante el ritmo real de una cocina:
 						bien medido, bien soldado y fácil de higienizar, con plazos que se cumplen.
 					</p>
 				</div>
-				<div class="card">
+				<div class="bento__cell">
 					<h3>Visión</h3>
 					<p>
 						Ser el taller de referencia en equipamiento gastronómico de la Región Metropolitana,
@@ -64,9 +64,9 @@ import { history, values, stats } from "../data/company.js";
 				<span class="eyebrow">Nuestros valores</span>
 				<h2>Lo que guía cada proyecto que entregamos</h2>
 			</div>
-			<div class="grid grid--4">
+			<div class="bento bento--4">
 				{values.map((value) => (
-					<div class="card value-card">
+					<div class="bento__cell bento__cell--hover value-card">
 						<h3>{value.title}</h3>
 						<p>{value.description}</p>
 					</div>
@@ -76,12 +76,14 @@ import { history, values, stats } from "../data/company.js";
 	</section>
 
 	<section class="section cta-band">
-		<div class="container cta-band__inner">
+		<div class="container">
+			<div class="cta-plate">
 			<div>
 				<h2>Conversemos sobre tu proyecto</h2>
 				<p>Escríbenos y te contamos cómo podemos ayudarte.</p>
 			</div>
-			<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+			</div>
 		</div>
 	</section>
 </Layout>
@@ -103,16 +105,11 @@ import { history, values, stats } from "../data/company.js";
 	}
 
 	.history__stats {
-		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		gap: 1.2rem;
 		align-content: start;
 	}
 
 	.history__stat {
-		background-color: #fff;
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius);
 		padding: 1.4rem;
 		text-align: center;
 	}
@@ -131,37 +128,9 @@ import { history, values, stats } from "../data/company.js";
 		color: var(--color-text-muted);
 	}
 
-	.mission-grid .card p {
-		margin-bottom: 0;
-	}
-
-	.value-card {
-		border-top: 3px solid var(--color-accent);
-	}
-
 	.value-card p {
 		font-size: 0.92rem;
 		margin-bottom: 0;
 	}
 
-	.cta-band__inner {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1.5rem;
-		background-color: var(--color-surface);
-		border: 1px solid var(--color-border);
-		border-left: 4px solid var(--color-accent);
-		border-radius: var(--radius);
-		padding: 2.2rem 2.4rem;
-	}
-
-	.cta-band__inner h2 {
-		margin-bottom: 0.4rem;
-	}
-
-	.cta-band__inner p {
-		margin: 0;
-	}
 </style>

@@ -53,9 +53,9 @@ const groups = catalogCategories
 				<div class="container">
 					<h2 class="catalog-group-title">{group.name}</h2>
 
-					<div class="grid grid--3 catalog-grid">
+					<div class="bento bento--3 catalog-grid">
 						{group.items.map((item) => (
-							<article class="card catalog-card">
+							<article class="bento__cell bento__cell--hover catalog-card">
 								<span class="tag">{item.category}</span>
 								<h3>{item.name}</h3>
 								<p>{item.description}</p>
@@ -86,7 +86,7 @@ const groups = catalogCategories
 				incluyen instalación en todos los casos ni traslados fuera de la {site.region}.
 			</p>
 
-			<div class="cta-band__inner catalog-cta">
+			<div class="cta-plate">
 				<div>
 					<h2>¿No encuentras lo que buscas?</h2>
 					<p>Fabricamos a medida según tus planos o el levantamiento en terreno.</p>
@@ -111,7 +111,7 @@ const groups = catalogCategories
 		color: var(--color-graphite);
 		background-color: var(--color-surface);
 		border: 1px solid var(--color-border);
-		border-radius: 100px;
+		border-radius: var(--radius);
 		padding: 0.4rem 0.95rem;
 		transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 	}
@@ -177,11 +177,4 @@ const groups = catalogCategories
 		margin: 0 auto 2.5rem;
 	}
 
-	.catalog-cta {
-		background-color: var(--color-surface);
-		border: 1px solid var(--color-border);
-		border-left: 4px solid var(--color-accent);
-		border-radius: var(--radius);
-		padding: 2.2rem 2.4rem;
-	}
 </style>

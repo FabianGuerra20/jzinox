@@ -20,6 +20,7 @@
 
   --font-heading: "Archivo", "Segoe UI", sans-serif;
   --font-body: "Inter", "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", "Roboto Mono", Consolas, monospace;
 
   --container-width: 1180px;
   --radius: 4px;
@@ -52,6 +53,7 @@ h2,
 h3,
 h4 {
   font-family: var(--font-heading);
+  text-wrap: balance;
   font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 1.18;
@@ -364,4 +366,128 @@ ul {
   width: 8px;
   height: 2px;
   background-color: var(--color-accent);
+}
+
+/* --- Acción secundaria: mismo rojo corporativo, sin el peso del relleno --- */
+.btn--outline {
+  background-color: transparent;
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.btn--outline:hover {
+  background-color: var(--color-accent);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(192, 57, 43, 0.24);
+}
+
+.btn--outline:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.22);
+}
+
+/* --- Bento Grid: placas de acero unidas por juntas de 1px --- */
+/* La línea divisoria es el propio `gap` del grid asomando sobre un fondo gris.
+   Con bordes por celda, dos celdas contiguas sumarían 2px y las esquinas se
+   desalinearían al colapsar el layout; con la junta siempre miden 1px exacto. */
+.bento {
+  display: grid;
+  gap: 1px;
+  background-color: var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.bento > * {
+  background-color: var(--color-bg);
+}
+
+.bento__cell {
+  min-width: 0; /* impide que una imagen ensanche su columna */
+  padding: 2rem 1.75rem;
+}
+
+.bento__cell--flush {
+  padding: 0;
+}
+
+/* Interacción sin sombras difusas: la celda se tiñe y aparece una barra sólida de acento */
+.bento__cell--hover {
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.bento__cell--hover:hover,
+.bento__cell--hover:focus-within {
+  background-color: var(--color-bg-alt);
+  box-shadow: inset 3px 0 0 var(--color-accent);
+}
+
+/* Índice tipo lista de despiece de un plano (01, 02, 03...) */
+.bento__index {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--color-steel-dark);
+  margin-bottom: 0.9rem;
+}
+
+/* Columnas responsivas estándar de las placas, equivalentes a .grid--N */
+@media (min-width: 640px) {
+  .bento--2,
+  .bento--3,
+  .bento--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .bento--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .bento--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Placa de acento: alterna el fondo, sin bordes de color de plantilla */
+.bento__cell--accent {
+  background-color: var(--color-bg-alt);
+}
+
+/* Tile de ícono, compartido por todas las placas */
+.bento__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg-alt);
+  color: var(--color-accent);
+}
+
+/* Bloque de cierre de página. El acento vive en el botón, no en un borde
+   lateral de color: la placa se define por su geometría, como el resto. */
+.cta-plate {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  background-color: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 2.2rem 2.4rem;
+}
+
+.cta-plate h2 {
+  margin-bottom: 0.4rem;
+}
+
+.cta-plate p {
+  margin: 0;
 }

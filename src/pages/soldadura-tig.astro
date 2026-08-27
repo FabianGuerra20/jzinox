@@ -55,9 +55,9 @@ const applications = [
 				</p>
 			</div>
 
-			<div class="grid grid--2">
+			<div class="bento bento--2">
 				{applications.map((item) => (
-					<article class="card">
+					<article class="bento__cell bento__cell--hover">
 						<h3>{item.title}</h3>
 						<p>{item.text}</p>
 					</article>
@@ -67,30 +67,33 @@ const applications = [
 	</section>
 
 	<section class="section">
-		<div class="container tig-specs">
-			<div>
-				<h2>Qué incluye el trabajo</h2>
-				<ul class="check-list">
-					<li>Preparación y limpieza previa del material</li>
-					<li>Soldadura TIG con aporte compatible al inoxidable</li>
-					<li>Pulido y decapado del cordón terminado</li>
-					<li>Revisión visual de la unión antes de entregar</li>
-				</ul>
-			</div>
-			<div class="card tig-specs__aside">
-				<h3>¿Tienes una reparación urgente?</h3>
-				<p>
-					Si se rompió un mesón, una cuba o un ducto en plena operación, escríbenos y
-					coordinamos la visita.
-				</p>
-				<a
-					href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent("Hola JZINOX, necesito una reparación con soldadura TIG.")}`}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="btn btn--primary"
-				>
-					Escríbenos por WhatsApp
-				</a>
+		<div class="container">
+			<div class="bento tig-specs">
+				<div class="bento__cell tig-specs__main">
+					<h2>Qué incluye el trabajo</h2>
+					<ul class="check-list">
+						<li>Preparación y limpieza previa del material</li>
+						<li>Soldadura TIG con aporte compatible al inoxidable</li>
+						<li>Pulido y decapado del cordón terminado</li>
+						<li>Revisión visual de la unión antes de entregar</li>
+					</ul>
+				</div>
+
+				<div class="bento__cell bento__cell--accent tig-specs__aside">
+					<h3>¿Tienes una reparación urgente?</h3>
+					<p>
+						Si se rompió un mesón, una cuba o un ducto en plena operación, escríbenos y
+						coordinamos la visita.
+					</p>
+					<a
+						href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent("Hola JZINOX, necesito una reparación con soldadura TIG.")}`}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="btn btn--primary"
+					>
+						Escríbenos por WhatsApp
+					</a>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -129,8 +132,9 @@ const applications = [
 		justify-content: center;
 		width: 120px;
 		height: 120px;
-		border-radius: 50%;
-		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		background-color: var(--color-bg-alt);
 		color: var(--color-accent);
 	}
 
@@ -139,17 +143,18 @@ const applications = [
 		height: 52px;
 	}
 
-	.tig-specs {
-		display: grid;
-		gap: 2.5rem;
-		grid-template-columns: 1fr;
-		align-items: start;
-	}
-
 	@media (min-width: 900px) {
 		.tig-specs {
 			grid-template-columns: 1.3fr 1fr;
 		}
+	}
+
+	.tig-specs__main {
+		padding: 2.5rem 2rem;
+	}
+
+	.tig-specs__aside {
+		padding: 2.5rem 2rem;
 	}
 
 	.tig-specs__aside .btn {
