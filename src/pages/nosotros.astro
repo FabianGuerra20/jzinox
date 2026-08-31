@@ -1,87 +1,104 @@
 ---
+/**
+ * Nosotros: historia, misión/visión y valores de JZINOX.
+ *
+ * Todo el copy es placeholder localizable (NOSOTROS 1..5, VALOR 1..4,
+ * DATO 1..4) a la espera del texto definitivo del cliente. La estructura
+ * semántica y el SEO técnico sí son definitivos.
+ */
 import Layout from "../layouts/Layout.astro";
-import { history, values, stats } from "../data/company.js";
+import { history, mission, valuesSection, values, stats } from "../data/company.js";
 ---
 
-<Layout title="Nosotros" description="Conoce la historia, la misión y los valores de JZINOX, taller de equipamiento gastronómico en acero inoxidable en Cerrillos.">
+<Layout
+	title="Nosotros"
+	description="Conoce la historia, la misión y los valores de JZINOX, taller de equipamiento gastronómico en acero inoxidable."
+>
+	{/* --- NOSOTROS 1: encabezado --- */}
 	<section class="section page-hero">
 		<div class="container">
 			<span class="eyebrow">Nosotros</span>
-			<h1>Un taller de Cerrillos especializado en cocinas que trabajan de verdad</h1>
+			<h1>NOSOTROS 1</h1>
 			<p>
-				Fabricamos, instalamos y mantenemos equipamiento gastronómico en acero inoxidable
-				para restaurantes, casinos, hoteles y panaderías de la Región Metropolitana.
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+				exercitation ullamco laboris.
 			</p>
 		</div>
 	</section>
 
-	<section class="section section--alt history">
+	{/* --- NOSOTROS 2: historia + cifras --- */}
+	<section class="section section--alt history" aria-labelledby="nosotros-historia">
 		<div class="container history__grid">
 			<div class="history__text">
 				<span class="eyebrow">{history.eyebrow}</span>
-				<h2>{history.title}</h2>
+				<h2 id="nosotros-historia">{history.title}</h2>
 				{history.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
 			</div>
+
 			<div class="bento history__stats">
-				{stats.map((stat) => (
-					<div class="bento__cell history__stat">
-						<strong>{stat.value}</strong>
-						<span>{stat.label}</span>
-					</div>
-				))}
+				{
+					stats.map((stat) => (
+						<div class="bento__cell history__stat">
+							<strong>{stat.value}</strong>
+							<span>{stat.label}</span>
+						</div>
+					))
+				}
 			</div>
 		</div>
 	</section>
 
+	{/* --- NOSOTROS 3: misión y visión --- */}
+	<section class="section" aria-labelledby="nosotros-mision">
+		<div class="container">
+			<div class="section-head">
+				<span class="eyebrow">{mission.eyebrow}</span>
+				<h2 id="nosotros-mision">{mission.title}</h2>
+			</div>
+
+			<div class="bento bento--2">
+				{
+					mission.items.map((item) => (
+						<article class="bento__cell">
+							<h3>{item.title}</h3>
+							<p>{item.description}</p>
+						</article>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	{/* --- NOSOTROS 4: valores --- */}
+	<section class="section section--alt" aria-labelledby="nosotros-valores">
+		<div class="container">
+			<div class="section-head">
+				<span class="eyebrow">{valuesSection.eyebrow}</span>
+				<h2 id="nosotros-valores">{valuesSection.title}</h2>
+			</div>
+
+			<div class="bento bento--4">
+				{
+					values.map((value) => (
+						<article class="bento__cell bento__cell--hover value-card">
+							<h3>{value.title}</h3>
+							<p>{value.description}</p>
+						</article>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	{/* --- NOSOTROS 5: cierre --- */}
 	<section class="section">
 		<div class="container">
-			<div class="section-head">
-				<span class="eyebrow">Misión y visión</span>
-				<h2>Trabajo sólido, prolijo y a tiempo</h2>
-			</div>
-			<div class="bento bento--2">
-				<div class="bento__cell">
-					<h3>Misión</h3>
-					<p>
-						Entregar equipamiento en acero inoxidable que aguante el ritmo real de una cocina:
-						bien medido, bien soldado y fácil de higienizar, con plazos que se cumplen.
-					</p>
-				</div>
-				<div class="bento__cell">
-					<h3>Visión</h3>
-					<p>
-						Ser el taller de referencia en equipamiento gastronómico de la Región Metropolitana,
-						reconocido por la terminación sanitaria de cada pieza que sale de nuestro taller.
-					</p>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<section class="section section--alt">
-		<div class="container">
-			<div class="section-head">
-				<span class="eyebrow">Nuestros valores</span>
-				<h2>Lo que guía cada proyecto que entregamos</h2>
-			</div>
-			<div class="bento bento--4">
-				{values.map((value) => (
-					<div class="bento__cell bento__cell--hover value-card">
-						<h3>{value.title}</h3>
-						<p>{value.description}</p>
-					</div>
-				))}
-			</div>
-		</div>
-	</section>
-
-	<section class="section cta-band">
-		<div class="container">
 			<div class="cta-plate">
-			<div>
-				<h2>Conversemos sobre tu proyecto</h2>
-				<p>Escríbenos y te contamos cómo podemos ayudarte.</p>
-			</div>
+				<div>
+					<h2>NOSOTROS 5</h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+				</div>
 				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
 			</div>
 		</div>
@@ -94,7 +111,7 @@ import { history, values, stats } from "../data/company.js";
 		gap: 3rem;
 	}
 
-	@media (min-width: 900px) {
+	@media (min-width: 1024px) {
 		.history__grid {
 			grid-template-columns: 1.4fr 1fr;
 		}
@@ -104,9 +121,17 @@ import { history, values, stats } from "../data/company.js";
 		font-size: 0.98rem;
 	}
 
+	/* Una columna en teléfonos angostos: dos cifras de 1.9rem lado a lado no
+	   caben a 320px sin apretujarse. */
 	.history__stats {
-		grid-template-columns: repeat(2, 1fr);
+		grid-template-columns: 1fr;
 		align-content: start;
+	}
+
+	@media (min-width: 420px) {
+		.history__stats {
+			grid-template-columns: repeat(2, 1fr);
+		}
 	}
 
 	.history__stat {
@@ -117,14 +142,15 @@ import { history, values, stats } from "../data/company.js";
 	.history__stat strong {
 		display: block;
 		font-family: var(--font-heading);
-		font-size: 1.9rem;
+		font-size: clamp(1.5rem, 4vw, 1.9rem);
 		color: var(--color-accent);
 	}
 
 	.history__stat span {
-		font-size: 0.8rem;
+		font-family: var(--font-mono);
+		font-size: 0.72rem;
 		text-transform: uppercase;
-		letter-spacing: 0.05em;
+		letter-spacing: 0.1em;
 		color: var(--color-text-muted);
 	}
 
@@ -132,5 +158,4 @@ import { history, values, stats } from "../data/company.js";
 		font-size: 0.92rem;
 		margin-bottom: 0;
 	}
-
 </style>

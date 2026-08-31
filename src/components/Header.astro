@@ -35,11 +35,17 @@ const currentPath = Astro.url.pathname;
         <ul>
           {
             navItems.map((item) => (
-              <li>
+              <li class:list={{ "header__item--ally": item.ally }}>
                 <a
                   href={item.href}
                   aria-current={currentPath === item.href ? "page" : undefined}
-                  class:list={["header__link", { "header__link--active": currentPath === item.href }]}
+                  class:list={[
+                    "header__link",
+                    {
+                      "header__link--active": currentPath === item.href,
+                      "header__link--ally": item.ally,
+                    },
+                  ]}
                 >
                   {item.label}
                 </a>
@@ -64,7 +70,7 @@ const currentPath = Astro.url.pathname;
     background-color: #fff;
     display: flex;
     justify-content: center;
-    padding: 1.6rem 1.5rem 1.4rem;
+    padding: clamp(1rem, 3vw, 1.6rem) 1.5rem clamp(0.85rem, 2.5vw, 1.4rem);
   }
 
   .brand {
@@ -82,23 +88,26 @@ const currentPath = Astro.url.pathname;
   }
 
   .brand__tagline {
-    font-size: clamp(0.78rem, 1.8vw, 1rem);
+    font-size: clamp(0.72rem, 1.8vw, 1rem);
     color: var(--color-text-muted);
     letter-spacing: 0.01em;
+    text-align: center;
   }
 
   /* --- Barra de navegación de acero --- */
+  /* Grafito profundo con veta cepillada: la barra debe leerse como una
+     platina, no como un fondo gris de plantilla. */
   .header__navbar {
     position: sticky;
     top: 0;
-    background-color: var(--color-steel);
+    background-color: var(--color-ink);
     background-image: linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0.14) 0%,
+      rgba(255, 255, 255, 0.13) 0%,
       rgba(255, 255, 255, 0) 45%,
-      rgba(0, 0, 0, 0.14) 100%
+      rgba(0, 0, 0, 0.3) 100%
     );
-    box-shadow: 0 1px 3px rgba(43, 49, 56, 0.2);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08), 0 2px 6px rgba(26, 30, 35, 0.28);
   }
 
   .header__navbar-inner {
@@ -111,6 +120,8 @@ const currentPath = Astro.url.pathname;
 
   .header__compact-brand {
     display: none;
+    align-items: center;
+    min-height: var(--tap);
     font-family: var(--font-heading);
     font-weight: 700;
     font-size: 1.15rem;
@@ -121,20 +132,22 @@ const currentPath = Astro.url.pathname;
   .header__nav {
     display: flex;
     align-items: center;
-    gap: 1.4rem;
+    gap: 1.2rem;
   }
 
   .header__nav ul {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.2rem;
   }
 
   .header__link {
-    display: block;
-    font-size: 0.92rem;
+    display: flex;
+    align-items: center;
+    min-height: var(--tap);
+    font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.9);
-    padding: 0.85rem 0.85rem;
+    padding: 0 0.75rem;
     border-bottom: 2px solid transparent;
     transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
   }
@@ -149,9 +162,38 @@ const currentPath = Astro.url.pathname;
     border-color: var(--color-accent);
   }
 
+  /* --- Marca aliada: divisor + tipografía propia --- */
+  /* AL Mueblería no es una sección de JZ Inox. El divisor y el tratamiento
+     en mono avisan que el clic cambia de marca, no de página. */
+  .header__item--ally {
+    position: relative;
+    margin-left: 0.9rem;
+    padding-left: 0.9rem;
+  }
+
+  .header__item--ally::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.28);
+  }
+
+  .header__link--ally {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.72);
+  }
+
   .header__cta {
-    padding: 0.55rem 1.1rem;
-    font-size: 0.88rem;
+    padding: 0.5rem 1.1rem;
+    min-height: 38px;
+    font-size: 0.8rem;
     white-space: nowrap;
   }
 
@@ -163,29 +205,29 @@ const currentPath = Astro.url.pathname;
     display: none;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: 5px;
-    width: 40px;
-    height: 40px;
+    width: var(--tap);
+    height: var(--tap);
     cursor: pointer;
   }
 
   .header__toggle span {
     height: 2px;
+    width: 22px;
     background-color: #fff;
     display: block;
   }
 
-  @media (max-width: 980px) {
-    .header__brandbar {
-      padding: 1.2rem 1.5rem 1rem;
-    }
-
+  /* --- Móvil y tablet: el nav colapsa en el MISMO punto en que el
+     contenido deja el layout de escritorio (1024px). --- */
+  @media (max-width: 1023.98px) {
     .header__navbar-inner {
       justify-content: space-between;
     }
 
     .header__compact-brand {
-      display: block;
+      display: flex;
     }
 
     .header__toggle {
@@ -200,7 +242,7 @@ const currentPath = Astro.url.pathname;
       flex-direction: column;
       align-items: stretch;
       gap: 0;
-      background-color: var(--color-steel-dark);
+      background-color: var(--color-ink);
       max-height: 0;
       overflow: hidden;
       transition: max-height 0.25s ease;
@@ -214,7 +256,7 @@ const currentPath = Astro.url.pathname;
     }
 
     .header__link {
-      padding: 0.85rem 0;
+      padding: 0.75rem 0;
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
 
@@ -222,12 +264,30 @@ const currentPath = Astro.url.pathname;
       border-color: var(--color-accent);
     }
 
+    /* En vertical el divisor cruza el ancho, no la altura */
+    .header__item--ally {
+      margin-left: 0;
+      padding-left: 0;
+      margin-top: 0.6rem;
+      padding-top: 0.6rem;
+    }
+
+    .header__item--ally::before {
+      top: 0;
+      left: 0;
+      right: 0;
+      width: auto;
+      height: 1px;
+      transform: none;
+    }
+
     .header__cta {
       margin: 1.2rem 1.5rem 1.5rem;
+      min-height: var(--tap);
     }
 
     .header__toggle-input:checked ~ .header__nav {
-      max-height: 560px;
+      max-height: 620px;
     }
   }
 

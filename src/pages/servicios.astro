@@ -1,80 +1,89 @@
 ---
+/**
+ * Servicios de JZINOX.
+ *
+ * Los nombres de servicio son los reales; los textos de apoyo son placeholder
+ * localizable (SERVICIOS 1..4, PASO 1..4) hasta que llegue el copy definitivo.
+ * Jerarquía: h1 → h2 por sección → h3 por servicio y por etapa.
+ */
 import Layout from "../layouts/Layout.astro";
 import ServiceIcon from "../components/ServiceIcon.astro";
-import { services } from "../data/services.js";
+import { services, processSteps } from "../data/services.js";
 ---
 
 <Layout
 	title="Servicios"
 	description="Fabricación, instalación y mantención de equipamiento gastronómico en acero inoxidable: cocinas industriales, campanas, mesones, lavaplatos y soldadura TIG."
 >
+	{/* --- SERVICIOS 1: encabezado --- */}
 	<section class="section page-hero">
 		<div class="container">
 			<span class="eyebrow">Servicios</span>
-			<h1>Del levantamiento en terreno a la instalación final</h1>
+			<h1>SERVICIOS 1</h1>
 			<p>
-				Trabajamos el proyecto completo: medimos tu cocina, fabricamos en taller propio,
-				instalamos en terreno y después mantenemos lo que instalamos.
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.
 			</p>
 		</div>
 	</section>
 
-	<section class="section section--alt">
+	{/* --- SERVICIOS 2: listado de servicios --- */}
+	<section class="section section--alt" aria-labelledby="servicios-listado">
 		<div class="container">
+			<div class="section-head">
+				<span class="eyebrow">Qué hacemos</span>
+				<h2 id="servicios-listado">SERVICIOS 2</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+			</div>
+
 			<div class="bento bento--2">
-				{services.map((service) => (
-					<article class="bento__cell bento__cell--hover service-detail" id={service.slug}>
-						<div class="bento__icon service-detail__icon">
-							<ServiceIcon name={service.icon} />
-						</div>
-						<h2 class="service-detail__title">{service.title}</h2>
-						<p>{service.summary}</p>
-						<ul class="check-list">
-							{service.details.map((detail) => <li>{detail}</li>)}
-						</ul>
-					</article>
-				))}
+				{
+					services.map((service) => (
+						<article class="bento__cell bento__cell--hover service-detail" id={service.slug}>
+							<div class="bento__icon service-detail__icon">
+								<ServiceIcon name={service.icon} />
+							</div>
+							<h3 class="service-detail__title">{service.title}</h3>
+							<p>{service.summary}</p>
+							<ul class="check-list">
+								{service.details.map((detail) => <li>{detail}</li>)}
+							</ul>
+						</article>
+					))
+				}
 			</div>
 		</div>
 	</section>
 
-	<section class="section">
+	{/* --- SERVICIOS 3: cómo trabajamos --- */}
+	<section class="section" aria-labelledby="servicios-proceso">
 		<div class="container">
 			<div class="section-head">
 				<span class="eyebrow">Cómo trabajamos</span>
-				<h2>Cuatro etapas, sin sorpresas a mitad de camino</h2>
+				<h2 id="servicios-proceso">SERVICIOS 3</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
 			</div>
 
 			<ol class="bento bento--4 steps">
-				<li class="bento__cell steps__item">
-					<span class="steps__num">01</span>
-					<h3>Levantamiento</h3>
-					<p>Visitamos tu cocina, medimos el espacio real y revisamos el flujo de trabajo.</p>
-				</li>
-				<li class="bento__cell steps__item">
-					<span class="steps__num">02</span>
-					<h3>Cotización</h3>
-					<p>Te entregamos el detalle de piezas, materiales, plazos de taller e instalación.</p>
-				</li>
-				<li class="bento__cell steps__item">
-					<span class="steps__num">03</span>
-					<h3>Fabricación</h3>
-					<p>Cortamos, plegamos y soldamos con TIG en nuestro taller de Cerrillos.</p>
-				</li>
-				<li class="bento__cell steps__item">
-					<span class="steps__num">04</span>
-					<h3>Instalación</h3>
-					<p>Montamos en terreno, nivelamos y dejamos el equipamiento operativo.</p>
-				</li>
+				{
+					processSteps.map((step, i) => (
+						<li class="bento__cell steps__item">
+							<span class="steps__num">{String(i + 1).padStart(2, "0")}</span>
+							<h3>{step.title}</h3>
+							<p>{step.description}</p>
+						</li>
+					))
+				}
 			</ol>
 		</div>
 	</section>
 
+	{/* --- SERVICIOS 4: cierre --- */}
 	<section class="section section--alt cta-band">
 		<div class="container cta-band__inner">
 			<div>
-				<h2>¿Listo para cotizar?</h2>
-				<p>Cuéntanos qué necesitas y te respondemos con un presupuesto detallado.</p>
+				<h2>SERVICIOS 4</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
 			</div>
 			<div class="cta-band__actions">
 				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
@@ -104,7 +113,7 @@ import { services } from "../data/services.js";
 		display: block;
 		font-family: var(--font-mono);
 		font-weight: 700;
-		font-size: 1.5rem;
+		font-size: clamp(1.25rem, 3vw, 1.5rem);
 		color: var(--color-accent);
 		margin-bottom: 0.5rem;
 	}

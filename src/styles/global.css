@@ -1,3 +1,17 @@
+/* =============================================================
+   JZINOX — Sistema de diseño "Ingeniería limpia y precisión"
+   -------------------------------------------------------------
+   Base clara de laboratorio + lenguaje de taller de soldadura.
+   El carácter industrial entra por textura, tipografía técnica y
+   el cordón de soldadura, NO por oscurecer el fondo.
+
+   Breakpoints (solo dos, deliberadamente):
+     640px  → tablet: las grillas pasan a 2 columnas
+     1024px → escritorio: layout completo Y nav horizontal
+   Header y contenido cambian en el MISMO punto, así que no hay
+   estados híbridos raros en iPad.
+   ============================================================= */
+
 :root {
   /* Paleta JZINOX — extraída del mockup aprobado por el cliente */
   --color-bg: #ffffff;
@@ -14,9 +28,20 @@
   --color-text: #2b3138;
   --color-text-muted: #555b62;
 
+  /* Grafito profundo para las bandas de acero: más peso que --color-steel */
+  --color-ink: #1a1e23;
+
   --color-accent: #c0392b;
   --color-accent-dark: #9c2d21;
   --color-accent-light: #d8503f;
+
+  /* Temple del inoxidable soldado con TIG: paja, bronce, violeta, azul.
+     Es el tornasol real que deja el calor junto al cordón. Se usa
+     ÚNICAMENTE en .weld-seam y en ningún otro lugar del sitio. */
+  --weld-straw: rgba(214, 168, 88, 0.42);
+  --weld-bronze: rgba(176, 118, 62, 0.36);
+  --weld-violet: rgba(126, 98, 148, 0.3);
+  --weld-blue: rgba(84, 118, 150, 0.26);
 
   --font-heading: "Archivo", "Segoe UI", sans-serif;
   --font-body: "Inter", "Segoe UI", sans-serif;
@@ -24,6 +49,9 @@
 
   --container-width: 1180px;
   --radius: 4px;
+
+  /* Mínimo táctil recomendado. Se usa como min-height en cada control. */
+  --tap: 44px;
 
   --shadow-sm: 0 1px 2px rgba(43, 49, 56, 0.06);
   --shadow-md: 0 10px 24px rgba(43, 49, 56, 0.1);
@@ -46,6 +74,7 @@ body {
   font-family: var(--font-body);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; /* red de seguridad para las secciones a sangre */
 }
 
 h1,
@@ -55,14 +84,16 @@ h4 {
   font-family: var(--font-heading);
   text-wrap: balance;
   font-weight: 700;
-  letter-spacing: -0.01em;
-  line-height: 1.18;
+  /* Tracking cerrado: da el aire compacto y macizo de la rotulación industrial */
+  letter-spacing: -0.02em;
+  line-height: 1.14;
   margin: 0 0 0.6em;
   color: var(--color-graphite);
 }
 
 h1 {
   font-size: clamp(2rem, 4.6vw, 3rem);
+  text-transform: uppercase;
 }
 
 h2 {
@@ -70,7 +101,8 @@ h2 {
 }
 
 h3 {
-  font-size: 1.15rem;
+  font-size: clamp(1.02rem, 1.6vw, 1.15rem);
+  letter-spacing: -0.01em;
 }
 
 p {
@@ -108,6 +140,19 @@ a {
   top: 1rem;
 }
 
+/* Texto solo para lectores de pantalla (etiquetas de flechas y puntos del carrusel) */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 img {
   max-width: 100%;
   display: block;
@@ -123,27 +168,32 @@ ul {
   width: 100%;
   max-width: var(--container-width);
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 clamp(1rem, 3vw, 1.5rem);
 }
 
+/* Padding fluido: en un iPhone SE 4.5rem por sección son 72px de aire
+   muerto, multiplicados por 6 secciones. Abajo se comprime, arriba se
+   mantiene el respiro del mockup. */
 .section {
-  padding: 4.5rem 0;
+  padding: clamp(2.75rem, 6vw, 4.5rem) 0;
 }
 
 .section--alt {
   background-color: var(--color-bg-alt);
 }
 
-/* Franja de acero cepillado — reproduce la textura del logo */
+/* --- Franja de acero cepillado --- */
+/* Grafito profundo, no gris medio: la banda debe pesar como una plancha
+   de acero, no como un separador. Blanco sobre --color-ink da ~16:1. */
 .section--steel {
-  background-color: var(--color-steel);
+  background-color: var(--color-ink);
   background-image: linear-gradient(
     100deg,
-    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.11) 0%,
     rgba(255, 255, 255, 0) 22%,
-    rgba(0, 0, 0, 0.12) 48%,
-    rgba(255, 255, 255, 0.14) 72%,
-    rgba(0, 0, 0, 0.1) 100%
+    rgba(0, 0, 0, 0.26) 48%,
+    rgba(255, 255, 255, 0.09) 72%,
+    rgba(0, 0, 0, 0.22) 100%
   );
   color: #fff;
 }
@@ -158,13 +208,72 @@ ul {
   color: rgba(255, 255, 255, 0.86);
 }
 
+/* =============================================================
+   CORDÓN DE SOLDADURA TIG — elemento firma
+   -------------------------------------------------------------
+   Un cordón TIG real sobre inoxidable deja escamas solapadas
+   ("stacked dimes") y un tornasol de temple a ambos lados. Es la
+   operación que literalmente une dos placas, así que hace de
+   divisor entre secciones en lugar de una línea gris genérica.
+   CSS puro: dos capas de background, cero imágenes, cero JS.
+   ============================================================= */
+.weld-seam,
+.section--weld::after,
+.page-hero::after {
+  height: 16px;
+  background-repeat: repeat-x, no-repeat;
+  background-position: center, center;
+  /* El paso del patrón (11px) es menor que el ancho de la escama (14px):
+     por eso se solapan, igual que el avance real del electrodo. */
+  background-size: 11px 12px, 100% 100%;
+  background-image:
+    radial-gradient(
+      ellipse 7px 5.5px at 50% 45%,
+      #ffffff 0%,
+      #dde1e5 26%,
+      var(--color-steel-light) 52%,
+      var(--color-steel-dark) 76%,
+      transparent 80%
+    ),
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      var(--weld-blue) 10%,
+      var(--weld-violet) 24%,
+      transparent 40%,
+      transparent 60%,
+      var(--weld-violet) 74%,
+      var(--weld-bronze) 86%,
+      var(--weld-straw) 95%,
+      transparent 100%
+    );
+}
+
+.weld-seam {
+  border: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.section--weld {
+  position: relative;
+}
+
+.section--weld::after,
+.page-hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+}
+
 .eyebrow {
   display: inline-block;
-  font-family: var(--font-heading);
+  /* Mono en mayúsculas: etiqueta de plano, no titulillo de marketing */
+  font-family: var(--font-mono);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  font-size: 0.72rem;
   color: var(--color-accent);
   margin-bottom: 0.8rem;
 }
@@ -175,7 +284,7 @@ ul {
 
 .section-head {
   max-width: 640px;
-  margin: 0 auto 3rem;
+  margin: 0 auto clamp(1.8rem, 4vw, 3rem);
   text-align: center;
 }
 
@@ -188,11 +297,13 @@ ul {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  min-height: var(--tap);
   font-family: var(--font-heading);
   font-weight: 600;
-  letter-spacing: 0.01em;
-  font-size: 0.95rem;
-  padding: 0.85rem 1.8rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  font-size: 0.86rem;
+  padding: 0.7rem 1.7rem;
   border-radius: var(--radius);
   border: 1px solid transparent;
   cursor: pointer;
@@ -245,16 +356,37 @@ ul {
   color: #fff;
 }
 
+/* --- Acción secundaria: mismo rojo corporativo, sin el peso del relleno --- */
+.btn--outline {
+  background-color: transparent;
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.btn--outline:hover {
+  background-color: var(--color-accent);
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(192, 57, 43, 0.24);
+}
+
+.btn--outline:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.22);
+}
+
+/* Enlace de texto que igual debe cumplir el mínimo táctil de 44px */
+.tap-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+}
+
 .card {
   background-color: #fff;
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 2rem 1.6rem;
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.section--alt .card {
-  background-color: #fff;
 }
 
 .card:hover {
@@ -270,42 +402,22 @@ ul {
 
 .tag {
   display: inline-block;
-  font-size: 0.72rem;
-  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.1em;
   color: #fff;
-  background-color: var(--color-steel);
+  background-color: var(--color-ink);
   padding: 0.25rem 0.6rem;
   border-radius: 2px;
 }
 
-.grid {
-  display: grid;
-  gap: 1.6rem;
-}
-
-@media (min-width: 640px) {
-  .grid--2 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 860px) {
-  .grid--3 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  .grid--4 {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
 /* --- Bloques compartidos entre páginas --- */
 .page-hero {
-  padding-top: 3.5rem;
-  padding-bottom: 2.5rem;
-  border-bottom: 1px solid var(--color-border);
+  position: relative;
+  padding-top: clamp(2.2rem, 5vw, 3.5rem);
+  padding-bottom: clamp(2rem, 4.5vw, 2.5rem);
 }
 
 .page-hero h1 {
@@ -344,7 +456,7 @@ ul {
   gap: 0.8rem;
 }
 
-/* Lista de viñetas con marca roja, usada en servicios y TIG */
+/* Lista de viñetas con marca roja, usada en servicios */
 .check-list {
   display: flex;
   flex-direction: column;
@@ -368,24 +480,6 @@ ul {
   background-color: var(--color-accent);
 }
 
-/* --- Acción secundaria: mismo rojo corporativo, sin el peso del relleno --- */
-.btn--outline {
-  background-color: transparent;
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-}
-
-.btn--outline:hover {
-  background-color: var(--color-accent);
-  color: #fff;
-  box-shadow: 0 6px 16px rgba(192, 57, 43, 0.24);
-}
-
-.btn--outline:active {
-  transform: translateY(1px);
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.22);
-}
-
 /* --- Bento Grid: placas de acero unidas por juntas de 1px --- */
 /* La línea divisoria es el propio `gap` del grid asomando sobre un fondo gris.
    Con bordes por celda, dos celdas contiguas sumarían 2px y las esquinas se
@@ -405,7 +499,7 @@ ul {
 
 .bento__cell {
   min-width: 0; /* impide que una imagen ensanche su columna */
-  padding: 2rem 1.75rem;
+  padding: clamp(1.4rem, 3.6vw, 2rem) clamp(1.15rem, 3vw, 1.75rem);
 }
 
 .bento__cell--flush {
@@ -433,7 +527,7 @@ ul {
   margin-bottom: 0.9rem;
 }
 
-/* Columnas responsivas estándar de las placas, equivalentes a .grid--N */
+/* Columnas responsivas de las placas */
 @media (min-width: 640px) {
   .bento--2,
   .bento--3,
@@ -442,7 +536,7 @@ ul {
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1024px) {
   .bento--3 {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -481,7 +575,7 @@ ul {
   background-color: var(--color-bg-alt);
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
-  padding: 2.2rem 2.4rem;
+  padding: clamp(1.6rem, 4vw, 2.2rem) clamp(1.3rem, 4vw, 2.4rem);
 }
 
 .cta-plate h2 {

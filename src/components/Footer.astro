@@ -1,5 +1,5 @@
 ---
-import { navItems, footerExtraItems, site } from "../data/site.js";
+import { navItems, site } from "../data/site.js";
 
 const year = new Date().getFullYear();
 ---
@@ -21,7 +21,7 @@ const year = new Date().getFullYear();
     <div class="footer__col">
       <h4>Navegación</h4>
       <ul>
-        {[...navItems, ...footerExtraItems].map((item) => (
+        {navItems.map((item) => (
           <li><a href={item.href}>{item.label}</a></li>
         ))}
       </ul>
@@ -29,7 +29,7 @@ const year = new Date().getFullYear();
 
     <div class="footer__col">
       <h4>Horario de Atención</h4>
-      <ul>
+      <ul class="footer__hours">
         {site.hoursLines.map((line) => (
           <li>{line}</li>
         ))}
@@ -54,12 +54,13 @@ const year = new Date().getFullYear();
 
   .footer__grid {
     display: grid;
-    gap: 2.5rem;
-    padding: 3.5rem 1.5rem 2.5rem;
+    gap: clamp(1.8rem, 4vw, 2.5rem);
+    padding-top: clamp(2.2rem, 5vw, 3.5rem);
+    padding-bottom: clamp(1.8rem, 4vw, 2.5rem);
     grid-template-columns: 1fr;
   }
 
-  @media (min-width: 720px) {
+  @media (min-width: 640px) {
     .footer__grid {
       grid-template-columns: 1.5fr 1fr 1fr;
     }
@@ -69,7 +70,7 @@ const year = new Date().getFullYear();
     display: inline-block;
     font-family: var(--font-heading);
     font-weight: 700;
-    font-size: 1.35rem;
+    font-size: clamp(1.2rem, 2.5vw, 1.35rem);
     letter-spacing: 0.03em;
     color: var(--color-graphite);
     margin-bottom: 0.9rem;
@@ -80,43 +81,57 @@ const year = new Date().getFullYear();
     font-size: 0.92rem;
     color: var(--color-text-muted);
     line-height: 1.7;
-    margin-bottom: 0.9rem;
+    margin-bottom: 0.5rem;
   }
 
   .footer__col h4 {
-    font-size: 0.95rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
     color: var(--color-graphite);
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem;
   }
 
   .footer__col ul {
     display: flex;
     flex-direction: column;
-    gap: 0.55rem;
   }
 
-  .footer__col li,
-  .footer__contact li {
+  .footer__hours li {
     font-size: 0.92rem;
     color: var(--color-text-muted);
+    padding: 0.3rem 0;
   }
 
-  .footer__col a {
+  /* Cada enlace del pie es un objetivo táctil real de 44px. Antes medían
+     ~23px de alto, la mitad del mínimo, y son 9 enlaces seguidos. */
+  .footer__col a,
+  .footer__contact a {
+    display: flex;
+    align-items: center;
+    min-height: var(--tap);
+    font-size: 0.92rem;
     color: var(--color-text-muted);
     transition: color 0.15s ease;
   }
 
-  .footer__col a:hover {
+  .footer__col a:hover,
+  .footer__contact a:hover {
     color: var(--color-accent);
   }
 
   .footer__cta {
-    margin-top: 1.4rem;
-    padding: 0.65rem 1.3rem;
-    font-size: 0.88rem;
+    margin-top: 1.2rem;
   }
 
-  .footer__cta:hover {
+  /* Hay que calificar con `.footer__col` para superar a `.footer__col a`, que
+     es más específico que `.btn--primary`: sin esto el texto del botón queda
+     gris sobre el rojo corporativo. */
+  .footer__col a.footer__cta,
+  .footer__col a.footer__cta:hover {
+    display: inline-flex;
+    justify-content: center;
     color: #fff;
   }
 
@@ -129,7 +144,8 @@ const year = new Date().getFullYear();
     flex-wrap: wrap;
     gap: 0.5rem 1.5rem;
     justify-content: space-between;
-    padding: 1.2rem 1.5rem;
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
   }
 
   .footer__bottom p {
