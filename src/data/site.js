@@ -2,20 +2,21 @@ export const site = {
   name: "JZINOX",
   tagline: "Equipamiento gastronómico en acero inoxidable",
   description:
-    "Equipamiento gastronómico en acero inoxidable, soldadura TIG y estructuras a medida en Cerrillos, Región Metropolitana. Fabricación, instalación y mantención para cocinas industriales, restaurantes y casinos.",
+    "Equipamiento gastronómico en acero inoxidable, soldadura TIG y estructuras a medida. Fabricación, instalación y mantención para cocinas industriales, restaurantes y casinos.",
   domain: "jzinox.cl",
 
-  // TODO: reemplazar por el número real del cliente antes de publicar
-  phoneDisplay: "+56 9 0000 0000",
-  phoneHref: "+56900000000",
-  whatsappNumber: "56900000000",
+  phoneDisplay: "+56 9 3188 9950",
+  phoneHref: "+56931889950",
+  whatsappNumber: "56931889950",
   whatsappDefaultMessage: "Hola JZINOX, quisiera cotizar un proyecto.",
 
-  email: "contacto@jzinox.cl",
-  street: "Av. Pedro Aguirre Cerda 6100",
-  address: "Av. Pedro Aguirre Cerda 6100, Cerrillos",
-  addressFull: "Av. Pedro Aguirre Cerda 6100, Cerrillos, Región Metropolitana, Chile",
-  city: "Cerrillos",
+  email: "ventas@jzinox.cl",
+  street: "Av. Departamental 999, Galpón 11",
+  // TODO: confirmar comuna con el cliente. Av. Departamental cruza La Florida,
+  // Macul y San Joaquín, así que no la deducimos desde la dirección.
+  city: "Santiago",
+  address: "Av. Departamental 999, Galpón 11",
+  addressFull: "Av. Departamental 999, Galpón 11, Región Metropolitana, Chile",
   region: "Región Metropolitana",
   country: "CL",
 
@@ -26,21 +27,22 @@ export const site = {
     { days: ["Saturday"], opens: "09:00", closes: "13:00" },
   ],
 
-  formsubmitEndpoint: "https://formsubmit.co/contacto@jzinox.cl",
+  formsubmitEndpoint: "https://formsubmit.co/ventas@jzinox.cl",
   siteUrl: "https://jzinox.cl",
   ogImage: "/og-image.svg",
 };
 
+// `ally: true` marca una entrada que NO es una sección de JZ Inox sino otra
+// marca del ecosistema. El Header la separa con un divisor para que el
+// visitante sepa que va a saltar de marca, no de sección.
 export const navItems = [
   { href: "/", label: "Inicio" },
-  { href: "/productos", label: "Productos" },
+  { href: "/nosotros", label: "Nosotros" },
   { href: "/servicios", label: "Servicios" },
-  { href: "/soldadura-tig", label: "Soldadura TIG" },
+  { href: "/productos", label: "Productos" },
   { href: "/catalogo", label: "Catálogo" },
   { href: "/contacto", label: "Contacto" },
+  { href: "/al-muebleria", label: "AL Mueblería", ally: true },
 ];
 
 export const navCta = { href: "/contacto", label: "Cotizar Proyecto" };
-
-// Páginas que existen pero no van en la barra principal (el mockup usa 6 ítems)
-export const footerExtraItems = [{ href: "/nosotros", label: "Nosotros" }];

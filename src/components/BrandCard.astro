@@ -1,0 +1,428 @@
+---
+/**
+ * Tarjeta de marca del Inicio.
+ *
+ * Una sola placa bento dividida en tres bloques unidos por juntas de 1px:
+ *   [ Identidad + CTAs ] | [ Carrusel de imágenes ] | [ Productos destacados ]
+ *
+ * El carrusel funciona sin JavaScript (scroll-snap + gesto táctil). Las flechas
+ * y los puntos son progresivos: quedan ocultos hasta que el script los habilita,
+ * así nunca se muestra un control muerto.
+ */
+interface Props {
+  brand: {
+    slug: string;
+    name: string;
+    locator: string;
+    lead: string;
+    actions: Array<{ href: string; label: string; variant: string }>;
+    featuredTitle: string;
+    featuredHref: string;
+    featuredLabel: string;
+    featured: Array<{ name: string; note: string }>;
+    images: Array<{ src: string; alt: string }>;
+  };
+  /** true solo en la primera tarjeta: su imagen es la candidata a LCP */
+  eager?: boolean;
+  /** La placa cruza la pantalla completa, sin contenedor ni cantos laterales */
+  bleed?: boolean;
+}
+
+const { brand, eager = false, bleed = false } = Astro.props as Props;
+
+const headingId = `marca-${brand.slug}`;
+const featuredId = `destacados-${brand.slug}`;
+---
+
+<article
+  class:list={["bento", "brand-card", { "brand-card--bleed": bleed }]}
+  aria-labelledby={headingId}
+>
+  {/* --- Bloque 1: identidad de la marca --- */}
+  <div class="bento__cell brand-card__identity">
+    <h2 id={headingId} class="brand-card__name">{brand.name}</h2>
+    <p class="brand-card__locator">{brand.locator}</p>
+    <p class="brand-card__lead">{brand.lead}</p>
+
+    <div class="brand-card__actions">
+      {
+        brand.actions.map((action) => (
+          <a href={action.href} class:list={["btn", `btn--${action.variant}`]}>
+            {action.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+
+  {/* --- Bloque 2: carrusel --- */}
+  <div
+    class="bento__cell bento__cell--flush brand-card__media"
+    data-carousel
+    role="group"
+    aria-roledescription="carrusel"
+    aria-label={`Imágenes de ${brand.name}`}
+  >
+    <ul class="carousel__track" data-carousel-track>
+      {
+        brand.images.map((image, i) => (
+          <li class="carousel__slide">
+            <img
+              src={image.src}
+              alt={image.alt}
+              width="800"
+              height="600"
+              loading={eager && i === 0 ? "eager" : "lazy"}
+              fetchpriority={eager && i === 0 ? "high" : undefined}
+              decoding="async"
+            />
+          </li>
+        ))
+      }
+    </ul>
+
+    <button type="button" class="carousel__arrow carousel__arrow--prev" data-carousel-prev hidden>
+      <span class="visually-hidden">Imagen anterior</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M15 5 8 12l7 7" />
+      </svg>
+    </button>
+
+    <button type="button" class="carousel__arrow carousel__arrow--next" data-carousel-next hidden>
+      <span class="visually-hidden">Imagen siguiente</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="m9 5 7 7-7 7" />
+      </svg>
+    </button>
+
+    <div class="carousel__dots" data-carousel-dots hidden>
+      {
+        brand.images.map((_, i) => (
+          <button type="button" class="carousel__dot" data-carousel-dot={i}>
+            <span class="visually-hidden">{`Ir a la imagen ${i + 1}`}</span>
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  {/* --- Bloque 3: productos destacados --- */}
+  <aside class="bento__cell bento__cell--flush brand-card__featured" aria-labelledby={featuredId}>
+    <h3 id={featuredId} class="brand-card__featured-title">{brand.featuredTitle}</h3>
+
+    <ul class="brand-card__list">
+      {
+        brand.featured.map((item, i) => (
+          <li>
+            <a href={brand.featuredHref} class="brand-card__list-link">
+              <span class="brand-card__list-index">{String(i + 1).padStart(2, "0")}</span>
+              <span class="brand-card__list-text">
+                <strong>{item.name}</strong>
+                <span>{item.note}</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a href={brand.featuredHref} class="brand-card__featured-link">{brand.featuredLabel}</a>
+  </aside>
+</article>
+
+<style>
+  /* Una columna en móvil; los tres bloques se ensamblan en escritorio */
+  .brand-card {
+    grid-template-areas:
+      "identity"
+      "media"
+      "featured";
+  }
+
+  @media (min-width: 1024px) {
+    .brand-card {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-areas: "identity media featured";
+    }
+  }
+
+  /* A sangre completa: un canto contra el borde de la pantalla se lee como
+     error de recorte, no como geometría. Se quitan los bordes laterales y el
+     radio; las juntas internas de 1px se mantienen intactas. */
+  .brand-card--bleed {
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0;
+  }
+
+  /* --- Bloque 1: identidad --- */
+  .brand-card__identity {
+    grid-area: identity;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brand-card__name {
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    letter-spacing: 0.02em;
+    margin-bottom: 0.35rem;
+  }
+
+  /* Marcador de contenido pendiente: se lee como etiqueta de plano, no como texto final */
+  .brand-card__locator {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+  }
+
+  .brand-card__lead {
+    font-size: 0.96rem;
+    max-width: 40ch;
+  }
+
+  .brand-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-top: auto; /* ancla los CTA al pie de la placa */
+    padding-top: 1.4rem;
+  }
+
+  /* --- Bloque 2: carrusel --- */
+  .brand-card__media {
+    grid-area: media;
+    position: relative;
+    background-color: var(--color-surface);
+    min-height: 260px;
+  }
+
+  .carousel__track {
+    display: flex;
+    height: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .carousel__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel__slide {
+    flex: 0 0 100%;
+    scroll-snap-align: center;
+    min-width: 0;
+  }
+
+  /* `aspect-ratio` explícito, no solo `height: 100%`: sin él la altura depende
+     del stretch del grid padre y el atributo height="600" del HTML se impone
+     en cuanto alguien cambie el layout de la placa. */
+  .carousel__slide img {
+    width: 100%;
+    height: 100%;
+    min-height: 260px;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  /* Controles sólidos, sin difuminado: chapa de acero sobre la imagen */
+  .carousel__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--tap);
+    height: var(--tap);
+    padding: 0;
+    border: 1px solid var(--color-border);
+    background-color: rgba(255, 255, 255, 0.94);
+    color: var(--color-graphite);
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .carousel__arrow:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+  }
+
+  .carousel__arrow--prev {
+    left: 0.75rem;
+  }
+
+  .carousel__arrow--next {
+    right: 0.75rem;
+  }
+
+  .carousel__dots {
+    position: absolute;
+    left: 50%;
+    bottom: 0.85rem;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.4rem;
+    padding: 0.4rem 0.55rem;
+    background-color: rgba(255, 255, 255, 0.94);
+    border: 1px solid var(--color-border);
+  }
+
+  .carousel__dot {
+    position: relative; /* ancla del área táctil de abajo */
+    width: 22px;
+    height: 4px;
+    padding: 0;
+    border: 0;
+    background-color: var(--color-steel-light);
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+
+  .carousel__dot[aria-current="true"] {
+    background-color: var(--color-accent);
+  }
+
+  /* Área táctil de 44px sin engordar la barra visible */
+  .carousel__dot::before {
+    content: "";
+    position: absolute;
+    inset-block: -20px;
+    width: 22px;
+  }
+
+  /* --- Bloque 3: productos destacados --- */
+  .brand-card__featured {
+    grid-area: featured;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .brand-card__featured-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin: 0;
+    padding: 1.15rem 1.35rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  /* Las filas se separan con la misma junta de 1px del bento */
+  .brand-card__list {
+    display: grid;
+    gap: 1px;
+    background-color: var(--color-border);
+  }
+
+  .brand-card__list > li {
+    background-color: var(--color-bg);
+  }
+
+  .brand-card__list-link {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.7rem;
+    padding: 0.85rem 1.35rem;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .brand-card__list-link:hover {
+    background-color: var(--color-bg-alt);
+    box-shadow: inset 3px 0 0 var(--color-accent);
+  }
+
+  .brand-card__list-index {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.55;
+    color: var(--color-steel-dark);
+  }
+
+  .brand-card__list-text strong {
+    display: block;
+    font-size: 0.87rem;
+    line-height: 1.35;
+    color: var(--color-graphite);
+  }
+
+  .brand-card__list-text > span {
+    display: block;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: var(--color-text-muted);
+  }
+
+  .brand-card__list-link:hover strong {
+    color: var(--color-accent);
+  }
+
+  .brand-card__featured-link {
+    margin-top: auto;
+    padding: 1rem 1.35rem;
+    border-top: 1px solid var(--color-border);
+    font-family: var(--font-heading);
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+
+  .brand-card__featured-link:hover {
+    background-color: var(--color-bg-alt);
+    text-decoration: underline;
+  }
+</style>
+
+<script>
+  // Progressive enhancement: sin JS el carrusel sigue siendo desplazable
+  // (scroll-snap + gesto). El script solo agrega flechas y puntos.
+  document.querySelectorAll("[data-carousel]").forEach((root) => {
+    const track = root.querySelector("[data-carousel-track]");
+    const prev = root.querySelector("[data-carousel-prev]");
+    const next = root.querySelector("[data-carousel-next]");
+    const dotsBox = root.querySelector("[data-carousel-dots]");
+    if (!(track instanceof HTMLElement)) return;
+
+    const slides = Array.from(track.children);
+    if (slides.length < 2) return;
+
+    const dots = dotsBox ? Array.from(dotsBox.querySelectorAll("[data-carousel-dot]")) : [];
+
+    // Solo ahora se revelan los controles: ya sabemos que funcionan
+    if (prev instanceof HTMLElement) prev.hidden = false;
+    if (next instanceof HTMLElement) next.hidden = false;
+    if (dotsBox instanceof HTMLElement) dotsBox.hidden = false;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const indexOf = () => Math.round(track.scrollLeft / track.clientWidth);
+
+    const goTo = (index) => {
+      const clamped = Math.max(0, Math.min(slides.length - 1, index));
+      track.scrollTo({ left: clamped * track.clientWidth, behavior: reduceMotion ? "auto" : "smooth" });
+    };
+
+    const syncDots = () => {
+      const current = indexOf();
+      dots.forEach((dot, i) => dot.setAttribute("aria-current", String(i === current)));
+    };
+
+    prev?.addEventListener("click", () => goTo(indexOf() - 1));
+    next?.addEventListener("click", () => goTo(indexOf() + 1));
+    dots.forEach((dot, i) => dot.addEventListener("click", () => goTo(i)));
+
+    // Un solo repintado por frame mientras el usuario desplaza
+    let ticking = false;
+    track.addEventListener("scroll", () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        syncDots();
+        ticking = false;
+      });
+    });
+
+    syncDots();
+  });
+</script>

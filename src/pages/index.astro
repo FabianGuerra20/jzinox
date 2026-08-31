@@ -1,91 +1,54 @@
 ---
+/**
+ * Inicio: portal de las dos marcas del ecosistema.
+ *
+ * La página tiene un solo trabajo — que el visitante elija marca. Encabezado
+ * corto, las dos placas de marca a sangre completa y el cierre. Los servicios
+ * y la historia viven en /servicios y /nosotros, no se duplican aquí.
+ */
 import Layout from "../layouts/Layout.astro";
-import HeroBento from "../components/HeroBento.astro";
-import ServiceIcon from "../components/ServiceIcon.astro";
-import { services } from "../data/services.js";
-import { stats } from "../data/company.js";
-import { catalog } from "../data/catalog.js";
+import BrandCard from "../components/BrandCard.astro";
+import { brands } from "../data/brands.js";
 import { site } from "../data/site.js";
-
-const featuredServices = services.slice(0, 6);
-const featured = catalog.slice(0, 4);
 ---
 
-<Layout title="Inicio">
-	<HeroBento products={featured} />
+<Layout
+	title="Inicio"
+	description="JZINOX y AL Mueblería: equipamiento gastronómico en acero inoxidable y mueblería de línea plana."
+>
+	<section class="section page-hero home-hero">
+		<div class="container">
+			<span class="eyebrow">Encabezado</span>
+			<h1>INICIO 1</h1>
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+				exercitation ullamco laboris.
+			</p>
+		</div>
+	</section>
 
-	<section class="section--steel stats">
-		<div class="container stats__grid">
-			{stats.map((stat) => (
-				<div class="stats__item">
-					<strong>{stat.value}</strong>
-					<span>{stat.label}</span>
-				</div>
-			))}
+	{/* Sin .container: las placas de marca cruzan la pantalla de canto a canto */}
+	<section class="section home-brands">
+		<div class="home-brands__stack">
+			{brands.map((brand, i) => <BrandCard brand={brand} eager={i === 0} bleed />)}
 		</div>
 	</section>
 
 	<section class="section section--alt">
 		<div class="container">
-			<div class="section-head">
-				<span class="eyebrow">Lo que hacemos</span>
-				<h2>Del levantamiento en terreno a la instalación</h2>
-				<p>Fabricamos, instalamos y mantenemos equipamiento gastronómico en acero inoxidable.</p>
-			</div>
-
-			{/* Seis celdas cosidas en una sola placa, no seis tarjetas sueltas */}
-			<div class="bento bento--3">
-				{featuredServices.map((service, i) => (
-					<article class="bento__cell bento__cell--hover service-card">
-						<div class="service-card__head">
-							<div class="bento__icon">
-								<ServiceIcon name={service.icon} />
-							</div>
-							<span class="bento__index">{String(i + 1).padStart(2, "0")}</span>
-						</div>
-						<h3>{service.title}</h3>
-						<p>{service.summary}</p>
-					</article>
-				))}
-			</div>
-
-			<div class="section-cta">
-				<a href="/servicios" class="btn btn--ghost">Ver todos los servicios</a>
-			</div>
-		</div>
-	</section>
-
-	<section class="section">
-		<div class="container">
-			<div class="bento why__bento">
-				<div class="bento__cell why__main">
-					<span class="eyebrow">Por qué JZINOX</span>
-					<h2>Acero inoxidable con terminación sanitaria</h2>
-					<p>
-						Trabajamos con soldadura TIG y pulido posterior, sin aristas vivas ni juntas donde
-						se acumule suciedad. Cada pieza se mide en terreno antes de cortarse, para que
-						entre y calce a la primera.
-					</p>
-					<ul class="check-list">
-						<li>Levantamiento y medición en tu cocina</li>
-						<li>Fabricación en taller propio en Cerrillos</li>
-						<li>Instalación y puesta en marcha incluidas</li>
-						<li>Mantención posventa del equipamiento instalado</li>
-					</ul>
+			<div class="cta-plate">
+				<div>
+					<h2>INICIO 4</h2>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
 				</div>
-
-				<div class="bento__cell bento__cell--accent why__aside">
-					<h3>¿Tienes un plano o una idea?</h3>
-					<p>
-						Envíanos las medidas de tu cocina y te preparamos una cotización con plazos de
-						fabricación e instalación.
-					</p>
+				<div class="cta-band__actions">
 					<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
 					<a
-						href={`https://wa.me/${site.whatsappNumber}`}
+						href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="btn btn--ghost why__wa"
+						class="btn btn--outline"
 					>
 						Escríbenos por WhatsApp
 					</a>
@@ -93,89 +56,22 @@ const featured = catalog.slice(0, 4);
 			</div>
 		</div>
 	</section>
-
-	<section class="section section--alt cta-band">
-		<div class="container cta-band__inner">
-			<div>
-				<h2>Cotiza tu proyecto hoy</h2>
-				<p>Atendemos {site.region} de {site.hours.toLowerCase()}.</p>
-			</div>
-			<div class="cta-band__actions">
-				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
-				<a href="/soldadura-tig" class="btn btn--ghost">Conocer la soldadura TIG</a>
-			</div>
-		</div>
-	</section>
 </Layout>
 
 <style>
-	/* --- Banda de cifras en acero cepillado --- */
-	.stats {
-		padding: 2.2rem 0;
+	.home-hero {
+		padding-bottom: clamp(1.6rem, 4vw, 2rem);
 	}
 
-	.stats__grid {
-		display: grid;
-		grid-template-columns: repeat(2, 1fr);
-		gap: 1.5rem;
-		text-align: center;
+	.home-brands {
+		padding-top: clamp(2rem, 5vw, 3rem);
 	}
 
-	@media (min-width: 720px) {
-		.stats__grid {
-			grid-template-columns: repeat(4, 1fr);
-		}
-	}
-
-	.stats__item strong {
-		display: block;
-		font-family: var(--font-heading);
-		font-size: clamp(1.7rem, 4vw, 2.4rem);
-		line-height: 1.1;
-		color: #fff;
-	}
-
-	.stats__item span {
-		font-size: 0.85rem;
-		color: rgba(255, 255, 255, 0.85);
-	}
-
-	/* --- Placa de servicios --- */
-	.service-card__head {
+	/* Las dos placas se apilan separadas por aire, no por una línea: cada una
+	   es una plancha independiente apoyada sobre el fondo. */
+	.home-brands__stack {
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-bottom: 1.1rem;
-	}
-
-	.service-card__head .bento__index {
-		margin-bottom: 0;
-	}
-
-	.service-card p:last-child {
-		margin-bottom: 0;
-	}
-
-	/* --- Placa "Por qué JZINOX" --- */
-	@media (min-width: 900px) {
-		.why__bento {
-			grid-template-columns: 7fr 5fr;
-		}
-	}
-
-	.why__main {
-		padding: 2.5rem 2rem;
-	}
-
-	.why__aside {
-		padding: 2.5rem 2rem;
-	}
-
-	.why__aside .btn {
-		width: 100%;
-	}
-
-	.why__wa {
-		margin-top: 0.7rem;
+		flex-direction: column;
+		gap: clamp(1.8rem, 4vw, 2.5rem);
 	}
 </style>

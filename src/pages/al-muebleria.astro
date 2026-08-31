@@ -1,0 +1,230 @@
+---
+/**
+ * Vista interna del aliado estratégico AL Mueblería.
+ *
+ * Landing resumida dentro del ecosistema JZ Inox: presentación, servicios
+ * propios y mini-catálogo de 4 piezas. Mantiene el fondo, la tipografía y las
+ * juntas de 1px del sistema JZ Inox; no introduce una paleta paralela.
+ *
+ * Jerarquía SEO: h1 (marca) → h2 (secciones AL 2/3/4) → h3 (servicios y piezas).
+ */
+import Layout from "../layouts/Layout.astro";
+import { alMuebleriaPage, alMuebleriaCatalog, alMuebleria } from "../data/brands.js";
+import { site } from "../data/site.js";
+
+const { hero, services, catalog, cta } = alMuebleriaPage;
+const featured = alMuebleriaCatalog.slice(0, 4);
+---
+
+<Layout
+	title="AL Mueblería"
+	description="AL Mueblería, aliado estratégico de JZINOX: mueblería de línea plana, diseño a medida, fabricación en taller e instalación."
+>
+	{/* --- AL 1: presentación de la marca --- */}
+	<section class="section page-hero al-hero">
+		<div class="container">
+			<span class="eyebrow">{hero.eyebrow}</span>
+			<h1>{hero.title}</h1>
+			<p class="al-hero__locator">{hero.locator}</p>
+			<p>{hero.lead}</p>
+
+			<div class="al-hero__actions">
+				<a href="#al-catalogo" class="btn btn--primary">Ver mini-catálogo</a>
+				<a href="/contacto" class="btn btn--outline">Cotizar Proyecto</a>
+			</div>
+		</div>
+	</section>
+
+	{/* --- AL 2: resumen de servicios --- */}
+	<section class="section section--alt" aria-labelledby="al-servicios">
+		<div class="container">
+			<div class="section-head">
+				<span class="eyebrow">{services.eyebrow}</span>
+				<h2 id="al-servicios">{services.title}</h2>
+				<p>{services.lead}</p>
+			</div>
+
+			<div class="bento bento--4">
+				{
+					services.items.map((service, i) => (
+						<article class="bento__cell bento__cell--hover al-service">
+							<span class="bento__index">{String(i + 1).padStart(2, "0")}</span>
+							<h3>{service.title}</h3>
+							<p>{service.summary}</p>
+						</article>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	{/* --- AL 3: mini-catálogo destacado (máximo 4 piezas) --- */}
+	<section class="section" id="al-catalogo" aria-labelledby="al-catalogo-title">
+		<div class="container">
+			<div class="section-head">
+				<span class="eyebrow">{catalog.eyebrow}</span>
+				<h2 id="al-catalogo-title">{catalog.title}</h2>
+				<p>{catalog.lead}</p>
+			</div>
+
+			<div class="bento bento--4">
+				{
+					featured.map((item) => (
+						<article class="bento__cell bento__cell--flush bento__cell--hover al-product">
+							<img
+								src={item.image.src}
+								alt={item.image.alt}
+								width="800"
+								height="600"
+								loading="lazy"
+								decoding="async"
+								class="al-product__media"
+							/>
+							<div class="al-product__body">
+								<span class="tag">{item.category}</span>
+								<h3>{item.name}</h3>
+								<p>{item.description}</p>
+								<a
+									href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(`Hola, me interesa cotizar de AL Mueblería: ${item.name}`)}`}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="al-product__cta"
+								>
+									Cotizar por WhatsApp
+								</a>
+							</div>
+						</article>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
+	{/* --- AL 4: cierre + vuelta al ecosistema JZ Inox --- */}
+	<section class="section section--alt">
+		<div class="container">
+			<div class="cta-plate">
+				<div>
+					<h2>{cta.title}</h2>
+					<p>{cta.lead}</p>
+				</div>
+				<div class="cta-band__actions">
+					<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+					<a href={`tel:${site.phoneHref}`} class="btn btn--outline">{site.phoneDisplay}</a>
+				</div>
+			</div>
+
+			<aside class="al-ally">
+				<p>
+					{alMuebleria.name} es marca aliada de <strong>{site.name}</strong>.
+					<a href="/">Volver al inicio</a>
+				</p>
+			</aside>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	/* Marcador de contenido pendiente, mismo tratamiento que en las tarjetas del Inicio */
+	.al-hero__locator {
+		font-family: var(--font-mono);
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+		color: var(--color-accent);
+		margin-bottom: 1rem;
+	}
+
+	.al-hero__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.8rem;
+		margin-top: 1.6rem;
+	}
+
+	.al-service h3 {
+		font-size: 1.02rem;
+	}
+
+	.al-service p {
+		font-size: 0.92rem;
+		margin-bottom: 0;
+	}
+
+	/* --- Piezas del mini-catálogo: imagen a sangre, texto en su propia caja --- */
+	.al-product {
+		display: flex;
+		flex-direction: column;
+	}
+
+	/* `height: auto` es obligatorio: sin él manda el atributo height="600" del
+	   HTML y el aspect-ratio queda ignorado. */
+	.al-product__media {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.al-product__body {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+		padding: 1.4rem 1.35rem;
+	}
+
+	.al-product h3 {
+		font-size: 1rem;
+		margin: 0.7rem 0 0.5rem;
+	}
+
+	.al-product p {
+		font-size: 0.9rem;
+		flex: 1;
+	}
+
+	/* Mismo caso que en /productos: CTA de conversión con 44px de alto táctil */
+	.al-product__cta {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--tap);
+		font-size: 0.88rem;
+		font-weight: 600;
+		color: var(--color-accent);
+	}
+
+	.al-product__cta:hover {
+		text-decoration: underline;
+	}
+
+	.tag {
+		align-self: flex-start;
+	}
+
+	/* --- Anclaje al ecosistema: de vuelta a la marca principal --- */
+	.al-ally {
+		margin-top: 1.5rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius);
+		padding: 1rem 1.35rem;
+		background-color: var(--color-bg);
+	}
+
+	.al-ally p {
+		margin: 0;
+		font-size: 0.9rem;
+	}
+
+	.al-ally a {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--tap);
+		color: var(--color-accent);
+		font-weight: 600;
+		margin-left: 0.5rem;
+	}
+
+	.al-ally a:hover {
+		text-decoration: underline;
+	}
+</style>

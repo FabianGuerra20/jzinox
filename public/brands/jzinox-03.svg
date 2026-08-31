@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Imagen referencial 3 de JZ INOX">
+  <defs>
+    <pattern id="g3#f4f5f6" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#d3d7db" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="#f4f5f6"/>
+  <rect width="800" height="600" fill="url(#g3#f4f5f6)"/>
+  <rect x="60" y="60" width="680" height="480" fill="none" stroke="#b4b9bd" stroke-width="1"/>
+  <path d="M60 60 740 540M740 60 60 540" stroke="#d3d7db" stroke-width="1"/>
+  <rect x="300" y="252" width="200" height="96" fill="#ffffff" stroke="#6f757a" stroke-width="1"/>
+  <text x="400" y="292" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="15" letter-spacing="2" fill="#2b3138">JZ INOX</text>
+  <text x="400" y="318" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="26" letter-spacing="3" fill="#c0392b">03</text>
+  <rect x="60" y="500" width="238" height="40" fill="#2b3138"/>
+  <text x="76" y="526" font-family="ui-monospace, Consolas, monospace" font-size="13" letter-spacing="1.5" fill="#ffffff">IMAGEN REFERENCIAL</text>
+</svg>
