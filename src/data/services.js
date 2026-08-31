@@ -1,16 +1,16 @@
-// Copy de trabajo redactado a partir del mockup del cliente.
-// TODO: validar con JZINOX antes de publicar (alcances, materiales y normativas).
+// Los NOMBRES de servicio son los reales de JZINOX. Las descripciones y viñetas
+// van en lorem ipsum a la espera del texto definitivo del cliente.
 export const services = [
   {
     slug: "equipamiento-cocina",
     title: "Equipamiento de cocina industrial",
     icon: "kitchen",
     summary:
-      "Fabricamos e instalamos líneas de cocción, mesas calientes y muebles de apoyo en acero inoxidable, dimensionados al espacio real de tu cocina.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     details: [
-      "Líneas de cocción y mesas calientes a medida",
-      "Muebles bajo cubierta y módulos de apoyo",
-      "Instalación y puesta en marcha en terreno",
+      "Lorem ipsum dolor sit amet consectetur",
+      "Adipiscing elit sed do eiusmod tempor",
+      "Incididunt ut labore et dolore magna",
     ],
   },
   {
@@ -18,11 +18,11 @@ export const services = [
     title: "Campanas y ductos de extracción",
     icon: "hood",
     summary:
-      "Campanas industriales con filtros desmontables y ductos de extracción en acero inoxidable, diseñados para el caudal que exige tu cocina.",
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     details: [
-      "Campanas murales, centrales y de pared",
-      "Ductos, codos y terminales de descarga",
-      "Filtros tipo bafle desmontables para lavado",
+      "Lorem ipsum dolor sit amet consectetur",
+      "Adipiscing elit sed do eiusmod tempor",
+      "Incididunt ut labore et dolore magna",
     ],
   },
   {
@@ -30,11 +30,11 @@ export const services = [
     title: "Mesones y lavaplatos",
     icon: "counter",
     summary:
-      "Mesones de trabajo, lavaplatos de una o dos cubas y mesas de prelavado con terminaciones sanitarias sin aristas ni juntas expuestas.",
+      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
     details: [
-      "Mesones lisos, con peto o con entrepaño",
-      "Lavaplatos de una, dos y tres cubas",
-      "Mesas de entrada y salida para lavavajillas",
+      "Lorem ipsum dolor sit amet consectetur",
+      "Adipiscing elit sed do eiusmod tempor",
+      "Incididunt ut labore et dolore magna",
     ],
   },
   {
@@ -42,11 +42,11 @@ export const services = [
     title: "Soldadura TIG",
     icon: "tig",
     summary:
-      "Soldadura TIG para acero inoxidable: cordones limpios, sin salpicaduras y con pulido posterior, apta para superficies en contacto con alimentos.",
+      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
     details: [
-      "Uniones sanitarias en cañería y estanques",
-      "Pulido y sanitizado del cordón terminado",
-      "Reparaciones sobre equipos ya instalados",
+      "Lorem ipsum dolor sit amet consectetur",
+      "Adipiscing elit sed do eiusmod tempor",
+      "Incididunt ut labore et dolore magna",
     ],
   },
   {
@@ -54,11 +54,11 @@ export const services = [
     title: "Estanterías y almacenamiento",
     icon: "shelf",
     summary:
-      "Estanterías, repisas murales y carros de transporte en acero inoxidable, pensados para bodegas, cámaras de frío y zonas de despacho.",
+      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
     details: [
-      "Estanterías de piso de 3, 4 y 5 bandejas",
-      "Repisas murales y colgadores de utensilios",
-      "Carros de transporte y bandejeros",
+      "Lorem ipsum dolor sit amet consectetur",
+      "Adipiscing elit sed do eiusmod tempor",
+      "Incididunt ut labore et dolore magna",
     ],
   },
   {
@@ -66,11 +66,19 @@ export const services = [
     title: "Mantención y reparaciones",
     icon: "tools",
     summary:
-      "Reparamos, reforzamos y modificamos equipamiento existente para alargar su vida útil sin tener que reemplazar la línea completa.",
+      "Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt.",
     details: [
-      "Cambio de cubiertas y patas desgastadas",
-      "Refuerzo de estructuras y nivelación",
-      "Reemplazo de filtros y piezas de campana",
+      "Lorem ipsum dolor sit amet consectetur",
+      "Adipiscing elit sed do eiusmod tempor",
+      "Incididunt ut labore et dolore magna",
     ],
   },
+];
+
+// Etapas del proceso de trabajo mostradas en /servicios.
+export const processSteps = [
+  { title: "PASO 1", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do." },
+  { title: "PASO 2", description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco." },
+  { title: "PASO 3", description: "Duis aute irure dolor in reprehenderit in voluptate velit esse." },
+  { title: "PASO 4", description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa." },
 ];

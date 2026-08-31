@@ -1,41 +1,62 @@
-// Copy de trabajo redactado a partir del mockup del cliente.
-// TODO: validar cifras y años de experiencia con JZINOX antes de publicar.
+// CONTENIDO PLACEHOLDER a la espera del texto real del cliente.
+// Cada título es un localizador ("NOSOTROS 2", "VALOR 1", "DATO 1"...) para que
+// el cliente indique exactamente qué debe decir cada bloque. El relleno va en
+// lorem ipsum para que nadie confunda un borrador con contenido aprobado.
 export const history = {
-  eyebrow: "Nuestra historia",
-  title: "Acero inoxidable pensado para cocinas que trabajan todos los días",
+  eyebrow: "Historia",
+  title: "NOSOTROS 2",
   paragraphs: [
-    "JZINOX nace en Cerrillos con un foco claro: equipar cocinas industriales con piezas de acero inoxidable que aguanten el ritmo real de un servicio. No fabricamos catálogo genérico, medimos el espacio, entendemos el flujo de trabajo y recién ahí cortamos.",
-    "Trabajamos con restaurantes, casinos, hoteles, panaderías y cocinas ocultas de la Región Metropolitana. Cada mesón, campana o lavaplatos sale de taller con soldadura TIG pulida, sin aristas vivas ni juntas donde se acumule suciedad.",
-    "Además de fabricar, mantenemos. Reparamos y reforzamos equipamiento existente cuando todavía tiene vida útil, porque reemplazar una línea completa rara vez es la primera respuesta correcta.",
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae.",
   ],
+};
+
+export const mission = {
+  eyebrow: "Misión y visión",
+  title: "NOSOTROS 3",
+  items: [
+    {
+      title: "Misión",
+      description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    },
+    {
+      title: "Visión",
+      description:
+        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    },
+  ],
+};
+
+export const valuesSection = {
+  eyebrow: "Valores",
+  title: "NOSOTROS 4",
 };
 
 export const values = [
   {
-    title: "Terminación sanitaria",
-    description:
-      "Cordones TIG pulidos y cantos sin aristas: superficies que se pueden higienizar de verdad.",
+    title: "VALOR 1",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
   },
   {
-    title: "Medido en terreno",
-    description:
-      "Levantamos la cocina antes de fabricar, para que la pieza entre y calce a la primera.",
+    title: "VALOR 2",
+    description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.",
   },
   {
-    title: "Cumplimiento de plazos",
-    description:
-      "Comprometemos fechas de taller e instalación y las informamos si algo cambia.",
+    title: "VALOR 3",
+    description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.",
   },
   {
-    title: "Acompañamiento posventa",
-    description:
-      "Mantención, ajustes y reparación del equipamiento que fabricamos e instalamos.",
+    title: "VALOR 4",
+    description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.",
   },
 ];
 
+// TODO: el cliente debe confirmar cada cifra antes de publicar.
 export const stats = [
-  { value: "10+", label: "Años de experiencia" },
-  { value: "300+", label: "Proyectos realizados" },
-  { value: "100%", label: "Trabajos con garantía" },
-  { value: "TIG", label: "Soldadura sanitaria" },
+  { value: "00+", label: "DATO 1" },
+  { value: "00+", label: "DATO 2" },
+  { value: "00%", label: "DATO 3" },
+  { value: "00", label: "DATO 4" },
 ];
