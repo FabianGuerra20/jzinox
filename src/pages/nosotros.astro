@@ -122,10 +122,14 @@ import { history, mission, valuesSection, values, stats } from "../data/company.
 	}
 
 	/* Una columna en teléfonos angostos: dos cifras de 1.9rem lado a lado no
-	   caben a 320px sin apretujarse. */
+	   caben a 320px sin apretujarse.
+	   `align-self: start` es necesario: sin él la placa se estira hasta igualar
+	   la altura de la columna de texto y asoma el fondo gris del bento bajo la
+	   última fila de cifras. */
 	.history__stats {
 		grid-template-columns: 1fr;
 		align-content: start;
+		align-self: start;
 	}
 
 	@media (min-width: 420px) {

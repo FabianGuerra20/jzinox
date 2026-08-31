@@ -1,9 +1,10 @@
 /* =============================================================
    JZINOX — Sistema de diseño "Ingeniería limpia y precisión"
    -------------------------------------------------------------
-   Base clara de laboratorio + lenguaje de taller de soldadura.
-   El carácter industrial entra por textura, tipografía técnica y
-   el cordón de soldadura, NO por oscurecer el fondo.
+   Base clara de laboratorio + lenguaje de taller. El carácter
+   industrial entra por el acero oscuro del header y las bandas, la
+   tipografía técnica en mono y las juntas de 1px, NO por oscurecer
+   el fondo ni por texturas decorativas.
 
    Breakpoints (solo dos, deliberadamente):
      640px  → tablet: las grillas pasan a 2 columnas
@@ -34,14 +35,6 @@
   --color-accent: #c0392b;
   --color-accent-dark: #9c2d21;
   --color-accent-light: #d8503f;
-
-  /* Temple del inoxidable soldado con TIG: paja, bronce, violeta, azul.
-     Es el tornasol real que deja el calor junto al cordón. Se usa
-     ÚNICAMENTE en .weld-seam y en ningún otro lugar del sitio. */
-  --weld-straw: rgba(214, 168, 88, 0.42);
-  --weld-bronze: rgba(176, 118, 62, 0.36);
-  --weld-violet: rgba(126, 98, 148, 0.3);
-  --weld-blue: rgba(84, 118, 150, 0.26);
 
   --font-heading: "Archivo", "Segoe UI", sans-serif;
   --font-body: "Inter", "Segoe UI", sans-serif;
@@ -208,64 +201,6 @@ ul {
   color: rgba(255, 255, 255, 0.86);
 }
 
-/* =============================================================
-   CORDÓN DE SOLDADURA TIG — elemento firma
-   -------------------------------------------------------------
-   Un cordón TIG real sobre inoxidable deja escamas solapadas
-   ("stacked dimes") y un tornasol de temple a ambos lados. Es la
-   operación que literalmente une dos placas, así que hace de
-   divisor entre secciones en lugar de una línea gris genérica.
-   CSS puro: dos capas de background, cero imágenes, cero JS.
-   ============================================================= */
-.weld-seam,
-.section--weld::after,
-.page-hero::after {
-  height: 16px;
-  background-repeat: repeat-x, no-repeat;
-  background-position: center, center;
-  /* El paso del patrón (11px) es menor que el ancho de la escama (14px):
-     por eso se solapan, igual que el avance real del electrodo. */
-  background-size: 11px 12px, 100% 100%;
-  background-image:
-    radial-gradient(
-      ellipse 7px 5.5px at 50% 45%,
-      #ffffff 0%,
-      #dde1e5 26%,
-      var(--color-steel-light) 52%,
-      var(--color-steel-dark) 76%,
-      transparent 80%
-    ),
-    linear-gradient(
-      180deg,
-      transparent 0%,
-      var(--weld-blue) 10%,
-      var(--weld-violet) 24%,
-      transparent 40%,
-      transparent 60%,
-      var(--weld-violet) 74%,
-      var(--weld-bronze) 86%,
-      var(--weld-straw) 95%,
-      transparent 100%
-    );
-}
-
-.weld-seam {
-  border: 0;
-  margin: 0;
-  width: 100%;
-}
-
-.section--weld {
-  position: relative;
-}
-
-.section--weld::after,
-.page-hero::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 0 0;
-}
-
 .eyebrow {
   display: inline-block;
   /* Mono en mayúsculas: etiqueta de plano, no titulillo de marketing */
@@ -415,9 +350,9 @@ ul {
 
 /* --- Bloques compartidos entre páginas --- */
 .page-hero {
-  position: relative;
   padding-top: clamp(2.2rem, 5vw, 3.5rem);
   padding-bottom: clamp(2rem, 4.5vw, 2.5rem);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .page-hero h1 {
