@@ -1,39 +1,23 @@
-TEXTOS DEL SITIO WEB JZ INOX
-
-Escriba su texto después del "=" de cada línea.
-Los códigos son los mismos que aparecen hoy en la web, así que puede abrir
-el sitio y ver dónde va cada uno.
-
-
-===========================================
 INICIO
-===========================================
 
 Inicio 1 =
 Inicio 1 texto =
-
 Inicio 2 =
 Inicio 2 texto =
-
 Inicio 3 =
 Inicio 3 texto =
-
 Inicio 4 =
 Inicio 4 texto =
 
 
-===========================================
 NOSOTROS
-===========================================
 
 Nosotros 1 =
 Nosotros 1 texto =
-
 Nosotros 2 =
 Nosotros 2 texto 1 =
 Nosotros 2 texto 2 =
 Nosotros 2 texto 3 =
-
 Dato 1 cifra =
 Dato 1 texto =
 Dato 2 cifra =
@@ -42,13 +26,11 @@ Dato 3 cifra =
 Dato 3 texto =
 Dato 4 cifra =
 Dato 4 texto =
-
 Nosotros 3 =
 Nosotros 3.1 =
 Nosotros 3.1 texto =
 Nosotros 3.2 =
 Nosotros 3.2 texto =
-
 Nosotros 4 =
 Valor 1 =
 Valor 1 texto =
@@ -58,60 +40,48 @@ Valor 3 =
 Valor 3 texto =
 Valor 4 =
 Valor 4 texto =
-
 Nosotros 5 =
 Nosotros 5 texto =
 
 
-===========================================
 SERVICIOS
-===========================================
 
 Servicios 1 =
 Servicios 1 texto =
-
 Servicios 2 =
 Servicios 2 texto =
-
 Servicio 1 =
 Servicio 1 texto =
 Servicio 1 viñeta 1 =
 Servicio 1 viñeta 2 =
 Servicio 1 viñeta 3 =
-
 Servicio 2 =
 Servicio 2 texto =
 Servicio 2 viñeta 1 =
 Servicio 2 viñeta 2 =
 Servicio 2 viñeta 3 =
-
 Servicio 3 =
 Servicio 3 texto =
 Servicio 3 viñeta 1 =
 Servicio 3 viñeta 2 =
 Servicio 3 viñeta 3 =
-
 Servicio 4 =
 Servicio 4 texto =
 Servicio 4 viñeta 1 =
 Servicio 4 viñeta 2 =
 Servicio 4 viñeta 3 =
-
 Servicio 5 =
 Servicio 5 texto =
 Servicio 5 viñeta 1 =
 Servicio 5 viñeta 2 =
 Servicio 5 viñeta 3 =
-
 Servicio 6 =
 Servicio 6 texto =
 Servicio 6 viñeta 1 =
 Servicio 6 viñeta 2 =
 Servicio 6 viñeta 3 =
-
 Servicios 3 =
 Servicios 3 texto =
-
 Paso 1 =
 Paso 1 texto =
 Paso 2 =
@@ -120,117 +90,88 @@ Paso 3 =
 Paso 3 texto =
 Paso 4 =
 Paso 4 texto =
-
 Servicios 4 =
 Servicios 4 texto =
 
 
-===========================================
 PRODUCTOS
-===========================================
 
 Productos 1 =
 Productos 1 texto =
-
 Productos 2 =
 Productos 2 texto =
 
 
-===========================================
 CATÁLOGO
-===========================================
 
 Catálogo 1 =
 Catálogo 1 texto =
-
 Catálogo 2 =
 Catálogo 2 texto =
-
 Categoría 1 =
 Categoría 2 =
 Categoría 3 =
 Categoría 4 =
 Categoría 5 =
-
 Producto 1 =
 Producto 1 texto =
 Producto 1 precio =
-
 Producto 2 =
 Producto 2 texto =
 Producto 2 precio =
-
 Producto 3 =
 Producto 3 texto =
 Producto 3 precio =
-
 Producto 4 =
 Producto 4 texto =
 Producto 4 precio =
-
 Producto 5 =
 Producto 5 texto =
 Producto 5 precio =
-
 Producto 6 =
 Producto 6 texto =
 Producto 6 precio =
-
 Producto 7 =
 Producto 7 texto =
 Producto 7 precio =
-
 Producto 8 =
 Producto 8 texto =
 Producto 8 precio =
-
 Producto 9 =
 Producto 9 texto =
 Producto 9 precio =
-
 Producto 10 =
 Producto 10 texto =
 Producto 10 precio =
-
 Producto 11 =
 Producto 11 texto =
 Producto 11 precio =
-
 Producto 12 =
 Producto 12 texto =
 Producto 12 precio =
-
 Producto 13 =
 Producto 13 texto =
 Producto 13 precio =
-
 Producto 14 =
 Producto 14 texto =
 Producto 14 precio =
-
 Producto 15 =
 Producto 15 texto =
 Producto 15 precio =
 
 
-===========================================
 CONTACTO
-===========================================
 
 Contacto 1 =
 Contacto 1 texto =
 
 
-===========================================
 AL MUEBLERÍA
-===========================================
 
 AL 1 =
 AL 1 texto =
-
 AL 2 =
 AL 2 texto =
-
 Servicio AL 1 =
 Servicio AL 1 texto =
 Servicio AL 2 =
@@ -239,13 +180,10 @@ Servicio AL 3 =
 Servicio AL 3 texto =
 Servicio AL 4 =
 Servicio AL 4 texto =
-
 AL 3 =
 AL 3 texto =
-
 Categoría AL 1 =
 Categoría AL 2 =
-
 Producto AL 1 =
 Producto AL 1 texto =
 Producto AL 2 =
@@ -254,30 +192,5 @@ Producto AL 3 =
 Producto AL 3 texto =
 Producto AL 4 =
 Producto AL 4 texto =
-
 AL 4 =
 AL 4 texto =
-
-
-===========================================
-DATOS A CONFIRMAR
-===========================================
-
-Teléfono (hoy +56 9 3188 9950) =
-Correo (hoy ventas@jzinox.cl) =
-Dirección (hoy Av. Departamental 999, Galpón 11) =
-Comuna (falta) =
-Horario (hoy Lun-Vie 9:00-18:00, Sáb 9:00-13:00) =
-
-
-===========================================
-FOTOS
-===========================================
-
-Hoy no hay ninguna foto real, son todos recuadros grises.
-
-1 foto principal (la grande del inicio) =
-3 fotos de trabajos JZ INOX =
-3 fotos de trabajos AL Mueblería =
-4 fotos de muebles AL Mueblería =
-Fotos de productos del catálogo (opcional) =
