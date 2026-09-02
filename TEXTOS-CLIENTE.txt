@@ -1,563 +1,283 @@
-===============================================================================
-  SITIO WEB JZ INOX  ·  PLANILLA DE TEXTOS
-===============================================================================
+TEXTOS DEL SITIO WEB JZ INOX
+
+Escriba su texto después del "=" de cada línea.
+Los códigos son los mismos que aparecen hoy en la web, así que puede abrir
+el sitio y ver dónde va cada uno.
+
+
+===========================================
+INICIO
+===========================================
+
+Inicio 1 =
+Inicio 1 texto =
+
+Inicio 2 =
+Inicio 2 texto =
+
+Inicio 3 =
+Inicio 3 texto =
+
+Inicio 4 =
+Inicio 4 texto =
+
+
+===========================================
+NOSOTROS
+===========================================
+
+Nosotros 1 =
+Nosotros 1 texto =
+
+Nosotros 2 =
+Nosotros 2 texto 1 =
+Nosotros 2 texto 2 =
+Nosotros 2 texto 3 =
+
+Dato 1 cifra =
+Dato 1 texto =
+Dato 2 cifra =
+Dato 2 texto =
+Dato 3 cifra =
+Dato 3 texto =
+Dato 4 cifra =
+Dato 4 texto =
+
+Nosotros 3 =
+Nosotros 3.1 =
+Nosotros 3.1 texto =
+Nosotros 3.2 =
+Nosotros 3.2 texto =
+
+Nosotros 4 =
+Valor 1 =
+Valor 1 texto =
+Valor 2 =
+Valor 2 texto =
+Valor 3 =
+Valor 3 texto =
+Valor 4 =
+Valor 4 texto =
+
+Nosotros 5 =
+Nosotros 5 texto =
+
+
+===========================================
+SERVICIOS
+===========================================
+
+Servicios 1 =
+Servicios 1 texto =
+
+Servicios 2 =
+Servicios 2 texto =
+
+Servicio 1 =
+Servicio 1 texto =
+Servicio 1 viñeta 1 =
+Servicio 1 viñeta 2 =
+Servicio 1 viñeta 3 =
+
+Servicio 2 =
+Servicio 2 texto =
+Servicio 2 viñeta 1 =
+Servicio 2 viñeta 2 =
+Servicio 2 viñeta 3 =
+
+Servicio 3 =
+Servicio 3 texto =
+Servicio 3 viñeta 1 =
+Servicio 3 viñeta 2 =
+Servicio 3 viñeta 3 =
+
+Servicio 4 =
+Servicio 4 texto =
+Servicio 4 viñeta 1 =
+Servicio 4 viñeta 2 =
+Servicio 4 viñeta 3 =
+
+Servicio 5 =
+Servicio 5 texto =
+Servicio 5 viñeta 1 =
+Servicio 5 viñeta 2 =
+Servicio 5 viñeta 3 =
 
-  Hola. El sitio ya está construido y funcionando, pero todavía muestra textos
-  de relleno. Este documento es la lista de TODOS los huecos de texto que hay
-  que completar.
+Servicio 6 =
+Servicio 6 texto =
+Servicio 6 viñeta 1 =
+Servicio 6 viñeta 2 =
+Servicio 6 viñeta 3 =
 
-  CÓMO USARLO
-  -----------
-  1. Cada hueco tiene un código entre corchetes, por ejemplo [INICIO 1].
-     Ese mismo código es el que aparece hoy en la web, así que puede abrir el
-     sitio y ver exactamente dónde va cada texto.
-  2. Escriba su texto en la línea que empieza con ">".
-  3. Si un hueco no le interesa, escriba ">  QUITAR" y lo eliminamos.
-  4. No hace falta que lo llene todo de una vez. Puede mandarlo por partes.
+Servicios 3 =
+Servicios 3 texto =
+
+Paso 1 =
+Paso 1 texto =
+Paso 2 =
+Paso 2 texto =
+Paso 3 =
+Paso 3 texto =
+Paso 4 =
+Paso 4 texto =
 
-  QUÉ SIGNIFICA "SE SUGIERE"
-  --------------------------
-  Es solo una referencia de largo para que el texto calce bien en el diseño.
-  No es una regla: si necesita más o menos, lo ajustamos.
+Servicios 4 =
+Servicios 4 texto =
 
-  DÓNDE DICE "IDEA ORIGINAL"
-  --------------------------
-  Es lo que habíamos pensado poner en ese hueco. Sirve de guía. Puede
-  cambiarlo por completo.
 
-===============================================================================
-  PÁGINA 1  ·  INICIO
-===============================================================================
+===========================================
+PRODUCTOS
+===========================================
 
-[INICIO 1]  TITULAR PRINCIPAL DEL SITIO
-  Dónde se ve: el texto grande en blanco, sobre la foto del taller.
-  Es lo primero que lee un visitante y lo que Google usa para posicionar.
-  Se sugiere: 3 a 7 palabras. Conviene que mencione el rubro.
->
+Productos 1 =
+Productos 1 texto =
 
+Productos 2 =
+Productos 2 texto =
 
-[INICIO 1-B]  PÁRRAFO BAJO EL TITULAR
-  Se sugiere: 2 o 3 líneas.
->
 
+===========================================
+CATÁLOGO
+===========================================
 
--------------------------------------------------------------------------------
-  BLOQUE DE LA MARCA JZ INOX (mitad de la portada)
--------------------------------------------------------------------------------
+Catálogo 1 =
+Catálogo 1 texto =
 
-[INICIO 2]  BAJADA DE JZ INOX
-  Dónde se ve: la línea roja pequeña sobre el nombre "JZ INOX".
-  Se sugiere: 2 a 5 palabras.
->
+Catálogo 2 =
+Catálogo 2 texto =
 
+Categoría 1 =
+Categoría 2 =
+Categoría 3 =
+Categoría 4 =
+Categoría 5 =
 
-[INICIO 2-B]  PÁRRAFO DE PRESENTACIÓN DE JZ INOX
-  Se sugiere: 2 líneas.
->
+Producto 1 =
+Producto 1 texto =
+Producto 1 precio =
 
+Producto 2 =
+Producto 2 texto =
+Producto 2 precio =
 
-  PRODUCTOS DESTACADOS EN LA PORTADA
-  Son 4 productos que aparecen en la portada. Los nombres se completan más
-  abajo, en la sección del CATÁLOGO (los números coinciden).
-  Aquí solo va la frase corta que acompaña a cada uno.
+Producto 3 =
+Producto 3 texto =
+Producto 3 precio =
 
-  [PRODUCTO 1]  frase corta   >
-  [PRODUCTO 4]  frase corta   >
-  [PRODUCTO 5]  frase corta   >
-  [PRODUCTO 10] frase corta   >
+Producto 4 =
+Producto 4 texto =
+Producto 4 precio =
 
-  ¿Prefiere destacar otros productos? Indíquelo aquí:
->
+Producto 5 =
+Producto 5 texto =
+Producto 5 precio =
 
+Producto 6 =
+Producto 6 texto =
+Producto 6 precio =
 
--------------------------------------------------------------------------------
-  BLOQUE DE LA MARCA AL MUEBLERÍA (mitad de la portada)
--------------------------------------------------------------------------------
+Producto 7 =
+Producto 7 texto =
+Producto 7 precio =
 
-[INICIO 3]  BAJADA DE AL MUEBLERÍA
-  Se sugiere: 2 a 5 palabras.
->
+Producto 8 =
+Producto 8 texto =
+Producto 8 precio =
 
+Producto 9 =
+Producto 9 texto =
+Producto 9 precio =
 
-[INICIO 3-B]  PÁRRAFO DE PRESENTACIÓN DE AL MUEBLERÍA
-  Se sugiere: 2 líneas.
->
+Producto 10 =
+Producto 10 texto =
+Producto 10 precio =
 
+Producto 11 =
+Producto 11 texto =
+Producto 11 precio =
 
-  PRODUCTOS DESTACADOS DE AL MUEBLERÍA
-  Los nombres se completan en la sección de AL MUEBLERÍA, más abajo.
+Producto 12 =
+Producto 12 texto =
+Producto 12 precio =
 
-  [PRODUCTO AL 1]  frase corta   >
-  [PRODUCTO AL 2]  frase corta   >
-  [PRODUCTO AL 3]  frase corta   >
-  [PRODUCTO AL 4]  frase corta   >
+Producto 13 =
+Producto 13 texto =
+Producto 13 precio =
 
--------------------------------------------------------------------------------
+Producto 14 =
+Producto 14 texto =
+Producto 14 precio =
 
-[INICIO 4]  TÍTULO DEL CIERRE DE LA PORTADA
-  Dónde se ve: el bloque gris del final, junto a los botones de contacto.
-  Es una invitación a cotizar. Se sugiere: 3 a 6 palabras.
->
+Producto 15 =
+Producto 15 texto =
+Producto 15 precio =
 
 
-[INICIO 4-B]  PÁRRAFO DEL CIERRE
-  Se sugiere: 1 línea.
->
+===========================================
+CONTACTO
+===========================================
 
+Contacto 1 =
+Contacto 1 texto =
 
-===============================================================================
-  PÁGINA 2  ·  NOSOTROS
-===============================================================================
 
-[NOSOTROS 1]  TÍTULO DE LA PÁGINA
->
+===========================================
+AL MUEBLERÍA
+===========================================
 
-[NOSOTROS 1-B]  PÁRRAFO DE ENTRADA
-  Se sugiere: 2 o 3 líneas.
->
+AL 1 =
+AL 1 texto =
 
+AL 2 =
+AL 2 texto =
 
--------------------------------------------------------------------------------
+Servicio AL 1 =
+Servicio AL 1 texto =
+Servicio AL 2 =
+Servicio AL 2 texto =
+Servicio AL 3 =
+Servicio AL 3 texto =
+Servicio AL 4 =
+Servicio AL 4 texto =
 
-[NOSOTROS 2]  TÍTULO DE LA HISTORIA DE LA EMPRESA
->
+AL 3 =
+AL 3 texto =
 
-  TRES PÁRRAFOS DE HISTORIA
-  Cuándo partieron, cómo, qué hacen hoy, qué los diferencia.
-  Se sugiere: 3 o 4 líneas cada uno.
+Categoría AL 1 =
+Categoría AL 2 =
 
-  Párrafo 1 >
+Producto AL 1 =
+Producto AL 1 texto =
+Producto AL 2 =
+Producto AL 2 texto =
+Producto AL 3 =
+Producto AL 3 texto =
+Producto AL 4 =
+Producto AL 4 texto =
 
-  Párrafo 2 >
+AL 4 =
+AL 4 texto =
 
-  Párrafo 3 >
 
+===========================================
+DATOS A CONFIRMAR
+===========================================
 
-  CUATRO CIFRAS DESTACADAS
-  Números que dan confianza. Ejemplos del tipo de dato que suele ir aquí:
-  años de experiencia, proyectos entregados, clientes atendidos, % de
-  cumplimiento de plazos.
-  IMPORTANTE: solo cifras que pueda respaldar. No inventamos números.
+Teléfono (hoy +56 9 3188 9950) =
+Correo (hoy ventas@jzinox.cl) =
+Dirección (hoy Av. Departamental 999, Galpón 11) =
+Comuna (falta) =
+Horario (hoy Lun-Vie 9:00-18:00, Sáb 9:00-13:00) =
 
-  [DATO 1]  cifra >                  texto bajo la cifra >
-  [DATO 2]  cifra >                  texto bajo la cifra >
-  [DATO 3]  cifra >                  texto bajo la cifra >
-  [DATO 4]  cifra >                  texto bajo la cifra >
 
--------------------------------------------------------------------------------
+===========================================
+FOTOS
+===========================================
 
-[NOSOTROS 3]  TÍTULO DEL BLOQUE MISIÓN Y VISIÓN
->
+Hoy no hay ninguna foto real, son todos recuadros grises.
 
-  [NOSOTROS 3.1]  MISIÓN
-    Título   >
-    Texto    >
-
-  [NOSOTROS 3.2]  VISIÓN
-    Título   >
-    Texto    >
-
--------------------------------------------------------------------------------
-
-[NOSOTROS 4]  TÍTULO DEL BLOQUE DE VALORES
->
-
-  CUATRO VALORES DE LA EMPRESA
-  Se sugiere: título de 1 o 2 palabras + una línea de explicación.
-
-  [VALOR 1]  título >                texto >
-  [VALOR 2]  título >                texto >
-  [VALOR 3]  título >                texto >
-  [VALOR 4]  título >                texto >
-
--------------------------------------------------------------------------------
-
-[NOSOTROS 5]  TÍTULO DEL CIERRE
->
-
-[NOSOTROS 5-B]  PÁRRAFO DEL CIERRE
->
-
-
-===============================================================================
-  PÁGINA 3  ·  SERVICIOS
-===============================================================================
-
-[SERVICIOS 1]  TÍTULO DE LA PÁGINA
->
-
-[SERVICIOS 1-B]  PÁRRAFO DE ENTRADA
->
-
-
-[SERVICIOS 2]  TÍTULO DEL LISTADO DE SERVICIOS
->
-
-[SERVICIOS 2-B]  PÁRRAFO DEL LISTADO
->
-
-
--------------------------------------------------------------------------------
-  LOS SEIS SERVICIOS
-  Cada uno lleva: nombre, una descripción breve y tres viñetas cortas.
-  Las viñetas son datos concretos: materiales, medidas, plazos, garantías.
--------------------------------------------------------------------------------
-
-[SERVICIO 1]   IDEA ORIGINAL: equipamiento de cocina industrial
-  Nombre       >
-  Descripción  >
-  Viñeta 1     >
-  Viñeta 2     >
-  Viñeta 3     >
-
-[SERVICIO 2]   IDEA ORIGINAL: campanas y ductos de extracción
-  Nombre       >
-  Descripción  >
-  Viñeta 1     >
-  Viñeta 2     >
-  Viñeta 3     >
-
-[SERVICIO 3]   IDEA ORIGINAL: mesones y lavaplatos
-  Nombre       >
-  Descripción  >
-  Viñeta 1     >
-  Viñeta 2     >
-  Viñeta 3     >
-
-[SERVICIO 4]   IDEA ORIGINAL: soldadura TIG
-  Nombre       >
-  Descripción  >
-  Viñeta 1     >
-  Viñeta 2     >
-  Viñeta 3     >
-
-[SERVICIO 5]   IDEA ORIGINAL: estanterías y almacenamiento
-  Nombre       >
-  Descripción  >
-  Viñeta 1     >
-  Viñeta 2     >
-  Viñeta 3     >
-
-[SERVICIO 6]   IDEA ORIGINAL: mantención y reparaciones
-  Nombre       >
-  Descripción  >
-  Viñeta 1     >
-  Viñeta 2     >
-  Viñeta 3     >
-
-  ¿Falta algún servicio, o sobra alguno de estos? Indíquelo aquí:
->
-
-
--------------------------------------------------------------------------------
-
-[SERVICIOS 3]  TÍTULO DEL BLOQUE "CÓMO TRABAJAMOS"
->
-
-[SERVICIOS 3-B]  PÁRRAFO DEL BLOQUE
->
-
-
-  LAS CUATRO ETAPAS DE UN TRABAJO
-  Desde que el cliente llama hasta que recibe el equipo instalado.
-  Ejemplo del tipo de etapa: visita y medición / cotización / fabricación /
-  instalación y entrega.
-
-  [PASO 1]  título >                 texto >
-  [PASO 2]  título >                 texto >
-  [PASO 3]  título >                 texto >
-  [PASO 4]  título >                 texto >
-
--------------------------------------------------------------------------------
-
-[SERVICIOS 4]  TÍTULO DEL CIERRE
->
-
-[SERVICIOS 4-B]  PÁRRAFO DEL CIERRE
->
-
-
-===============================================================================
-  PÁGINAS 4 y 5  ·  PRODUCTOS y CATÁLOGO
-===============================================================================
-
-  Los productos son los mismos en las dos páginas. Se completan una sola vez.
-  La diferencia: /productos los muestra por categoría y /catalogo agrega el
-  precio de referencia.
-
-[PRODUCTOS 1]  TÍTULO DE LA PÁGINA PRODUCTOS
->
-
-[PRODUCTOS 1-B]  PÁRRAFO DE ENTRADA
->
-
-
-[PRODUCTOS 2]  TÍTULO DEL CIERRE DE PRODUCTOS
->
-
-[PRODUCTOS 2-B]  PÁRRAFO DEL CIERRE
->
-
-
-[CATÁLOGO 1]  TÍTULO DE LA PÁGINA CATÁLOGO
->
-
-[CATÁLOGO 1-B]  PÁRRAFO DE ENTRADA
->
-
-
-[CATÁLOGO 2]  TÍTULO DEL CIERRE DEL CATÁLOGO
->
-
-[CATÁLOGO 2-B]  PÁRRAFO DEL CIERRE
->
-
-
--------------------------------------------------------------------------------
-  LAS CINCO CATEGORÍAS
-  Son los grupos en que se ordenan los productos.
--------------------------------------------------------------------------------
-
-  [CATEGORÍA 1]  IDEA ORIGINAL: Cocción              >
-  [CATEGORÍA 2]  IDEA ORIGINAL: Extracción           >
-  [CATEGORÍA 3]  IDEA ORIGINAL: Mesones y Lavado     >
-  [CATEGORÍA 4]  IDEA ORIGINAL: Almacenamiento       >
-  [CATEGORÍA 5]  IDEA ORIGINAL: Estructuras          >
-
--------------------------------------------------------------------------------
-  LOS QUINCE PRODUCTOS
-
-  ATENCIÓN CON LOS PRECIOS: los que están hoy en la web son inventados, solo
-  para probar el diseño. NO se puede publicar así. Necesitamos su lista real.
-  Si prefiere no mostrar precios, escriba "A COTIZAR" y dejamos solo el botón.
--------------------------------------------------------------------------------
-
-[PRODUCTO 1]   IDEA ORIGINAL: mesón de trabajo en acero inoxidable
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 2]   IDEA ORIGINAL: mesón con entrepaño inferior
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 3]   IDEA ORIGINAL: lavaplatos industrial de una cuba
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 4]   IDEA ORIGINAL: lavaplatos industrial de dos cubas
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 5]   IDEA ORIGINAL: campana extractora mural
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 6]   IDEA ORIGINAL: campana extractora central
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 7]   IDEA ORIGINAL: ducto de extracción en acero inoxidable
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 8]   IDEA ORIGINAL: mesa caliente / baño maría
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 9]   IDEA ORIGINAL: mueble base para línea de cocción
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 10]  IDEA ORIGINAL: estantería de acero inoxidable
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 11]  IDEA ORIGINAL: repisa mural en acero inoxidable
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 12]  IDEA ORIGINAL: carro de transporte bandejero
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 13]  IDEA ORIGINAL: estanque industrial en acero inoxidable
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 14]  IDEA ORIGINAL: estructura y base de soporte a medida
-  Nombre >                    Descripción >                    Precio >
-
-[PRODUCTO 15]  IDEA ORIGINAL: proyecto de cocina completa
-  Nombre >                    Descripción >                    Precio >
-
-  ¿Faltan productos? Agréguelos aquí, con el mismo formato:
->
-
-
-===============================================================================
-  PÁGINA 6  ·  CONTACTO
-===============================================================================
-
-[CONTACTO 1]  TÍTULO DE LA PÁGINA
->
-
-[CONTACTO 1-B]  PÁRRAFO DE ENTRADA
-  Se sugiere: 2 líneas. Es el momento en que el cliente decide escribirle.
->
-
-
-===============================================================================
-  PÁGINA 7  ·  AL MUEBLERÍA
-===============================================================================
-
-  Esta página presenta a su marca aliada dentro del sitio de JZ INOX.
-  Si estos textos los entrega AL Mueblería, pásele esta sección.
-
-[AL 1]  BAJADA DE LA MARCA
-  Dónde se ve: la línea roja pequeña bajo el título "AL MUEBLERÍA".
->
-
-[AL 1-B]  PÁRRAFO DE PRESENTACIÓN
-  Se sugiere: 3 líneas.
->
-
-
--------------------------------------------------------------------------------
-
-[AL 2]  TÍTULO DEL BLOQUE DE SERVICIOS
->
-
-[AL 2-B]  PÁRRAFO DEL BLOQUE
->
-
-
-  LOS CUATRO SERVICIOS DE AL MUEBLERÍA
-
-  [SERVICIO AL 1]  IDEA ORIGINAL: mueblería de línea plana
-    Nombre >                      Descripción >
-
-  [SERVICIO AL 2]  IDEA ORIGINAL: diseño y medición a medida
-    Nombre >                      Descripción >
-
-  [SERVICIO AL 3]  IDEA ORIGINAL: fabricación en taller
-    Nombre >                      Descripción >
-
-  [SERVICIO AL 4]  IDEA ORIGINAL: instalación y armado
-    Nombre >                      Descripción >
-
--------------------------------------------------------------------------------
-
-[AL 3]  TÍTULO DEL MINI-CATÁLOGO
->
-
-[AL 3-B]  PÁRRAFO DEL MINI-CATÁLOGO
->
-
-
-  LAS CUATRO PIEZAS DESTACADAS
-
-  [PRODUCTO AL 1]  IDEA ORIGINAL: clóset de línea plana
-    Nombre >              Categoría >              Descripción >
-
-  [PRODUCTO AL 2]  IDEA ORIGINAL: cómoda de cajones
-    Nombre >              Categoría >              Descripción >
-
-  [PRODUCTO AL 3]  IDEA ORIGINAL: velador de dormitorio
-    Nombre >              Categoría >              Descripción >
-
-  [PRODUCTO AL 4]  IDEA ORIGINAL: repisa mural modular
-    Nombre >              Categoría >              Descripción >
-
-  Categorías de AL Mueblería (la idea original era Dormitorio y Living):
-  [CATEGORÍA AL 1] >
-  [CATEGORÍA AL 2] >
-
--------------------------------------------------------------------------------
-
-[AL 4]  TÍTULO DEL CIERRE
->
-
-[AL 4-B]  PÁRRAFO DEL CIERRE
->
-
-
-===============================================================================
-  DATOS DE LA EMPRESA  ·  CONFIRMAR
-===============================================================================
-
-  Estos datos ya están cargados en el sitio. Solo confírmelos o corríjalos.
-  Aparecen en el pie de página, en Contacto y en la ficha de Google.
-
-  Teléfono / WhatsApp    +56 9 3188 9950
-  ¿Correcto? >
-
-  Correo                 ventas@jzinox.cl
-  ¿Correcto? >
-
-  Dirección              Av. Departamental 999, Galpón 11
-  ¿Correcto? >
-
-  COMUNA — ESTE DATO FALTA
-  Av. Departamental cruza La Florida, Macul y San Joaquín, así que no
-  podemos deducirla. Es importante: Google la usa para mostrar el negocio
-  en las búsquedas cercanas.
-  Comuna >
-
-  Horario                Lunes a viernes 9:00-18:00  ·  Sábado 9:00-13:00
-  ¿Correcto? >
-
-  Zona de trabajo: ¿atiende solo la Región Metropolitana o también regiones?
->
-
-
-===============================================================================
-  FOTOGRAFÍAS  ·  LO QUE MÁS FALTA
-===============================================================================
-
-  Hoy el sitio no tiene ni una foto real: todo lo que se ve son recuadros
-  grises de relleno. Es lo que más le falta para verse profesional.
-
-  Lo necesario, por orden de importancia:
-
-  1. FOTO PRINCIPAL (1 imagen)
-     Es la que se ve al entrar, a pantalla completa. La más importante.
-     Ideal: el taller trabajando, o un mesón terminado bien iluminado.
-     Horizontal, la mejor que tenga.
-
-  2. TRABAJOS DE JZ INOX (3 imágenes)
-     Van en un carrusel en la portada. Cocinas instaladas, mesones,
-     campanas. Que se vea el acero limpio.
-
-  3. TRABAJOS DE AL MUEBLERÍA (3 imágenes)
-     Mismo formato, para su bloque en la portada.
-
-  4. PIEZAS DE AL MUEBLERÍA (4 imágenes)
-     Una por cada mueble del mini-catálogo.
-
-  5. PRODUCTOS DEL CATÁLOGO (opcional, hasta 15)
-     Una por producto. Mejora mucho la página, pero puede venir después.
-
-  Cómo mandarlas: desde el celular sirve, con buena luz y sin filtros.
-  Mejor de día, cerca de una ventana o del portón. Sin apuro por el peso:
-  mándelas en el tamaño original y nosotros las optimizamos.
-
-  Ojo: si una foto tiene personas identificables, necesitamos su permiso
-  para publicarla.
-
-
-===============================================================================
-  TEXTOS LEGALES  ·  PENDIENTES
-===============================================================================
-
-  En el pie del sitio hay dos enlaces que todavía no llevan a ninguna parte:
-
-  - Aviso de Privacidad
-  - Términos de Servicio
-
-  Como el formulario de contacto recibe datos personales (nombre, teléfono,
-  correo), el aviso de privacidad conviene tenerlo. Díganos si:
-
-  [ ] Los redacta usted o su abogado y nos los envía
-  [ ] Prefiere que preparemos un borrador base para que lo revise
-  [ ] Por ahora quitamos los dos enlaces del pie
-
-  Su elección >
-
-
-===============================================================================
-  FIN DE LA PLANILLA
-===============================================================================
-
-  Cuando la tenga lista, devuélvala por el mismo medio.
-  Si prefiere mandar los textos en un Word, un correo o audios de WhatsApp,
-  también sirve: lo importante es que cada texto venga con su código entre
-  corchetes para saber dónde va.
-
-  Cualquier duda sobre un hueco en particular, pregunte por su código.
+1 foto principal (la grande del inicio) =
+3 fotos de trabajos JZ INOX =
+3 fotos de trabajos AL Mueblería =
+4 fotos de muebles AL Mueblería =
+Fotos de productos del catálogo (opcional) =
