@@ -4,10 +4,10 @@ import { site } from "../data/site.js";
 ---
 
 <Layout title="Gracias" description="Gracias por contactar a JZINOX.">
-	<section class="section thanks">
+	<section class="section thanks" aria-labelledby="gracias-titulo">
 		<div class="container thanks__inner">
 			<span class="eyebrow">Mensaje enviado</span>
-			<h1>¡Gracias por escribirnos!</h1>
+			<h1 id="gracias-titulo">¡Gracias por escribirnos!</h1>
 			<p>
 				Recibimos tu mensaje y te responderemos a la brevedad. Si tu consulta es urgente,
 				contáctanos directamente por WhatsApp.
@@ -23,22 +23,56 @@ import { site } from "../data/site.js";
 </Layout>
 
 <style>
+	/* El header es `fixed` y <main> ya compensa sus 80px. Con los 6rem fijos
+	   que tenía la sección, esa compensación se sumaba y el bloque quedaba
+	   pegado al techo con el resto del viewport vacío. Ahora la sección ocupa
+	   exactamente el alto visible que queda bajo la barra y centra en él su
+	   contenido: el padding pasa a ser solo un mínimo para pantallas cortas. */
 	.thanks {
-		padding-top: 6rem;
-		padding-bottom: 6rem;
+		display: flex;
+		align-items: center;
+		min-height: calc(100vh - var(--header-height));
+		min-height: calc(100svh - var(--header-height));
+		padding-block: clamp(3rem, 8vw, 4.5rem);
 		text-align: center;
 	}
 
+	/* Medida de lectura constante. `.container` pasa de 20px a 64px de padding
+	   lateral en escritorio: sobre una columna corta eso encogía el texto a
+	   432px. Se fija el margen lateral y se compensa en el max-width. */
 	.thanks__inner {
-		max-width: 560px;
+		max-width: calc(600px + var(--margin-mobile) * 2);
 		margin: 0 auto;
+	}
+
+	@media (min-width: 1024px) {
+		.thanks__inner {
+			padding-inline: var(--margin-mobile);
+		}
+	}
+
+	/* La escala global del h1 llega a 64px: dentro de una columna de 600px el
+	   titular pesa como una portada y esto es un acuse de recibo. Se rebaja
+	   SOLO el techo de escritorio (64 → 48px). El suelo se mantiene en los
+	   40px que fija la escala del mockup: por debajo, en móvil, el h1 caía a
+	   32px y quedaba del mismo tamaño que un h2. El margen inferior lo sigue
+	   dando la regla global (0.6em), que ya escala con el cuerpo. */
+	.thanks h1 {
+		font-size: clamp(2.5rem, 4.5vw, 3rem);
+	}
+
+	/* Mismo cuerpo de entradilla que `.page-hero p` (18px) */
+	.thanks p {
+		font-size: 1.125rem;
+		margin-bottom: 0;
 	}
 
 	.thanks__actions {
 		display: flex;
+		align-items: center;
 		justify-content: center;
 		flex-wrap: wrap;
 		gap: 1rem;
-		margin-top: 1.5rem;
+		margin-top: 2rem;
 	}
 </style>

@@ -22,83 +22,108 @@ import { site } from "../data/site.js";
 	<section class="section section--alt contact">
 		<div class="container">
 			<div class="bento contact__grid">
-			<div class="bento__cell bento__cell--accent contact__info">
-				<h2>Datos de contacto</h2>
+				<div class="bento__cell bento__cell--accent contact__info">
+					<h2>Datos de contacto</h2>
 
-				<ul class="contact__list">
-					<li>
-						<strong>Teléfono / WhatsApp</strong>
-						<a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>
-					</li>
-					<li>
-						<strong>Correo</strong>
-						<a href={`mailto:${site.email}`}>{site.email}</a>
-					</li>
-					<li>
-						<strong>Taller</strong>
-						<span>{site.street}<br />{site.city}, {site.region}</span>
-					</li>
-					<li>
-						<strong>Horario de atención</strong>
-						<span>
+					{/* Lista de definiciones: cada dato es un par etiqueta/valor, no
+					    texto enfatizado dentro de una lista de ítems. */}
+					<dl class="contact__list">
+						<dt>Teléfono / WhatsApp</dt>
+						<dd><a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a></dd>
+
+						<dt>Correo</dt>
+						<dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+
+						<dt>Taller</dt>
+						<dd>{site.street}<br />{site.city}, {site.region}</dd>
+
+						<dt>Horario de atención</dt>
+						<dd>
 							{site.hoursLines.map((line) => <span class="contact__line">{line}</span>)}
-						</span>
-					</li>
-				</ul>
+						</dd>
+					</dl>
 
-				<a
-					href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`}
-					target="_blank"
-					rel="noopener noreferrer"
-					class="btn btn--ghost contact__wa"
+					<a
+						href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`}
+						target="_blank"
+						rel="noopener noreferrer"
+						class="btn btn--ghost contact__wa"
+					>
+						Escríbenos por WhatsApp
+					</a>
+				</div>
+
+				{/* aria-label convierte el form en landmark navegable: sin nombre
+				    accesible no expone su rol. */}
+				<form
+					class="bento__cell contact__form"
+					action={site.formsubmitEndpoint}
+					method="POST"
+					aria-label="Formulario de contacto"
 				>
-					Escríbenos por WhatsApp
-				</a>
-			</div>
+					<input type="hidden" name="_subject" value={`Nueva consulta desde ${site.domain}`} />
+					<input type="hidden" name="_template" value="table" />
+					<input type="hidden" name="_next" value={`${site.siteUrl}/gracias`} />
+					<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
 
-			<form class="bento__cell contact__form" action={site.formsubmitEndpoint} method="POST">
-				<input type="hidden" name="_subject" value={`Nueva consulta desde ${site.domain}`} />
-				<input type="hidden" name="_template" value="table" />
-				<input type="hidden" name="_next" value={`${site.siteUrl}/gracias`} />
-				<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
-
-				<div class="field">
-					<label for="name">Nombre completo</label>
-					<input type="text" id="name" name="Nombre" required placeholder="Tu nombre" />
-				</div>
-
-				<div class="field-row">
 					<div class="field">
-						<label for="phone">Teléfono</label>
-						<input type="tel" id="phone" name="Teléfono" required placeholder="+56 9 ..." />
+						<label for="name">Nombre completo</label>
+						<input
+							type="text"
+							id="name"
+							name="Nombre"
+							required
+							autocomplete="name"
+							placeholder="Tu nombre"
+						/>
 					</div>
+
+					<div class="field-row">
+						<div class="field">
+							<label for="phone">Teléfono</label>
+							<input
+								type="tel"
+								id="phone"
+								name="Teléfono"
+								required
+								autocomplete="tel"
+								placeholder="+56 9 ..."
+							/>
+						</div>
+						<div class="field">
+							<label for="email">Correo</label>
+							<input
+								type="email"
+								id="email"
+								name="Correo"
+								required
+								autocomplete="email"
+								placeholder="tucorreo@ejemplo.com"
+							/>
+						</div>
+					</div>
+
 					<div class="field">
-						<label for="email">Correo</label>
-						<input type="email" id="email" name="Correo" required placeholder="tucorreo@ejemplo.com" />
+						<label for="service">Servicio de interés</label>
+						<select id="service" name="Servicio">
+							{services.map((service) => <option value={service.title}>{service.title}</option>)}
+							<option value="Otro">Otro</option>
+						</select>
 					</div>
-				</div>
 
-				<div class="field">
-					<label for="service">Servicio de interés</label>
-					<select id="service" name="Servicio">
-						{services.map((service) => <option value={service.title}>{service.title}</option>)}
-						<option value="Otro">Otro</option>
-					</select>
-				</div>
+					<div class="field">
+						<label for="message">Cuéntanos tu proyecto</label>
+						<textarea
+							id="message"
+							name="Mensaje"
+							rows="5"
+							required
+							placeholder="Describe tu proyecto, medidas y plazos estimados"></textarea>
+					</div>
 
-				<div class="field">
-					<label for="message">Cuéntanos tu proyecto</label>
-					<textarea
-						id="message"
-						name="Mensaje"
-						rows="5"
-						required
-						placeholder="Describe tu proyecto, medidas y plazos estimados"></textarea>
-				</div>
-
-				<button type="submit" class="btn btn--primary contact__submit">Enviar consulta</button>
-				<p class="contact__legal">Te responderemos dentro del horario de atención.</p>
-			</form>
+					<button type="submit" class="btn btn--primary contact__submit">Enviar consulta</button>
+					<p class="contact__legal">Te responderemos dentro del horario de atención.</p>
+				</form>
 			</div>
 		</div>
 	</section>
@@ -117,15 +142,14 @@ import { site } from "../data/site.js";
 	}
 
 	.contact__list {
-		display: flex;
-		flex-direction: column;
-		gap: 1.2rem;
-		margin-top: 1.5rem;
+		margin: 1.5rem 0 0;
 	}
 
-	.contact__list strong {
-		display: block;
+	.contact__list dt {
 		font-family: var(--font-heading);
+		/* Peso explícito: de Hanken Grotesk solo se cargan 600/700/800, y el
+		   400 por defecto de <dt> caería en la tipografía de respaldo. */
+		font-weight: 600;
 		font-size: 0.78rem;
 		text-transform: uppercase;
 		letter-spacing: 0.1em;
@@ -133,27 +157,37 @@ import { site } from "../data/site.js";
 		margin-bottom: 0.2rem;
 	}
 
-	.contact__list span {
+	.contact__list dd {
+		margin: 0 0 1.2rem;
 		color: var(--color-graphite);
 		font-size: 1rem;
 		line-height: 1.5;
 	}
 
-	/* Teléfono y correo son enlaces que se tocan con el pulgar: 44px de alto */
+	.contact__list dd:last-of-type {
+		margin-bottom: 0;
+	}
+
+	/* Teléfono y correo son enlaces que se tocan con el pulgar: 44px de alto.
+	   El subrayado los separa del texto plano sin depender del color, que aquí
+	   es el mismo grafito del resto del bloque. */
 	.contact__list a {
 		display: inline-flex;
 		align-items: center;
 		min-height: var(--tap);
 		color: var(--color-graphite);
 		font-size: 1rem;
-	}
-
-	.contact__line {
-		display: block;
+		text-decoration: underline;
+		text-decoration-thickness: 1px;
+		text-underline-offset: 0.25em;
 	}
 
 	.contact__list a:hover {
 		color: var(--color-accent);
+	}
+
+	.contact__line {
+		display: block;
 	}
 
 	.contact__wa {
@@ -194,14 +228,19 @@ import { site } from "../data/site.js";
 	}
 
 	/* 16px exactos, no 0.95rem: bajo ese umbral iOS hace zoom automático al
-	   enfocar el campo y descuadra toda la página en el celular. */
+	   enfocar el campo y descuadra toda la página en el celular.
+
+	   El borde es --color-steel-dark, no la junta --color-border: sobre blanco
+	   esa junta da 1.24:1 y el campo desaparece. El límite de un control debe
+	   llegar a 3:1 (WCAG 1.4.11); --color-steel-dark da 7.6:1 y además iguala
+	   el borde del botón fantasma de la columna vecina. */
 	.field input,
 	.field select,
 	.field textarea {
 		width: 100%;
 		min-height: var(--tap);
-		background-color: #fff;
-		border: 1px solid var(--color-border);
+		background-color: var(--color-bg);
+		border: 1px solid var(--color-steel-dark);
 		border-radius: var(--radius);
 		color: var(--color-graphite);
 		font-family: var(--font-body);
@@ -209,21 +248,38 @@ import { site } from "../data/site.js";
 		padding: 0.7rem 0.85rem;
 	}
 
+	/* Safari e iOS ignoran border-radius en un <select> nativo y lo pintan con
+	   esquinas redondeadas y degradado: sin appearance:none el radio cero se
+	   rompe en móvil. El caret va como SVG embebido, sin petición de red. */
+	.field select {
+		appearance: none;
+		-webkit-appearance: none;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%235f5e5e' stroke-width='1.6'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 0.85rem center;
+		padding-right: 2.4rem;
+	}
+
 	.field textarea {
 		resize: vertical;
 	}
 
+	/* #9aa0a7 daba 2.6:1 sobre blanco: el texto de ayuda era ilegible y el color
+	   estaba fuera del contrato. --color-steel da 6.5:1 y sigue leyéndose como
+	   secundario frente al grafito del valor escrito (17:1). */
 	.field input::placeholder,
 	.field textarea::placeholder {
-		color: #9aa0a7;
+		color: var(--color-steel);
 	}
 
+	/* El foco NO se anula: el aro de :focus-visible de global.css es el
+	   indicador accesible del sitio. Aquí solo se tiñe el borde del campo, sin
+	   el halo difuminado que el sistema descarta y que además arrastraba el
+	   acento viejo (#c0392b). */
 	.field input:focus,
 	.field select:focus,
 	.field textarea:focus {
-		outline: none;
 		border-color: var(--color-accent);
-		box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.14);
 	}
 
 	.contact__submit {

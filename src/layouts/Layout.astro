@@ -10,9 +10,11 @@ import "../styles/global.css";
 interface Props {
   title?: string;
   description?: string;
+  /** El Inicio pinta su propio hero a sangre bajo el header fijo. */
+  flush?: boolean;
 }
 
-const { title, description = site.description } = Astro.props;
+const { title, description = site.description, flush = false } = Astro.props;
 const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.tagline}`;
 ---
 
@@ -24,7 +26,7 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.t
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
 		<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
 		<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
-		<meta name="theme-color" content="#1a1e23" />
+		<meta name="theme-color" content="#5f5e5e" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
 		<title>{pageTitle}</title>
@@ -33,32 +35,69 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.t
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
-			href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
 			rel="stylesheet"
 		/>
 	</head>
 	<body>
 		<a href="#main-content" class="skip-link">Saltar al contenido</a>
 		<Header />
-		<main id="main-content">
+		{/* El header es `fixed`: ya no ocupa espacio en el flujo y hay que
+		    compensar su altura aquí, una sola vez, para todo el sitio. */}
+		<main id="main-content" class:list={{ "main--flush": flush }}>
 			<slot />
 		</main>
 		<Footer />
 		<FloatingContact />
 		<WeldingCursor />
 
+		<style>
+			main {
+				padding-top: var(--header-height);
+			}
+
+			/* El Inicio arranca con una foto a sangre que debe pasar POR DEBAJO de
+			   la barra translúcida: ahí el header no se compensa, se superpone. */
+			.main--flush {
+				padding-top: 0;
+			}
+		</style>
+
 		<script>
+			// Los toggles del sitio son checkboxes ocultos con un <label> encima,
+			// para que el menú funcione sin JavaScript. El script solo añade lo que
+			// el CSS no puede dar: teclado y estado accesible.
 			document.querySelectorAll(".js-toggle-label").forEach((label) => {
+				const forId = label.getAttribute("for");
+				const input = forId ? document.getElementById(forId) : null;
+				if (!(input instanceof HTMLInputElement)) return;
+
+				// `role="button"` promete un estado abierto/cerrado; sin esto el
+				// lector de pantalla anuncia un botón del que no sabe nada.
+				const sync = () => {
+					label.setAttribute("aria-expanded", String(input.checked));
+					label.setAttribute("aria-label", input.checked ? "Cerrar menú" : "Abrir menú");
+				};
+
+				input.addEventListener("change", sync);
 				label.addEventListener("keydown", (event) => {
 					if (event.key === "Enter" || event.key === " ") {
 						event.preventDefault();
-						const forId = label.getAttribute("for");
-						const input = forId ? document.getElementById(forId) : null;
-						if (input instanceof HTMLInputElement) {
-							input.checked = !input.checked;
-						}
+						input.checked = !input.checked;
+						sync();
 					}
 				});
+
+				// Escape cierra el panel desde cualquier punto del documento
+				document.addEventListener("keydown", (event) => {
+					if (event.key === "Escape" && input.checked) {
+						input.checked = false;
+						sync();
+						label.focus();
+					}
+				});
+
+				sync();
 			});
 		</script>
 	</body>

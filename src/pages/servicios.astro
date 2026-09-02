@@ -16,10 +16,10 @@ import { services, processSteps } from "../data/services.js";
 	description="Fabricación, instalación y mantención de equipamiento gastronómico en acero inoxidable: cocinas industriales, campanas, mesones, lavaplatos y soldadura TIG."
 >
 	{/* --- SERVICIOS 1: encabezado --- */}
-	<section class="section page-hero">
+	<section class="section page-hero" aria-labelledby="servicios-titulo">
 		<div class="container">
 			<span class="eyebrow">Servicios</span>
-			<h1>SERVICIOS 1</h1>
+			<h1 id="servicios-titulo">SERVICIOS 1</h1>
 			<p>
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
 				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.
@@ -36,7 +36,7 @@ import { services, processSteps } from "../data/services.js";
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
 			</div>
 
-			<div class="bento bento--2">
+			<div class="bento bento--3">
 				{
 					services.map((service) => (
 						<article class="bento__cell bento__cell--hover service-detail" id={service.slug}>
@@ -64,7 +64,7 @@ import { services, processSteps } from "../data/services.js";
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
 			</div>
 
-			<ol class="bento bento--4 steps">
+			<ol class="bento bento--4 steps" role="list">
 				{
 					processSteps.map((step, i) => (
 						<li class="bento__cell steps__item">
@@ -79,10 +79,10 @@ import { services, processSteps } from "../data/services.js";
 	</section>
 
 	{/* --- SERVICIOS 4: cierre --- */}
-	<section class="section section--alt cta-band">
+	<section class="section section--alt cta-band" aria-labelledby="servicios-cierre">
 		<div class="container cta-band__inner">
 			<div>
-				<h2>SERVICIOS 4</h2>
+				<h2 id="servicios-cierre">SERVICIOS 4</h2>
 				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
 			</div>
 			<div class="cta-band__actions">
@@ -98,33 +98,39 @@ import { services, processSteps } from "../data/services.js";
 		margin-bottom: 1.1rem;
 	}
 
-	.service-detail__title {
-		font-size: 1.2rem;
-	}
-
 	.steps {
 		list-style: none;
 		margin: 0;
 		padding: 0;
 	}
 
-	/* Numeración monoespaciada, como la viñeta de un plano */
+	/* Numeración como viñeta de plano. Antes declaraba var(--font-mono), que
+	   no se carga desde Google Fonts y aterrizaba en Consolas: una cara de
+	   editor de código, ajena a Hanken Grotesk e Inter. Con la grotesca de
+	   titulares y cifras tabulares, el 01/02/03/04 alinea en columna como la
+	   llamada de un plano. */
 	.steps__num {
 		display: block;
-		font-family: var(--font-mono);
-		font-weight: 700;
+		font-family: var(--font-heading);
+		font-variant-numeric: tabular-nums;
+		font-weight: 800;
 		font-size: clamp(1.25rem, 3vw, 1.5rem);
+		line-height: 1;
+		letter-spacing: 0.02em;
 		color: var(--color-accent);
-		margin-bottom: 0.5rem;
+		margin-bottom: 0.6rem;
 	}
 
+	/* El tamaño lo gobierna la escala global de h3; aquí solo se ajusta el
+	   aire hacia la descripción. */
 	.steps__item h3 {
-		font-size: 1.05rem;
 		margin-bottom: 0.4rem;
 	}
 
+	/* Mismo cuerpo pequeño que .check-list y .btn. El 0.92rem anterior era un
+	   valor suelto fuera de la escala. */
 	.steps__item p {
-		font-size: 0.92rem;
+		font-size: 0.875rem;
 		margin-bottom: 0;
 	}
 </style>

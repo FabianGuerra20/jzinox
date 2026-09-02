@@ -1,129 +1,68 @@
 ---
+// Boton flotante de contacto directo por WhatsApp.
+// El mockup lo reduce a un unico enlace: sin estado desplegable, sin checkbox
+// y sin JavaScript. Cuadrado de 56px (radio cero, como todo el sistema).
 import { site } from "../data/site.js";
 
-const whatsappMessage = encodeURIComponent(site.whatsappDefaultMessage);
+const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(
+  site.whatsappDefaultMessage,
+)}`;
 ---
 
-<div class="fab">
-  <input type="checkbox" id="fab-toggle" class="fab__toggle-input" />
-
-  <div class="fab__options">
-    <a
-      href={`https://wa.me/${site.whatsappNumber}?text=${whatsappMessage}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="fab__option fab__option--whatsapp"
-      aria-label="Escríbenos por WhatsApp"
-    >
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
-        <path
-          d="M12.02 2c-5.5 0-9.98 4.48-9.98 9.98 0 1.76.46 3.48 1.34 4.99L2 22l5.2-1.36a9.94 9.94 0 0 0 4.82 1.23h.01c5.5 0 9.98-4.47 9.98-9.98C22 6.48 17.53 2 12.02 2Zm0 18.26h-.01a8.3 8.3 0 0 1-4.24-1.16l-.3-.18-3.09.81.82-3.01-.2-.31a8.26 8.26 0 0 1-1.27-4.43c0-4.57 3.72-8.29 8.3-8.29 2.22 0 4.3.86 5.87 2.43a8.23 8.23 0 0 1 2.43 5.87c0 4.58-3.73 8.27-8.31 8.27Zm4.53-6.19c-.25-.12-1.46-.72-1.68-.8-.23-.08-.39-.12-.56.12-.16.25-.64.8-.78.97-.14.16-.29.18-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.86.84-.86 2.04 0 1.2.88 2.37 1 2.53.12.16 1.73 2.64 4.2 3.7.59.25 1.04.4 1.4.52.59.19 1.12.16 1.54.1.47-.07 1.46-.6 1.66-1.17.21-.58.21-1.07.14-1.17-.06-.11-.22-.17-.47-.29Z"
-        ></path>
-      </svg>
-    </a>
-
-    <a href={`mailto:${site.email}`} class="fab__option fab__option--email" aria-label="Escríbenos un correo">
-      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <rect x="3" y="5" width="18" height="14" rx="2"></rect>
-        <path d="m3 7 9 6 9-6"></path>
-      </svg>
-    </a>
-  </div>
-
-  <label for="fab-toggle" class="fab__main js-toggle-label" tabindex="0" role="button" aria-label="Contáctanos">
-    <svg class="fab__icon fab__icon--open" viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true">
-      <path
-        d="M12.02 2c-5.5 0-9.98 4.48-9.98 9.98 0 1.76.46 3.48 1.34 4.99L2 22l5.2-1.36a9.94 9.94 0 0 0 4.82 1.23h.01c5.5 0 9.98-4.47 9.98-9.98C22 6.48 17.53 2 12.02 2Z"
-      ></path>
-    </svg>
-    <svg class="fab__icon fab__icon--close" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
-      <path d="M6 6l12 12M18 6 6 18"></path>
-    </svg>
-  </label>
-</div>
+<a
+  class="fab"
+  href={whatsappHref}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Contactar por WhatsApp"
+>
+  <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true" focusable="false">
+    <path
+      d="M12.02 2c-5.5 0-9.98 4.48-9.98 9.98 0 1.76.46 3.48 1.34 4.99L2 22l5.2-1.36a9.94 9.94 0 0 0 4.82 1.23h.01c5.5 0 9.98-4.47 9.98-9.98C22 6.48 17.53 2 12.02 2Zm0 18.26h-.01a8.3 8.3 0 0 1-4.24-1.16l-.3-.18-3.09.81.82-3.01-.2-.31a8.26 8.26 0 0 1-1.27-4.43c0-4.57 3.72-8.29 8.3-8.29 2.22 0 4.3.86 5.87 2.43a8.23 8.23 0 0 1 2.43 5.87c0 4.58-3.73 8.27-8.31 8.27Zm4.53-6.19c-.25-.12-1.46-.72-1.68-.8-.23-.08-.39-.12-.56.12-.16.25-.64.8-.78.97-.14.16-.29.18-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.86.84-.86 2.04 0 1.2.88 2.37 1 2.53.12.16 1.73 2.64 4.2 3.7.59.25 1.04.4 1.4.52.59.19 1.12.16 1.54.1.47-.07 1.46-.6 1.66-1.17.21-.58.21-1.07.14-1.17-.06-.11-.22-.17-.47-.29Z"
+    ></path>
+  </svg>
+</a>
 
 <style>
+  /* Cuadrado, nunca circular: el sistema completo trabaja con radio cero. */
   .fab {
     position: fixed;
     right: 1.5rem;
     bottom: 1.5rem;
     z-index: 60;
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.8rem;
-  }
-
-  .fab__toggle-input {
-    display: none;
-  }
-
-  .fab__main {
-    display: flex;
     align-items: center;
     justify-content: center;
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    background-color: var(--color-accent);
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius);
+    background-color: var(--color-whatsapp);
     color: #fff;
-    cursor: pointer;
-    box-shadow: 0 8px 20px rgba(43, 49, 56, 0.28);
-    transition: background-color 0.15s ease, transform 0.15s ease;
+    box-shadow: var(--shadow-md);
+    transition:
+      transform 200ms var(--ease-out),
+      background-color 200ms var(--ease-out);
   }
 
-  .fab__main:hover {
-    background-color: var(--color-accent-dark);
-    transform: translateY(-2px);
+  .fab:hover {
+    transform: scale(1.1);
   }
 
-  .fab__icon--close {
-    display: none;
+  /* Foco visible con contraste alto sobre el verde y sobre el lienzo claro. */
+  .fab:focus-visible {
+    outline: 2px solid var(--color-graphite);
+    outline-offset: 3px;
   }
 
-  .fab__options {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.7rem;
-    opacity: 0;
-    transform: translateY(8px);
-    pointer-events: none;
-    transition: opacity 0.18s ease, transform 0.18s ease;
-  }
+  /* Sin movimiento: el feedback de hover pasa a ser un oscurecido del fondo. */
+  @media (prefers-reduced-motion: reduce) {
+    .fab {
+      transition: background-color 200ms linear;
+    }
 
-  .fab__option {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    box-shadow: 0 6px 14px rgba(43, 49, 56, 0.24);
-  }
-
-  .fab__option--whatsapp {
-    background-color: #25d366;
-    color: #fff;
-  }
-
-  .fab__option--email {
-    background-color: #fff;
-    border: 1px solid var(--color-border);
-    color: var(--color-graphite);
-  }
-
-  .fab__toggle-input:checked ~ .fab__options {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .fab__toggle-input:checked ~ .fab__main .fab__icon--open {
-    display: none;
-  }
-
-  .fab__toggle-input:checked ~ .fab__main .fab__icon--close {
-    display: block;
+    .fab:hover {
+      transform: none;
+      background-color: #1faa53;
+    }
   }
 </style>

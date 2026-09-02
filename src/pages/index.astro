@@ -2,76 +2,213 @@
 /**
  * Inicio: portal de las dos marcas del ecosistema.
  *
- * La página tiene un solo trabajo — que el visitante elija marca. Encabezado
- * corto, las dos placas de marca a sangre completa y el cierre. Los servicios
- * y la historia viven en /servicios y /nosotros, no se duplican aquí.
+ * Estructura del mockup aprobado, de arriba abajo:
+ *   INICIO 1  hero a sangre bajo la barra translúcida
+ *   INICIO 2  placa de marca JZ INOX      (fondo blanco)
+ *   INICIO 3  placa de marca AL Mueblería (fondo gris)
+ *   INICIO 4  cierre centrado con doble CTA
+ *
+ * Los títulos siguen siendo localizadores y el cuerpo, lorem ipsum: el cliente
+ * indica qué debe decir cada bloque antes de que entre el copy real.
  */
 import Layout from "../layouts/Layout.astro";
 import BrandCard from "../components/BrandCard.astro";
 import { brands } from "../data/brands.js";
 import { site } from "../data/site.js";
+
+/**
+ * Imagen del hero. Para publicar la foto real del taller basta con reemplazar
+ * este archivo (o cambiar esta ruta): el resto del bloque no se toca.
+ * Formato recomendado: 1920x1080, JPG/WebP, por debajo de 300 KB.
+ */
+const heroImage = {
+  src: "/hero-inicio.svg",
+  alt: "Taller de JZ INOX: mesón de acero inoxidable en primer plano y puesto de soldadura al fondo — imagen referencial",
+};
+
+const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`;
 ---
 
 <Layout
+	flush
 	title="Inicio"
 	description="JZINOX y AL Mueblería: equipamiento gastronómico en acero inoxidable y mueblería de línea plana."
 >
-	<section class="section page-hero home-hero">
-		<div class="container">
-			<span class="eyebrow">Encabezado</span>
-			<h1>INICIO 1</h1>
-			<p>
+	{/* --- INICIO 1: hero --- */}
+	<section class="hero">
+		<img class="hero__media" src={heroImage.src} alt={heroImage.alt} fetchpriority="high" decoding="async" />
+		<div class="hero__veil" aria-hidden="true"></div>
+
+		<div class="container hero__inner">
+			<span class="hero__eyebrow">Encabezado</span>
+			<h1 class="hero__title">INICIO 1</h1>
+			<p class="hero__lead">
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
 				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
 				exercitation ullamco laboris.
 			</p>
+			<a href="/contacto" class="btn btn--primary hero__cta">Cotizar Proyecto</a>
 		</div>
 	</section>
 
-	{/* Sin .container: las placas de marca cruzan la pantalla de canto a canto */}
-	<section class="section home-brands">
-		<div class="home-brands__stack">
-			{brands.map((brand, i) => <BrandCard brand={brand} eager={i === 0} bleed />)}
-		</div>
-	</section>
+	{/* --- INICIO 2 e INICIO 3: las dos placas de marca --- */}
+	{
+		brands.map((brand, i) => (
+			<section class:list={["section", "brand-section", { "section--alt": i % 2 === 1 }]}>
+				<div class="container">
+					<BrandCard brand={brand} eager={i === 0} />
+				</div>
+			</section>
+		))
+	}
 
-	<section class="section section--alt">
-		<div class="container">
-			<div class="cta-plate">
-				<div>
-					<h2>INICIO 4</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
-				</div>
-				<div class="cta-band__actions">
-					<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
-					<a
-						href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`}
-						target="_blank"
-						rel="noopener noreferrer"
-						class="btn btn--outline"
-					>
-						Escríbenos por WhatsApp
-					</a>
-				</div>
+	{/* --- INICIO 4: cierre --- */}
+	<section class="section closing">
+		<div class="container closing__inner">
+			<h2>INICIO 4</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+
+			<div class="closing__actions">
+				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+				<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp">
+					<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+						<path
+							d="M12.02 2c-5.5 0-9.98 4.48-9.98 9.98 0 1.76.46 3.48 1.34 4.99L2 22l5.2-1.36a9.94 9.94 0 0 0 4.82 1.23h.01c5.5 0 9.98-4.47 9.98-9.98C22 6.48 17.53 2 12.02 2Zm0 18.26h-.01a8.3 8.3 0 0 1-4.24-1.16l-.3-.18-3.09.81.82-3.01-.2-.31a8.26 8.26 0 0 1-1.27-4.43c0-4.57 3.72-8.29 8.3-8.29 2.22 0 4.3.86 5.87 2.43a8.23 8.23 0 0 1 2.43 5.87c0 4.58-3.73 8.27-8.31 8.27Zm4.53-6.19c-.25-.12-1.46-.72-1.68-.8-.23-.08-.39-.12-.56.12-.16.25-.64.8-.78.97-.14.16-.29.18-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.86.84-.86 2.04 0 1.2.88 2.37 1 2.53.12.16 1.73 2.64 4.2 3.7.59.25 1.04.4 1.4.52.59.19 1.12.16 1.54.1.47-.07 1.46-.6 1.66-1.17.21-.58.21-1.07.14-1.17-.06-.11-.22-.17-.47-.29Z"
+						></path>
+					</svg>
+					Escríbenos por WhatsApp
+				</a>
 			</div>
 		</div>
 	</section>
 </Layout>
 
 <style>
-	.home-hero {
-		padding-bottom: clamp(1.6rem, 4vw, 2rem);
+	/* =========================================================
+	   INICIO 1 — Hero
+	   ---------------------------------------------------------
+	   Pasa POR DEBAJO del header translúcido, así que el padding
+	   superior compensa la barra para que el bloque de texto quede
+	   centrado en el área realmente visible, no en la sección.
+	   ========================================================= */
+	.hero {
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 80vh;
+		padding-top: var(--header-height);
+		padding-bottom: clamp(2rem, 5vw, 3rem);
+		overflow: hidden;
+		background-color: var(--color-steel);
+		border-bottom: 1px solid var(--color-border);
 	}
 
-	.home-brands {
-		padding-top: clamp(2rem, 5vw, 3rem);
+	/* `<img>` en lugar de background-image: el preloader del navegador la
+	   descubre en el HTML inicial y la trata como candidata a LCP. Un
+	   background-image en CSS solo se descarga tras resolver la hoja de estilo. */
+	.hero__media {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
 	}
 
-	/* Las dos placas se apilan separadas por aire, no por una línea: cada una
-	   es una plancha independiente apoyada sobre el fondo. */
-	.home-brands__stack {
+	/* Velo de acero: baja la foto lo justo para que el texto blanco pase AA
+	   con holgura sin apagar la imagen. */
+	.hero__veil {
+		position: absolute;
+		inset: 0;
+		background-color: rgba(95, 94, 94, 0.6);
+	}
+
+	.hero__inner {
+		position: relative;
+		z-index: 1;
 		display: flex;
 		flex-direction: column;
-		gap: clamp(1.8rem, 4vw, 2.5rem);
+		align-items: center;
+		text-align: center;
+	}
+
+	.hero__eyebrow {
+		font-size: 0.875rem;
+		font-weight: 600;
+		line-height: 1;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+		color: var(--color-accent-light);
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+		margin-bottom: 1.5rem;
+	}
+
+	.hero__title {
+		max-width: 20ch;
+		color: #fff;
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+		margin-bottom: 1.5rem;
+	}
+
+	.hero__lead {
+		max-width: 62ch;
+		font-size: 1.125rem;
+		color: rgba(255, 255, 255, 0.92);
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+		margin-bottom: 0;
+	}
+
+	.hero__cta {
+		margin-top: 2rem;
+		padding: 1rem 2rem;
+	}
+
+	/* =========================================================
+	   INICIO 2 / 3 — Placas de marca
+	   ========================================================= */
+	.brand-section {
+		background-color: var(--color-bg);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	/* `.section--alt` ya trae el gris; se repite aquí para ganarle en
+	   especificidad a `.brand-section`, que si no lo pisaría por orden. */
+	.brand-section.section--alt {
+		background-color: var(--color-bg-alt);
+	}
+
+	/* =========================================================
+	   INICIO 4 — Cierre
+	   ========================================================= */
+	.closing {
+		background-color: var(--color-surface-high);
+		border-bottom: 1px solid var(--color-border);
+		padding-top: clamp(3rem, 8vw, 6rem);
+		padding-bottom: clamp(3rem, 8vw, 6rem);
+	}
+
+	.closing__inner {
+		text-align: center;
+	}
+
+	.closing h2 {
+		margin-bottom: 1.5rem;
+	}
+
+	.closing p {
+		max-width: 62ch;
+		margin: 0 auto 2.5rem;
+		font-size: 1.125rem;
+	}
+
+	.closing__actions {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 1rem;
+	}
+
+	.closing__actions .btn {
+		padding: 1rem 2rem;
 	}
 </style>

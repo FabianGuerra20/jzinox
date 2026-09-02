@@ -1,9 +1,16 @@
 ---
 /**
- * Tarjeta de marca del Inicio.
+ * Placa de marca del Inicio.
  *
- * Una sola placa bento dividida en tres bloques unidos por juntas de 1px:
- *   [ Identidad + CTAs ] | [ Carrusel de imágenes ] | [ Productos destacados ]
+ * Una sola placa dividida en tres bloques unidos por juntas de 1px, en la
+ * proporción 3/6/3 del mockup:
+ *
+ *   [ Identidad + CTAs ] | [ Galería enmarcada ] | [ Productos destacados ]
+ *
+ * El bloque central no es una imagen a sangre: es una imagen ENMARCADA sobre
+ * una mesa de trabajo con retícula de puntos. Ese aire alrededor es lo que la
+ * hace leer como pieza sobre un plano y no como banner. Las flechas se apoyan
+ * justo en el canto del marco, medio dentro y medio fuera.
  *
  * El carrusel funciona sin JavaScript (scroll-snap + gesto táctil). Las flechas
  * y los puntos son progresivos: quedan ocultos hasta que el script los habilita,
@@ -22,26 +29,21 @@ interface Props {
     featured: Array<{ name: string; note: string }>;
     images: Array<{ src: string; alt: string }>;
   };
-  /** true solo en la primera tarjeta: su imagen es la candidata a LCP */
+  /** true solo en la primera placa: su imagen es la candidata a LCP */
   eager?: boolean;
-  /** La placa cruza la pantalla completa, sin contenedor ni cantos laterales */
-  bleed?: boolean;
 }
 
-const { brand, eager = false, bleed = false } = Astro.props as Props;
+const { brand, eager = false } = Astro.props as Props;
 
 const headingId = `marca-${brand.slug}`;
 const featuredId = `destacados-${brand.slug}`;
 ---
 
-<article
-  class:list={["bento", "brand-card", { "brand-card--bleed": bleed }]}
-  aria-labelledby={headingId}
->
+<article class="bento brand-card" aria-labelledby={headingId}>
   {/* --- Bloque 1: identidad de la marca --- */}
   <div class="bento__cell brand-card__identity">
-    <h2 id={headingId} class="brand-card__name">{brand.name}</h2>
     <p class="brand-card__locator">{brand.locator}</p>
+    <h2 id={headingId} class="brand-card__name">{brand.name}</h2>
     <p class="brand-card__lead">{brand.lead}</p>
 
     <div class="brand-card__actions">
@@ -55,7 +57,7 @@ const featuredId = `destacados-${brand.slug}`;
     </div>
   </div>
 
-  {/* --- Bloque 2: carrusel --- */}
+  {/* --- Bloque 2: galería enmarcada --- */}
   <div
     class="bento__cell bento__cell--flush brand-card__media"
     data-carousel
@@ -63,23 +65,25 @@ const featuredId = `destacados-${brand.slug}`;
     aria-roledescription="carrusel"
     aria-label={`Imágenes de ${brand.name}`}
   >
-    <ul class="carousel__track" data-carousel-track>
-      {
-        brand.images.map((image, i) => (
-          <li class="carousel__slide">
-            <img
-              src={image.src}
-              alt={image.alt}
-              width="800"
-              height="600"
-              loading={eager && i === 0 ? "eager" : "lazy"}
-              fetchpriority={eager && i === 0 ? "high" : undefined}
-              decoding="async"
-            />
-          </li>
-        ))
-      }
-    </ul>
+    <div class="brand-card__viewport media-frame">
+      <ul class="carousel__track" data-carousel-track>
+        {
+          brand.images.map((image, i) => (
+            <li class="carousel__slide">
+              <img
+                src={image.src}
+                alt={image.alt}
+                width="800"
+                height="600"
+                loading={eager && i === 0 ? "eager" : "lazy"}
+                fetchpriority={eager && i === 0 ? "high" : undefined}
+                decoding="async"
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
 
     <button type="button" class="carousel__arrow carousel__arrow--prev" data-carousel-prev hidden>
       <span class="visually-hidden">Imagen anterior</span>
@@ -131,7 +135,7 @@ const featuredId = `destacados-${brand.slug}`;
 </article>
 
 <style>
-  /* Una columna en móvil; los tres bloques se ensamblan en escritorio */
+  /* Una columna en móvil; la proporción 3/6/3 del mockup en escritorio */
   .brand-card {
     grid-template-areas:
       "identity"
@@ -141,18 +145,9 @@ const featuredId = `destacados-${brand.slug}`;
 
   @media (min-width: 1024px) {
     .brand-card {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 3fr 6fr 3fr;
       grid-template-areas: "identity media featured";
     }
-  }
-
-  /* A sangre completa: un canto contra el borde de la pantalla se lee como
-     error de recorte, no como geometría. Se quitan los bordes laterales y el
-     radio; las juntas internas de 1px se mantienen intactas. */
-  .brand-card--bleed {
-    border-left: 0;
-    border-right: 0;
-    border-radius: 0;
   }
 
   /* --- Bloque 1: identidad --- */
@@ -162,40 +157,66 @@ const featuredId = `destacados-${brand.slug}`;
     flex-direction: column;
   }
 
-  .brand-card__name {
-    font-size: clamp(1.6rem, 3vw, 2.1rem);
-    letter-spacing: 0.02em;
-    margin-bottom: 0.35rem;
-  }
-
-  /* Marcador de contenido pendiente: se lee como etiqueta de plano, no como texto final */
+  /* Marcador de contenido pendiente: se lee como etiqueta de plano, no como
+     texto final. Va ARRIBA del nombre, como el eyebrow del mockup. */
   .brand-card__locator {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
     color: var(--color-accent);
     margin-bottom: 1rem;
   }
 
+  .brand-card__name {
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
   .brand-card__lead {
-    font-size: 0.96rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
     max-width: 40ch;
   }
 
+  /* Apilados a ancho completo: en una columna de 3/12 dos botones en línea no
+     caben sin partir la palabra, y el mockup los muestra así. */
   .brand-card__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
+    display: grid;
+    gap: 1rem;
     margin-top: auto; /* ancla los CTA al pie de la placa */
-    padding-top: 1.4rem;
+    padding-top: 1.5rem;
   }
 
-  /* --- Bloque 2: carrusel --- */
+  /* --- Bloque 2: galería --- */
+  /* Mesa de trabajo: gris hundido con retícula de puntos cada 20px. El
+     radial-gradient sustituye al data-URI del mockup — mismo dibujo, sin
+     base64 y usando el token de color. */
   .brand-card__media {
     grid-area: media;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    padding: 2rem;
     background-color: var(--color-surface);
-    min-height: 260px;
+    background-image: radial-gradient(circle at 1px 1px, var(--color-border) 1px, transparent 0);
+    background-size: 20px 20px;
+  }
+
+  /* El marco blanco. `.media-frame` (global) le da el recorte y el revelado
+     de color + zoom al pasar el cursor. */
+  .brand-card__viewport {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    align-self: stretch;
+    border: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    box-shadow: var(--shadow-sm);
   }
 
   .carousel__track {
@@ -217,30 +238,31 @@ const featuredId = `destacados-${brand.slug}`;
   }
 
   /* `aspect-ratio` explícito, no solo `height: 100%`: sin él la altura depende
-     del stretch del grid padre y el atributo height="600" del HTML se impone
+     del stretch del contenedor y el atributo height="600" del HTML se impone
      en cuanto alguien cambie el layout de la placa. */
   .carousel__slide img {
-    width: 100%;
     height: 100%;
-    min-height: 260px;
+    min-height: 336px;
     aspect-ratio: 4 / 3;
     object-fit: cover;
   }
 
-  /* Controles sólidos, sin difuminado: chapa de acero sobre la imagen */
+  /* Controles sólidos, sin difuminado: chapa de acero apoyada en el canto del
+     marco, medio dentro y medio fuera, como en el mockup. */
   .carousel__arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    z-index: 2;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: var(--tap);
-    height: var(--tap);
+    width: 40px;
+    height: 40px;
     padding: 0;
     border: 1px solid var(--color-border);
-    background-color: rgba(255, 255, 255, 0.94);
-    color: var(--color-graphite);
+    background-color: var(--color-bg);
+    color: var(--color-steel);
     cursor: pointer;
     transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   }
@@ -252,32 +274,40 @@ const featuredId = `destacados-${brand.slug}`;
   }
 
   .carousel__arrow--prev {
-    left: 0.75rem;
+    left: 1rem;
   }
 
   .carousel__arrow--next {
-    right: 0.75rem;
+    right: 1rem;
+  }
+
+  /* Área táctil de 44px sin engordar el botón visible de 40px */
+  .carousel__arrow::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
   }
 
   .carousel__dots {
     position: absolute;
     left: 50%;
-    bottom: 0.85rem;
+    bottom: 1rem;
     transform: translateX(-50%);
+    z-index: 2;
     display: flex;
-    gap: 0.4rem;
-    padding: 0.4rem 0.55rem;
-    background-color: rgba(255, 255, 255, 0.94);
+    gap: 0.5rem;
+    padding: 0.35rem 0.5rem;
+    background-color: var(--color-bg);
     border: 1px solid var(--color-border);
   }
 
   .carousel__dot {
     position: relative; /* ancla del área táctil de abajo */
-    width: 22px;
+    width: 24px;
     height: 4px;
     padding: 0;
     border: 0;
-    background-color: var(--color-steel-light);
+    background-color: var(--color-surface-dim);
     cursor: pointer;
     transition: background-color 0.15s ease;
   }
@@ -291,7 +321,7 @@ const featuredId = `destacados-${brand.slug}`;
     content: "";
     position: absolute;
     inset-block: -20px;
-    width: 22px;
+    width: 24px;
   }
 
   /* --- Bloque 3: productos destacados --- */
@@ -302,56 +332,61 @@ const featuredId = `destacados-${brand.slug}`;
   }
 
   .brand-card__featured-title {
-    font-size: 0.8rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
     text-transform: uppercase;
     letter-spacing: 0.14em;
+    color: var(--color-graphite);
     margin: 0;
-    padding: 1.15rem 1.35rem;
+    padding: 1.5rem;
     border-bottom: 1px solid var(--color-border);
   }
 
-  /* Las filas se separan con la misma junta de 1px del bento */
   .brand-card__list {
-    display: grid;
-    gap: 1px;
-    background-color: var(--color-border);
+    display: flex;
+    flex-direction: column;
   }
 
-  .brand-card__list > li {
-    background-color: var(--color-bg);
+  .brand-card__list > li + li {
+    border-top: 1px solid var(--color-border);
   }
 
   .brand-card__list-link {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 0.7rem;
-    padding: 0.85rem 1.35rem;
+    grid-template-columns: 1.5rem 1fr;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
     transition: background-color 0.15s ease, box-shadow 0.15s ease;
   }
 
-  .brand-card__list-link:hover {
-    background-color: var(--color-bg-alt);
+  .brand-card__list-link:hover,
+  .brand-card__list-link:focus-visible {
+    background-color: var(--color-surface);
     box-shadow: inset 3px 0 0 var(--color-accent);
   }
 
   .brand-card__list-index {
-    font-family: var(--font-mono);
     font-size: 0.75rem;
-    line-height: 1.55;
-    color: var(--color-steel-dark);
+    font-weight: 500;
+    line-height: 1.6;
+    color: var(--color-steel);
   }
 
   .brand-card__list-text strong {
     display: block;
-    font-size: 0.87rem;
+    font-size: 0.875rem;
+    font-weight: 600;
     line-height: 1.35;
     color: var(--color-graphite);
+    margin-bottom: 0.25rem;
   }
 
   .brand-card__list-text > span {
     display: block;
-    font-size: 0.82rem;
-    line-height: 1.45;
+    font-size: 0.875rem;
+    line-height: 1.5;
     color: var(--color-text-muted);
   }
 
@@ -360,17 +395,21 @@ const featuredId = `destacados-${brand.slug}`;
   }
 
   .brand-card__featured-link {
+    display: flex;
+    align-items: center;
+    min-height: var(--tap);
     margin-top: auto;
-    padding: 1rem 1.35rem;
+    padding: 1rem 1.5rem;
     border-top: 1px solid var(--color-border);
-    font-family: var(--font-heading);
-    font-size: 0.82rem;
+    font-size: 0.875rem;
     font-weight: 600;
     color: var(--color-accent);
+    transition: background-color 0.15s ease, color 0.15s ease;
   }
 
   .brand-card__featured-link:hover {
-    background-color: var(--color-bg-alt);
+    background-color: var(--color-surface);
+    color: var(--color-accent-dark);
     text-decoration: underline;
   }
 </style>

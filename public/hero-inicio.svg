@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-label="Imagen referencial del hero de JZ INOX: marcador de posici&#243;n t&#233;cnico pendiente de la fotograf&#237;a definitiva del taller">
+  <defs>
+    <pattern id="hero-grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M60 0H0V60" fill="none" stroke="#2f3131" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- Lienzo oscuro: soporta el velo rgba(95,94,94,0.6) y el texto blanco del hero.
+       Ningun tono del marcador supera al gris de acero (#9ca3af): por encima de el,
+       el blanco del <h1> caeria por debajo de 4.5:1 una vez aplicado el velo. -->
+  <rect width="1920" height="1080" fill="#1a1c1c"/>
+  <rect width="1920" height="1080" fill="url(#hero-grid)"/>
+
+  <!-- Aspa diagonal (marca de imagen ausente) -->
+  <path d="M96 96 1824 984M1824 96 96 984" fill="none" stroke="#2f3131" stroke-width="1"/>
+
+  <!-- Marco tecnico interior -->
+  <rect x="96" y="96" width="1728" height="888" fill="none" stroke="#4b5563" stroke-width="1"/>
+
+  <!-- Marcas de esquina -->
+  <path d="M96 176V96h80M1744 96h80v80M1824 904v80h-80M176 984H96v-80"
+        fill="none" stroke="#9ca3af" stroke-width="3"/>
+
+  <!-- Cota superior -->
+  <path d="M96 46v20M1824 46v20M96 56h784M1040 56h784" fill="none" stroke="#4b5563" stroke-width="1"/>
+  <text x="960" y="63" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="20" letter-spacing="3" fill="#9ca3af">1920 PX</text>
+
+  <!-- Cota lateral -->
+  <path d="M46 96h20M46 984h20M56 96v344M56 640v344" fill="none" stroke="#4b5563" stroke-width="1"/>
+  <text x="56" y="547" text-anchor="middle" transform="rotate(-90 56 540)" font-family="ui-monospace, Consolas, monospace" font-size="20" letter-spacing="3" fill="#9ca3af">1080 PX</text>
+
+  <!-- Anotacion de formato -->
+  <text x="1792" y="152" text-anchor="end" font-family="ui-monospace, Consolas, monospace" font-size="20" letter-spacing="3" fill="#9ca3af">HERO / 16:9</text>
+
+  <!-- Cartucho central. La x de cada linea compensa el letter-spacing sobrante
+       a la derecha (x = 960 + letter-spacing / 2) para centrar el glifo, no la caja. -->
+  <rect x="680" y="410" width="560" height="260" fill="#1a1c1c" stroke="#9ca3af" stroke-width="1"/>
+  <rect x="680" y="410" width="560" height="72" fill="#2f3131"/>
+  <path d="M680 482h560" fill="none" stroke="#9ca3af" stroke-width="1"/>
+  <text x="965" y="458" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="30" letter-spacing="10" fill="#9ca3af">JZ INOX</text>
+  <text x="964" y="614" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="96" letter-spacing="8" fill="#c13d2f">01</text>
+  <text x="962" y="740" text-anchor="middle" font-family="ui-monospace, Consolas, monospace" font-size="22" letter-spacing="4" fill="#9ca3af">REEMPLAZAR POR FOTOGRAF&#205;A DEL TALLER</text>
+
+  <!-- Etiqueta solida, anclada a la esquina inferior izquierda del marco.
+       Grafito (token color-ink), como la chapa "IMAGEN REFERENCIAL" del mockup:
+       el acento solo vive en acciones y marcas de estado, nunca como relleno. -->
+  <rect x="96" y="908" width="500" height="76" fill="#2f3131"/>
+  <text x="124" y="955" font-family="ui-monospace, Consolas, monospace" font-size="24" letter-spacing="3" fill="#ffffff">IMAGEN REFERENCIAL &#8212; HERO</text>
+</svg>

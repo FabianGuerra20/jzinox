@@ -2,10 +2,21 @@
 import { navItems, site } from "../data/site.js";
 
 const year = new Date().getFullYear();
+
+// TODO: faltan crear las páginas legales. "Aviso de Privacidad" y "Términos de
+// Servicio" apuntan a "#" hasta que existan /aviso-de-privacidad y
+// /terminos-de-servicio. "Mapa del Sitio" sí resuelve: /sitemap-index.xml lo
+// genera @astrojs/sitemap en el build.
+const legalLinks = [
+  { href: "#", label: "Aviso de Privacidad" },
+  { href: "#", label: "Términos de Servicio" },
+  { href: "/sitemap-index.xml", label: "Mapa del Sitio" },
+];
 ---
 
 <footer class="footer">
   <div class="container footer__grid">
+    <!-- Columna 1 — Marca y contacto -->
     <div class="footer__col">
       <a href="/" class="footer__brand">{site.name}</a>
       <address class="footer__address">
@@ -18,30 +29,53 @@ const year = new Date().getFullYear();
       </ul>
     </div>
 
-    <div class="footer__col">
-      <h4>Navegación</h4>
+    <!-- Columna 2 — Navegación -->
+    <nav class="footer__col" aria-labelledby="footer-nav-title">
+      <h2 class="footer__title" id="footer-nav-title">Navegación</h2>
       <ul>
-        {navItems.map((item) => (
-          <li><a href={item.href}>{item.label}</a></li>
-        ))}
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={["footer__link", item.ally && "footer__link--ally"]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
       </ul>
-    </div>
+    </nav>
 
-    <div class="footer__col">
-      <h4>Horario de Atención</h4>
+    <!-- Columnas 3-4 — Horario y CTA -->
+    <section class="footer__col footer__col--wide" aria-labelledby="footer-hours-title">
+      <h2 class="footer__title" id="footer-hours-title">Horario de Atención</h2>
       <ul class="footer__hours">
-        {site.hoursLines.map((line) => (
-          <li>{line}</li>
-        ))}
+        {site.hoursLines.map((line) => <li>{line}</li>)}
       </ul>
       <a href="/contacto" class="btn btn--primary footer__cta">Cotizar Proyecto</a>
-    </div>
-  </div>
+    </section>
 
-  <div class="footer__bottom">
-    <div class="container footer__bottom-inner">
-      <p>&copy; {year} {site.name}. Todos los derechos reservados.</p>
-      <p>Sitio web en construcción — contenido de referencia.</p>
+    <!-- Barra inferior — ocupa las cuatro columnas -->
+    <div class="footer__bottom">
+      <p class="footer__copy">
+        &copy; {year} {site.name}. Todos los derechos reservados.
+      </p>
+
+      <nav class="footer__legal" aria-label="Enlaces legales">
+        <ul>
+          {
+            legalLinks.map((link) => (
+              <li>
+                <a href={link.href}>{link.label}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <p class="footer__note">Sitio web en construcción — contenido de referencia.</p>
     </div>
   </div>
 </footer>
@@ -50,43 +84,45 @@ const year = new Date().getFullYear();
   .footer {
     background-color: var(--color-bg-alt);
     border-top: 1px solid var(--color-border);
+    /* Los 64px laterales del mockup ya los aporta .container (20px móvil,
+       64px desde 1024px), así que aquí solo va el ritmo vertical. */
+    padding-block: 4rem;
   }
 
+  /* --- Rejilla: una columna en móvil, cuatro desde 768px --- */
   .footer__grid {
     display: grid;
-    gap: clamp(1.8rem, 4vw, 2.5rem);
-    padding-top: clamp(2.2rem, 5vw, 3.5rem);
-    padding-bottom: clamp(1.8rem, 4vw, 2.5rem);
     grid-template-columns: 1fr;
+    gap: var(--gutter);
   }
 
-  @media (min-width: 640px) {
+  @media (min-width: 768px) {
     .footer__grid {
-      grid-template-columns: 1.5fr 1fr 1fr;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .footer__col--wide {
+      grid-column: span 2;
     }
   }
 
-  .footer__brand {
-    display: inline-block;
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: clamp(1.2rem, 2.5vw, 1.35rem);
-    letter-spacing: 0.03em;
-    color: var(--color-graphite);
-    margin-bottom: 0.9rem;
-  }
-
+  /* --- Columna 1: marca y contacto --- */
   .footer__address {
     font-style: normal;
-    font-size: 0.92rem;
+    font-size: 0.875rem;
     color: var(--color-text-muted);
     line-height: 1.7;
     margin-bottom: 0.5rem;
   }
 
-  .footer__col h4 {
-    font-family: var(--font-mono);
+  /* --- Títulos de columna --- */
+  /* Son <h2> a propósito: el pie es una landmark independiente y saltar de h1
+     a h4 rompe la jerarquía. El tamaño de etiqueta lo da la clase, no el tag. */
+  .footer__title {
+    font-family: var(--font-body);
     font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.2;
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--color-graphite);
@@ -99,58 +135,114 @@ const year = new Date().getFullYear();
   }
 
   .footer__hours li {
-    font-size: 0.92rem;
+    font-size: 0.875rem;
     color: var(--color-text-muted);
     padding: 0.3rem 0;
   }
 
   /* Cada enlace del pie es un objetivo táctil real de 44px. Antes medían
-     ~23px de alto, la mitad del mínimo, y son 9 enlaces seguidos. */
+     ~23px de alto, la mitad del mínimo, y son 10 enlaces seguidos. */
   .footer__col a,
-  .footer__contact a {
+  .footer__contact a,
+  .footer__legal a {
     display: flex;
     align-items: center;
     min-height: var(--tap);
-    font-size: 0.92rem;
+    font-size: 0.875rem;
+    /* #59413d sobre #eeeeee da 8:1. No usar --color-steel-medium: no llega
+       a AA en textos de este tamaño. */
     color: var(--color-text-muted);
     transition: color 0.15s ease;
   }
 
   .footer__col a:hover,
-  .footer__contact a:hover {
+  .footer__contact a:hover,
+  .footer__legal a:hover {
     color: var(--color-accent);
   }
 
-  .footer__cta {
-    margin-top: 1.2rem;
+  /* AL Mueblería no es una sección de JZ Inox sino la marca aliada: peso extra
+     y aire encima para que se lea como un salto de marca, no de página. */
+  .footer__link--ally {
+    font-weight: 700;
+    margin-top: 0.5rem;
   }
 
   /* Hay que calificar con `.footer__col` para superar a `.footer__col a`, que
-     es más específico que `.btn--primary`: sin esto el texto del botón queda
-     gris sobre el rojo corporativo. */
+     es más específico que las clases sueltas de abajo: sin esto la marca se
+     estira a todo el ancho y el texto del botón queda gris sobre el rojo. */
+  .footer__col a.footer__brand {
+    display: inline-flex;
+    width: fit-content;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: 0.03em;
+    color: var(--color-graphite);
+    margin-bottom: 0.6rem;
+  }
+
+  .footer__col a.footer__brand:hover {
+    color: var(--color-accent);
+  }
+
   .footer__col a.footer__cta,
   .footer__col a.footer__cta:hover {
     display: inline-flex;
     justify-content: center;
+    width: fit-content;
+    margin-top: 1.2rem;
+    font-size: 0.875rem;
     color: #fff;
   }
 
+  /* --- Barra inferior --- */
   .footer__bottom {
+    grid-column: 1 / -1;
+    margin-top: 3rem;
+    padding-top: 2rem;
     border-top: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
   }
 
-  .footer__bottom-inner {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1.5rem;
-    justify-content: space-between;
-    padding-top: 1.2rem;
-    padding-bottom: 1.2rem;
+  @media (min-width: 768px) {
+    .footer__bottom {
+      flex-direction: row;
+      align-items: center;
+      flex-wrap: wrap;
+    }
   }
 
   .footer__bottom p {
     margin: 0;
-    font-size: 0.78rem;
-    color: var(--color-steel);
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .footer__note {
+    font-style: italic;
+  }
+
+  .footer__legal ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.5rem;
+  }
+
+  .footer__legal a {
+    font-size: 0.75rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer__col a,
+    .footer__contact a,
+    .footer__legal a {
+      transition: none;
+    }
   }
 </style>

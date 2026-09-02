@@ -15,14 +15,16 @@ export const history = {
 export const mission = {
   eyebrow: "Misión y visión",
   title: "NOSOTROS 3",
+  // Sub-bloques de NOSOTROS 3, numerados como 3.1 y 3.2 para que el cliente
+  // pueda referirse a cada uno sin ambigüedad.
   items: [
     {
-      title: "Misión",
+      title: "NOSOTROS 3.1", // ranura prevista: Misión
       description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
-      title: "Visión",
+      title: "NOSOTROS 3.2", // ranura prevista: Visión
       description:
         "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
     },

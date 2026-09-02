@@ -1,11 +1,16 @@
 # Contexto del Proyecto: JZ Inox & AL Mueblería
 Eres un desarrollador Front-End Senior, un experto en UI/UX y un especialista en SEO Técnico. Estás construyendo el sitio web corporativo principal de **JZ Inox** (especialistas en soldadura TIG y equipamiento gastronómico en acero inoxidable) y estructurando un espacio dedicado para su marca aliada, **AL Mueblería** (especialistas en mueblería de línea plana).
 
+## 📐 Lee esto primero
+* **`DESIGN.md`** — el sistema de diseño implementado: tokens de color, tipografía, métrica, componentes, la interacción firma y las desviaciones deliberadas del mockup. **Es la fuente de verdad del diseño.** Si vas a tocar estilos, empieza ahí.
+* **`MEJORAS.md`** — backlog técnico y de SEO priorizado, con ubicación exacta y arreglo propuesto de cada punto.
+
 ## 🚀 Development
 When starting the dev server, use background mode:
 astro dev --background
 
 Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+(Existen de verdad en Astro 7. `astro preview` acepta los mismos subcomandos.)
 
 ## 📚 Documentation
 Full documentation: https://docs.astro.build
@@ -19,46 +24,76 @@ Consult these guides before working on related tasks:
 - Supporting multiple languages: https://docs.astro.build/en/guides/internationalization/
 
 ## 🏢 Arquitectura de Marcas y Navegación
-* **JZ Inox (Marca Principal):** Domina la estructura global del sitio (Inicio, Servicios, Soldadura TIG, Catálogo principal, Contacto).
-* **AL Mueblería (Aliado Estratégico):** Tendrá una vista interna exclusiva (ej. `/al-muebleria.astro`). Esta página debe funcionar como una *landing page* resumida dentro del ecosistema de JZ Inox, conteniendo una presentación de sus servicios propios y un mini-catálogo.
+* **JZ Inox (Marca Principal):** Domina la estructura global del sitio. Navegación real: **Inicio, Nosotros, Servicios, Productos, Catálogo, Contacto**.
+* **AL Mueblería (Aliado Estratégico):** Vista interna exclusiva en `/al-muebleria`. Funciona como *landing page* resumida dentro del ecosistema de JZ Inox: presentación, servicios propios y mini-catálogo. En el menú va tras un divisor, porque el clic cambia de marca, no de sección.
+* **Soldadura TIG** ya NO es una página propia: se dio de baja en el commit `eb50818` y hoy es uno de los servicios dentro de `/servicios`.
 
 ## 🛠 Arquitectura y Stack
-* **Framework:** Astro (SSG). 
-* **Estilos:** CSS nativo/variables globales (o Tailwind si está configurado).
-* **Componentización:** Todo debe ser modular (Header, Footer, Hero, BentoGrid, Cards). Los componentes deben compartir la misma lógica base para mantener cohesión técnica.
+* **Framework:** Astro 7 (SSG). Sin framework de UI: cero JavaScript externo, los scripts se inlinean.
+* **Estilos:** CSS nativo con variables globales en `src/styles/global.css`. **No hay Tailwind** (el mockup original sí lo usaba; se tradujo a tokens nativos).
+* **Componentización:** Todo modular (Header, Footer, BrandCard, Seo, ServiceIcon, FloatingContact, WeldingCursor). Los estilos de componente van en su bloque `<style>` scoped; solo lo compartido vive en `global.css`.
+* **Datos:** todo el contenido sale de `src/data/` (`site`, `company`, `brands`, `services`, `catalog`). Las páginas no llevan copy hardcodeado.
 
 ## 🎨 Sistema de Diseño: "Ingeniería Limpia y Precisión"
-El diseño debe transmitir peso, precisión técnica y manufactura premium, respetando estrictamente la paleta de colores corporativa.
+Resumen operativo. **El detalle completo está en `DESIGN.md`.**
 
-1. **Paleta de Colores Intocable:**
-   * **Fondo Principal:** Blanco puro y gris muy claro (Off-white) para dar sensación de limpieza y luminosidad (estilo laboratorio clínico / acero quirúrgico).
-   * **Estructura y Textos:** Escala de grises oscuros, asfalto y acero cepillado (para el Header, Footer y tipografías).
-   * **Acentos (CTA):** Naranja óxido / Rojo ladrillo (exactamente como en el mockup) ÚNICAMENTE para botones de acción y detalles de interacción.
-   * *Nota AL Mueblería:* Si tiene un color corporativo propio, úsalo sutilmente solo en su vista, manteniendo el fondo y tipografía base de JZ Inox.
+1. **Tres reglas inviolables:**
+   * **RADIO CERO.** Ni un `border-radius` en todo el sitio. Existe `--radius: 0` para que nada reintroduzca esquinas.
+   * **La junta es de 1px** y siempre `var(--color-border)`. Es la línea del plano de ingeniería.
+   * **El acento solo en acciones y estados.** Nunca como relleno decorativo.
 
-2. **Estructura Visible (Bento Grid):**
-   * Utiliza el concepto de "Bento Grid". Divide las secciones mediante líneas finas grises (`border: 1px solid rgba(0,0,0,0.1)`), simulando un plano de ingeniería o un ensamblaje de placas de acero.
-   * Evita elementos flotando sin anclaje visual; todo debe tener su geometría definida.
+2. **Paleta (extraída del mockup aprobado):**
+   * Superficies: `#f9f9f9` (lienzo) → `#ffffff` (tarjeta) → `#eeeeee` (sección alterna).
+   * Estructura: acero `#5f5e5e` (header, velo del hero), tinta `#2f3131` (etiquetas sólidas).
+   * Texto: `#1a1c1c` y `#59413d` (gris **cálido**, no azulado).
+   * Acento: `#c13d2f`, hover `#ae3023`, sobre fondo oscuro `#ffb4a9`.
 
-3. **Tipografía y Superficies:**
-   * Usa familias tipográficas sin serifas, legibles y de aspecto industrial/geométrico (ej. Inter, Roboto Mono).
-   * En lugar de sombras suaves y difuminadas (`box-shadow`), usa sombras sólidas, bordes metálicos sutiles o efectos sutiles para separar capas sobre el fondo blanco.
+3. **Tipografía:** **Hanken Grotesk** (600/700/800) en titulares, **Inter** (400/500/600) en cuerpo. `--font-mono` NO se carga: evítala.
+
+4. **Bento Grid:** `gap: 1px` sobre fondo `--color-border`, nunca bordes por celda (sumarían 2px entre celdas contiguas).
+
+5. **Interacción firma:** la clase `.media-frame` desatura toda imagen y le devuelve color + `scale(1.05)` en hover. El recorte va en el marco y el zoom en la imagen, para que no haya reflow. Es la **única** animación expresiva: el resto son transiciones funcionales de color.
+
+## 📝 Convención de contenido (IMPORTANTE)
+Todo el texto visible es **placeholder localizable numerado** hasta que llegue el copy del cliente: `INICIO 1`, `NOSOTROS 3.2`, `SERVICIO 4`, `PRODUCTO 12`, `CATEGORÍA 2`, `PRODUCTO AL 1`… El cuerpo va en lorem ipsum.
+
+* **NO "mejores" el copy.** Cambiar un localizador por texto real es un error, no una mejora.
+* **Un producto tiene UN número en todo el sitio.** Los destacados del Inicio son `PRODUCTO 1, 4, 5, 10` porque son esas piezas del catálogo.
+* **El nombre real de cada ranura vive en un comentario** junto a su entrada en `src/data/` (`// ranura prevista: campana extractora mural`). Consérvalo.
+* Sí es texto real, y se queda: menú, botones, datos de contacto, `meta description`, etiquetas de formulario y `/gracias`.
+* Los **precios de `catalog.js` son de maqueta**, no la lista real. No publicar.
 
 ## 🔍 SEO Técnico y Rendimiento (Regla de Oro)
-Todo el código generado debe estar estrictamente optimizado para motores de búsqueda (Google) y Core Web Vitals:
-1. **Etiquetas Semánticas:** Usa siempre `<header>`, `<main>`, `<section>`, `<article>`, `<aside>` y `<footer>`. Cero tolerancia al "Div Soup" (exceso de divs sin significado).
-2. **Jerarquía de Encabezados:** Respeta estrictamente el orden (`<h1>`, `<h2>`, `<h3>`). Solo debe haber un `<h1>` por página conteniendo la palabra clave principal del negocio.
-3. **Metadatos y Head:** Integra y utiliza siempre el componente `<Seo/>` existente en el proyecto para configurar `title`, `meta description` y etiquetas Open Graph en cada página nueva.
-4. **Optimización de Medios:** Todas las imágenes obligatoriamente deben incluir el atributo `alt` descriptivo. Usa `loading="lazy"` para imágenes debajo del primer *scroll* visual.
+1. **Etiquetas Semánticas:** Usa siempre `<header>`, `<main>`, `<section>`, `<article>`, `<aside>` y `<footer>`. Cero tolerancia al "Div Soup".
+2. **Jerarquía de Encabezados:** Respeta el orden (`<h1>`, `<h2>`, `<h3>`) sin saltos. Un solo `<h1>` por página.
+3. **Metadatos:** El componente `<Seo/>` ya está integrado en `Layout.astro` de forma central. No lo dupliques en las páginas: pasa `title` y `description` al Layout.
+4. **Optimización de Medios:** `alt` descriptivo obligatorio. `loading="lazy"` bajo el primer scroll; `fetchpriority="high"` solo en el candidato a LCP.
+5. **Presupuesto:** cero JS externo. Si una función necesita una librería o una fuente de iconos, busca primero la solución en CSS o SVG inline.
 
-## 🤖 Uso de Skills (Instrucción Obligatoria)
-Para asegurar la calidad visual y técnica de este proyecto, tienes permitido y recomendado utilizar tus skills internos:
-* Usa `design-review` constantemente sobre los componentes para auto-auditar la estética y el cumplimiento del SEO semántico.
-* Usa `design-consultation` si tienes dudas sobre cómo estructurar la jerarquía visual de una sección.
-* Usa `design-html` para generar estructuras semánticas complejas.
-* Usa `design-shotgun` si necesitas proponer variaciones de un componente (ej. distintas vistas de las tarjetas de productos).
+## ♿ Accesibilidad (no negociable)
+* **44px** mínimo en todo control interactivo (`var(--tap)`).
+* **4.5:1** de contraste en texto pequeño. **Calcúlalo, no lo asumas** — el mockup incumple AA en tres puntos y por eso hay desviaciones documentadas en `DESIGN.md §8`.
+* `prefers-reduced-motion` respetado en toda transición de movimiento.
+* Los toggles son checkbox + `<label>` (funcionan sin JS); `Layout.astro` añade teclado, `aria-expanded` y cierre con Escape.
 
-## 📝 Reglas de Código
-* Escribe HTML semántico.
-* Mantén el código limpio, comentado y evita el anidamiento excesivo en CSS.
-* Prioriza siempre el rendimiento (Performance) de Astro.
+## 🤖 Uso de Skills
+Tienes permitido y recomendado usar tus skills internos (dependen de que gstack esté instalado):
+* `design-review` para auto-auditar estética y SEO semántico.
+* `design-consultation` ante dudas de jerarquía visual.
+* `design-html` para estructuras semánticas complejas.
+* `design-shotgun` para proponer variaciones de un componente.
+
+---
+
+## 🗓 Registro de trabajo
+
+### 2026-09-02 — Implementación del mockup y rediseño del sistema
+* **Auditoría inicial** del estado del sitio → `MEJORAS.md` (12 puntos priorizados).
+* **Sistema de diseño reescrito** desde el mockup aprobado: paleta, Hanken Grotesk, escala tipográfica, métrica 1440px y radio cero. Los nombres de variable antiguos quedaron como **alias**, así que las 7 páginas no reescritas adoptaron el rediseño sin editarlas.
+* **Inicio reconstruido:** hero a sangre bajo header translúcido, placas de marca 3/6/3 con galería enmarcada, cierre centrado con doble CTA.
+* **Header, Footer y FAB reescritos:** barra única fija de 80px con el logo a la izquierda; footer de 4 columnas con enlaces legales; el FAB pasa a ser un cuadrado verde de WhatsApp sin desplegable.
+* **Interacción firma añadida** (`.media-frame`): revelado gris → color + zoom en hover.
+* **Todo el contenido pasó a localizadores numerados**, incluidos nombres de servicio, producto y categoría, que antes eran los reales.
+* **Corrección a este documento:** se afirmaba que `astro dev --background` no existía. Sí existe. El error estaba en la auditoría, no en las instrucciones.
+
+**Pendiente y conocido:** QA visual en navegador sin hacer (la extensión de Chrome no tenía permiso para `localhost`). Ver `DESIGN.md §11` para los puntos abiertos de diseño.

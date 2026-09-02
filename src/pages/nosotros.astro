@@ -15,10 +15,10 @@ import { history, mission, valuesSection, values, stats } from "../data/company.
 	description="Conoce la historia, la misión y los valores de JZINOX, taller de equipamiento gastronómico en acero inoxidable."
 >
 	{/* --- NOSOTROS 1: encabezado --- */}
-	<section class="section page-hero">
+	<section class="section page-hero" aria-labelledby="nosotros-titulo">
 		<div class="container">
 			<span class="eyebrow">Nosotros</span>
-			<h1>NOSOTROS 1</h1>
+			<h1 id="nosotros-titulo">NOSOTROS 1</h1>
 			<p>
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
 				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
@@ -36,16 +36,21 @@ import { history, mission, valuesSection, values, stats } from "../data/company.
 				{history.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
 			</div>
 
-			<div class="bento history__stats">
+			{/*
+				Las cifras son una lista de descripción, no cuatro divs sueltos: cada
+				número es el VALOR de su etiqueta. El orden del DOM es etiqueta → valor
+				porque <dl> lo exige; la inversión visual la hace el CSS.
+			*/}
+			<dl class="bento history__stats">
 				{
 					stats.map((stat) => (
 						<div class="bento__cell history__stat">
-							<strong>{stat.value}</strong>
-							<span>{stat.label}</span>
+							<dt>{stat.label}</dt>
+							<dd>{stat.value}</dd>
 						</div>
 					))
 				}
-			</div>
+			</dl>
 		</div>
 	</section>
 
@@ -92,11 +97,11 @@ import { history, mission, valuesSection, values, stats } from "../data/company.
 	</section>
 
 	{/* --- NOSOTROS 5: cierre --- */}
-	<section class="section">
+	<section class="section" aria-labelledby="nosotros-cierre">
 		<div class="container">
 			<div class="cta-plate">
-				<div>
-					<h2>NOSOTROS 5</h2>
+				<div class="cta-plate__text">
+					<h2 id="nosotros-cierre">NOSOTROS 5</h2>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
 				</div>
 				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
@@ -119,6 +124,10 @@ import { history, mission, valuesSection, values, stats } from "../data/company.
 
 	.history__text p {
 		font-size: 0.98rem;
+		/* Con el contenedor de 1440px la columna de texto mide ~737px: sin tope,
+		   la línea se va a ~95 caracteres. 62ch es la medida de lectura del
+		   sistema (la misma de .page-hero p y del Inicio). */
+		max-width: 62ch;
 	}
 
 	/* Una columna en teléfonos angostos: dos cifras de 1.9rem lado a lado no
@@ -130,6 +139,9 @@ import { history, mission, valuesSection, values, stats } from "../data/company.
 		grid-template-columns: 1fr;
 		align-content: start;
 		align-self: start;
+		/* <dl> llega con margen de agente de usuario: descuadraría la placa
+		   respecto al inicio de la columna de texto. */
+		margin: 0;
 	}
 
 	@media (min-width: 420px) {
@@ -138,21 +150,31 @@ import { history, mission, valuesSection, values, stats } from "../data/company.
 		}
 	}
 
+	/* `column-reverse` deja la cifra arriba y su etiqueta debajo sin alterar el
+	   orden semántico dt → dd que lee el navegador. */
 	.history__stat {
+		display: flex;
+		flex-direction: column-reverse;
+		gap: 0.35rem;
 		padding: 1.4rem;
 		text-align: center;
 	}
 
-	.history__stat strong {
-		display: block;
+	.history__stat dd {
+		margin: 0; /* el sangrado por defecto de <dd> descentraría la cifra */
 		font-family: var(--font-heading);
 		font-size: clamp(1.5rem, 4vw, 1.9rem);
+		font-weight: 700;
+		line-height: 1.15;
 		color: var(--color-accent);
 	}
 
-	.history__stat span {
+	/* 0.75rem es el piso de tamaño de etiqueta del sistema (.eyebrow,
+	   .bento__index). A 0.72rem quedaban 11,5px en versalitas espaciadas. */
+	.history__stat dt {
 		font-family: var(--font-mono);
-		font-size: 0.72rem;
+		font-size: 0.75rem;
+		line-height: 1.3;
 		text-transform: uppercase;
 		letter-spacing: 0.1em;
 		color: var(--color-text-muted);
@@ -161,5 +183,11 @@ import { history, mission, valuesSection, values, stats } from "../data/company.
 	.value-card p {
 		font-size: 0.92rem;
 		margin-bottom: 0;
+	}
+
+	/* La placa de cierre es flex: sin tope, el párrafo se estira a lo ancho de
+	   los 1.312px útiles del contenedor nuevo. */
+	.cta-plate__text {
+		max-width: 62ch;
 	}
 </style>

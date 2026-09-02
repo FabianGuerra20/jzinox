@@ -1,9 +1,17 @@
-// Los NOMBRES de servicio son los reales de JZINOX. Las descripciones y viñetas
-// van en lorem ipsum a la espera del texto definitivo del cliente.
+// CONTENIDO PLACEHOLDER a la espera del texto real del cliente.
+//
+// Todo texto visible es un localizador numerado ("SERVICIO 1", "PASO 2"...) para que el
+// cliente indique exactamente qué debe decir cada bloque. El relleno va en lorem ipsum
+// para que nadie confunda un borrador con contenido aprobado.
+//
+// El `slug` y el `icon` NO son texto visible: son identificadores técnicos (el slug es
+// el ancla de la URL) y conservan el nombre del servicio que ocupará cada ranura. El
+// comentario de cada entrada guarda ese mismo dato en claro, para no perder la
+// correspondencia cuando llegue el copy definitivo.
 export const services = [
   {
     slug: "equipamiento-cocina",
-    title: "Equipamiento de cocina industrial",
+    title: "SERVICIO 1", // ranura prevista: equipamiento de cocina industrial
     icon: "kitchen",
     summary:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -15,7 +23,7 @@ export const services = [
   },
   {
     slug: "campanas-extraccion",
-    title: "Campanas y ductos de extracción",
+    title: "SERVICIO 2", // ranura prevista: campanas y ductos de extracción
     icon: "hood",
     summary:
       "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
@@ -27,7 +35,7 @@ export const services = [
   },
   {
     slug: "mesones-lavaplatos",
-    title: "Mesones y lavaplatos",
+    title: "SERVICIO 3", // ranura prevista: mesones y lavaplatos
     icon: "counter",
     summary:
       "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
@@ -39,7 +47,7 @@ export const services = [
   },
   {
     slug: "soldadura-tig",
-    title: "Soldadura TIG",
+    title: "SERVICIO 4", // ranura prevista: soldadura TIG
     icon: "tig",
     summary:
       "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
@@ -51,7 +59,7 @@ export const services = [
   },
   {
     slug: "estanterias-almacenamiento",
-    title: "Estanterías y almacenamiento",
+    title: "SERVICIO 5", // ranura prevista: estanterías y almacenamiento
     icon: "shelf",
     summary:
       "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
@@ -63,7 +71,7 @@ export const services = [
   },
   {
     slug: "mantencion-reparaciones",
-    title: "Mantención y reparaciones",
+    title: "SERVICIO 6", // ranura prevista: mantención y reparaciones
     icon: "tools",
     summary:
       "Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt.",

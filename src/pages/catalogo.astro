@@ -49,21 +49,29 @@ const groups = catalogCategories
 
 	{
 		groups.map((group, index) => (
-			<section class:list={["section", { "section--alt": index % 2 === 0 }]} id={group.id}>
+			<section
+				class:list={["section", { "section--alt": index % 2 === 0 }]}
+				id={group.id}
+				aria-labelledby={`${group.id}-title`}
+			>
 				<div class="container">
-					<h2 class="catalog-group-title">{group.name}</h2>
+					<h2 class="catalog-group-title" id={`${group.id}-title`}>{group.name}</h2>
 
 					<div class="bento bento--3 catalog-grid">
 						{group.items.map((item) => (
 							<article class="bento__cell bento__cell--hover catalog-card">
 								<span class="tag">{item.category}</span>
-								<h3>{item.name}</h3>
+								<h3 id={`${item.id}-name`}>{item.name}</h3>
 								<p>{item.description}</p>
 								<div class="catalog-card__price">
 									<strong>{formatPrice(item.price)}</strong>
 									{item.price > 0 && <span>/ {item.unit}</span>}
 								</div>
+								{/* El nombre visible se repite en 15 enlaces idénticos: se compone el
+								    nombre accesible con el h3 para que cada enlace se distinga (WCAG 2.4.4). */}
 								<a
+									id={`${item.id}-cta`}
+									aria-labelledby={`${item.id}-cta ${item.id}-name`}
 									href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(`Hola JZINOX, me interesa cotizar: ${item.name}`)}`}
 									target="_blank"
 									rel="noopener noreferrer"
@@ -173,6 +181,17 @@ const groups = catalogCategories
 	.catalog-card__cta {
 		font-size: 0.78rem;
 		padding: 0.55rem 1.1rem;
+	}
+
+	/* Al pasar el cursor se apilan dos tintes: la celda va a --color-surface
+	   (#f3f3f3) y encima .btn--ghost:hover añade rgba(193,61,47,.06), dando
+	   #f0e8e7. El texto de acento sobre ese fondo mide 4.38:1 a 12.5px, bajo el
+	   mínimo AA. Con --color-accent-dark vuelve a 5.36:1.
+	   Solo :hover: en foco de teclado el botón NO recibe el lavado del ghost
+	   (queda --color-graphite sobre #f3f3f3) y el anillo global de :focus-visible
+	   ya marca el estado, así que ahí no hay nada que corregir. */
+	.catalog-card__cta:hover {
+		color: var(--color-accent-dark);
 	}
 
 	.catalog-note {

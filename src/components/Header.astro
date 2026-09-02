@@ -2,199 +2,198 @@
 import { navItems, navCta, site } from "../data/site.js";
 
 const currentPath = Astro.url.pathname;
+
+// Normaliza el path para que "/servicios/" y "/servicios" marquen el mismo item.
+const isActive = (href) => {
+  const clean = (value) => (value !== "/" && value.endsWith("/") ? value.slice(0, -1) : value);
+  return clean(currentPath) === clean(href);
+};
 ---
 
+{/* Barra única fija: el logotipo manda a la izquierda y la navegación cierra a la derecha. */}
 <header class="header">
-  <div class="header__brandbar">
-    <a href="/" class="brand" aria-label={`${site.name} — inicio`}>
-      <img
-        class="brand__logo"
-        src="/logo-jzinox.png"
-        alt=""
-        width="709"
-        height="163"
-        fetchpriority="high"
-        decoding="async"
-      />
-      <span class="brand__tagline">{site.tagline}</span>
-    </a>
-  </div>
+  <a class="header__brand" href="/" aria-label={`${site.name} — ir al inicio`}>
+    <img
+      class="header__logo"
+      src="/logo-jzinox.png"
+      alt={`Logotipo de ${site.name}`}
+      width="709"
+      height="163"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </a>
 
-  <div class="header__navbar">
-    <div class="container header__navbar-inner">
-      <a href="/" class="header__compact-brand">JZINOX</a>
+  {/* Checkbox oculto: el menú móvil funciona sin JavaScript. Layout.astro solo
+      añade soporte de teclado sobre el <label>. */}
+  <input type="checkbox" id="nav-toggle" class="header__toggle-input" />
 
-      <input type="checkbox" id="nav-toggle" class="header__toggle-input" />
-      <label for="nav-toggle" class="header__toggle js-toggle-label" tabindex="0" role="button" aria-label="Abrir menú">
-        <span></span>
-        <span></span>
-        <span></span>
-      </label>
+  <nav id="site-nav" class="header__nav" aria-label="Navegación principal">
+    <ul class="header__list">
+      {
+        navItems.map((item) => (
+          <li class:list={["header__item", { "header__item--ally": item.ally }]}>
+            <a
+              href={item.href}
+              aria-current={isActive(item.href) ? "page" : undefined}
+              class:list={[
+                "header__link",
+                {
+                  "header__link--active": isActive(item.href),
+                  "header__link--ally": item.ally,
+                },
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
 
-      <nav class="header__nav" aria-label="Navegación principal">
-        <ul>
-          {
-            navItems.map((item) => (
-              <li class:list={{ "header__item--ally": item.ally }}>
-                <a
-                  href={item.href}
-                  aria-current={currentPath === item.href ? "page" : undefined}
-                  class:list={[
-                    "header__link",
-                    {
-                      "header__link--active": currentPath === item.href,
-                      "header__link--ally": item.ally,
-                    },
-                  ]}
-                >
-                  {item.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-        <a href={navCta.href} class="btn btn--primary header__cta">{navCta.label}</a>
-      </nav>
-    </div>
+    {/* Solo se renderiza uno de los dos CTA: el otro va en display:none y por
+        tanto queda fuera del árbol de accesibilidad. */}
+    <a href={navCta.href} class="btn btn--primary header__cta header__cta--mobile">{navCta.label}</a>
+  </nav>
+
+  <div class="header__actions">
+    <a href={navCta.href} class="btn btn--primary header__cta header__cta--desktop">{navCta.label}</a>
+
+    <label
+      for="nav-toggle"
+      class="header__toggle js-toggle-label"
+      role="button"
+      tabindex="0"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="site-nav"
+    >
+      <span class="header__bar"></span>
+      <span class="header__bar"></span>
+      <span class="header__bar"></span>
+    </label>
   </div>
 </header>
 
 <style>
+  /* =============================================================
+     Barra única de acero, fija sobre el contenido.
+     Layout.astro compensa la altura con padding-top en <main>:
+     este componente NO deja espaciador propio.
+     ============================================================= */
   .header {
-    position: relative;
-    z-index: 50;
-  }
-
-  /* --- Franja superior blanca con el logotipo --- */
-  .header__brandbar {
-    background-color: #fff;
-    display: flex;
-    justify-content: center;
-    padding: clamp(1rem, 3vw, 1.6rem) 1.5rem clamp(0.85rem, 2.5vw, 1.4rem);
-  }
-
-  .brand {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-  }
-
-  /* Logotipo del cliente. El ancho manda y la altura la fija el aspect-ratio
-     intrínseco (709x163), así no hay salto de layout al cargar. */
-  .brand__logo {
-    width: clamp(210px, 40vw, 400px);
-    height: auto;
-  }
-
-  .brand__tagline {
-    font-size: clamp(0.72rem, 1.8vw, 1rem);
-    color: var(--color-text-muted);
-    letter-spacing: 0.01em;
-    text-align: center;
-  }
-
-  /* --- Barra de navegación de acero --- */
-  /* Grafito profundo con veta cepillada: la barra debe leerse como una
-     platina, no como un fondo gris de plantilla. */
-  .header__navbar {
-    position: sticky;
+    position: fixed;
     top: 0;
-    background-color: var(--color-ink);
-    background-image: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.13) 0%,
-      rgba(255, 255, 255, 0) 45%,
-      rgba(0, 0, 0, 0.3) 100%
-    );
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.08), 0 2px 6px rgba(26, 30, 35, 0.28);
-  }
-
-  .header__navbar-inner {
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    height: var(--header-height);
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: 1rem;
-    min-height: 52px;
+    padding: 0 var(--margin-mobile);
+    /* Acero al 90 % + desenfoque: la placa deja intuir lo que pasa debajo.
+       El 90 % sale del token, no de un rgba() copiado: si --color-steel cambia,
+       la barra cambia con él. La primera línea es el respaldo opaco para los
+       navegadores sin color-mix(). */
+    background-color: var(--color-steel);
+    background-color: color-mix(in srgb, var(--color-steel) 90%, transparent);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border-bottom: 2px solid var(--color-steel-dark);
   }
 
-  .header__compact-brand {
-    display: none;
+  /* Sin desenfoque, la translucidez ensuciaría el contraste: acero opaco. */
+  @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
+    .header {
+      background-color: var(--color-steel);
+    }
+  }
+
+  /* El foco rojo global es ilegible sobre el acero (1.04:1): aquí va en blanco. */
+  .header :focus-visible {
+    outline-color: #fff;
+  }
+
+  /* --- Marca --- */
+  .header__brand {
+    display: flex;
     align-items: center;
     min-height: var(--tap);
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: 1.15rem;
-    letter-spacing: 0.04em;
-    color: #fff;
+    flex-shrink: 0;
   }
 
-  .header__nav {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
+  /* width/height intrínsecos (709x163) reservan la caja: cero CLS al cargar. */
+  .header__logo {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
   }
 
-  .header__nav ul {
-    display: flex;
-    align-items: center;
-    gap: 0.2rem;
+  /* --- Navegación --- */
+  .header__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
   .header__link {
     display: flex;
     align-items: center;
     min-height: var(--tap);
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.9);
-    padding: 0 0.75rem;
+    font-family: var(--font-body);
+    /* label-lg del mockup: 14px / 600 / 0.05em. */
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+    line-height: 1;
+    white-space: nowrap;
+    /* 0.92 de blanco: sobre la barra sólida da 5.8:1 y, en el peor caso
+       (barra translúcida sobre página clara #f9f9f9), 4.6:1. Con 0.88 ese
+       peor caso caía a 4.36:1 y no llegaba al AA de texto pequeño. */
+    color: rgba(255, 255, 255, 0.92);
     border-bottom: 2px solid transparent;
-    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+    transition:
+      color 0.2s var(--ease-out),
+      background-color 0.2s var(--ease-out),
+      border-color 0.2s var(--ease-out);
   }
 
   .header__link:hover {
     color: #fff;
-    background-color: rgba(255, 255, 255, 0.12);
+    background-color: color-mix(in srgb, var(--color-accent) 18%, transparent);
   }
 
+  /* Desviación deliberada del mockup: el activo va en BLANCO, no en #c13d2f.
+     El rojo sobre el acero da 1.18:1 (ilegible). Conservamos el subrayado
+     rojo, que es el elemento reconocible del diseño. */
   .header__link--active {
     color: #fff;
-    border-color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
   }
 
-  /* --- Marca aliada: divisor + tipografía propia --- */
-  /* AL Mueblería no es una sección de JZ Inox. El divisor y el tratamiento
-     en mono avisan que el clic cambia de marca, no de página. */
-  .header__item--ally {
-    position: relative;
-    margin-left: 0.9rem;
-    padding-left: 0.9rem;
-  }
-
-  .header__item--ally::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1px;
-    height: 20px;
-    background-color: rgba(255, 255, 255, 0.28);
-  }
-
+  /* --- Marca aliada --- */
+  /* AL Mueblería no es una sección de JZ Inox: el divisor avisa de que el
+     clic cambia de marca, no de página. */
   .header__link--ally {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: rgba(255, 255, 255, 0.72);
   }
 
+  /* --- CTA --- */
   .header__cta {
-    padding: 0.5rem 1.1rem;
-    min-height: 38px;
-    font-size: 0.8rem;
+    padding: 0.75rem 1.25rem;
     white-space: nowrap;
+  }
+
+  /* --- Botón hamburguesa --- */
+  .header__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
   }
 
   .header__toggle-input {
@@ -202,7 +201,7 @@ const currentPath = Astro.url.pathname;
   }
 
   .header__toggle {
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -212,87 +211,126 @@ const currentPath = Astro.url.pathname;
     cursor: pointer;
   }
 
-  .header__toggle span {
-    height: 2px;
-    width: 22px;
-    background-color: #fff;
+  .header__bar {
     display: block;
+    width: 22px;
+    height: 2px;
+    background-color: #fff;
   }
 
-  /* --- Móvil y tablet: el nav colapsa en el MISMO punto en que el
-     contenido deja el layout de escritorio (1024px). --- */
-  @media (max-width: 1023.98px) {
-    .header__navbar-inner {
-      justify-content: space-between;
-    }
-
-    .header__compact-brand {
-      display: flex;
-    }
-
-    .header__toggle {
-      display: flex;
-    }
-
+  /* =============================================================
+     Móvil y tablet (< 1024px): panel desplegable bajo la barra
+     ============================================================= */
+  @media (max-width: 1279.98px) {
     .header__nav {
       position: absolute;
-      top: 100%;
+      /* La barra es border-box: 100% cae DENTRO del borde de 2px y lo taparía.
+         La altura completa deja el panel justo debajo de la junta. */
+      top: var(--header-height);
       left: 0;
       right: 0;
+      display: flex;
       flex-direction: column;
       align-items: stretch;
-      gap: 0;
-      background-color: var(--color-ink);
+      background-color: var(--color-steel);
+      border-bottom: 1px solid var(--color-steel-dark);
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.25s ease;
-    }
-
-    .header__nav ul {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 0;
-      padding: 0.5rem 1.5rem 0;
-    }
-
-    .header__link {
-      padding: 0.75rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    }
-
-    .header__link--active {
-      border-color: var(--color-accent);
-    }
-
-    /* En vertical el divisor cruza el ancho, no la altura */
-    .header__item--ally {
-      margin-left: 0;
-      padding-left: 0;
-      margin-top: 0.6rem;
-      padding-top: 0.6rem;
-    }
-
-    .header__item--ally::before {
-      top: 0;
-      left: 0;
-      right: 0;
-      width: auto;
-      height: 1px;
-      transform: none;
-    }
-
-    .header__cta {
-      margin: 1.2rem 1.5rem 1.5rem;
-      min-height: var(--tap);
+      /* visibility evita que el teclado entre en enlaces invisibles. */
+      visibility: hidden;
+      transition:
+        max-height 0.28s var(--ease-out),
+        visibility 0s linear 0.28s;
     }
 
     .header__toggle-input:checked ~ .header__nav {
-      max-height: 620px;
+      max-height: 34rem;
+      visibility: visible;
+      transition:
+        max-height 0.28s var(--ease-out),
+        visibility 0s;
+    }
+
+    .header__link {
+      padding: 0.75rem var(--margin-mobile);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* En vertical el divisor de marca cruza el ancho, no la altura. */
+    .header__item--ally {
+      margin-top: 0.75rem;
+      border-top: 1px solid var(--color-steel-medium);
+    }
+
+    .header__cta--desktop {
+      display: none;
+    }
+
+    .header__cta--mobile {
+      margin: 1.25rem var(--margin-mobile) 1.5rem;
+    }
+  }
+
+  /* =============================================================
+     Escritorio (>= 1024px): navegación en línea
+     ============================================================= */
+  @media (min-width: 1280px) {
+    .header {
+      padding: 0 var(--margin-desktop);
+    }
+
+    .header__nav {
+      display: flex;
+      align-items: center;
+    }
+
+    .header__list {
+      display: flex;
+      align-items: center;
+      /* var(--gutter) es el objetivo; entre 1280 y ~1880px se comprime para
+         que los siete enlaces y el CTA no desborden la barra. */
+      gap: clamp(0.75rem, 1.7vw, var(--gutter));
+    }
+
+    .header__item {
+      display: flex;
+      align-items: center;
+    }
+
+    /* Divisor vertical de 1px x 24px antes de la marca aliada. Va en un
+       pseudo-elemento para no recortar el área táctil de 44px del enlace. */
+    .header__item--ally {
+      position: relative;
+      padding-left: clamp(0.75rem, 1.7vw, var(--gutter));
+    }
+
+    .header__item--ally::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 24px;
+      background-color: var(--color-steel-medium);
+    }
+
+    .header__cta--mobile,
+    .header__toggle {
+      display: none;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .header__logo {
+      height: 48px;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .header__nav {
+    .header__nav,
+    .header__toggle-input:checked ~ .header__nav,
+    .header__link {
       transition: none;
     }
   }

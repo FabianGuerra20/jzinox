@@ -71,15 +71,22 @@ const featured = alMuebleriaCatalog.slice(0, 4);
 				{
 					featured.map((item) => (
 						<article class="bento__cell bento__cell--flush bento__cell--hover al-product">
-							<img
-								src={item.image.src}
-								alt={item.image.alt}
-								width="800"
-								height="600"
-								loading="lazy"
-								decoding="async"
-								class="al-product__media"
-							/>
+							{/* Marco propio, NO `.media-frame`: aquel entrega la foto en
+							    grayscale hasta el hover, y sin puntero (móvil, tablet) las
+							    cuatro piezas se quedarían grises para siempre. En un
+							    catálogo la madera y el acabado SON el dato. El marco existe
+							    solo para anclar la barra de acento sobre la imagen. */}
+							<div class="al-product__frame">
+								<img
+									src={item.image.src}
+									alt={item.image.alt}
+									width="800"
+									height="600"
+									loading="lazy"
+									decoding="async"
+									class="al-product__media"
+								/>
+							</div>
 							<div class="al-product__body">
 								<span class="tag">{item.category}</span>
 								<h3>{item.name}</h3>
@@ -89,6 +96,7 @@ const featured = alMuebleriaCatalog.slice(0, 4);
 									target="_blank"
 									rel="noopener noreferrer"
 									class="al-product__cta"
+									aria-label={`Cotizar ${item.name} por WhatsApp`}
 								>
 									Cotizar por WhatsApp
 								</a>
@@ -101,11 +109,11 @@ const featured = alMuebleriaCatalog.slice(0, 4);
 	</section>
 
 	{/* --- AL 4: cierre + vuelta al ecosistema JZ Inox --- */}
-	<section class="section section--alt">
+	<section class="section section--alt" aria-labelledby="al-cierre">
 		<div class="container">
 			<div class="cta-plate">
 				<div>
-					<h2>{cta.title}</h2>
+					<h2 id="al-cierre">{cta.title}</h2>
 					<p>{cta.lead}</p>
 				</div>
 				<div class="cta-band__actions">
@@ -134,10 +142,12 @@ const featured = alMuebleriaCatalog.slice(0, 4);
 		margin-bottom: 1rem;
 	}
 
+	/* Mismo gap que `.cta-band__actions`: las dos filas de botones de la página
+	   deben separar sus piezas con la misma medida. */
 	.al-hero__actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.8rem;
+		gap: 1rem;
 		margin-top: 1.6rem;
 	}
 
@@ -156,21 +166,58 @@ const featured = alMuebleriaCatalog.slice(0, 4);
 		flex-direction: column;
 	}
 
+	/* `position: relative` es el único motivo por el que el marco existe: da el
+	   sistema de coordenadas de la barra de acento. El borde vive aquí y no en
+	   la imagen para que la junta de 1px sea del marco, no del medio. */
+	.al-product__frame {
+		position: relative;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	/* La barra de acento del hover la pinta `.bento__cell--hover` como
+	   `inset box-shadow` de la placa, así que queda DEBAJO de la imagen —que es
+	   opaca— y se corta a su altura. Se repite aquí encima del medio para que la
+	   marca recorra la tarjeta entera, como en las placas de servicios. El corte
+	   de 1px sobre el borde inferior es la junta del plano. */
+	.al-product__frame::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 3px;
+		background-color: var(--color-accent);
+		opacity: 0;
+		transition: opacity 0.2s ease;
+	}
+
+	.al-product:hover .al-product__frame::after,
+	.al-product:focus-within .al-product__frame::after {
+		opacity: 1;
+	}
+
 	/* `height: auto` es obligatorio: sin él manda el atributo height="600" del
-	   HTML y el aspect-ratio queda ignorado. */
+	   HTML y el aspect-ratio queda ignorado. `display: block` también: dentro
+	   del marco la imagen ya no es un ítem flex, y como inline arrastraría el
+	   hueco del descendente (~5px) entre la foto y la junta inferior. */
 	.al-product__media {
+		display: block;
 		width: 100%;
 		height: auto;
 		aspect-ratio: 4 / 3;
 		object-fit: cover;
-		border-bottom: 1px solid var(--color-border);
 	}
 
+	/* La celda va `--flush` (padding 0) porque la imagen sangra; el cuerpo tiene
+	   que devolver EXACTAMENTE el padding de `.bento__cell`. Con el valor fijo
+	   anterior, calibrado para el contenedor de 1180px, el texto de las piezas
+	   quedaba 10px más pegado al canto que el de las placas de servicios
+	   inmediatamente encima, y no crecía al ensanchar el contenedor a 1440px. */
 	.al-product__body {
 		display: flex;
 		flex-direction: column;
 		flex: 1;
-		padding: 1.4rem 1.35rem;
+		padding: clamp(1.5rem, 3.6vw, 2rem);
 	}
 
 	.al-product h3 {
@@ -202,11 +249,14 @@ const featured = alMuebleriaCatalog.slice(0, 4);
 	}
 
 	/* --- Anclaje al ecosistema: de vuelta a la marca principal --- */
+	/* Se apila justo debajo de `.cta-plate`: el padding horizontal es el mismo
+	   que el de la placa para que las dos líneas de texto arranquen del mismo
+	   eje vertical. Con el valor fijo anterior se descuadraban ~17px en
+	   escritorio. */
 	.al-ally {
 		margin-top: 1.5rem;
 		border: 1px solid var(--color-border);
-		border-radius: var(--radius);
-		padding: 1rem 1.35rem;
+		padding: 1rem clamp(1.8rem, 4vw, 2.4rem);
 		background-color: var(--color-bg);
 	}
 

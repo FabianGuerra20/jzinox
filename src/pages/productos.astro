@@ -33,7 +33,13 @@ const categories = catalogCategories
 				<div class="container">
 					<div class="group-head">
 						<h2>{group.name}</h2>
-						<a href="/catalogo" class="group-head__link">Ver precios referenciales</a>
+						<a
+							href="/catalogo"
+							class="group-head__link"
+							aria-label={`Ver precios referenciales de ${group.name}`}
+						>
+							Ver precios referenciales
+						</a>
 					</div>
 
 					<div class="bento bento--3">
@@ -46,6 +52,7 @@ const categories = catalogCategories
 									target="_blank"
 									rel="noopener noreferrer"
 									class="product-card__cta"
+									aria-label={`Cotizar por WhatsApp: ${item.name}`}
 								>
 									Cotizar por WhatsApp
 								</a>
@@ -57,7 +64,7 @@ const categories = catalogCategories
 		))
 	}
 
-	<section class="section--steel cta-band">
+	<section class="section section--steel cta-band">
 		<div class="container cta-band__inner">
 			<div>
 				<h2>PRODUCTOS 2</h2>
@@ -108,9 +115,45 @@ const categories = catalogCategories
 		font-size: 1.05rem;
 	}
 
+	/* flex-grow (no `flex: 1`) para empujar el CTA al pie de la placa: con
+	   flex-basis 0 el párrafo deja de aportar su altura al cálculo intrínseco
+	   de la fila del grid y el texto se comprime en la celda más alta. */
 	.product-card p {
 		font-size: 0.92rem;
-		flex: 1;
+		flex-grow: 1;
+		/* La celda del último renglón puede ocupar 2 o 3 columnas (ver abajo).
+		   Sin tope, la descripción llegaría a ~150 caracteres por línea. 62ch
+		   es la misma medida que .page-hero p. */
+		max-width: 62ch;
+	}
+
+	/* =========================================================
+	   El último renglón siempre completa la placa
+	   ---------------------------------------------------------
+	   La junta del bento es el fondo del contenedor asomando por el
+	   `gap`. Con un número variable de productos por categoría (2, 3 y 4
+	   en el catálogo actual) el último renglón dejaba columnas vacías, y
+	   esas columnas se pintaban como bloques grises dentro de la placa:
+	   un agujero, no un ensamblaje. Que el último producto ocupe las
+	   columnas libres cierra la placa y es, además, el gesto propio de un
+	   bento: celdas de distinto ancho, nunca huecos.
+	   ========================================================= */
+	@media (min-width: 640px) and (max-width: 1023.98px) {
+		/* 2 columnas: si el último producto queda solo, toma el renglón */
+		.product-card:nth-child(odd):last-child {
+			grid-column: span 2;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		/* 3 columnas: sobra 1 hueco → span 2; sobran 2 → span 3 */
+		.product-card:nth-child(3n + 2):last-child {
+			grid-column: span 2;
+		}
+
+		.product-card:nth-child(3n + 1):last-child {
+			grid-column: span 3;
+		}
 	}
 
 	/* Es el CTA de conversión de la página: tiene que ser un objetivo táctil
@@ -118,6 +161,7 @@ const categories = catalogCategories
 	.product-card__cta {
 		display: inline-flex;
 		align-items: center;
+		align-self: flex-start; /* si no, se estira a todo el ancho de la placa */
 		min-height: var(--tap);
 		font-size: 0.88rem;
 		font-weight: 600;
@@ -126,9 +170,5 @@ const categories = catalogCategories
 
 	.product-card__cta:hover {
 		text-decoration: underline;
-	}
-
-	.cta-band {
-		padding: 3rem 0;
 	}
 </style>
