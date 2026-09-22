@@ -1,4 +1,5 @@
 ---
+import MediaPlaceholder from "./MediaPlaceholder.astro";
 /**
  * Placa de marca del Inicio.
  *
@@ -20,20 +21,26 @@ interface Props {
   brand: {
     slug: string;
     name: string;
-    locator: string;
+    eyebrow: string;
     lead: string;
     actions: Array<{ href: string; label: string; variant: string }>;
     featuredTitle: string;
     featuredHref: string;
     featuredLabel: string;
     featured: Array<{ name: string; note: string }>;
-    images: Array<{ src: string; alt: string }>;
+    images: Array<{ src: string; alt: string; pending?: boolean; slot?: string; ratio?: string }>;
   };
   /** true solo en la primera placa: su imagen es la candidata a LCP */
   eager?: boolean;
 }
 
 const { brand, eager = false } = Astro.props as Props;
+
+// `.media-frame` entrega la foto desaturada y le devuelve el color en hover:
+// es la interacción firma del sistema. Sobre placeholders grises ese gesto se
+// degrada a "caja gris → caja gris un poco más grande", que se siente roto.
+// Mientras la galería sea de huecos, el marco va sin revelado.
+const allPending = brand.images.every((image) => image.pending);
 
 const headingId = `marca-${brand.slug}`;
 const featuredId = `destacados-${brand.slug}`;
@@ -42,7 +49,7 @@ const featuredId = `destacados-${brand.slug}`;
 <article class="bento brand-card" aria-labelledby={headingId}>
   {/* --- Bloque 1: identidad de la marca --- */}
   <div class="bento__cell brand-card__identity">
-    <p class="brand-card__locator">{brand.locator}</p>
+    <p class="brand-card__eyebrow">{brand.eyebrow}</p>
     <h2 id={headingId} class="brand-card__name">{brand.name}</h2>
     <p class="brand-card__lead">{brand.lead}</p>
 
@@ -65,20 +72,26 @@ const featuredId = `destacados-${brand.slug}`;
     aria-roledescription="carrusel"
     aria-label={`Imágenes de ${brand.name}`}
   >
-    <div class="brand-card__viewport media-frame">
+    <div class:list={["brand-card__viewport", { "media-frame": !allPending }]}>
       <ul class="carousel__track" data-carousel-track>
         {
           brand.images.map((image, i) => (
             <li class="carousel__slide">
-              <img
-                src={image.src}
-                alt={image.alt}
-                width="800"
-                height="600"
-                loading={eager && i === 0 ? "eager" : "lazy"}
-                fetchpriority={eager && i === 0 ? "high" : undefined}
-                decoding="async"
-              />
+              {
+                image.pending ? (
+                  <MediaPlaceholder slot={image.slot} ratio={image.ratio} eager={eager && i === 0} />
+                ) : (
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    width="800"
+                    height="600"
+                    loading={eager && i === 0 ? "eager" : "lazy"}
+                    fetchpriority={eager && i === 0 ? "high" : undefined}
+                    decoding="async"
+                  />
+                )
+              }
             </li>
           ))
         }
@@ -157,9 +170,9 @@ const featuredId = `destacados-${brand.slug}`;
     flex-direction: column;
   }
 
-  /* Marcador de contenido pendiente: se lee como etiqueta de plano, no como
-     texto final. Va ARRIBA del nombre, como el eyebrow del mockup. */
-  .brand-card__locator {
+  /* Etiqueta de posición en el ecosistema. Va ARRIBA del nombre, como el
+     eyebrow del mockup. */
+  .brand-card__eyebrow {
     font-size: 0.75rem;
     font-weight: 500;
     line-height: 1;

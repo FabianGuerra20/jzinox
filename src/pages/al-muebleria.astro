@@ -9,6 +9,7 @@
  * Jerarquía SEO: h1 (marca) → h2 (secciones AL 2/3/4) → h3 (servicios y piezas).
  */
 import Layout from "../layouts/Layout.astro";
+import MediaPlaceholder from "../components/MediaPlaceholder.astro";
 import { alMuebleriaPage, alMuebleriaCatalog, alMuebleria } from "../data/brands.js";
 import { site } from "../data/site.js";
 
@@ -18,25 +19,25 @@ const featured = alMuebleriaCatalog.slice(0, 4);
 
 <Layout
 	title="AL Mueblería"
-	description="AL Mueblería, aliado estratégico de JZINOX: mueblería de línea plana, diseño a medida, fabricación en taller e instalación."
+	description="Muebles a medida en línea plana y estilo industrial: clósets, cocinas empotradas y mobiliario comercial. Herrajes Häfele, Blum y Hettich."
 >
 	{/* --- AL 1: presentación de la marca --- */}
 	<section class="section page-hero al-hero">
 		<div class="container">
 			<span class="eyebrow">{hero.eyebrow}</span>
 			<h1>{hero.title}</h1>
-			<p class="al-hero__locator">{hero.locator}</p>
+			<p class="al-hero__subtitle">{hero.subtitle}</p>
 			<p>{hero.lead}</p>
 
 			<div class="al-hero__actions">
-				<a href="#al-catalogo" class="btn btn--primary">Ver mini-catálogo</a>
+				<a href="#al-catalogo" class="btn btn--primary">Ver proyectos</a>
 				<a href="/contacto" class="btn btn--outline">Cotizar Proyecto</a>
 			</div>
 		</div>
 	</section>
 
 	{/* --- AL 2: resumen de servicios --- */}
-	<section class="section section--alt" aria-labelledby="al-servicios">
+	<section class="section section--alt" id="servicios" aria-labelledby="al-servicios">
 		<div class="container">
 			<div class="section-head">
 				<span class="eyebrow">{services.eyebrow}</span>
@@ -44,13 +45,18 @@ const featured = alMuebleriaCatalog.slice(0, 4);
 				<p>{services.lead}</p>
 			</div>
 
-			<div class="bento bento--4">
+			{/* Tres celdas, no cuatro: el PDF entrega exactamente tres servicios
+			    con sus viñetas. Forzar una cuarta obligaría a inventar un servicio. */}
+			<div class="bento bento--3">
 				{
 					services.items.map((service, i) => (
 						<article class="bento__cell bento__cell--hover al-service">
 							<span class="bento__index">{String(i + 1).padStart(2, "0")}</span>
 							<h3>{service.title}</h3>
 							<p>{service.summary}</p>
+							<ul class="check-list">
+								{service.details.map((detail) => <li>{detail}</li>)}
+							</ul>
 						</article>
 					))
 				}
@@ -76,16 +82,24 @@ const featured = alMuebleriaCatalog.slice(0, 4);
 							    cuatro piezas se quedarían grises para siempre. En un
 							    catálogo la madera y el acabado SON el dato. El marco existe
 							    solo para anclar la barra de acento sobre la imagen. */}
+							{/* Mientras no lleguen las fotos reales, el hueco dice qué foto va
+							    ahí: una caja gris muda se lee como un error de carga. */}
 							<div class="al-product__frame">
-								<img
-									src={item.image.src}
-									alt={item.image.alt}
-									width="800"
-									height="600"
-									loading="lazy"
-									decoding="async"
-									class="al-product__media"
-								/>
+								{
+									item.image.pending ? (
+										<MediaPlaceholder slot={item.image.slot} ratio={item.image.ratio} />
+									) : (
+										<img
+											src={item.image.src}
+											alt={item.image.alt}
+											width="800"
+											height="600"
+											loading="lazy"
+											decoding="async"
+											class="al-product__media"
+										/>
+									)
+								}
 							</div>
 							<div class="al-product__body">
 								<span class="tag">{item.category}</span>
@@ -133,13 +147,16 @@ const featured = alMuebleriaCatalog.slice(0, 4);
 </Layout>
 
 <style>
-	/* Marcador de contenido pendiente, mismo tratamiento que en las tarjetas del Inicio */
-	.al-hero__locator {
-		font-family: var(--font-mono);
-		font-size: 0.78rem;
-		letter-spacing: 0.12em;
-		color: var(--color-accent);
-		margin-bottom: 1rem;
+	/* Bajada del titular, no una etiqueta técnica: "Mueblistería y ebanistería"
+	   es el oficio de la marca. Va en la grotesca de titulares, un escalón bajo
+	   el h1. (--font-mono no se carga desde Google Fonts: aterrizaba en Consolas.) */
+	.al-hero__subtitle {
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: clamp(1rem, 2.2vw, 1.25rem);
+		letter-spacing: 0.01em;
+		color: var(--color-text-muted);
+		margin-bottom: 1.25rem;
 	}
 
 	/* Mismo gap que `.cta-band__actions`: las dos filas de botones de la página

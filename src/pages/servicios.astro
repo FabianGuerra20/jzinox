@@ -3,7 +3,7 @@
  * Servicios de JZINOX.
  *
  * Los nombres de servicio son los reales; los textos de apoyo son placeholder
- * localizable (SERVICIOS 1..4, PASO 1..4) hasta que llegue el copy definitivo.
+ * El copy sale del PDF del cliente; los bloques [PROPUESTA] esperan validación.
  * Jerarquía: h1 → h2 por sección → h3 por servicio y por etapa.
  */
 import Layout from "../layouts/Layout.astro";
@@ -13,16 +13,16 @@ import { services, processSteps } from "../data/services.js";
 
 <Layout
 	title="Servicios"
-	description="Fabricación, instalación y mantención de equipamiento gastronómico en acero inoxidable: cocinas industriales, campanas, mesones, lavaplatos y soldadura TIG."
+	description="Soldadura TIG, MIG y aluminio, corte y plegado, diseño y fabricación a medida en acero inoxidable. Taller propio con más de 20 años de oficio."
 >
 	{/* --- SERVICIOS 1: encabezado --- */}
 	<section class="section page-hero" aria-labelledby="servicios-titulo">
 		<div class="container">
 			<span class="eyebrow">Servicios</span>
-			<h1 id="servicios-titulo">SERVICIOS 1</h1>
+			<h1 id="servicios-titulo">Soldadura, corte, plegado y diseño en acero inoxidable</h1>
 			<p>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.
+				Hacemos el proyecto completo en taller propio: medimos tu espacio, diseñamos la
+				solución, cortamos y plegamos la plancha, soldamos y la instalamos.
 			</p>
 		</div>
 	</section>
@@ -32,8 +32,8 @@ import { services, processSteps } from "../data/services.js";
 		<div class="container">
 			<div class="section-head">
 				<span class="eyebrow">Qué hacemos</span>
-				<h2 id="servicios-listado">SERVICIOS 2</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+				<h2 id="servicios-listado">Qué hacemos</h2>
+				<p>Seis servicios que cubren el proyecto de punta a punta, sin subcontratar la parte difícil.</p>
 			</div>
 
 			<div class="bento bento--3">
@@ -60,8 +60,8 @@ import { services, processSteps } from "../data/services.js";
 		<div class="container">
 			<div class="section-head">
 				<span class="eyebrow">Cómo trabajamos</span>
-				<h2 id="servicios-proceso">SERVICIOS 3</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+				<h2 id="servicios-proceso">Cómo trabajamos</h2>
+				<p>Cuatro etapas, y en cada una sabes qué viene después y cuánto demora.</p>
 			</div>
 
 			<ol class="bento bento--4 steps" role="list">
@@ -82,8 +82,8 @@ import { services, processSteps } from "../data/services.js";
 	<section class="section section--alt cta-band" aria-labelledby="servicios-cierre">
 		<div class="container cta-band__inner">
 			<div>
-				<h2 id="servicios-cierre">SERVICIOS 4</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+				<h2 id="servicios-cierre">¿Listo para cotizar?</h2>
+				<p>Cuéntanos qué necesitas y te respondemos con medidas, materiales y plazos.</p>
 			</div>
 			<div class="cta-band__actions">
 				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>

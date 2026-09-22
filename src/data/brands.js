@@ -1,29 +1,25 @@
 /**
  * Las dos marcas del ecosistema, tal como se presentan en el Inicio.
  *
- * CONTENIDO PLACEHOLDER. Todo texto visible es un localizador numerado para que el
- * cliente indique qué debe decir cada ranura, y el cuerpo va en lorem ipsum.
+ * CONTENIDO DEL CLIENTE — entregado en el PDF de textos.
+ *   [PDF]       texto literal del documento del cliente. No reescribir.
+ *   [PROPUESTA] redactado por nosotros porque el PDF dejó la ranura vacía.
+ *               El cliente debe validarlo antes de publicar.
  *
- * Convención de numeración:
- *   INICIO n        secciones de la portada
- *   AL n            secciones de la landing de AL Mueblería
- *   PRODUCTO n      piezas del catálogo de JZ INOX  (misma numeración que catalog.js:
- *                   un producto tiene UN número en todo el sitio)
- *   PRODUCTO AL n   piezas del catálogo de AL Mueblería
- *   SERVICIO AL n   servicios propios de AL Mueblería
- *   CATEGORÍA AL n  categorías de AL Mueblería
- *
- * Los nombres de marca ("JZ INOX", "AL MUEBLERÍA") sí son reales: identifican a las
- * empresas, no son contenido a redactar.
+ * Las imágenes siguen siendo placeholders. Cada una declara `pending: true`,
+ * el nombre de la ranura y la proporción requerida, para que sustituir la foto
+ * real no provoque reflujo y el cliente sepa qué foto mandar.
  */
 
 export const brands = [
   {
     slug: "jzinox",
     name: "JZ INOX",
-    // Localizador del subtítulo que el cliente debe reemplazar
-    locator: "INICIO 2",
-    lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    // Sitúa la marca en el ecosistema: el visitante entiende de entrada que una
+    // es la casa y la otra es aliada, sin tener que deducirlo del menú.
+    eyebrow: "Marca principal",
+    // [PDF] Subtítulo de la página de inicio
+    lead: "Soluciones en acero inoxidable diseñadas a la medida de tu negocio. Fabricamos mesones, equipamiento y mobiliario de alta durabilidad para restaurantes, comida rápida e industria alimentaria.",
     href: "/",
     actions: [
       { href: "/catalogo", label: "Ver catálogo", variant: "primary" },
@@ -32,43 +28,44 @@ export const brands = [
     featuredTitle: "Productos destacados",
     featuredHref: "/catalogo",
     featuredLabel: "Ver catálogo completo",
-    // Los números remiten a catalog.js, no a la posición en esta lista: así
-    // "PRODUCTO 5" es la misma pieza aquí y en /catalogo.
+    // [PROPUESTA] Los nombres salen de las ranuras previstas del catálogo.
     featured: [
-      { name: "PRODUCTO 1", note: "Lorem ipsum dolor sit amet." },
-      { name: "PRODUCTO 4", note: "Consectetur adipiscing elit." },
-      { name: "PRODUCTO 5", note: "Sed do eiusmod tempor incididunt." },
-      { name: "PRODUCTO 10", note: "Ut labore et dolore magna aliqua." },
+      { name: "Mesón de trabajo en acero inoxidable", note: "Cubierta lisa o con peto, patas regulables." },
+      { name: "Lavaplatos industrial de dos cubas", note: "Prelavado y enjuague en una sola pieza." },
+      { name: "Campana extractora mural", note: "Filtros desmontables para lavado." },
+      { name: "Estantería de acero inoxidable", note: "Bandejas regulables para bodega y frío." },
     ],
     images: [
-      { src: "/brands/jzinox-01.svg", alt: "Imagen referencial 1 del taller de JZ INOX — a reemplazar" },
-      { src: "/brands/jzinox-02.svg", alt: "Imagen referencial 2 del taller de JZ INOX — a reemplazar" },
-      { src: "/brands/jzinox-03.svg", alt: "Imagen referencial 3 del taller de JZ INOX — a reemplazar" },
+      { src: "/brands/jzinox-01.svg", alt: "Mesón de trabajo en acero inoxidable fabricado por JZ INOX", pending: true, slot: "Mesón de trabajo", ratio: "3:2" },
+      { src: "/brands/jzinox-02.svg", alt: "Puesto de soldadura TIG en el taller de JZ INOX", pending: true, slot: "Puesto de soldadura", ratio: "3:2" },
+      { src: "/brands/jzinox-03.svg", alt: "Campana de extracción instalada en una cocina industrial", pending: true, slot: "Campana instalada", ratio: "3:2" },
     ],
   },
   {
     slug: "al-muebleria",
     name: "AL MUEBLERÍA",
-    locator: "INICIO 3",
-    lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+    eyebrow: "Marca aliada",
+    // [PDF] Primer párrafo de la descripción
+    lead: "Nos dedicamos a dar vida a tus espacios mediante la fabricación de mobiliario a medida. Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo.",
     href: "/al-muebleria",
     actions: [
-      { href: "/al-muebleria", label: "Ver catálogo", variant: "primary" },
-      { href: "/al-muebleria", label: "Ver servicios", variant: "outline" },
+      { href: "/al-muebleria", label: "Ver la marca", variant: "primary" },
+      { href: "/al-muebleria#servicios", label: "Ver servicios", variant: "outline" },
     ],
-    featuredTitle: "Productos destacados",
+    featuredTitle: "Lo que fabricamos",
     featuredHref: "/al-muebleria",
     featuredLabel: "Ver la marca completa",
+    // [PDF] Salen de los bullets de servicios del documento
     featured: [
-      { name: "PRODUCTO AL 1", note: "Lorem ipsum dolor sit amet." },
-      { name: "PRODUCTO AL 2", note: "Consectetur adipiscing elit." },
-      { name: "PRODUCTO AL 3", note: "Sed do eiusmod tempor incididunt." },
-      { name: "PRODUCTO AL 4", note: "Ut labore et dolore magna aliqua." },
+      { name: "Cocinas empotradas y clósets", note: "Línea plana, medida al rincón exacto." },
+      { name: "Mostradores y recepción", note: "Locales comerciales y patios de comida." },
+      { name: "Estaciones de trabajo", note: "Mobiliario para personal de empresas." },
+      { name: "Piezas en estilo industrial", note: "Madera combinada con estructura metálica." },
     ],
     images: [
-      { src: "/brands/al-muebleria-01.svg", alt: "Imagen referencial 1 de AL Mueblería — a reemplazar" },
-      { src: "/brands/al-muebleria-02.svg", alt: "Imagen referencial 2 de AL Mueblería — a reemplazar" },
-      { src: "/brands/al-muebleria-03.svg", alt: "Imagen referencial 3 de AL Mueblería — a reemplazar" },
+      { src: "/brands/al-muebleria-01.svg", alt: "Clóset de línea plana fabricado a medida por AL Mueblería", pending: true, slot: "Clóset de línea plana", ratio: "3:2" },
+      { src: "/brands/al-muebleria-02.svg", alt: "Mostrador de local comercial fabricado por AL Mueblería", pending: true, slot: "Mostrador comercial", ratio: "3:2" },
+      { src: "/brands/al-muebleria-03.svg", alt: "Mueble en estilo industrial con estructura metálica", pending: true, slot: "Pieza estilo industrial", ratio: "3:2" },
     ],
   },
 ];
@@ -77,89 +74,106 @@ export const jzinox = brands[0];
 export const alMuebleria = brands[1];
 
 /**
- * Contenido de la landing interna de AL Mueblería.
- * Todo placeholder: títulos localizadores + lorem ipsum.
+ * Landing interna de AL Mueblería.
+ * Casi todo es [PDF]: el documento del cliente trae esta sección completa.
  */
 export const alMuebleriaPage = {
   hero: {
-    eyebrow: "Aliado estratégico",
-    title: "AL MUEBLERÍA",
-    locator: "AL 1",
-    lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation.",
+    eyebrow: "Marca aliada",
+    // [PDF] "Muebles a Medida | Mueblistería y Ebanistería"
+    title: "Muebles a medida",
+    subtitle: "Mueblistería y ebanistería",
+    // [PDF] Primer párrafo, literal
+    lead: "Nos dedicamos a dar vida a tus espacios mediante la fabricación de mobiliario a medida. Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo, como patios de comida, locales y áreas de personal.",
   },
   services: {
-    eyebrow: "Servicios",
-    title: "AL 2",
-    lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+    eyebrow: "Nuestros servicios",
+    // [PROPUESTA] El PDF titula la sección solo como "Nuestros Servicios"
+    title: "Tres formas de trabajar contigo",
+    // [PDF] Segundo párrafo de la descripción
+    lead: "¿Tienes un proyecto en mente? Te acompañamos en cada etapa de la fabricación y te hacemos parte activa del proceso para asegurar que el resultado final supere todas tus expectativas.",
+    // [PDF] Los tres servicios con sus bullets, literales
     items: [
       {
-        title: "SERVICIO AL 1", // ranura prevista: mueblería de línea plana
+        title: "Mobiliario domiciliario",
         summary:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+          "Diseño y fabricación de muebles a medida para el hogar, optimizando cada rincón con soluciones funcionales en línea plana y piezas exclusivas en estilo industrial.",
+        details: [
+          "Cocinas empotradas, clósets y vestidores",
+          "Muebles de centro de entretenimiento, vanitorios y repisas",
+          "Piezas de acento en madera y estructuras metálicas",
+        ],
       },
       {
-        title: "SERVICIO AL 2", // ranura prevista: diseño y medición a medida
+        title: "Mobiliario comercial y corporativo",
         summary:
-          "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.",
+          "Equipamiento integral para empresas y negocios, proyectando una imagen profesional y de alta resistencia al uso intensivo.",
+        details: [
+          "Patios de comida, casinos y restaurantes",
+          "Locales comerciales, mostradores y recepción",
+          "Estaciones de trabajo y mobiliario para personal de empresas",
+        ],
       },
       {
-        title: "SERVICIO AL 3", // ranura prevista: fabricación en taller
+        title: "Herrajería y tecnología de alta gama",
         summary:
-          "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla.",
-      },
-      {
-        title: "SERVICIO AL 4", // ranura prevista: instalación y armado
-        summary:
-          "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.",
+          "Integramos herrajes de marcas líderes a nivel mundial (Häfele, Blum, Hettich, Ducasse, HBT y Provelcar) para garantizar durabilidad, suave apertura y la máxima sofisticación en cada proyecto.",
+        details: [
+          "Sistemas de cierre suave, rieles ocultos y mecanismos elevables",
+          "Soluciones desde lo esencial hasta la máxima automatización",
+        ],
       },
     ],
   },
   catalog: {
-    eyebrow: "Mini-catálogo",
-    title: "AL 3",
-    lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+    eyebrow: "Galería",
+    // [PROPUESTA] El PDF deja la galería vacía
+    title: "Proyectos entregados",
+    lead: "Una muestra de lo que hemos fabricado. Cada pieza sale del mismo proceso: medición en terreno, diseño aprobado y fabricación a medida.",
   },
   cta: {
-    title: "AL 4",
-    lead: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.",
+    // [PDF] "¿Tienes un proyecto en mente? Cotiza con nosotros."
+    title: "¿Tienes un proyecto en mente?",
+    lead: "Cotiza con nosotros. Te acompañamos en cada etapa de la fabricación.",
   },
 };
 
 /**
- * Mini-catálogo destacado de AL Mueblería (máximo 4 piezas).
- * El `id` es técnico y conserva la pieza prevista para cada ranura.
+ * Galería de AL Mueblería (4 piezas).
+ * [PROPUESTA] El PDF deja la galería vacía; los nombres salen de los bullets
+ * de servicios del propio documento.
  */
 export const alMuebleriaCatalog = [
   {
     id: "closet-linea-plana",
-    name: "PRODUCTO AL 1", // ranura prevista: clóset de línea plana
-    category: "CATEGORÍA AL 1", // ranura prevista: Dormitorio
+    name: "Clóset de línea plana",
+    category: "Domiciliario",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
-    image: { src: "/brands/al-muebleria-01.svg", alt: "Imagen referencial de la pieza PRODUCTO AL 1 de AL Mueblería — a reemplazar" },
+      "Vestidor a medida con puertas de línea plana y organización interior adaptada al rincón disponible.",
+    image: { src: "/brands/al-muebleria-01.svg", alt: "Clóset de línea plana con puertas lisas fabricado a medida", pending: true, slot: "Clóset de línea plana", ratio: "4:3" },
   },
   {
-    id: "comoda-cajones",
-    name: "PRODUCTO AL 2", // ranura prevista: cómoda de cajones
-    category: "CATEGORÍA AL 1",
+    id: "cocina-empotrada",
+    name: "Cocina empotrada",
+    category: "Domiciliario",
     description:
-      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.",
-    image: { src: "/brands/al-muebleria-02.svg", alt: "Imagen referencial de la pieza PRODUCTO AL 2 de AL Mueblería — a reemplazar" },
+      "Cocina completa con herrajes de cierre suave y aprovechamiento de cada rincón del espacio real.",
+    image: { src: "/brands/al-muebleria-02.svg", alt: "Cocina empotrada a medida con herrajes de cierre suave", pending: true, slot: "Cocina empotrada", ratio: "4:3" },
   },
   {
-    id: "velador-dormitorio",
-    name: "PRODUCTO AL 3", // ranura prevista: velador de dormitorio
-    category: "CATEGORÍA AL 1",
+    id: "mostrador-comercial",
+    name: "Mostrador de recepción",
+    category: "Comercial",
     description:
-      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-    image: { src: "/brands/al-muebleria-03.svg", alt: "Imagen referencial de la pieza PRODUCTO AL 3 de AL Mueblería — a reemplazar" },
+      "Mostrador para local comercial, dimensionado para uso intensivo y con frente de imagen corporativa.",
+    image: { src: "/brands/al-muebleria-03.svg", alt: "Mostrador de recepción para local comercial", pending: true, slot: "Mostrador de recepción", ratio: "4:3" },
   },
   {
-    id: "repisa-mural",
-    name: "PRODUCTO AL 4", // ranura prevista: repisa mural modular
-    category: "CATEGORÍA AL 2", // ranura prevista: Living
+    id: "estacion-trabajo",
+    name: "Estación de trabajo",
+    category: "Corporativo",
     description:
-      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est.",
-    image: { src: "/brands/al-muebleria-01.svg", alt: "Imagen referencial de la pieza PRODUCTO AL 4 de AL Mueblería — a reemplazar" },
+      "Puestos de trabajo para personal de empresa, en línea plana combinada con estructura metálica.",
+    image: { src: "/brands/al-muebleria-01.svg", alt: "Estaciones de trabajo para personal de empresa", pending: true, slot: "Estación de trabajo", ratio: "4:3" },
   },
 ];

@@ -1,6 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { catalog, catalogCategories } from "../data/catalog.js";
+import { catalog, catalogCategories, pricesArePlaceholder } from "../data/catalog.js";
 import { site } from "../data/site.js";
 
 const formatPrice = (price) =>
@@ -28,16 +28,29 @@ const groups = catalogCategories
 
 <Layout
 	title="Catálogo"
-	description="Catálogo y lista de precios referenciales de JZINOX: mesones, lavaplatos, campanas de extracción, estanterías y estructuras en acero inoxidable."
+	description="Catálogo de mesones, lavaplatos, campanas y estructuras en acero inoxidable con valores referenciales para dimensionar tu proyecto."
 >
 	<section class="section page-hero">
 		<div class="container">
 			<span class="eyebrow">Catálogo</span>
-			<h1>CATÁLOGO 1</h1>
+			<h1>Catálogo y valores referenciales</h1>
 			<p>
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.
+				Valores de referencia para dimensionar tu proyecto. El precio final depende de las
+				medidas, el espesor de la plancha y la complejidad de la instalación.
 			</p>
+
+			{
+				/* El aviso va ARRIBA, no en la nota al pie: una lista de precios que el
+				   cliente puede confundir con la real es lo más riesgoso de esta maqueta.
+				   Se apaga solo, desde catalog.js, cuando los precios sean los definitivos. */
+				pricesArePlaceholder && (
+					<p class="price-warning" role="note">
+						<strong>Valores de demostración.</strong> Los precios de esta maqueta son
+						referencias de ejemplo, no la lista de precios de JZINOX. Se reemplazan por
+						los valores reales antes de publicar el sitio.
+					</p>
+				)
+			}
 
 			<nav class="catalog-nav" aria-label="Categorías del catálogo">
 				{groups.map((group) => (
@@ -96,8 +109,8 @@ const groups = catalogCategories
 
 			<div class="cta-plate">
 				<div>
-					<h2>CATÁLOGO 2</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+					<h2>¿No encuentras lo que buscas?</h2>
+					<p>Fabricamos a medida según tus planos o el levantamiento en terreno.</p>
 				</div>
 				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
 			</div>
@@ -106,6 +119,21 @@ const groups = catalogCategories
 </Layout>
 
 <style>
+	/* Amarillo de advertencia sobre la base clara: el único uso de un color
+	   fuera de la paleta en todo el sitio, y es deliberado — su trabajo es
+	   interrumpir la lectura, no integrarse. Texto grafito sobre #fdf6e3 da
+	   14.8:1, muy por encima de AA. */
+	.price-warning {
+		margin-top: 1.5rem;
+		padding: 0.9rem 1.1rem;
+		border: 1px solid #d9c47a;
+		border-left-width: 4px;
+		background-color: #fdf6e3;
+		color: var(--color-graphite);
+		font-size: 0.9rem;
+		max-width: 68ch;
+	}
+
 	.catalog-nav {
 		display: flex;
 		flex-wrap: wrap;

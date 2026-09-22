@@ -1,92 +1,158 @@
-// CONTENIDO PLACEHOLDER a la espera del texto real del cliente.
+// CONTENIDO DEL CLIENTE — entregado en el PDF de textos.
 //
-// Todo texto visible es un localizador numerado ("SERVICIO 1", "PASO 2"...) para que el
-// cliente indique exactamente qué debe decir cada bloque. El relleno va en lorem ipsum
-// para que nadie confunda un borrador con contenido aprobado.
+//   [PDF]       texto o servicio nombrado en el documento del cliente.
+//   [PROPUESTA] redactado por nosotros porque el PDF dejó la ranura vacía.
+//               El cliente debe validarlo antes de publicar.
 //
-// El `slug` y el `icon` NO son texto visible: son identificadores técnicos (el slug es
-// el ancla de la URL) y conservan el nombre del servicio que ocupará cada ranura. El
-// comentario de cada entrada guarda ese mismo dato en claro, para no perder la
-// correspondencia cuando llegue el copy definitivo.
+// El PDF nombra tres servicios principales para la portada (soldadura TIG/MIG/
+// aluminio, corte y plegado, diseño) y menciona fabricación, reparación y
+// mantención en el titular. Esos cinco son [PDF]; el sexto es propuesta nuestra.
+//
+// `slug` e `icon` son identificadores técnicos: el slug es el ancla de la URL.
+
 export const services = [
   {
-    slug: "equipamiento-cocina",
-    title: "SERVICIO 1", // ranura prevista: equipamiento de cocina industrial
+    slug: "soldadura-tig-mig",
+    // [PDF] "Soldadura tig, mig y aluminio"
+    title: "Soldadura TIG, MIG y aluminio",
+    icon: "tig",
+    summary:
+      "Uniones limpias en acero inoxidable y aluminio, con el proceso elegido según la pieza: TIG donde el cordón queda a la vista, MIG donde manda el rendimiento.",
+    details: [
+      "Soldadura TIG para terminación sanitaria a la vista",
+      "Soldadura MIG para estructura y uso intensivo",
+      "Aluminio para piezas donde el peso importa",
+    ],
+  },
+  {
+    slug: "corte-plegado",
+    // [PDF] "corte y plegado"
+    title: "Corte y plegado",
+    icon: "shelf",
+    summary:
+      "Corte y plegado de plancha a la medida exacta de tu proyecto, para que cada pieza llegue al montaje sin ajustes de última hora.",
+    details: [
+      "Corte de plancha en distintos espesores",
+      "Plegado a medida según plano o levantamiento",
+      "Piezas listas para armado e instalación",
+    ],
+  },
+  {
+    slug: "diseno-proyecto",
+    // [PDF] "diseño"
+    title: "Diseño de proyecto",
+    icon: "counter",
+    summary:
+      "Tomamos las medidas reales de tu espacio y diseñamos la solución completa antes de cortar la primera plancha.",
+    details: [
+      "Levantamiento y medición en terreno",
+      "Propuesta adaptada al flujo de trabajo del local",
+      "Planos para aprobar antes de fabricar",
+    ],
+  },
+  {
+    slug: "mesones-equipamiento",
+    // [PDF] "Fabricamos mesones, equipamiento y mobiliario de alta durabilidad"
+    title: "Mesones y equipamiento",
     icon: "kitchen",
     summary:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Mesones, mobiliario y equipamiento en acero inoxidable fabricados a medida para restaurantes, comida rápida e industria alimentaria.",
     details: [
-      "Lorem ipsum dolor sit amet consectetur",
-      "Adipiscing elit sed do eiusmod tempor",
-      "Incididunt ut labore et dolore magna",
+      "Mesones de trabajo, lavado y despacho",
+      "Mobiliario de alta durabilidad para uso intensivo",
+      "Estructuras dimensionadas al espacio real",
     ],
   },
   {
     slug: "campanas-extraccion",
-    title: "SERVICIO 2", // ranura prevista: campanas y ductos de extracción
+    // [PROPUESTA] No está en el PDF, pero es parte del rubro y del catálogo
+    title: "Campanas y extracción",
     icon: "hood",
     summary:
-      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Campanas y ductos de extracción en acero inoxidable, dimensionados al caudal que realmente necesita tu cocina.",
     details: [
-      "Lorem ipsum dolor sit amet consectetur",
-      "Adipiscing elit sed do eiusmod tempor",
-      "Incididunt ut labore et dolore magna",
+      "Campanas murales y centrales",
+      "Ductos, codos y terminales de descarga",
+      "Filtros desmontables para lavado",
     ],
   },
   {
-    slug: "mesones-lavaplatos",
-    title: "SERVICIO 3", // ranura prevista: mesones y lavaplatos
-    icon: "counter",
-    summary:
-      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-    details: [
-      "Lorem ipsum dolor sit amet consectetur",
-      "Adipiscing elit sed do eiusmod tempor",
-      "Incididunt ut labore et dolore magna",
-    ],
-  },
-  {
-    slug: "soldadura-tig",
-    title: "SERVICIO 4", // ranura prevista: soldadura TIG
-    icon: "tig",
-    summary:
-      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    details: [
-      "Lorem ipsum dolor sit amet consectetur",
-      "Adipiscing elit sed do eiusmod tempor",
-      "Incididunt ut labore et dolore magna",
-    ],
-  },
-  {
-    slug: "estanterias-almacenamiento",
-    title: "SERVICIO 5", // ranura prevista: estanterías y almacenamiento
-    icon: "shelf",
-    summary:
-      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.",
-    details: [
-      "Lorem ipsum dolor sit amet consectetur",
-      "Adipiscing elit sed do eiusmod tempor",
-      "Incididunt ut labore et dolore magna",
-    ],
-  },
-  {
-    slug: "mantencion-reparaciones",
-    title: "SERVICIO 6", // ranura prevista: mantención y reparaciones
+    slug: "reparacion-mantencion",
+    // [PDF] "Fabricación, reparación y mantención de estructuras"
+    title: "Reparación y mantención",
     icon: "tools",
     summary:
-      "Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt.",
+      "Reparamos y reforzamos equipamiento que todavía tiene vida útil, porque reemplazar la línea completa rara vez es la primera respuesta correcta.",
     details: [
-      "Lorem ipsum dolor sit amet consectetur",
-      "Adipiscing elit sed do eiusmod tempor",
-      "Incididunt ut labore et dolore magna",
+      "Reparación de estructuras y cubiertas",
+      "Refuerzo y nivelación de piezas existentes",
+      "Mantención programada del equipamiento instalado",
     ],
   },
 ];
 
-// Etapas del proceso de trabajo mostradas en /servicios.
+/**
+ * Los tres servicios que el PDF nombra como principales para la portada, con
+ * las dos imágenes por servicio que el propio documento pide.
+ *
+ * [PDF] "Principales servicios: Soldadura tig, mig y aluminio (2 imagenes) /
+ *        corte y plegado (2 imagenes) / diseño (2 imagenes)"
+ *
+ * Se componen en filas alternadas, no en tres columnas iguales: la grilla de
+ * tres tarjetas simétricas con icono es el patrón que delata una plantilla, y
+ * además aplasta las seis fotos a miniaturas donde no se distingue el trabajo.
+ */
+export const mainServices = [
+  {
+    slug: "soldadura-tig-mig",
+    title: "Soldadura TIG, MIG y aluminio",
+    blurb:
+      "El proceso se elige según la pieza: TIG donde el cordón queda a la vista, MIG donde manda el rendimiento.",
+    media: [
+      { slot: "Cordón de soldadura TIG en detalle", ratio: "3:2" },
+      { slot: "Soldador trabajando en el taller", ratio: "3:2" },
+    ],
+  },
+  {
+    slug: "corte-plegado",
+    title: "Corte y plegado",
+    blurb:
+      "Plancha cortada y plegada a la medida exacta del proyecto, para que el montaje no dependa de ajustes a última hora.",
+    media: [
+      { slot: "Plegadora en operación", ratio: "3:2" },
+      { slot: "Piezas cortadas listas para armado", ratio: "3:2" },
+    ],
+  },
+  {
+    slug: "diseno-proyecto",
+    title: "Diseño",
+    blurb:
+      "Medimos el espacio real y diseñamos la solución completa antes de cortar la primera plancha.",
+    media: [
+      { slot: "Plano de proyecto sobre el mesón", ratio: "3:2" },
+      { slot: "Medición en terreno", ratio: "3:2" },
+    ],
+  },
+];
+
+// [PROPUESTA] El PDF no describe el proceso de trabajo. Estas cuatro etapas
+// salen de lo que el propio documento implica ("desde el diseño inicial hasta
+// la fabricación, reparación y mantención"). Validar con el cliente.
 export const processSteps = [
-  { title: "PASO 1", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do." },
-  { title: "PASO 2", description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco." },
-  { title: "PASO 3", description: "Duis aute irure dolor in reprehenderit in voluptate velit esse." },
-  { title: "PASO 4", description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa." },
+  {
+    title: "Levantamiento",
+    description: "Vamos a tu local, medimos el espacio real y entendemos cómo se trabaja ahí.",
+  },
+  {
+    title: "Diseño y cotización",
+    description: "Te mostramos la propuesta con medidas, materiales y plazos antes de fabricar.",
+  },
+  {
+    title: "Fabricación",
+    description: "Cortamos, plegamos y soldamos en taller propio, con manufactura nacional.",
+  },
+  {
+    title: "Instalación",
+    description: "Montamos en terreno, nivelamos y dejamos el equipamiento operativo.",
+  },
 ];

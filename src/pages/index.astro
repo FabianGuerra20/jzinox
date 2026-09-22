@@ -8,12 +8,14 @@
  *   INICIO 3  placa de marca AL Mueblería (fondo gris)
  *   INICIO 4  cierre centrado con doble CTA
  *
- * Los títulos siguen siendo localizadores y el cuerpo, lorem ipsum: el cliente
- * indica qué debe decir cada bloque antes de que entre el copy real.
+ * El copy sale del PDF del cliente. Los bloques marcados [PROPUESTA] en
+ * `src/data/` los redactamos nosotros y esperan validación.
  */
 import Layout from "../layouts/Layout.astro";
 import BrandCard from "../components/BrandCard.astro";
+import MediaPlaceholder from "../components/MediaPlaceholder.astro";
 import { brands } from "../data/brands.js";
+import { mainServices } from "../data/services.js";
 import { site } from "../data/site.js";
 
 /**
@@ -32,7 +34,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 <Layout
 	flush
 	title="Inicio"
-	description="JZINOX y AL Mueblería: equipamiento gastronómico en acero inoxidable y mueblería de línea plana."
+	description="Fabricación, reparación y mantención de estructuras en acero inoxidable 100% a medida. Más de 20 años equipando restaurantes, comida rápida e industria alimentaria."
 >
 	{/* --- INICIO 1: hero --- */}
 	<section class="hero">
@@ -40,14 +42,51 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		<div class="hero__veil" aria-hidden="true"></div>
 
 		<div class="container hero__inner">
-			<span class="hero__eyebrow">Encabezado</span>
-			<h1 class="hero__title">INICIO 1</h1>
+			<span class="hero__eyebrow">Manufactura nacional · 20+ años</span>
+			<h1 class="hero__title">Fabricación, reparación y mantención de estructuras en acero inoxidable</h1>
 			<p class="hero__lead">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-				exercitation ullamco laboris.
+				Soluciones en acero inoxidable diseñadas a la medida de tu negocio. Fabricamos
+				mesones, equipamiento y mobiliario de alta durabilidad para restaurantes, comida
+				rápida e industria alimentaria.
 			</p>
-			<a href="/contacto" class="btn btn--primary hero__cta">Cotizar Proyecto</a>
+			{/* Dos CTA con peso distinto: cotizar es la acción que el negocio quiere,
+			    hablar con un asesor es la salida para quien todavía no sabe qué pedir.
+			    Con ambos en relleno de acento, la primera decisión sería un volado. */}
+			<div class="hero__actions">
+				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+				<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--hero-ghost">
+					Hablar con un Asesor
+				</a>
+			</div>
+		</div>
+	</section>
+
+	{/* --- Servicios principales: las tres filas que pide el PDF, alternadas --- */}
+	<section class="section services-strip" aria-labelledby="servicios-principales">
+		<div class="container">
+			<div class="section-head">
+				<span class="eyebrow">Principales servicios</span>
+				<h2 id="servicios-principales">Lo que hacemos en taller</h2>
+			</div>
+
+			<div class="strip">
+				{
+					mainServices.map((service, i) => (
+						<article class:list={["strip__row", { "strip__row--flip": i % 2 === 1 }]}>
+							<div class="strip__text">
+								<span class="strip__index">{String(i + 1).padStart(2, "0")}</span>
+								<h3>{service.title}</h3>
+								<p>{service.blurb}</p>
+								<a href={`/servicios#${service.slug}`} class="strip__link">Ver el detalle</a>
+							</div>
+
+							<div class="strip__media">
+								{service.media.map((m) => <MediaPlaceholder slot={m.slot} ratio={m.ratio} />)}
+							</div>
+						</article>
+					))
+				}
+			</div>
 		</div>
 	</section>
 
@@ -65,8 +104,8 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	{/* --- INICIO 4: cierre --- */}
 	<section class="section closing">
 		<div class="container closing__inner">
-			<h2>INICIO 4</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.</p>
+			<h2>Cotiza tu proyecto</h2>
+			<p>Medimos tu espacio, te mostramos la propuesta con plazos y recién ahí fabricamos.</p>
 
 			<div class="closing__actions">
 				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
@@ -143,8 +182,14 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		margin-bottom: 1.5rem;
 	}
 
+	/* El titular del cliente tiene 70 caracteres. Con la escala global de h1 y
+	   20ch de medida se parte en cinco líneas y se come el hero entero, así que
+	   aquí baja un escalón y la medida sube: cabe en dos o tres líneas y el
+	   subtítulo y los CTA vuelven a entrar en la primera pantalla. */
 	.hero__title {
-		max-width: 20ch;
+		max-width: 26ch;
+		font-size: clamp(1.75rem, 3.6vw, 3rem);
+		line-height: 1.08;
 		color: #fff;
 		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 		margin-bottom: 1.5rem;
@@ -158,9 +203,110 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		margin-bottom: 0;
 	}
 
-	.hero__cta {
+	.hero__actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 1rem;
 		margin-top: 2rem;
+	}
+
+	.hero__actions .btn {
 		padding: 1rem 2rem;
+	}
+
+	/* Secundario sobre el velo de acero: el contorno claro se lee sin competir
+	   con el relleno de acento del CTA principal. El rojo de marca sobre este
+	   fondo da 1.18:1, así que aquí el secundario va en blanco. */
+	.btn--hero-ghost {
+		background-color: transparent;
+		border-color: rgba(255, 255, 255, 0.75);
+		color: #fff;
+	}
+
+	.btn--hero-ghost:hover {
+		border-color: #fff;
+		background-color: rgba(255, 255, 255, 0.14);
+		color: #fff;
+	}
+
+	/* =========================================================
+	   Servicios principales — tres filas alternadas
+	   ---------------------------------------------------------
+	   El PDF pide tres servicios con dos imágenes cada uno. En tres
+	   columnas iguales las seis fotos quedan en miniaturas donde no
+	   se distingue el trabajo, y la composición cae en la grilla de
+	   tarjetas simétricas que delata una plantilla. Alternando el
+	   lado del texto, cada servicio tiene su propia fila ancha.
+	   ========================================================= */
+	.strip {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(2rem, 5vw, 3.5rem);
+	}
+
+	.strip__row {
+		display: grid;
+		gap: clamp(1.25rem, 3vw, 2.5rem);
+		align-items: center;
+	}
+
+	@media (min-width: 900px) {
+		.strip__row {
+			grid-template-columns: 0.85fr 1.15fr;
+		}
+
+		/* El flip invierte solo el orden visual: el DOM mantiene texto → imágenes,
+		   que es el orden en que conviene leerlo y escucharlo. */
+		.strip__row--flip .strip__text {
+			order: 2;
+		}
+	}
+
+	.strip__index {
+		display: block;
+		font-family: var(--font-heading);
+		font-variant-numeric: tabular-nums;
+		font-weight: 800;
+		font-size: 0.875rem;
+		letter-spacing: 0.08em;
+		color: var(--color-accent);
+		margin-bottom: 0.75rem;
+	}
+
+	.strip__text h3 {
+		font-size: clamp(1.25rem, 2.6vw, 1.75rem);
+		margin-bottom: 0.75rem;
+	}
+
+	.strip__text p {
+		max-width: 46ch;
+		margin-bottom: 1.25rem;
+	}
+
+	.strip__link {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--tap);
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 0.875rem;
+		letter-spacing: 0.02em;
+		color: var(--color-accent);
+		border-bottom: 1px solid currentColor;
+	}
+
+	.strip__link:hover {
+		color: var(--color-accent-dark);
+	}
+
+	/* Las dos fotos comparten la junta de 1px del sistema, igual que el bento. */
+	.strip__media {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1px;
+		background-color: var(--color-border);
+		border: 1px solid var(--color-border);
+		container-type: inline-size;
 	}
 
 	/* =========================================================

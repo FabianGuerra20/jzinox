@@ -1,64 +1,94 @@
-// CONTENIDO PLACEHOLDER a la espera del texto real del cliente.
-// Cada título es un localizador ("NOSOTROS 2", "VALOR 1", "DATO 1"...) para que
-// el cliente indique exactamente qué debe decir cada bloque. El relleno va en
-// lorem ipsum para que nadie confunda un borrador con contenido aprobado.
+// CONTENIDO DEL CLIENTE — entregado en el PDF de textos.
+//
+// Procedencia de cada bloque:
+//   [PDF]       texto literal del documento del cliente. No reescribir.
+//   [PROPUESTA] redactado por nosotros porque el PDF dejó la ranura vacía.
+//               El cliente debe validarlo antes de publicar.
+//
+// Las cifras NO se inventan: un número inventado en un sitio corporativo es una
+// afirmación falsa, distinto de un texto descriptivo de relleno. Las que el
+// cliente no confirmó se renderizan como ranura de solicitud (`pending: true`),
+// nunca como "00".
+
+// El H1 de la página. Lleva el título que el PDF entrega para "Nosotros":
+// contiene la keyword del negocio y el diferenciador (20 años, resistencia),
+// así que sirve igual de bien como encabezado principal y para buscadores.
+export const pageHero = {
+  eyebrow: "Nosotros",
+  // [PDF] Título de la sección
+  title: "Más de 20 años garantizando calidad y resistencia en acero inoxidable",
+  // [PDF] Primera frase de la presentación, como entrada
+  lead: "Llevamos más de dos décadas transformando el acero inoxidable en soluciones duraderas para la industria alimentaria, restaurantes y locales de comida rápida.",
+};
+
 export const history = {
-  eyebrow: "Historia",
-  title: "NOSOTROS 2",
+  eyebrow: "Nuestra historia",
+  // [PROPUESTA] El PDF no titula este bloque; el H1 ya tomó su título
+  title: "Fabricación a medida, no catálogo estándar",
+  // [PDF] Historia / Presentación, literal
   paragraphs: [
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-    "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae.",
+    "En JZINOX llevamos más de dos décadas transformando el acero inoxidable en soluciones duraderas para la industria alimentaria, restaurantes y locales de comida rápida. Hemos fabricado y diseñado a grandes empresas de la industria alimentaria de la comida rápida.",
+    "Nos dedicamos a la fabricación a medida, sabemos que cada cocina y espacio de trabajo tiene necesidades únicas que los muebles estandarizados no pueden resolver.",
   ],
 };
 
 export const mission = {
   eyebrow: "Misión y visión",
-  title: "NOSOTROS 3",
-  // Sub-bloques de NOSOTROS 3, numerados como 3.1 y 3.2 para que el cliente
-  // pueda referirse a cada uno sin ambigüedad.
+  // [PROPUESTA] El PDF no titula esta sección
+  title: "Lo que nos mueve",
   items: [
     {
-      title: "NOSOTROS 3.1", // ranura prevista: Misión
+      title: "Nuestra misión",
+      // [PDF] Misión, literal
       description:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "Brindar equipamiento e infraestructura en acero inoxidable de la máxima calidad y resistencia, ofreciendo un producto robusto y personalizado que supere con creces la mueblería importada de baja durabilidad. Trabajamos para que tu inversión dure años en perfectas condiciones, optimizando la higiene y operatividad de tu negocio.",
     },
     {
-      title: "NOSOTROS 3.2", // ranura prevista: Visión
+      title: "Nuestra visión",
+      // [PROPUESTA] El PDF entrega la misión pero no la visión
       description:
-        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "Ser el taller de referencia en estructuras de acero inoxidable de la Región Metropolitana: el que llaman cuando la pieza tiene que entrar exacta, aguantar el uso diario y durar más que el local donde se instala.",
     },
   ],
 };
 
 export const valuesSection = {
-  eyebrow: "Valores",
-  title: "NOSOTROS 4",
+  eyebrow: "Por qué elegirnos",
+  // [PDF] "¿Por qué elegir JZINOX? (Puntos clave)"
+  title: "¿Por qué elegir JZINOX?",
 };
 
+// [PDF] Los cuatro puntos clave, literales
 export const values = [
   {
-    title: "VALOR 1",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+    title: "20+ años de experiencia",
+    description:
+      "Conocemos a fondo las exigencias del sector gastronómico y alimentario.",
   },
   {
-    title: "VALOR 2",
-    description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi.",
+    title: "Fabricación 100% a medida",
+    description:
+      "Diseñamos y adaptamos cada estructura a las dimensiones exactas de tu espacio.",
   },
   {
-    title: "VALOR 3",
-    description: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore.",
+    title: "Resistencia superior",
+    description:
+      "Acero inoxidable de verdad, estructurado para uso intensivo y trabajo pesado. Somos manufactura nacional.",
   },
   {
-    title: "VALOR 4",
-    description: "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.",
+    title: "Servicio integral",
+    description:
+      "Te acompañamos desde el diseño inicial hasta la fabricación, reparación y mantención. Contamos con ingeniería, maquinaria y servicio.",
   },
 ];
 
-// TODO: el cliente debe confirmar cada cifra antes de publicar.
+// Banda de cifras. Solo la primera está confirmada por el cliente ([PDF]: "Más
+// de 20 años"). Las otras tres quedan como ranura de solicitud hasta que las
+// confirme: se renderizan con borde punteado y la etiqueta "Dato por confirmar",
+// la misma convención que los placeholders de foto.
 export const stats = [
-  { value: "00+", label: "DATO 1" },
-  { value: "00+", label: "DATO 2" },
-  { value: "00%", label: "DATO 3" },
-  { value: "00", label: "DATO 4" },
+  { value: "20+", label: "Años de experiencia" },
+  { value: null, label: "Dato por confirmar", pending: true, hint: "Proyectos entregados" },
+  { value: null, label: "Dato por confirmar", pending: true, hint: "Clientes atendidos" },
+  { value: null, label: "Dato por confirmar", pending: true, hint: "Garantía de fabricación" },
 ];

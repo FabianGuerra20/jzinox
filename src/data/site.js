@@ -1,8 +1,12 @@
 export const site = {
   name: "JZINOX",
-  tagline: "Equipamiento gastronómico en acero inoxidable",
+  // El tagline cierra el <title> de la portada, así que lleva los términos por
+  // los que el negocio compite: "mesones" y "acero inoxidable a medida" son los
+  // que usan los competidores del rubro en Chile. Del PDF sale el foco en
+  // fabricación a medida, que es justo donde el catálogo estándar no llega.
+  tagline: "Mesones y equipamiento en acero inoxidable a medida",
   description:
-    "Equipamiento gastronómico en acero inoxidable, soldadura TIG y estructuras a medida. Fabricación, instalación y mantención para cocinas industriales, restaurantes y casinos.",
+    "Fabricación, reparación y mantención de estructuras en acero inoxidable 100% a medida. Más de 20 años equipando restaurantes, comida rápida e industria alimentaria.",
   domain: "jzinox.cl",
 
   phoneDisplay: "+56 9 3188 9950",
@@ -29,7 +33,10 @@ export const site = {
 
   formsubmitEndpoint: "https://formsubmit.co/ventas@jzinox.cl",
   siteUrl: "https://jzinox.cl",
-  ogImage: "/og-image.svg",
+  // PNG, no SVG: Facebook, WhatsApp, LinkedIn y X no renderizan SVG en Open
+  // Graph. Con el SVG anterior, compartir cualquier URL salía sin imagen.
+  // El SVG se conserva en public/ como fuente editable.
+  ogImage: "/og-image.png",
 };
 
 // `ally: true` marca una entrada que NO es una sección de JZ Inox sino otra
