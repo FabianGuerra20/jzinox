@@ -1,0 +1,105 @@
+---
+/**
+ * Página de error 404.
+ *
+ * Sin ella, cualquier enlace roto, error de tipeo o rastreador cae en la página
+ * por defecto del hosting: fuera de la marca y sin ninguna salida hacia el sitio.
+ *
+ * El contenido importa tanto como el aspecto. Una 404 que solo dice "página no
+ * encontrada" es un callejón sin salida: quien llegó aquí buscaba algo, así que
+ * la página ofrece las tres rutas por las que ese algo puede estar.
+ */
+import Layout from "../layouts/Layout.astro";
+import { site } from "../data/site.js";
+---
+
+<Layout
+	title="Página no encontrada"
+	description="La página que buscas no existe o cambió de dirección."
+	noindex
+>
+	<section class="section notfound" aria-labelledby="notfound-titulo">
+		<div class="container notfound__inner">
+			<span class="eyebrow">Error 404</span>
+			<h1 id="notfound-titulo">Esta página no existe</h1>
+			<p>
+				El enlace puede estar roto o la página cambió de dirección. Lo que buscas está en
+				alguno de estos tres lugares.
+			</p>
+
+			{/* Rutas reales, no un único "volver al inicio" que obliga a empezar
+			    de nuevo la búsqueda. */}
+			<nav class="notfound__actions" aria-label="Dónde seguir">
+				<a href="/" class="btn btn--primary">Ir al inicio</a>
+				<a href="/catalogo" class="btn btn--outline">Ver el catálogo</a>
+				<a href="/contacto" class="btn btn--outline">Contactarnos</a>
+			</nav>
+
+			<p class="notfound__help">
+				¿Buscabas algo puntual? Escríbenos por
+				<a
+					href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`}
+					target="_blank"
+					rel="noopener noreferrer">WhatsApp</a
+				>
+				y te decimos dónde está.
+			</p>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	/* Mismo tratamiento que /gracias: el header es `fixed` y <main> ya compensa
+	   su altura, así que la sección ocupa exactamente el alto visible restante
+	   y centra su contenido ahí. */
+	.notfound {
+		display: flex;
+		align-items: center;
+		min-height: calc(100vh - var(--header-height));
+		min-height: calc(100svh - var(--header-height));
+		padding-block: clamp(3rem, 8vw, 4.5rem);
+		text-align: center;
+	}
+
+	.notfound__inner {
+		max-width: calc(620px + var(--margin-mobile) * 2);
+		margin: 0 auto;
+	}
+
+	@media (min-width: 1024px) {
+		.notfound__inner {
+			padding-inline: var(--margin-mobile);
+		}
+	}
+
+	.notfound h1 {
+		font-size: clamp(2.5rem, 4.5vw, 3rem);
+	}
+
+	.notfound p {
+		font-size: 1.125rem;
+		margin-bottom: 0;
+	}
+
+	.notfound__actions {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 1rem;
+		margin-top: 2rem;
+	}
+
+	.notfound__help {
+		margin-top: 2rem;
+		font-size: 0.95rem;
+		color: var(--color-text-muted);
+	}
+
+	.notfound__help a {
+		color: var(--color-accent-dark);
+		font-weight: 600;
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+</style>

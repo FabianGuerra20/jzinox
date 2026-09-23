@@ -155,11 +155,24 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	}
 
 	/* Velo de acero: baja la foto lo justo para que el texto blanco pase AA
-	   con holgura sin apagar la imagen. */
+	   con holgura sin apagar la imagen.
+
+	   El velo plano al 60% deja el contraste a merced de la foto: sobre una
+	   toma clara de taller, el texto se acerca al mínimo. Encima del tinte va
+	   un degradado que oscurece el centro, justo la banda donde vive el texto,
+	   y deja los bordes casi limpios para que la foto siga leyéndose. Así el
+	   contraste no depende de qué imagen se publique. */
 	.hero__veil {
 		position: absolute;
 		inset: 0;
-		background-color: rgba(95, 94, 94, 0.6);
+		background-color: rgba(95, 94, 94, 0.55);
+		background-image: linear-gradient(
+			180deg,
+			rgba(26, 28, 28, 0.15) 0%,
+			rgba(26, 28, 28, 0.55) 45%,
+			rgba(26, 28, 28, 0.55) 70%,
+			rgba(26, 28, 28, 0.2) 100%
+		);
 	}
 
 	.hero__inner {
@@ -177,7 +190,10 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		line-height: 1;
 		letter-spacing: 0.16em;
 		text-transform: uppercase;
-		color: var(--color-accent-light);
+		/* Blanco, no --color-accent-light: el rosa claro sobre un velo
+		   semitransparente da 3.8:1 y empeora con cualquier foto luminosa.
+		   El acento del hero lo pone el botón, que sí tiene fondo propio. */
+		color: #fff;
 		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 		margin-bottom: 1.5rem;
 	}

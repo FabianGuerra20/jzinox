@@ -16,6 +16,45 @@ const slugify = (value) =>
 		.replace(/[^a-z0-9]+/g, "-")
 		.replace(/(^-|-$)/g, "");
 
+/**
+ * Datos estructurados del catálogo.
+ *
+ * Se emite `Product` pero NO `offers`: los precios de esta maqueta son valores
+ * de ejemplo, y declararlos en `priceCurrency`/`price` sería afirmarle a Google
+ * un precio que no existe —exactamente el error que evitamos al negarnos a
+ * inventar las cifras de la empresa—. Google puede llegar a mostrar ese precio
+ * en el resultado de búsqueda.
+ *
+ * Cuando `pricesArePlaceholder` pase a false, `offers` entra solo.
+ */
+const catalogLd = JSON.stringify({
+	"@context": "https://schema.org",
+	"@type": "ItemList",
+	name: `Catálogo de ${site.name}`,
+	numberOfItems: catalog.length,
+	itemListElement: catalog.map((item, i) => ({
+		"@type": "ListItem",
+		position: i + 1,
+		item: {
+			"@type": "Product",
+			name: item.name,
+			description: item.description,
+			category: item.category,
+			brand: { "@type": "Brand", name: site.name },
+			...(pricesArePlaceholder || item.price <= 0
+				? {}
+				: {
+						offers: {
+							"@type": "Offer",
+							price: item.price,
+							priceCurrency: "CLP",
+							availability: "https://schema.org/InStock",
+						},
+					}),
+		},
+	})),
+});
+
 const groups = catalogCategories
 	.filter((category) => category !== "Todos")
 	.map((category) => ({
@@ -29,6 +68,7 @@ const groups = catalogCategories
 <Layout
 	title="Catálogo"
 	description="Catálogo de mesones, lavaplatos, campanas y estructuras en acero inoxidable con valores referenciales para dimensionar tu proyecto."
+	jsonLd={catalogLd}
 >
 	<section class="section page-hero">
 		<div class="container">

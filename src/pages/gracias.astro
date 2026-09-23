@@ -3,14 +3,16 @@ import Layout from "../layouts/Layout.astro";
 import { site } from "../data/site.js";
 ---
 
-<Layout title="Gracias" description="Gracias por contactar a JZINOX.">
+<Layout title="Gracias" description="Gracias por contactar a JZINOX." noindex>
 	<section class="section thanks" aria-labelledby="gracias-titulo">
 		<div class="container thanks__inner">
 			<span class="eyebrow">Mensaje enviado</span>
 			<h1 id="gracias-titulo">¡Gracias por escribirnos!</h1>
+			{/* Un acuse de recibo que no dice qué pasa después es un callejón sin
+			    salida: la persona queda sin saber si esperar una hora o una semana. */}
 			<p>
-				Recibimos tu mensaje y te responderemos a la brevedad. Si tu consulta es urgente,
-				contáctanos directamente por WhatsApp.
+				Recibimos tu consulta y te respondemos <strong>dentro del horario de atención</strong>
+				({site.hours}). Si necesitas una respuesta ahora, escríbenos por WhatsApp.
 			</p>
 			<div class="thanks__actions">
 				<a href={`https://wa.me/${site.whatsappNumber}`} target="_blank" rel="noopener noreferrer" class="btn btn--primary">

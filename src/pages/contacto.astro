@@ -54,12 +54,19 @@ import { site } from "../data/site.js";
 				</div>
 
 				{/* aria-label convierte el form en landmark navegable: sin nombre
-				    accesible no expone su rol. */}
+				    accesible no expone su rol.
+
+				    `novalidate` es deliberado: los mensajes nativos del navegador son
+				    genéricos, salen en el idioma del navegador y no del sitio, y
+				    desaparecen solos. Los reemplazamos por mensajes propios anclados
+				    al campo. La validación real sigue existiendo, la hace el script. */}
 				<form
 					class="bento__cell contact__form"
 					action={site.formsubmitEndpoint}
 					method="POST"
 					aria-label="Formulario de contacto"
+					novalidate
+					data-contact-form
 				>
 					<input type="hidden" name="_subject" value={`Nueva consulta desde ${site.domain}`} />
 					<input type="hidden" name="_template" value="table" />
@@ -75,7 +82,10 @@ import { site } from "../data/site.js";
 							required
 							autocomplete="name"
 							placeholder="Tu nombre"
+							aria-describedby="name-error"
+							data-error="Escribe tu nombre para saber cómo dirigirnos a ti."
 						/>
+						<p class="field__error" id="name-error" hidden></p>
 					</div>
 
 					<div class="field-row">
@@ -88,7 +98,11 @@ import { site } from "../data/site.js";
 								required
 								autocomplete="tel"
 								placeholder="+56 9 ..."
+								pattern="[0-9+\s()-]{8,}"
+								aria-describedby="phone-error"
+								data-error="Escribe un teléfono de contacto, por ejemplo +56 9 1234 5678."
 							/>
+							<p class="field__error" id="phone-error" hidden></p>
 						</div>
 						<div class="field">
 							<label for="email">Correo</label>
@@ -99,7 +113,10 @@ import { site } from "../data/site.js";
 								required
 								autocomplete="email"
 								placeholder="tucorreo@ejemplo.com"
+								aria-describedby="email-error"
+								data-error="Escribe un correo válido, con @ y dominio."
 							/>
+							<p class="field__error" id="email-error" hidden></p>
 						</div>
 					</div>
 
@@ -118,18 +135,199 @@ import { site } from "../data/site.js";
 							name="Mensaje"
 							rows="5"
 							required
-							placeholder="Describe tu proyecto, medidas y plazos estimados"></textarea>
+							placeholder="Describe tu proyecto, medidas y plazos estimados"
+							aria-describedby="message-error"
+							data-error="Cuéntanos brevemente qué necesitas, aunque sean dos líneas."></textarea>
+						<p class="field__error" id="message-error" hidden></p>
 					</div>
 
-					<button type="submit" class="btn btn--primary contact__submit">Enviar consulta</button>
+					{/* Aviso de maqueta. Nace oculto y solo el script lo revela cuando
+					    detecta protocolo file:, es decir en la carpeta que se entrega al
+					    cliente. En el sitio publicado nunca aparece. */}
+					<p class="form__demo" data-demo-note hidden>
+						<strong>Maqueta de demostración.</strong> El envío se activa al publicar el sitio.
+						Para escribirnos ahora, usa el WhatsApp o el correo de la izquierda.
+					</p>
+
+					<button type="submit" class="btn btn--primary contact__submit" data-submit>
+						Enviar consulta
+					</button>
 					<p class="contact__legal">Te responderemos dentro del horario de atención.</p>
+
+					{/* Región de estado: anuncia a lectores de pantalla el resultado del
+					    envío y los errores de validación, que de otro modo solo existen
+					    visualmente junto a cada campo. */}
+					<p class="visually-hidden" role="status" aria-live="polite" data-form-status></p>
+
+					<div class="form__result form__result--ok" data-success hidden>
+						<strong>Listo.</strong> Recibimos tu consulta y te respondemos dentro del horario de
+						atención. Si es urgente, escríbenos por WhatsApp.
+					</div>
+
+					{/* Un taller que pierde una cotización por un error de formulario
+					    tiene que seguir siendo alcanzable: el error trae la salida. */}
+					<div class="form__result form__result--fail" data-failure hidden>
+						<strong>No pudimos enviar tu consulta.</strong> Escríbenos directo por
+						<a href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+						o llámanos al <a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>.
+					</div>
 				</form>
 			</div>
 		</div>
 	</section>
 </Layout>
 
+<script>
+	// Validación y estados del formulario.
+	//
+	// Dos entornos, un solo build:
+	//   http(s):  el formulario envía de verdad a FormSubmit.
+	//   file:     es la maqueta que se le entrega al cliente. Ahí NO hay
+	//             servidor, así que enviar es imposible. En vez de navegar a
+	//             /gracias y afirmar un envío que nunca ocurrió, el formulario
+	//             valida, muestra el aviso de demostración y confirma en línea.
+	//             Mentirle al cliente sobre el envío sería peor que no tenerlo.
+	const form = document.querySelector("[data-contact-form]");
+
+	if (form instanceof HTMLFormElement) {
+		const isDemo = window.location.protocol === "file:";
+		const submit = form.querySelector("[data-submit]");
+		const status = form.querySelector("[data-form-status]");
+		const okBox = form.querySelector("[data-success]");
+		const failBox = form.querySelector("[data-failure]");
+		const demoNote = form.querySelector("[data-demo-note]");
+		const fields = Array.from(form.querySelectorAll("[data-error]"));
+
+		if (isDemo && demoNote instanceof HTMLElement) demoNote.hidden = false;
+
+		const say = (text) => {
+			if (status instanceof HTMLElement) status.textContent = text;
+		};
+
+		/** Marca o limpia un campo. Devuelve true si es válido. */
+		const check = (field) => {
+			const box = document.getElementById(`${field.id}-error`);
+			// `novalidate` apaga la burbuja nativa pero NO la API de validación:
+			// required, type=email y pattern siguen evaluándose aquí.
+			const ok = field.validity.valid;
+			field.setAttribute("aria-invalid", String(!ok));
+			if (box instanceof HTMLElement) {
+				box.textContent = ok ? "" : field.dataset.error || "";
+				box.hidden = ok;
+			}
+			return ok;
+		};
+
+		fields.forEach((field) => {
+			// Al salir del campo, no mientras escribe: corregir a alguien en medio
+			// de la primera palabra es hostil.
+			field.addEventListener("blur", () => check(field));
+			// Una vez marcado, sí se limpia en vivo: ve que lo arregló.
+			field.addEventListener("input", () => {
+				if (field.getAttribute("aria-invalid") === "true") check(field);
+			});
+		});
+
+		form.addEventListener("submit", (event) => {
+			const invalid = fields.filter((field) => !check(field));
+
+			if (invalid.length > 0) {
+				event.preventDefault();
+				invalid[0].focus();
+				say(`Faltan ${invalid.length} ${invalid.length === 1 ? "campo" : "campos"} por corregir.`);
+				return;
+			}
+
+			if (isDemo) {
+				event.preventDefault();
+				if (okBox instanceof HTMLElement) {
+					okBox.innerHTML =
+						"<strong>Formulario completo y válido.</strong> En el sitio publicado, " +
+						"esta consulta llegaría al correo de JZINOX. En la maqueta no se envía nada.";
+					okBox.hidden = false;
+				}
+				say("Formulario válido. Es una maqueta: no se envió nada.");
+				return;
+			}
+
+			// Envío real: el botón pasa a estado ocupado y queda bloqueado para
+			// que un doble clic no genere dos consultas.
+			if (submit instanceof HTMLButtonElement) {
+				submit.setAttribute("aria-busy", "true");
+				submit.disabled = true;
+				submit.textContent = "Enviando…";
+			}
+			if (failBox instanceof HTMLElement) failBox.hidden = true;
+			say("Enviando tu consulta.");
+		});
+	}
+</script>
+
 <style>
+	/* --- Estados del formulario --- */
+
+	/* El mensaje vive pegado a su campo, no en un resumen arriba: el usuario lo
+	   lee donde está el problema. El borde rojo NO es la única señal —hay texto—
+	   porque el color solo no basta (WCAG 1.4.1). */
+	.field__error {
+		margin: 0.35rem 0 0;
+		font-size: 0.82rem;
+		line-height: 1.4;
+		color: var(--color-accent-dark);
+	}
+
+	.field input[aria-invalid="true"],
+	.field textarea[aria-invalid="true"] {
+		border-color: var(--color-accent-dark);
+		border-width: 2px;
+	}
+
+	/* Aviso de maqueta: solo aparece en la carpeta entregada (protocolo file:),
+	   nunca en el sitio publicado. */
+	.form__demo {
+		margin: 0;
+		padding: 0.8rem 1rem;
+		border: 1px solid #d9c47a;
+		border-left-width: 4px;
+		background-color: #fdf6e3;
+		color: var(--color-graphite);
+		font-size: 0.85rem;
+		line-height: 1.5;
+	}
+
+	.form__result {
+		margin: 0;
+		padding: 0.9rem 1.1rem;
+		font-size: 0.9rem;
+		line-height: 1.5;
+		border-left: 4px solid;
+	}
+
+	.form__result--ok {
+		border-color: #2e7d32;
+		background-color: #eef6ee;
+		color: var(--color-graphite);
+	}
+
+	.form__result--fail {
+		border-color: var(--color-accent);
+		background-color: #fdeeec;
+		color: var(--color-graphite);
+	}
+
+	.form__result a {
+		color: var(--color-accent-dark);
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+	}
+
+	/* Mientras envía: el botón dice qué está pasando y no se puede pulsar dos
+	   veces. `aria-busy` lo anuncia a quien no ve el cambio de texto. */
+	.contact__submit[aria-busy="true"] {
+		opacity: 0.75;
+		cursor: progress;
+	}
+
 	@media (min-width: 1024px) {
 		.contact__grid {
 			grid-template-columns: 1fr 1.15fr;

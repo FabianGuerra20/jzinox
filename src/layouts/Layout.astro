@@ -12,9 +12,13 @@ interface Props {
   description?: string;
   /** El Inicio pinta su propio hero a sangre bajo el header fijo. */
   flush?: boolean;
+  /** Páginas que no deben aparecer en Google: /gracias y la 404. */
+  noindex?: boolean;
+  /** JSON-LD propio de la página, ya serializado. */
+  jsonLd?: string;
 }
 
-const { title, description = site.description, flush = false } = Astro.props;
+const { title, description = site.description, flush = false, noindex = false, jsonLd } = Astro.props;
 const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.tagline}`;
 ---
 
@@ -29,8 +33,14 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.t
 		<meta name="theme-color" content="#5f5e5e" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
+		{/* Una página de agradecimiento en los resultados de Google es una mala
+		    experiencia (se llega a un "gracias" sin haber enviado nada) y además
+		    infla las conversiones si se miden por visitas a esa URL. */}
+		{noindex && <meta name="robots" content="noindex, follow" />}
 		<title>{pageTitle}</title>
-		<Seo title={pageTitle} description={description} />
+		<Seo title={pageTitle} description={description}>
+			{jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
+		</Seo>
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
