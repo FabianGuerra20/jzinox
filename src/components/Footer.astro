@@ -143,9 +143,12 @@ const legalLinks = [
     display: flex;
     align-items: center;
     gap: 0.6rem;
-    min-height: var(--tap);
+    /* Es un grid item: `min-height` compite con el alto de fila que calcula
+       el grid, y se quedaba en 26px. El padding inferior garantiza el área
+       táctil sin depender de cómo el grid reparta la altura. */
     margin-top: 0.5rem;
     padding-top: 1.5rem;
+    padding-bottom: 0.9rem;
     border-top: 1px solid var(--color-border);
     font-family: var(--font-heading);
     font-weight: 700;
