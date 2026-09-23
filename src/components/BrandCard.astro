@@ -248,6 +248,20 @@ const featuredId = `destacados-${brand.slug}`;
     flex: 0 0 100%;
     scroll-snap-align: center;
     min-width: 0;
+    display: flex;
+  }
+
+  .carousel__slide > * {
+    width: 100%;
+  }
+
+  /* El marco tiene altura propia (`align-self: stretch` sobre una celda de
+     400px). El hueco de foto trae su propia proporción, así que dejaba una
+     franja blanca bajo el placeholder. Dentro del carrusel manda la altura del
+     marco, igual que haría la foto real con object-fit: cover. */
+  .carousel__slide > :global(.media-ph) {
+    aspect-ratio: auto;
+    height: 100%;
   }
 
   /* `aspect-ratio` explícito, no solo `height: 100%`: sin él la altura depende
