@@ -3,7 +3,7 @@ Eres un desarrollador Front-End Senior, un experto en UI/UX y un especialista en
 
 ## 📐 Lee esto primero
 * **`DESIGN.md`** — el sistema de diseño implementado: tokens de color, tipografía, métrica, componentes, la interacción firma y las desviaciones deliberadas del mockup. **Es la fuente de verdad del diseño.** Si vas a tocar estilos, empieza ahí.
-* **`MEJORAS.md`** — backlog técnico y de SEO priorizado, con ubicación exacta y arreglo propuesto de cada punto.
+* **`MEJORAS.md`** — backlog técnico y de SEO priorizado. Al 2026-09-22 quedan abiertos 2.4, 3.1, 3.2 y 5.1.
 
 ## 🚀 Development
 When starting the dev server, use background mode:
@@ -54,14 +54,19 @@ Resumen operativo. **El detalle completo está en `DESIGN.md`.**
 
 5. **Interacción firma:** la clase `.media-frame` desatura toda imagen y le devuelve color + `scale(1.05)` en hover. El recorte va en el marco y el zoom en la imagen, para que no haya reflow. Es la **única** animación expresiva: el resto son transiciones funcionales de color.
 
-## 📝 Convención de contenido (IMPORTANTE)
-Todo el texto visible es **placeholder localizable numerado** hasta que llegue el copy del cliente: `INICIO 1`, `NOSOTROS 3.2`, `SERVICIO 4`, `PRODUCTO 12`, `CATEGORÍA 2`, `PRODUCTO AL 1`… El cuerpo va en lorem ipsum.
+## 📝 Convención de contenido (ACTUALIZADO 2026-09-22)
+**El copy del cliente llegó.** Los localizadores numerados (`INICIO 1`, `NOSOTROS 3.2`…) ya NO existen: el sitio tiene texto real en las 9 páginas. La convención anterior queda archivada.
 
-* **NO "mejores" el copy.** Cambiar un localizador por texto real es un error, no una mejora.
-* **Un producto tiene UN número en todo el sitio.** Los destacados del Inicio son `PRODUCTO 1, 4, 5, 10` porque son esas piezas del catálogo.
-* **El nombre real de cada ranura vive en un comentario** junto a su entrada en `src/data/` (`// ranura prevista: campana extractora mural`). Consérvalo.
-* Sí es texto real, y se queda: menú, botones, datos de contacto, `meta description`, etiquetas de formulario y `/gracias`.
-* Los **precios de `catalog.js` son de maqueta**, no la lista real. No publicar.
+La convención vigente marca la **procedencia** de cada bloque en `src/data/`:
+
+* `[PDF]` — texto literal del documento del cliente. **No reescribir.**
+* `[PROPUESTA]` — lo redactamos nosotros porque el PDF dejó la ranura vacía (servicios detallados, descripciones del catálogo, textos de contacto y galería). **Pendiente de validación del cliente.**
+
+Reglas que siguen vigentes:
+
+* **Las cifras NO se inventan.** Solo "20+ años" está confirmado. Las otras tres de `stats` llevan `pending: true` y se renderizan como ranura de solicitud, nunca como `00`. Un texto de relleno es un borrador; un número inventado es una afirmación falsa.
+* Los **precios de `catalog.js` son de maqueta**. `pricesArePlaceholder` controla el aviso visible en `/catalogo` y la omisión de `offers` en el JSON-LD. **No lo pongas en `false`** hasta tener la lista firmada.
+* Las **imágenes son placeholders rotulados** (`pending: true` + `slot` + `ratio`). `MediaPlaceholder.astro` dice qué foto va en cada hueco.
 
 ## 🔍 SEO Técnico y Rendimiento (Regla de Oro)
 1. **Etiquetas Semánticas:** Usa siempre `<header>`, `<main>`, `<section>`, `<article>`, `<aside>` y `<footer>`. Cero tolerancia al "Div Soup".

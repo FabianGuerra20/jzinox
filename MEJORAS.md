@@ -3,6 +3,10 @@
 > Auditoría de estructura, SEO técnico, accesibilidad y rendimiento.
 > Fecha: 2026-09-02 · Base: commit `23acbe9` · Astro 7.2.1
 >
+> **Actualizado 2026-09-22.** Cerrados: 1.1, 1.2, 1.3, 2.1, 2.2, 2.3 y 5.2.
+> 1.4 (fusión productos/catálogo) se implementó solo en `feat/propuesta-ux`,
+> para que el cliente compare. Abiertos: 2.4, 3.1, 3.2 y 5.1.
+>
 > Cada punto está verificado contra el código y el `dist/` generado, no inferido.
 
 ---
@@ -41,7 +45,7 @@ Core Web Vitals es muy bueno; las mejoras de abajo no lo comprometen.
 
 ## 1. Prioridad alta — bloqueantes para publicar
 
-### 1.1 `og:image` es un SVG y no se renderiza al compartir
+### 1.1 ~~`og:image` es un SVG~~ — CERRADO
 
 **Dónde:** `src/data/site.js:32` → `ogImage: "/og-image.svg"`
 
@@ -54,7 +58,7 @@ Conservar el SVG como fuente editable.
 
 ---
 
-### 1.2 No existe página 404
+### 1.2 ~~No existe página 404~~ — CERRADO
 
 **Dónde:** falta `src/pages/404.astro`
 
@@ -66,7 +70,7 @@ visual que `gracias.astro`, y enlaces de vuelta a Inicio, Catálogo y Contacto.
 
 ---
 
-### 1.3 `/gracias` es indexable y está en el sitemap
+### 1.3 ~~`/gracias` indexable y en el sitemap~~ — CERRADO
 
 **Dónde:** `dist/sitemap-0.xml` la incluye; `src/pages/gracias.astro` no la excluye.
 
@@ -111,7 +115,7 @@ de relevancia, y doble mantenimiento cada vez que cambie un producto.
 
 ## 2. Prioridad media — accesibilidad y SEO
 
-### 2.1 Los toggles de checkbox no exponen su estado
+### 2.1 ~~Toggles sin estado accesible~~ — CERRADO
 
 **Dónde:** `src/components/Header.astro:28` (menú móvil) y
 `src/components/FloatingContact.astro:41` (botón flotante)
@@ -126,7 +130,7 @@ del que no puede saber si está abierto o cerrado.
 
 ---
 
-### 2.2 Contraste bajo el mínimo AA en texto pequeño
+### 2.2 ~~Contraste bajo AA~~ — CERRADO
 
 **Dónde:** `--color-steel` (`#6f757a`) sobre `--color-bg-alt` (`#f4f5f6`)
 
@@ -142,7 +146,7 @@ variable `--color-steel-aa` oscurecida para texto pequeño sobre fondo alterno.
 
 ---
 
-### 2.3 Falta `Product` / `Offer` en datos estructurados
+### 2.3 ~~Falta `Product` en datos estructurados~~ — CERRADO (sin `Offer`)
 
 **Dónde:** `src/pages/catalogo.astro` — única página con precios reales.
 
@@ -234,7 +238,7 @@ El componente ya está bien defendido — se desactiva con `pointer: coarse`,
 baja antes de darlo por bueno. Si cuesta caro, la alternativa es sustituir `box-shadow`
 por un `radial-gradient` de fondo, que sí puede componerse.
 
-### 5.2 Estado del contenido
+### 5.2 ~~Estado del contenido~~ — CERRADO
 
 El sitio está **casi íntegramente en lorem ipsum** con localizadores (`INICIO 1`,
 `NOSOTROS 2`, `VALOR 1`, `PASO 3`, `AL 4`…), tal como se diseñó para que el cliente
