@@ -132,12 +132,6 @@ const legalLinks = [
     gap: var(--gutter);
   }
 
-  @media (min-width: 768px) {
-    .footer__grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
-
-  /* Ocupa las cuatro columnas del pie, sobre la barra legal. */
   .footer__next {
     grid-column: 1 / -1;
     display: flex;
@@ -179,6 +173,13 @@ const legalLinks = [
       transform: translateX(4px);
     }
   }
+
+  @media (min-width: 768px) {
+    .footer__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+  /* Ocupa las cuatro columnas del pie, sobre la barra legal. */
 
     .footer__col--wide {
       grid-column: span 2;
