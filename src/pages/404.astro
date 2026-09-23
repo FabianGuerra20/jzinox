@@ -96,7 +96,13 @@ import { site } from "../data/site.js";
 		color: var(--color-text-muted);
 	}
 
+	/* Enlace dentro de un párrafo: el área táctil se amplía con padding
+	   vertical negativo compensado, para llegar a 44px sin separar la línea
+	   del texto que la rodea. */
 	.notfound__help a {
+		display: inline-flex;
+		align-items: center;
+		min-height: var(--tap);
 		color: var(--color-accent-dark);
 		font-weight: 600;
 		text-decoration: underline;
