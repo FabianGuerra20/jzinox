@@ -1,0 +1,143 @@
+---
+/**
+ * Barra de confianza — PROPUESTA DE UX (rama B).
+ *
+ * Por qué existe: quien llega a una maestranza por primera vez tiene una sola
+ * pregunta antes de mirar productos, y es si puede confiarle una cocina
+ * completa. Esa respuesta vive hoy en /nosotros, a un clic de distancia que
+ * casi nadie da. La barra la sube a la primera pantalla.
+ *
+ * Los cuatro puntos NO son inventados: son los "puntos clave" que el propio
+ * cliente entregó en el PDF, resumidos a su forma más corta. No agregan una
+ * afirmación nueva, solo la ponen donde se decide.
+ *
+ * Por qué no son tarjetas: cuatro tarjetas con icono en círculo serían el
+ * patrón de plantilla que el resto del sitio evita. Es una tira de datos
+ * separada por las mismas juntas de 1px del sistema.
+ */
+import { site } from "../data/site.js";
+
+// [PDF] "¿Por qué elegir JZINOX? (Puntos clave)", comprimidos a etiqueta
+const señales = [
+  { valor: "20+", etiqueta: "años de oficio" },
+  { valor: "100%", etiqueta: "fabricación a medida" },
+  { valor: "Taller propio", etiqueta: "manufactura nacional" },
+  { valor: "Integral", etiqueta: "del diseño a la mantención" },
+];
+---
+
+<aside class="trust" aria-label="Por qué elegir JZINOX">
+  <div class="container trust__inner">
+    <dl class="trust__list">
+      {
+        señales.map((s) => (
+          <div class="trust__item">
+            <dt class="trust__label">{s.etiqueta}</dt>
+            <dd class="trust__value">{s.valor}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <a href={`tel:${site.phoneHref}`} class="trust__phone">
+      <span class="trust__phone-label">Habla con el taller</span>
+      <span class="trust__phone-number">{site.phoneDisplay}</span>
+    </a>
+  </div>
+</aside>
+
+<style>
+  /* Pegada al hero, sin aire entre ambos: se lee como el pie de la portada,
+     no como una sección más que hay que atravesar. */
+  .trust {
+    background-color: var(--color-bg-alt);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .trust__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding-block: clamp(1rem, 2.5vw, 1.5rem);
+  }
+
+  /* Las juntas de 1px del sistema, no bordes por celda: dos celdas contiguas
+     sumarían 2px. */
+  .trust__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    margin: 0;
+    flex: 1 1 32rem;
+    background-color: var(--color-border);
+  }
+
+  @media (min-width: 900px) {
+    .trust__list {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .trust__item {
+    /* `column-reverse` deja el dato arriba y su etiqueta debajo sin alterar el
+       orden dt → dd que exige la lista de definiciones. */
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.15rem;
+    padding: 0.7rem 1rem;
+    background-color: var(--color-bg-alt);
+  }
+
+  .trust__value {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+    line-height: 1.1;
+    color: var(--color-accent);
+  }
+
+  .trust__label {
+    font-size: 0.75rem;
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+
+  /* El teléfono es la otra mitad del argumento: "somos de fiar" + "aquí
+     estamos". Un taller que no contesta no genera confianza. */
+  .trust__phone {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: var(--tap);
+    padding-left: 1.25rem;
+    border-left: 1px solid var(--color-border);
+  }
+
+  .trust__phone-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+
+  .trust__phone-number {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-graphite);
+  }
+
+  .trust__phone:hover .trust__phone-number {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 899.98px) {
+    .trust__phone {
+      padding-left: 0;
+      border-left: 0;
+    }
+  }
+</style>

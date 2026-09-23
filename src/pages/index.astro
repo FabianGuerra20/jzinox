@@ -13,6 +13,7 @@
  */
 import Layout from "../layouts/Layout.astro";
 import BrandCard from "../components/BrandCard.astro";
+import TrustBar from "../components/TrustBar.astro";
 import MediaPlaceholder from "../components/MediaPlaceholder.astro";
 import { brands } from "../data/brands.js";
 import { mainServices } from "../data/services.js";
@@ -60,6 +61,8 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 			</div>
 		</div>
 	</section>
+
+	<TrustBar />
 
 	{/* --- Servicios principales: las tres filas que pide el PDF, alternadas --- */}
 	<section class="section services-strip" aria-labelledby="servicios-principales">

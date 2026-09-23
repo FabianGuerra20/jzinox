@@ -46,7 +46,9 @@ export const navItems = [
   { href: "/", label: "Inicio" },
   { href: "/nosotros", label: "Nosotros" },
   { href: "/servicios", label: "Servicios" },
-  { href: "/productos", label: "Productos" },
+  // PROPUESTA (rama B): /productos y /catalogo mostraban los mismos 15 ítems;
+  // /catalogo era un superconjunto estricto. Dos URLs propias compitiendo por
+  // las mismas búsquedas se quitan relevancia entre sí. Queda una sola entrada.
   { href: "/catalogo", label: "Catálogo" },
   { href: "/contacto", label: "Contacto" },
   { href: "/al-muebleria", label: "AL Mueblería", ally: true },
