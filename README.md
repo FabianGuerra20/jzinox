@@ -1,46 +1,57 @@
-# Astro Starter Kit: Basics
+# JZ Inox & AL Mueblería
 
-```sh
-npm create astro@latest -- --template basics
+Sitio corporativo de **JZ Inox** (soldadura TIG y equipamiento gastronómico en acero
+inoxidable) con una landing interna para su marca aliada **AL Mueblería**.
+
+Astro 7 · sitio estático · CSS nativo · sin framework de UI.
+
+## Comandos
+
+| Comando | Qué hace |
+|---|---|
+| `npm install` | Instala dependencias |
+| `npm run dev` | Servidor de desarrollo (`astro dev --background` para dejarlo en segundo plano) |
+| `npm run build` | Genera el sitio estático en `dist/` |
+| `npm run preview` | Sirve `dist/` localmente |
+
+Requiere Node 22.12 o superior.
+
+## Estructura
+
+```
+src/
+  pages/        index · nosotros · servicios · catalogo · contacto
+                al-muebleria · gracias · 404
+  components/   Header · Footer · Seo · BrandCard · MediaPlaceholder
+                ServiceIcon · FloatingContact · WeldingCursor
+  layouts/      Layout.astro (header, footer, scroll suave, accesibilidad)
+  data/         site · company · brands · services · catalog   ← TODO el copy
+  styles/       global.css (tokens, tema, componentes compartidos, movimiento)
+public/
+  img/          fotos optimizadas (WebP, máx. 1600 px)
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Las páginas no llevan texto hardcodeado: el contenido sale de `src/data/`. Cada bloque
+marca su procedencia, `[PDF]` (texto literal del cliente) o `[PROPUESTA]` (redactado por
+nosotros, pendiente de validar).
 
-## 🚀 Project Structure
+## Fotos
 
-Inside of your Astro project, you'll see the following folders and files:
+Las originales viven en `fotos-originales/` (fuera de git y de `public/`). Para publicar
+una foto nueva: optimizarla a WebP de hasta 1600 px en `public/img/` y referenciarla desde
+`src/data/` con `src`, `alt` y, si hace falta recortar, `position` (un `object-position`).
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+## Documentación del proyecto
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+- `CLAUDE.md` — contexto, reglas y registro de trabajo.
+- `DESIGN.md` — el sistema de diseño (paleta, tipografía, componentes, movimiento).
+- `MEJORAS.md` — backlog técnico y de SEO.
+- `propuestas/paletas.html` — maqueta de las paletas evaluadas.
 
-## 🧞 Commands
+## Reglas que no se rompen
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+1. **Radio cero**: ningún `border-radius` en el sitio.
+2. **La junta es de 1px** y siempre `var(--color-border)`.
+3. **El acento solo en acciones y estados**; el error va en `--color-error`.
+4. Controles de **44 px** mínimo, contraste **4.5:1** calculado y `prefers-reduced-motion`
+   respetado.

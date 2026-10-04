@@ -4,7 +4,8 @@
 > Fecha: 2026-09-02 · Base: commit `23acbe9` · Astro 7.2.1
 >
 > **Actualizado 2026-09-23.** Cerrados: 1.1, 1.2, 1.3, **1.4**, 2.1, 2.2, 2.3 y 5.2.
-> Abiertos: 2.4, 3.1, 3.2, 5.1 y 6 (movimiento y paleta, anotado 2026-10-04).
+> **Actualizado 2026-10-04.** Cerrados además: 2.4, 3.1, 3.2, 5.1 y 6.1–6.3 (paleta C cálida,
+> movimiento, fotos). Abierto solo lo que depende del cliente: ver «Pendiente» al final de §6.
 >
 > 1.4 se cerró en `main` por la opción (A): sobrevive `/catalogo`, `/productos`
 > redirige con 301 y sale del sitemap. Ver el registro de la crítica de diseño
@@ -174,7 +175,10 @@ el schema propio de cada página.
 
 ---
 
-### 2.4 SVG placeholder con `id` inválido
+### 2.4 ~~SVG placeholder con `id` inválido~~ — CERRADO (2026-10-04)
+
+Se eliminaron los 6 SVG de `public/brands/` (y `hero-inicio.svg`): las fotos reales los
+reemplazaron, así que el arreglo del `id` quedó innecesario.
 
 **Dónde:** los 6 archivos de `public/brands/*.svg`
 
@@ -193,7 +197,10 @@ Es trabajo desechable si las imágenes reales llegan pronto — evaluar priorida
 
 ## 3. Prioridad baja — limpieza
 
-### 3.1 Código muerto
+### 3.1 ~~Código muerto~~ — CERRADO (2026-10-04)
+
+Eliminados `.tap-link`, `.section-cta`, `.section--steel` y `site.address`/`addressFull`.
+`.card` ya no existía. `site.hours` **sí** se usa (en `gracias.astro`): se conserva.
 
 | Elemento | Ubicación | Estado |
 |---|---|---|
@@ -207,7 +214,9 @@ Es trabajo desechable si las imágenes reales llegan pronto — evaluar priorida
 `.section--steel` (~30 líneas de CSS) tiene un único uso, en `productos.astro`.
 No es código muerto, pero conviene decidir si se usa más o se retira.
 
-### 3.2 README sin actualizar
+### 3.2 ~~README sin actualizar~~ — CERRADO (2026-10-04)
+
+Reescrito: comandos, estructura, fotos, documentación y reglas.
 
 `README.md` sigue siendo la plantilla intacta de *Astro Starter Kit: Basics* y describe
 archivos que no existen en este proyecto (`Welcome.astro`, `astro.svg`, `favicon.svg`).
@@ -230,7 +239,11 @@ El documento de instrucciones tiene dos desalineaciones con la realidad del repo
 
 ## 5. Dos decisiones que requieren criterio del equipo
 
-### 5.1 `WeldingCursor` — costo de pintado
+### 5.1 ~~`WeldingCursor` — costo de pintado~~ — CERRADO (2026-10-04)
+
+El halo pasó de `box-shadow` (recalculado por frame en 90 nodos) a un `radial-gradient` en
+`::after` con variables `--c` y `--a`. No se midió en un equipo de gama baja: se aplicó la
+alternativa que este punto proponía. El ciclo de color ya coincide con la paleta nueva.
 
 **Dónde:** `src/components/WeldingCursor.astro`
 
@@ -385,3 +398,19 @@ Contrastes calculados.
 3. Scroll reveal y View Transitions con CSS.
 4. Lenis, si se aprueba tras ver el resultado.
 5. Hero con foto o video real cuando lleguen (bloqueado por el cliente).
+
+### Estado de 6 (2026-10-04)
+
+* **6.1 Movimiento — HECHO.** Entrada del hero y revelado al scroll con CSS, `@view-transition`
+  nativa y Lenis (permitido por el equipo; `CLAUDE.md` actualizado). Detalle en `DESIGN.md §12`.
+* **6.2 Paleta — HECHA:** C cálida, aplicada en `global.css`. Auditoría de contraste automática
+  sobre las 8 páginas: 0 incumplimientos de AA.
+* **6.3 Fotos — HECHAS** las que llegaron: hero, Corte y plegado, placas de marca, catálogo
+  (con 3 productos nuevos salidos de las fotos) y galería de AL Mueblería (8 piezas).
+
+**Pendiente (depende del cliente):**
+1. **Mostrarle la paleta nueva** (desviación mayor del mockup aprobado).
+2. Fotos de **Soldadura TIG** y **Diseño** (4 huecos en el Inicio), y de **Nosotros** y
+   **Servicios**: esas carpetas llegaron vacías.
+3. Validar los nombres y descripciones de los 3 productos nuevos (`[PROPUESTA]`, sin precio).
+4. Favicon cromado vs. logotipo plano.

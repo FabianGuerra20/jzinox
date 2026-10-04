@@ -1,8 +1,9 @@
 # Sistema de diseño — JZ INOX & AL Mueblería
 
-> **"Ingeniería limpia y precisión"**
+> **"Ingeniería limpia y precisión"** · paleta **"Acero en sombra"** (2026-10-04)
 > Origen: mockup aprobado por el cliente (`Mockup Inicio`, HTML + Tailwind).
-> Implementado el 2026-09-02. Fuente de verdad del código: `src/styles/global.css`.
+> Implementado el 2026-09-02; **paleta reemplazada el 2026-10-04** por la C cálida
+> (ver §2 y §8). Fuente de verdad del código: `src/styles/global.css`.
 
 Este documento describe el sistema tal como está construido. Si cambias un token,
 cámbialo en `global.css` y actualiza aquí.
@@ -18,67 +19,70 @@ cámbialo en `global.css` y actualiza aquí.
    pero eso es una **forma** (el filamento de la chispa), no una esquina de caja.
 2. **La junta es de 1px y siempre del mismo gris** (`--color-border`). Es la línea del
    plano de ingeniería, no un separador decorativo.
-3. **El acento vive solo en acciones y estados.** Nunca como relleno decorativo.
+3. **El acento vive solo en acciones y estados.** Nunca como relleno decorativo. El
+   acento es ahora el naranja de la chispa; el **error** ya no es el rojo-acento sino
+   `--color-error`.
 
 ---
 
-## 2. Color
+## 2. Color — paleta "Acero en sombra" (C cálida)
 
-Paleta extraída literalmente del mockup. La columna "origen" da el nombre del token en
-la configuración de Tailwind del mockup, para poder rastrear cualquier valor.
+Elegida el 2026-10-04 sobre tres propuestas (`propuestas/paletas.html`). La idea: el color
+del oficio. Un negro con base marrón, como el acero con luz de fragua, y el naranja de
+la chispa de soldadura. **El sitio es oscuro por defecto y alterna secciones claras.**
 
-### Superficies
+### Dos temas, un solo juego de tokens
 
-| Token | Valor | Origen | Uso |
+`:root` define el tema **oscuro**. `.section--alt` y `.theme-light` **redefinen los
+mismos tokens** dentro de su alcance (hueso cálido). Ningún componente sabe en qué tema
+está: solo usa `var(--color-*)`. Por eso un botón cambia de naranja a naranja quemado
+al entrar en una sección clara sin una sola línea extra.
+
+| Token | Oscuro (base) | Claro (`.section--alt`) | Uso |
 |---|---|---|---|
-| `--color-page` | `#f9f9f9` | `background` | Lienzo del documento (`body`) |
-| `--color-bg` | `#ffffff` | `surface-container-lowest` | Superficie de tarjeta, celdas del bento |
-| `--color-bg-alt` | `#eeeeee` | `surface-container` | Sección alterna, footer |
-| `--color-surface` | `#f3f3f3` | `surface-container-low` | Superficie hundida, hover de celda |
-| `--color-surface-hover` | `#e8e8e8` | `surface-container-high` | — |
-| `--color-surface-high` | `#e8e8e8` | `surface-container-high` | Sección de cierre (INICIO 4) |
-| `--color-surface-highest` | `#e2e2e2` | `surface-container-highest` | — |
-| `--color-surface-dim` | `#dadada` | `surface-dim` | Puntos inactivos del carrusel |
+| `--color-page` | `#16120f` | — | Lienzo del documento |
+| `--color-bg` | `#1e1a16` | `#ffffff` | Tarjeta, celda del bento |
+| `--color-bg-alt` | `#ebe5db` | — | Fondo de la sección clara |
+| `--color-surface` | `#261f1a` | `#f5f1ea` | Superficie hundida, hover, relleno de huecos |
+| `--color-surface-high` | `#201b17` | `#e6dfd3` | Sección de cierre |
+| `--color-border` | `#4a4137` | `#cdc4b6` | **Toda** junta de 1px |
+| `--color-steel` | `#16120f` | — | Barra del header |
+| `--color-ink` | `#3b342d` | `#16120f` | Etiquetas sólidas (`.tag`) |
+| `--color-footer` | `#0f0c0a` | — | Pie de página |
+| `--color-text` / `--color-graphite` | `#f0ebe3` | `#16120f` | Texto |
+| `--color-text-muted` | `#aa9f92` | `#554b40` | Texto secundario |
+| `--color-accent` | `#ff6a1a` | `#a33a04` | Acciones y estados |
+| `--color-accent-dark` | `#ff8a45` | `#7f2c02` | Hover (**sube** en oscuro, baja en claro) |
+| `--color-on-accent` | `#16120f` | `#ffffff` | Texto sobre relleno de acento |
+| `--color-error` | `#ff8a7a` | `#b3261e` | Errores. **El rojo ya no es acento** |
+| `--color-warn` | `#e2b04a` | `#8a5a00` | Aviso de maqueta |
+| `--color-ok` | `#7bd89a` | `#1f6b34` | Confirmación |
 
-El ritmo de fondo del sitio es de tres niveles: `#ffffff` → `#f9f9f9` → `#eeeeee`.
-Una `.section` sin modificador se pinta sobre `#f9f9f9`, **no sobre blanco**.
+### Contrastes calculados (no asumidos)
 
-### Estructura
+| Par | Ratio |
+|---|---|
+| Texto `#f0ebe3` sobre lienzo `#16120f` | 15,7:1 |
+| Muted `#aa9f92` sobre lienzo / sobre tarjeta | 7,2:1 / 6,6:1 |
+| Acento `#ff6a1a` sobre lienzo / sobre tarjeta | 6,5:1 / 6,0:1 |
+| `#16120f` sobre relleno `#ff6a1a` (botón primario) | 6,5:1 |
+| Texto `#16120f` sobre hueso `#ebe5db` | 14,9:1 |
+| Muted `#554b40` sobre hueso | 6,8:1 |
+| Acento quemado `#a33a04` sobre hueso / sobre blanco | 5,3:1 / 6,6:1 |
+| Blanco sobre `#a33a04` (botón en sección clara) | 6,6:1 |
+| Error `#ff8a7a` sobre lienzo | 8,1:1 |
 
-| Token | Valor | Uso |
-|---|---|---|
-| `--color-border` | `#e5e7eb` | **Toda** junta de 1px |
-| `--color-steel` | `#5f5e5e` | Barra del header, velo del hero |
-| `--color-steel-medium` | `#9ca3af` | Divisor de marca aliada |
-| `--color-steel-dark` | `#4b5563` | Borde inferior del header (2px) |
-| `--color-steel-light` | `#dadada` | — |
-| `--color-ink` | `#2f3131` | Etiquetas sólidas (`.tag`), banda de acero |
+> **El naranja puro `#ff6a1a` NO sirve como texto sobre fondo claro** (≈2,4:1). Por eso el
+> tema claro cambia a la variante quemada. Y al revés: el naranja quemado no sirve sobre
+> oscuro. Los dos temas no son intercambiables; el token correcto sale solo del alcance.
 
-### Texto
-
-| Token | Valor | Contraste |
-|---|---|---|
-| `--color-text` / `--color-graphite` | `#1a1c1c` | 16.9:1 sobre blanco |
-| `--color-text-muted` | `#59413d` | 9.34:1 sobre blanco · 8.05:1 sobre `#eeeeee` |
-
-`--color-text-muted` es un gris **cálido** (marrón desaturado), no azulado. Es
-deliberado: acompaña al rojo ladrillo del acento.
-
-### Acento
-
-| Token | Valor | Uso |
-|---|---|---|
-| `--color-accent` | `#c13d2f` | Acciones, estados, eyebrows |
-| `--color-accent-dark` | `#ae3023` | Hover de acción |
-| `--color-accent-light` | `#ffb4a9` | Acento **sobre fondo oscuro** (hero, banda de acero) |
-| `--color-whatsapp` | `#25d366` | Solo el canal de WhatsApp |
-
-Ratios verificados: blanco sobre `--color-accent` = **5.28:1**. `--color-accent` sobre
-blanco = **5.28:1**, sobre `#f9f9f9` = **5.02:1**, sobre `#eeeeee` = **4.55:1**.
+Auditoría automática (Playwright + Edge, 8 páginas, texto contra su fondo real): **0
+incumplimientos de AA**. Lo único que reporta son etiquetas `.visually-hidden`, que no
+se ven.
 
 > El verde `#25d366` puro **no** llega a 4.5:1 sobre fondo claro. Por eso
-> `.btn--whatsapp` usa `#128c3d` para el texto y reserva el verde de marca para el
-> borde y el fondo del botón flotante.
+> `.btn--whatsapp` es **relleno** `#0f7a35` con texto blanco (5,45:1) y el verde de marca
+> solo sobrevive en el FAB, donde el glifo es una silueta y no texto.
 
 ---
 
@@ -160,7 +164,7 @@ Modificadores: `--2` `--3` `--4` (columnas) · `__cell` `__cell--flush` (sin pad
 `__cell--hover` (tinte + barra de acento) `__cell--accent` `__index` `__icon`.
 
 ### Botones
-`.btn` + `--primary` (relleno rojo) · `--outline` (rojo sin relleno) · `--ghost`
+`.btn` + `--primary` (relleno de acento, naranja) · `--outline` (acento sin relleno) · `--ghost`
 (borde acero) · `--whatsapp` (**relleno verde**, texto blanco).
 
 **Sin `transform` en el hover.** En un sistema de radio cero, un botón que levita rompe
@@ -273,7 +277,14 @@ imagen: si no, el zoom se lo lleva fuera del recorte.
 
 ## 8. Desviaciones deliberadas del mockup
 
-Las tres son por contraste. En las tres, el mockup incumple WCAG AA.
+**Desviación mayor (2026-10-04): la paleta completa.** El mockup aprobado era gris
+sobre gris con acento rojo ladrillo `#c13d2f`. Se reemplazó por la C cálida (§2) a
+pedido del equipo. Las tres reglas del sistema (radio cero, junta de 1px, acento solo en
+acciones) se conservan. **Falta mostrarle la nueva paleta al cliente.** Para revertir:
+los tokens viven en un solo bloque de `:root` y en `.section--alt, .theme-light`.
+
+Las tres desviaciones siguientes son de la paleta anterior, por contraste; la tabla se
+conserva como historia (en el mockup original incumplían WCAG AA).
 
 | # | Mockup | Implementado | Razón |
 |---|---|---|---|
@@ -326,8 +337,8 @@ formulario, los datos de contacto, las `meta description` y la página `/gracias
 
 ## 10. Rendimiento y accesibilidad
 
-- **Cero archivos JavaScript externos.** Los tres scripts del sitio se inlinean (~4 KB
-  en total). Solo se sirven 2 hojas de CSS.
+- **Cero JavaScript de terceros por CDN.** Los scripts del sitio se empaquetan con Astro;
+  el único paquete externo es **Lenis** (~3 KB, §12). Solo se sirven 2 hojas de CSS.
 - 8 páginas estáticas, build en ~750ms.
 - Todo control interactivo mide **44px** como mínimo (`--tap`).
 - `prefers-reduced-motion` respetado en toda transición de movimiento.
@@ -342,25 +353,50 @@ formulario, los datos de contacto, las `meta description` y la página `/gracias
 
 ## 11. Puntos abiertos
 
-1. **`--color-border` (`#e5e7eb`) es casi invisible.** Da **1.24:1** sobre celda blanca
-   y **1.07:1** sobre `#eeeeee`. Es el valor literal del mockup (`steel-light`), pero
-   choca con la regla 2 de este mismo documento: si la junta *es* la línea del plano,
-   tiene que verse. Además tiene matiz azulado (~220°) contra una paleta de neutros y un
-   texto cálido. *Propuesta:* un gris neutro algo más oscuro (~`#dcdcdc`). **Requiere
-   aprobación del cliente por ser una desviación del mockup.**
-2. **`.eyebrow` sobre `.section--alt`** da **4.55:1**: pasa AA, pero con 0.05 puntos de
-   margen. Cualquier retoque de la paleta lo rompe. *Propuesta:* un token
-   `--color-accent-on-light` dedicado (`#ae3023` da 5.57:1).
-3. **`--font-mono` sin cargar.** `catalogo.astro`, `al-muebleria.astro` y `nosotros.astro`
-   todavía la usan y aterrizan en Consolas. Decidir: cargarla de verdad o eliminarla del
-   sistema.
-4. **Imágenes reales.** Todo lo visual son huecos rotulados. El hero se sustituye
-   cambiando `heroImage` en `index.astro` (y poniendo `pending: false`); los 15 productos
-   del catálogo, su `image` en `catalog.js`.
-5. **El favicon sigue siendo la versión cromada.** Coherencia con el logotipo plano
-   pediría aplanarlo también, pero el cliente aprobó ese archivo aparte ("más grande y
-   con más contraste"), así que no se toca sin preguntar.
-6. **Cinco etiquetas para la misma acción:** "Cotizar Proyecto", "Cotizar este ítem",
+1. **Mostrar la paleta nueva al cliente.** Es la desviación mayor del mockup (§8).
+2. **Fotos que faltan.** Soldadura TIG y Diseño (servicios del Inicio, 4 huecos) y las
+   páginas Nosotros y Servicios siguen sin fotos: las carpetas `Nosotros` y `Servicios`
+   llegaron vacías. Los huecos rotulados dicen qué foto va.
+3. **Cinco etiquetas para la misma acción:** "Cotizar Proyecto", "Cotizar este ítem",
    "Cotizar por WhatsApp", "Hablar con un Asesor", "Enviar consulta". Se unificaron las
    del catálogo; el resto sigue abierto.
-7. Ver `MEJORAS.md` para el resto del backlog técnico y de SEO.
+4. **El favicon sigue siendo la versión cromada** y desentona con el logotipo plano. El
+   cliente lo aprobó aparte ("más grande y con más contraste"): no se toca sin preguntar.
+5. **Fotos de celular, casi todas verticales**, recortadas a 4:3 y 3:2 con
+   `object-position` por imagen. Fotos horizontales mejorarían el hero y las filas.
+6. Ver `MEJORAS.md` para el resto del backlog.
+
+Cerrados el 2026-10-04: junta casi invisible (`--color-border` ahora ≈1,9:1 sobre el
+lienzo), `.eyebrow` al borde de AA (ya 6,5:1 / 5,3:1) y `--font-mono` (eliminada del
+sistema; el cuerpo usa Inter).
+
+---
+
+## 12. Movimiento
+
+Tres capas, de menor a mayor costo. **Todas se desactivan con `prefers-reduced-motion`.**
+
+| Capa | Técnica | JS |
+|---|---|---|
+| Entrada del hero y de los encabezados | `@keyframes rise-in` en cascada + `settle` (la foto se asienta de `scale(1.08)` a 1) | 0 |
+| Revelado al scroll | CSS scroll-driven animations: `animation-timeline: view()`, `animation-range: entry 0% entry 38%`. Detrás de `@supports`: en Firefox el contenido simplemente está visible | 0 |
+| Transición entre páginas | `@view-transition { navigation: auto }` nativa. El header y el FAB llevan `view-transition-name` para no parpadear | 0 |
+| Scroll con inercia | **Lenis** (~3 KB, npm, se empaqueta; no hay CDN). Solo con movimiento no reducido; con puntero táctil no suaviza. `anchors` con el offset del header | sí |
+
+Reglas: la **firma** `.media-frame` sigue siendo la única animación en *hover* con carga
+expresiva; lo de arriba es coreografía de entrada. Los botones siguen sin `transform` en
+hover. Un menú abierto detiene Lenis (`lenis.stop()`).
+
+**WeldingCursor:** el halo de las chispas ya no usa `box-shadow` (se recalculaba por
+frame en 90 nodos): es un degradado radial en `::after`, con color e intensidad por las
+variables `--c` y `--a`. El ciclo térmico blanco → amarillo → naranja → óxido ya coincide
+con la paleta.
+
+## 13. Fotos
+
+Las fotos reales del cliente (WebP, máx. 1600 px) viven en `public/img/`; los originales,
+fuera de git, en `fotos-originales/`. Cada imagen en `src/data/` lleva `src`, `alt` y
+`position` (un `object-position`), porque las fotos son de celular y se recortan a 4:3 o
+3:2. `pending: true` sigue mostrando el hueco rotulado. Las imágenes del catálogo y del
+carrusel de marca conservan la firma `.media-frame` (gris → color); la galería de AL
+Mueblería no, a propósito: ahí el acabado de la madera es el dato.

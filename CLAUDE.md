@@ -30,7 +30,7 @@ Consult these guides before working on related tasks:
 * **Soldadura TIG** ya NO es una página propia: se dio de baja en el commit `eb50818` y hoy es uno de los servicios dentro de `/servicios`.
 
 ## 🛠 Arquitectura y Stack
-* **Framework:** Astro 7 (SSG). Sin framework de UI: cero JavaScript externo, los scripts se inlinean.
+* **Framework:** Astro 7 (SSG). Sin framework de UI. Sin JavaScript de terceros por CDN: los scripts se empaquetan. **Única dependencia de runtime permitida: Lenis** (scroll con inercia, ~3 KB), aprobada el 2026-10-04.
 * **Estilos:** CSS nativo con variables globales en `src/styles/global.css`. **No hay Tailwind** (el mockup original sí lo usaba; se tradujo a tokens nativos).
 * **Componentización:** Todo modular (Header, Footer, BrandCard, Seo, ServiceIcon, FloatingContact, WeldingCursor). Los estilos de componente van en su bloque `<style>` scoped; solo lo compartido vive en `global.css`.
 * **Datos:** todo el contenido sale de `src/data/` (`site`, `company`, `brands`, `services`, `catalog`). Las páginas no llevan copy hardcodeado.
@@ -41,19 +41,19 @@ Resumen operativo. **El detalle completo está en `DESIGN.md`.**
 1. **Tres reglas inviolables:**
    * **RADIO CERO.** Ni un `border-radius` en todo el sitio. Existe `--radius: 0` para que nada reintroduzca esquinas.
    * **La junta es de 1px** y siempre `var(--color-border)`. Es la línea del plano de ingeniería.
-   * **El acento solo en acciones y estados.** Nunca como relleno decorativo.
+   * **El acento solo en acciones y estados.** Nunca como relleno decorativo. El error va en `--color-error`, no en el acento.
 
-2. **Paleta (extraída del mockup aprobado):**
-   * Superficies: `#f9f9f9` (lienzo) → `#ffffff` (tarjeta) → `#eeeeee` (sección alterna).
-   * Estructura: acero `#5f5e5e` (header, velo del hero), tinta `#2f3131` (etiquetas sólidas).
-   * Texto: `#1a1c1c` y `#59413d` (gris **cálido**, no azulado).
-   * Acento: `#c13d2f`, hover `#ae3023`, sobre fondo oscuro `#ffb4a9`.
+2. **Paleta "Acero en sombra" (C cálida, desde 2026-10-04; reemplaza a la del mockup):**
+   * Tema **oscuro por defecto** (`:root`) y tema **claro** en `.section--alt` / `.theme-light`, que redefinen los mismos tokens. Los componentes solo usan `var(--color-*)`.
+   * Oscuro: lienzo `#16120f`, tarjeta `#1e1a16`, texto `#f0ebe3`, muted `#aa9f92`. Claro (hueso): `#ebe5db`, texto `#16120f`.
+   * Acento: naranja de la chispa `#ff6a1a` (en secciones claras `#a33a04`). Texto sobre relleno de acento: `--color-on-accent`.
+   * **Falta mostrar la paleta nueva al cliente** (desviación mayor del mockup, `DESIGN.md §8`).
 
-3. **Tipografía:** **Hanken Grotesk** (600/700/800) en titulares, **Inter** (400/500/600) en cuerpo. `--font-mono` NO se carga: evítala.
+3. **Tipografía:** **Hanken Grotesk** (600/700/800) en titulares, **Inter** (400/500/600) en cuerpo. `--font-mono` ya no existe.
 
 4. **Bento Grid:** `gap: 1px` sobre fondo `--color-border`, nunca bordes por celda (sumarían 2px entre celdas contiguas).
 
-5. **Interacción firma:** la clase `.media-frame` desatura toda imagen y le devuelve color + `scale(1.05)` en hover. El recorte va en el marco y el zoom en la imagen, para que no haya reflow. Es la **única** animación expresiva: el resto son transiciones funcionales de color.
+5. **Interacción firma:** la clase `.media-frame` desatura toda imagen y le devuelve color + `scale(1.05)` en hover. El recorte va en el marco y el zoom en la imagen, para que no haya reflow. Es la **única** animación expresiva en hover. Además hay coreografía de entrada (hero, revelado al scroll con CSS, `@view-transition`, Lenis): ver `DESIGN.md §12`. Todo se apaga con `prefers-reduced-motion`.
 
 ## 📝 Convención de contenido (ACTUALIZADO 2026-09-22)
 **El copy del cliente llegó.** Los localizadores numerados (`INICIO 1`, `NOSOTROS 3.2`…) ya NO existen: el sitio tiene texto real en las 9 páginas. La convención anterior queda archivada.
@@ -67,14 +67,14 @@ Reglas que siguen vigentes:
 
 * **Las cifras NO se inventan.** Solo "20+ años" está confirmado. Las otras tres de `stats` llevan `pending: true` y se renderizan como ranura de solicitud, nunca como `00`. Un texto de relleno es un borrador; un número inventado es una afirmación falsa.
 * Los **precios de `catalog.js` son de maqueta**. `pricesArePlaceholder` controla el aviso visible en `/catalogo` y la omisión de `offers` en el JSON-LD. **No lo pongas en `false`** hasta tener la lista firmada.
-* Las **imágenes son placeholders rotulados** (`pending: true` + `slot` + `ratio`). `MediaPlaceholder.astro` dice qué foto va en cada hueco.
+* Las **imágenes** son fotos reales del cliente en `public/img/` (WebP; originales en `fotos-originales/`, fuera de git) con `src`, `alt` y `position`. Donde falta foto queda un placeholder rotulado (`pending: true` + `slot` + `ratio`) que `MediaPlaceholder.astro` rotula.
 
 ## 🔍 SEO Técnico y Rendimiento (Regla de Oro)
 1. **Etiquetas Semánticas:** Usa siempre `<header>`, `<main>`, `<section>`, `<article>`, `<aside>` y `<footer>`. Cero tolerancia al "Div Soup".
 2. **Jerarquía de Encabezados:** Respeta el orden (`<h1>`, `<h2>`, `<h3>`) sin saltos. Un solo `<h1>` por página.
 3. **Metadatos:** El componente `<Seo/>` ya está integrado en `Layout.astro` de forma central. No lo dupliques en las páginas: pasa `title` y `description` al Layout.
 4. **Optimización de Medios:** `alt` descriptivo obligatorio. `loading="lazy"` bajo el primer scroll; `fetchpriority="high"` solo en el candidato a LCP.
-5. **Presupuesto:** cero JS externo. Si una función necesita una librería o una fuente de iconos, busca primero la solución en CSS o SVG inline.
+5. **Presupuesto:** sin JS de terceros salvo Lenis. Si una función necesita una librería o una fuente de iconos, busca primero la solución en CSS o SVG inline.
 
 ## ♿ Accesibilidad (no negociable)
 * **44px** mínimo en todo control interactivo (`var(--tap)`).
@@ -116,3 +116,12 @@ Informe completo en `.impeccable/critique/2026-09-23T21-14-44Z__src-pages-index-
 * **El foco del formulario dejó de ser rojo**, para que el rojo signifique solo "error".
 
 **Pendiente y conocido:** la QA visual en navegador sigue sin hacerse — la extensión de Chrome continúa sin permiso para `localhost` (`ERR_CONNECTION_REFUSED` con el servidor respondiendo 200 a `curl`). La verificación de esta ronda fue por build, inspección del HTML/CSS generado y cálculo de contraste, no por medición en pantalla.
+
+### 2026-10-04 — Paleta C cálida, movimiento, fotos reales y limpieza
+* **Paleta nueva** (`DESIGN.md §2`): oscuro por defecto con secciones claras de hueso; acento naranja de la chispa; el rojo pasa a significar solo error. Tokens en un solo bloque; auditoría de contraste automática en 8 páginas con 0 incumplimientos de AA.
+* **Movimiento** (`DESIGN.md §12`): entrada del hero, revelado al scroll y transición de página en CSS puro; Lenis para el scroll con inercia. Todo respeta `prefers-reduced-motion`.
+* **Fotos reales** del cliente: hero, servicios (solo Corte y plegado), placas de marca, 18 productos del catálogo (+3 nuevos salidos de las fotos: soporte KDS, protector de jabón, mesa de pizza, sin precio) y galería de AL Mueblería ampliada a 8 piezas. Optimizadas a WebP (1,6 MB en total).
+* **Cerrados de `MEJORAS.md`:** 2.4 (SVG placeholder eliminados), 3.1 (código muerto), 3.2 (README) y 5.1 (WeldingCursor sin `box-shadow`). `--font-mono` eliminada.
+* **Catálogo:** celdas de relleno para que la última fila no deje un bloque liso.
+
+**Pendiente y conocido:** mostrar la paleta nueva al cliente; fotos de Soldadura TIG, Diseño, Nosotros y Servicios (esas carpetas llegaron vacías); el favicon sigue siendo el cromado. La QA visual se hizo con Playwright + Edge headless sobre `dist/` (la extensión de Chrome sigue sin permiso para `localhost`).
