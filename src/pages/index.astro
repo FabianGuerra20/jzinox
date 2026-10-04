@@ -384,7 +384,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	/* Las dos fotos comparten la junta de 1px del sistema, igual que el bento. */
 	.strip__media {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 		gap: 1px;
 		background-color: var(--color-border);
 		border: 1px solid var(--color-border);

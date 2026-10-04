@@ -33,7 +33,7 @@ export const site = {
   siteUrl: "https://jzinox.cl",
   // PNG, no SVG: Facebook, WhatsApp, LinkedIn y X no renderizan SVG en Open
   // Graph. Con el SVG anterior, compartir cualquier URL salía sin imagen.
-  // El SVG se conserva en public/ como fuente editable.
+  // La fuente editable es propuestas/og-image.html (se exporta con Playwright).
   ogImage: "/og-image.png",
 };
 

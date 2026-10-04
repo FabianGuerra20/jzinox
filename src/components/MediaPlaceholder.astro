@@ -54,6 +54,7 @@ const cssRatio = ratio.replace(":", " / ");
        la foto real no mueve un solo píxel del layout. */
     aspect-ratio: var(--ph-ratio);
     width: 100%;
+    min-width: 0;
     padding: 1rem;
     text-align: center;
     background-color: var(--color-surface);
@@ -74,6 +75,7 @@ const cssRatio = ratio.replace(":", " / ");
     line-height: 1.3;
     color: var(--color-text-muted);
     text-wrap: balance;
+    overflow-wrap: anywhere;
   }
 
   .media-ph__meta {
