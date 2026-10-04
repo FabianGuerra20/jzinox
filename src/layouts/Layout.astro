@@ -30,7 +30,7 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.t
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
 		<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
 		<link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png" />
-		<meta name="theme-color" content="#5f5e5e" />
+		<meta name="theme-color" content="#16120f" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
 		{/* Una página de agradecimiento en los resultados de Google es una mala
@@ -72,6 +72,30 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.t
 				padding-top: 0;
 			}
 		</style>
+
+		<script>
+			// Scroll con inercia (Lenis, ~3 KB). Es una mejora progresiva: sin JS, o
+			// con movimiento reducido, el navegador conserva su scroll nativo. Los
+			// dispositivos táctiles también quedan fuera (Lenis no los suaviza por
+			// defecto): el scroll con el dedo ya tiene su propia inercia.
+			import Lenis from "lenis";
+
+			const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
+			if (!calm.matches) {
+				const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-height")) || 80;
+				const lenis = new Lenis({
+					duration: 1.1,
+					easing: (t: number) => 1 - Math.pow(1 - t, 3),
+					anchors: { offset: -(header + 16) },
+					autoRaf: true,
+				});
+				// Un menú abierto no debe dejar la página deslizándose por detrás
+				document.querySelectorAll<HTMLInputElement>(".header__toggle-input").forEach((input) => {
+					input.addEventListener("change", () => (input.checked ? lenis.stop() : lenis.start()));
+				});
+				calm.addEventListener("change", (e) => e.matches && lenis.destroy());
+			}
+		</script>
 
 		<script>
 			// Los toggles del sitio son checkboxes ocultos con un <label> encima,

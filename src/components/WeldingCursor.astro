@@ -2,11 +2,13 @@
 /**
  * Estela de soldadura TIG que sigue al puntero.
  *
- * Partículas DOM en vez de canvas: el efecto se apoya en `box-shadow` para el
- * halo incandescente y en `translate3d` para que el compositor resuelva el
- * movimiento sin provocar reflow. El pool de nodos se crea una sola vez y se
- * recicla, así que durante la animación no se inserta ni se borra ningún
- * elemento.
+ * Partículas DOM en vez de canvas: el movimiento va en `translate3d`, que
+ * resuelve el compositor sin provocar reflow. El halo incandescente NO usa
+ * `box-shadow` (de las propiedades más caras de pintar, y se recalculaba en
+ * cada frame para 90 nodos): es un degradado radial en un `::after` cuya
+ * intensidad y color se mandan por variables CSS (`--c`, `--a`). El pool de
+ * nodos se crea una sola vez y se recicla, así que durante la animación no
+ * se inserta ni se borra ningún elemento.
  */
 ---
 
@@ -32,8 +34,26 @@
     width: 2px;
     height: 11px;
     border-radius: 40%;
+    background-color: rgb(var(--c, 255, 168, 56));
     opacity: 0;
     will-change: transform, opacity;
+  }
+
+  /* Halo: elipse de 22×34 centrada en el filamento. Sin radio ni sombra. */
+  #tig-sparks :global(.spark)::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 22px;
+    height: 34px;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(
+      closest-side,
+      rgba(var(--c, 255, 168, 56), calc(0.7 * var(--a, 1))) 0%,
+      rgba(var(--c, 255, 168, 56), calc(0.25 * var(--a, 1))) 55%,
+      transparent 100%
+    );
   }
 
   /* Sin puntero fino, o con movimiento reducido, el efecto no existe */
@@ -173,10 +193,8 @@
           "translate3d(" + p.x.toFixed(2) + "px," + p.y.toFixed(2) + "px,0) rotate(" +
           angle.toFixed(1) + "deg) scale(" + p.scale.toFixed(2) + "," +
           (p.scale * stretch).toFixed(2) + ") translate(-50%,-50%)";
-        p.el.style.backgroundColor = "rgb(" + rgb + ")";
-        p.el.style.boxShadow =
-          "0 0 " + heat.glow.toFixed(1) + "px rgba(" + rgb + ",0.85), 0 0 " +
-          (heat.glow * 2.4).toFixed(1) + "px rgba(" + rgb + ",0.35)";
+        p.el.style.setProperty("--c", rgb);
+        p.el.style.setProperty("--a", (heat.glow / 13).toFixed(2));
         p.el.style.opacity = alpha.toFixed(3);
       }
 

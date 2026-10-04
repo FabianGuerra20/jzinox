@@ -28,7 +28,7 @@ interface Props {
     featuredHref: string;
     featuredLabel: string;
     featured: Array<{ name: string; note: string }>;
-    images: Array<{ src: string; alt: string; pending?: boolean; slot?: string; ratio?: string }>;
+    images: Array<{ src: string; alt: string; pending?: boolean; slot?: string; ratio?: string; position?: string }>;
   };
   /** true solo en la primera placa: su imagen es la candidata a LCP */
   eager?: boolean;
@@ -84,6 +84,7 @@ const featuredId = `destacados-${brand.slug}`;
                   <img
                     src={image.src}
                     alt={image.alt}
+                    style={image.position ? `object-position: ${image.position}` : undefined}
                     width="800"
                     height="600"
                     loading={eager && i === 0 ? "eager" : "lazy"}
@@ -289,7 +290,7 @@ const featuredId = `destacados-${brand.slug}`;
     padding: 0;
     border: 1px solid var(--color-border);
     background-color: var(--color-bg);
-    color: var(--color-steel);
+    color: var(--color-text-muted);
     cursor: pointer;
     transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
   }
@@ -297,7 +298,7 @@ const featuredId = `destacados-${brand.slug}`;
   .carousel__arrow:hover {
     background-color: var(--color-accent);
     border-color: var(--color-accent);
-    color: #fff;
+    color: var(--color-on-accent);
   }
 
   .carousel__arrow--prev {
@@ -398,7 +399,7 @@ const featuredId = `destacados-${brand.slug}`;
     font-size: 0.75rem;
     font-weight: 500;
     line-height: 1.6;
-    color: var(--color-steel);
+    color: var(--color-text-muted);
   }
 
   .brand-card__list-text strong {

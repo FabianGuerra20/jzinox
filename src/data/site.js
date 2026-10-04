@@ -19,8 +19,6 @@ export const site = {
   // TODO: confirmar comuna con el cliente. Av. Departamental cruza La Florida,
   // Macul y San Joaquín, así que no la deducimos desde la dirección.
   city: "Santiago",
-  address: "Av. Departamental 999, Galpón 11",
-  addressFull: "Av. Departamental 999, Galpón 11, Región Metropolitana, Chile",
   region: "Región Metropolitana",
   country: "CL",
 

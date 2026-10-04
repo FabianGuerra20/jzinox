@@ -76,7 +76,7 @@ const groups = catalogCategories
 			<span class="eyebrow">Productos y precios</span>
 			<h1>Todo lo que fabricamos en acero inoxidable</h1>
 			<p>
-				Quince piezas que hacemos habitualmente, con valores de referencia para dimensionar
+				{catalog.length} piezas que hacemos habitualmente, con valores de referencia para dimensionar
 				tu proyecto. El precio final depende de las medidas, el espesor de la plancha y la
 				complejidad de la instalación. Si lo que necesitas no está en la lista, lo
 				fabricamos igual: mándanos el plano o las medidas.
@@ -133,6 +133,7 @@ const groups = catalogCategories
 										<img
 											src={item.image.src}
 											alt={item.image.alt}
+											style={item.image.position ? `object-position: ${item.image.position}` : undefined}
 											width="600"
 											height="450"
 											loading="lazy"
@@ -163,6 +164,15 @@ const groups = catalogCategories
 								</a>
 								</div>
 							</article>
+						))}
+						{/* Celdas de relleno: sin ellas, la fila incompleta deja ver el fondo
+						    de la junta como un bloque liso. Una serie por ancho de grilla
+						    (3 columnas en escritorio, 2 en tablet); el CSS oculta la que no toca. */}
+						{Array.from({ length: (3 - (group.items.length % 3)) % 3 }, () => (
+							<div class="bento__filler bento__filler--3" aria-hidden="true" />
+						))}
+						{Array.from({ length: group.items.length % 2 }, () => (
+							<div class="bento__filler bento__filler--2" aria-hidden="true" />
 						))}
 					</div>
 				</div>
@@ -196,9 +206,9 @@ const groups = catalogCategories
 	.price-warning {
 		margin-top: 1.5rem;
 		padding: 0.9rem 1.1rem;
-		border: 1px solid #d9c47a;
+		border: 1px solid var(--color-warn);
 		border-left-width: 4px;
-		background-color: #fdf6e3;
+		background-color: color-mix(in srgb, var(--color-warn) 14%, var(--color-bg));
 		color: var(--color-graphite);
 		font-size: 0.9rem;
 		max-width: 68ch;
@@ -215,7 +225,7 @@ const groups = catalogCategories
 		display: inline-flex;
 		align-items: center;
 		min-height: var(--tap);
-		font-family: var(--font-mono);
+		font-family: var(--font-body);
 		font-size: 0.78rem;
 		text-transform: uppercase;
 		letter-spacing: 0.06em;
@@ -231,7 +241,7 @@ const groups = catalogCategories
 	.catalog-nav a:hover {
 		background-color: var(--color-accent);
 		border-color: var(--color-accent);
-		color: #fff;
+		color: var(--color-on-accent);
 	}
 
 	.catalog-group-title {
@@ -256,6 +266,10 @@ const groups = catalogCategories
 		display: block;
 		width: 100%;
 		height: auto;
+		/* Las fotos del cliente son de celular, casi todas verticales: sin
+		   aspect-ratio + cover, una sola tarjeta mediría el doble que sus vecinas. */
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
 	}
 
 	.catalog-card__body {
@@ -314,7 +328,7 @@ const groups = catalogCategories
 
 	.catalog-note {
 		font-size: 0.82rem;
-		color: var(--color-steel);
+		color: var(--color-text-muted);
 		text-align: center;
 		max-width: 70ch;
 		margin: 0 auto 2.5rem;

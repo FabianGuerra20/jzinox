@@ -65,7 +65,7 @@ export const catalog = [
     description: "Campana adosada a muro con filtros tipo bafle desmontables para lavado.",
     price: 420000,
     unit: "m lineal",
-    image: { pending: true, slot: "Campana mural sobre la línea de cocción", ratio: "4:3" },
+    image: { src: "/img/campana-mural-freidoras.webp", alt: "Campana de acero inoxidable adosada al muro sobre una línea de freidoras", position: "50% 45%" },
   },
   {
     id: "campana-central",
@@ -74,7 +74,7 @@ export const catalog = [
     description: "Campana de isla para líneas de cocción ubicadas al centro de la cocina.",
     price: 560000,
     unit: "m lineal",
-    image: { pending: true, slot: "Campana central de isla, vista desde el piso", ratio: "4:3" },
+    image: { src: "/img/campana-central.webp", alt: "Campana de acero inoxidable colgada del cielo con soporte vertical, vista desde abajo", position: "50% 45%" },
   },
   {
     id: "ducto-extraccion",
@@ -83,7 +83,7 @@ export const catalog = [
     description: "Ducto, codos y terminal de descarga fabricados a la medida del recorrido.",
     price: 75000,
     unit: "m lineal",
-    image: { pending: true, slot: "Ducto de extracción con codo y terminal", ratio: "4:3" },
+    image: { src: "/img/campana-filtros.webp", alt: "Campana de extracción con banco de filtros desmontables y ducto de acero inoxidable", position: "50% 35%" },
   },
   {
     id: "mesa-caliente",
@@ -110,7 +110,7 @@ export const catalog = [
     description: "Cuatro bandejas regulables, apta para bodega seca y cámara de frío.",
     price: 195000,
     unit: "unidad",
-    image: { pending: true, slot: "Estantería de cuatro bandejas en bodega", ratio: "4:3" },
+    image: { src: "/img/taller-estanteria.webp", alt: "Estantería de acero inoxidable de cuatro bandejas en el taller de JZ INOX", position: "65% 50%" },
   },
   {
     id: "repisa-mural",
@@ -146,7 +146,7 @@ export const catalog = [
     description: "Bases, pedestales y estructuras para equipos según plano o levantamiento.",
     price: 0,
     unit: "cotizar",
-    image: { pending: true, slot: "Estructura de soporte a medida ya instalada", ratio: "4:3" },
+    image: { src: "/img/columna-inox.webp", alt: "Columna de acero inoxidable pulido fabricada a medida, antes de su instalación", position: "50% 40%" },
   },
   {
     id: "proyecto-cocina-completa",
@@ -156,5 +156,36 @@ export const catalog = [
     price: 0,
     unit: "cotizar",
     image: { pending: true, slot: "Cocina completa terminada, plano general", ratio: "4:3" },
+  },
+
+  // --- Productos que salen de las fotos reales entregadas por el cliente. ---
+  // [PROPUESTA] El nombre y la descripción los dedujimos de la foto y del nombre
+  // de la carpeta. Sin precio ("cotizar") para no inventar un valor.
+  {
+    id: "soporte-pantalla-kds",
+    name: "Soporte para pantalla KDS",
+    category: "Estructuras",
+    description: "Brazo y columna en acero inoxidable para colgar la pantalla de cocina del cielo o del muro.",
+    price: 0,
+    unit: "cotizar",
+    image: { src: "/img/soporte-kds.webp", alt: "Soporte de acero inoxidable colgado del cielo sosteniendo una pantalla KDS sobre la línea de cocina", position: "50% 40%" },
+  },
+  {
+    id: "protector-dosificador",
+    name: "Protector de dosificador de jabón",
+    category: "Mesones y lavado",
+    description: "Cubierta de acero inoxidable que protege el dosificador junto al lavamanos y se limpia en segundos.",
+    price: 0,
+    unit: "cotizar",
+    image: { src: "/img/protector-jabon.webp", alt: "Protector de acero inoxidable para dosificador de jabón sobre un lavamanos blanco y muro negro", position: "50% 30%" },
+  },
+  {
+    id: "mesa-pizza",
+    name: "Mesa de apoyo para pizza",
+    category: "Mesones y lavado",
+    description: "Mesa redonda de cubierta lisa sobre pedestal central, fabricada a la altura del puesto de trabajo.",
+    price: 0,
+    unit: "cotizar",
+    image: { src: "/img/mesa-pizza.webp", alt: "Mesa redonda de acero inoxidable con pedestal central y cubierta blanca", position: "50% 55%" },
   },
 ];

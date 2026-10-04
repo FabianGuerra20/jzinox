@@ -1,61 +1,64 @@
 /* =============================================================
-   JZINOX — Sistema de diseño "Ingeniería limpia y precisión"
+   JZINOX — Sistema de diseño "Acero en sombra"
    -------------------------------------------------------------
-   Tokens extraídos del mockup aprobado (Mockup Inicio).
+   Paleta C cálida (aprobada 2026-10-04): negro con base marrón,
+   como el acero con luz de fragua, y el naranja de la chispa de
+   soldadura como único acento. Las secciones alternas son claras
+   (hueso cálido) y se activan con `.section--alt` o `.theme-light`,
+   que REDEFINEN los tokens: ningún componente necesita saber en qué
+   tema está, solo usa var(--color-*).
+
    Tres reglas que gobiernan todo el sistema:
 
-     1. RADIO CERO. Ni un solo borde redondeado en el sitio. Las
-        placas de acero se cortan a escuadra; un radio de 4px
-        delataría un componente de plantilla.
-     2. La junta es de 1px y siempre del mismo gris (--color-border).
+     1. RADIO CERO. Ni un solo borde redondeado en el sitio.
+     2. La junta es de 1px y siempre del mismo tono (--color-border).
         Es la línea del plano de ingeniería, no un separador.
-     3. El acento (#c13d2f) solo vive en acciones y en marcas de
-        estado. Nunca como relleno decorativo.
+     3. El acento (naranja) solo vive en acciones y en marcas de
+        estado. El ERROR no es naranja: va en --color-error.
 
    Los nombres de variable heredados (--color-graphite, --color-ink,
-   --color-accent…) se conservan como alias sobre la paleta nueva:
-   las 7 páginas que no son el Inicio adoptan el rediseño sin tocar
-   una línea de su código.
+   --color-accent…) se conservan como alias: las páginas adoptan el
+   rediseño sin tocar una línea de su código.
 
    Breakpoints:
      640px  → tablet: las grillas pasan a 2 columnas
-     1024px → escritorio: layout de contenido completo (placas 3/6/3,
-              bento de 3 y 4 columnas)
+     1024px → escritorio: layout de contenido completo
      1280px → la navegación pasa a horizontal
-
-   El nav rompe 256px MÁS ARRIBA que el contenido, a propósito: entre el
-   logotipo (209px), los siete enlaces, el divisor de marca y el CTA, la
-   barra necesita ~1220px de ancho útil. Forzarla a 1024px la desbordaba.
    ============================================================= */
 
 :root {
-  /* --- Superficies: escala de grises del mockup --- */
-  --color-page: #f9f9f9; /* background   — lienzo del documento */
-  --color-bg: #ffffff; /* surface-container-lowest */
-  --color-bg-alt: #eeeeee; /* surface-container */
-  --color-surface: #f3f3f3; /* surface-container-low */
-  --color-surface-hover: #e8e8e8; /* surface-container-high */
-  --color-surface-high: #e8e8e8;
-  --color-surface-highest: #e2e2e2;
-  --color-surface-dim: #dadada;
+  /* --- Superficies (tema oscuro, el de base) --- */
+  --color-page: #16120f; /* lienzo del documento */
+  --color-bg: #1e1a16; /* tarjeta, celda del bento */
+  --color-bg-alt: #ebe5db; /* sección alterna: CLARA, ver .section--alt */
+  --color-surface: #261f1a; /* superficie hundida, hover de celda */
+  --color-surface-hover: #2e2620;
+  --color-surface-high: #201b17; /* sección de cierre */
+  --color-surface-highest: #332b24;
+  --color-surface-dim: #4a4137; /* puntos inactivos del carrusel */
 
   /* --- Estructura --- */
-  --color-border: #e5e7eb; /* steel-light  — TODA junta de 1px */
-  --color-steel: #5f5e5e; /* secondary    — barra del header, velo del hero */
-  --color-steel-medium: #9ca3af;
-  --color-steel-dark: #4b5563;
-  --color-steel-light: #dadada; /* puntos inactivos del carrusel */
-  --color-ink: #2f3131; /* inverse-surface — etiquetas sólidas */
+  --color-border: #4a4137; /* TODA junta de 1px (≈1.9:1 sobre el lienzo) */
+  --color-steel: #16120f; /* barra del header */
+  --color-steel-medium: #8a7f72;
+  --color-steel-dark: #4a4137; /* borde inferior del header */
+  --color-steel-light: #4a4137;
+  --color-ink: #3b342d; /* etiquetas sólidas (.tag) */
+  --color-footer: #0f0c0a; /* pie de página: más hondo que el lienzo */
 
   /* --- Texto --- */
-  --color-text: #1a1c1c; /* on-background */
-  --color-graphite: #1a1c1c; /* on-surface */
-  --color-text-muted: #59413d; /* on-surface-variant — gris cálido, no azulado */
+  --color-text: #f0ebe3;
+  --color-graphite: #f0ebe3;
+  --color-text-muted: #aa9f92; /* 7.2:1 sobre el lienzo, 6.6:1 sobre tarjeta */
 
-  /* --- Acento --- */
-  --color-accent: #c13d2f; /* primary-container */
-  --color-accent-dark: #ae3023; /* surface-tint — estado hover */
-  --color-accent-light: #ffb4a9; /* primary-fixed-dim — acento SOBRE fondo oscuro */
+  /* --- Acento: la chispa --- */
+  --color-accent: #ff6a1a; /* 6.5:1 sobre el lienzo */
+  --color-accent-dark: #ff8a45; /* hover: SUBE de luminosidad sobre fondo oscuro */
+  --color-accent-light: #ffb38a; /* acento sobre superficies muy oscuras o fotos */
+  --color-on-accent: #16120f; /* texto sobre relleno de acento: 6.5:1 */
+  --color-error: #ff8a7a; /* el rojo ya NO es acento: significa error */
+  --color-warn: #e2b04a; /* aviso de maqueta: el único color fuera del sistema, a propósito */
+  --color-ok: #7bd89a; /* confirmación */
   --color-whatsapp: #25d366;
   /* Verde del canal oscurecido hasta que el blanco encima llegue a 5.45:1.
      El #25d366 de marca da 1.7:1 con blanco y 2.6:1 con grafito: como fondo
@@ -68,7 +71,6 @@
      el peso de rotulación industrial que pide el hero. */
   --font-heading: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
   --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
-  --font-mono: ui-monospace, "SFMono-Regular", "Roboto Mono", Consolas, monospace;
 
   /* --- Métrica del mockup --- */
   --container-width: 1440px;
@@ -85,11 +87,42 @@
   /* Mínimo táctil recomendado. Se usa como min-height en cada control. */
   --tap: 44px;
 
-  --shadow-sm: 0 1px 2px rgba(26, 28, 28, 0.06);
-  --shadow-md: 0 10px 24px rgba(26, 28, 28, 0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.45);
 
   /* Curva y tiempos de la interacción con medios (ver .media-frame) */
   --ease-out: cubic-bezier(0.22, 0.7, 0.3, 1);
+}
+
+/* =============================================================
+   TEMA CLARO — hueso cálido
+   -------------------------------------------------------------
+   Redefine los tokens dentro de su alcance. Contrastes calculados:
+   texto 14.9:1 · muted 6.8:1 · acento 5.3:1 (#a33a04 sobre #ebe5db).
+   El naranja puro #ff6a1a NO sirve como texto sobre claro (2.4:1),
+   por eso el acento cambia a su variante quemada.
+   ============================================================= */
+.section--alt,
+.theme-light {
+  --color-bg: #ffffff;
+  --color-surface: #f5f1ea;
+  --color-surface-hover: #efe9df;
+  --color-surface-high: #e6dfd3;
+  --color-surface-dim: #cdc4b6;
+  --color-border: #cdc4b6;
+  --color-ink: #16120f;
+  --color-text: #16120f;
+  --color-graphite: #16120f;
+  --color-text-muted: #554b40;
+  --color-accent: #a33a04;
+  --color-accent-dark: #7f2c02;
+  --color-on-accent: #ffffff;
+  --color-error: #b3261e;
+  --color-warn: #8a5a00;
+  --color-ok: #1f6b34;
+  --color-steel-medium: #8a7f72;
+  background-color: var(--color-bg-alt);
+  color: var(--color-text);
 }
 
 * {
@@ -185,7 +218,7 @@ a {
   left: 1rem;
   z-index: 100;
   background-color: var(--color-accent);
-  color: #fff;
+  color: var(--color-on-accent);
   font-family: var(--font-heading);
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -289,33 +322,7 @@ ul {
   background-color: var(--color-bg-alt);
 }
 
-/* --- Franja de acero --- */
-/* Grafito profundo, no gris medio: la banda debe pesar como una plancha
-   de acero, no como un separador. Blanco sobre --color-ink da ~14:1. */
-.section--steel {
-  background-color: var(--color-ink);
-  background-image: linear-gradient(
-    100deg,
-    rgba(255, 255, 255, 0.11) 0%,
-    rgba(255, 255, 255, 0) 22%,
-    rgba(0, 0, 0, 0.26) 48%,
-    rgba(255, 255, 255, 0.09) 72%,
-    rgba(0, 0, 0, 0.22) 100%
-  );
-  color: #fff;
-}
-
-.section--steel h1,
-.section--steel h2,
-.section--steel h3 {
-  color: #fff;
-}
-
-.section--steel p {
-  color: rgba(255, 255, 255, 0.86);
-}
-
-/* Etiqueta de plano: mono en versalitas, nunca un titulillo de marketing */
+/* Etiqueta de plano: versalitas, nunca un titulillo de marketing */
 .eyebrow {
   display: inline-block;
   font-family: var(--font-body);
@@ -328,9 +335,6 @@ ul {
   margin-bottom: 0.9rem;
 }
 
-.section--steel .eyebrow {
-  color: var(--color-accent-light);
-}
 
 .section-head {
   max-width: 640px;
@@ -368,7 +372,7 @@ ul {
 .btn--primary {
   background-color: var(--color-accent);
   border-color: var(--color-accent);
-  color: #fff;
+  color: var(--color-on-accent);
 }
 
 .btn--primary:hover {
@@ -381,6 +385,11 @@ ul {
   box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.22);
 }
 
+.btn--primary:hover,
+.btn--primary:active {
+  color: var(--color-on-accent);
+}
+
 /* Acción secundaria: mismo rojo corporativo, sin el peso del relleno */
 .btn--outline {
   background-color: transparent;
@@ -390,17 +399,17 @@ ul {
 
 .btn--outline:hover {
   background-color: var(--color-accent);
-  color: #fff;
+  color: var(--color-on-accent);
 }
 
 .btn--outline:active {
   background-color: var(--color-accent-dark);
   border-color: var(--color-accent-dark);
-  color: #fff;
+  color: var(--color-on-accent);
 }
 
 .btn--ghost {
-  border-color: var(--color-steel-dark);
+  border-color: var(--color-steel-medium);
   color: var(--color-graphite);
   background-color: transparent;
 }
@@ -408,19 +417,10 @@ ul {
 .btn--ghost:hover {
   border-color: var(--color-accent);
   color: var(--color-accent);
-  background-color: rgba(193, 61, 47, 0.06);
+  background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
 }
 
-.section--steel .btn--ghost {
-  border-color: rgba(255, 255, 255, 0.7);
-  color: #fff;
-}
 
-.section--steel .btn--ghost:hover {
-  border-color: #fff;
-  background-color: rgba(255, 255, 255, 0.14);
-  color: #fff;
-}
 
 /* Acción de WhatsApp: verde del canal, no el rojo de JZINOX.
    Era un botón fantasma con texto #128c3d, que daba 3.54:1 sobre la sección
@@ -439,13 +439,6 @@ ul {
   background-color: var(--color-whatsapp-ink-dark);
   border-color: var(--color-whatsapp-ink-dark);
   color: #fff;
-}
-
-/* Enlace de texto que igual debe cumplir el mínimo táctil de 44px */
-.tap-link {
-  display: inline-flex;
-  align-items: center;
-  min-height: var(--tap);
 }
 
 .tag {
@@ -493,11 +486,6 @@ ul {
   max-width: 62ch;
   margin-bottom: 0;
   font-size: 1.125rem;
-}
-
-.section-cta {
-  text-align: center;
-  margin-top: 2.5rem;
 }
 
 .cta-band__inner {
@@ -615,6 +603,25 @@ ul {
   }
 }
 
+/* Relleno de la última fila: mismo fondo que una celda, sin contenido. Solo
+   una de las dos series se ve a la vez, según el número de columnas. */
+.bento__filler {
+  display: none;
+  background-color: var(--color-surface);
+}
+
+@media (min-width: 640px) and (max-width: 1023.98px) {
+  .bento__filler--2 {
+    display: block;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bento__filler--3 {
+    display: block;
+  }
+}
+
 /* Placa de acento: alterna el fondo, sin bordes de color de plantilla */
 .bento__cell--accent {
   background-color: var(--color-surface);
@@ -651,4 +658,170 @@ ul {
 
 .cta-plate p {
   margin: 0;
+}
+
+/* =============================================================
+   MOVIMIENTO
+   -------------------------------------------------------------
+   Tres capas, de menor a mayor costo, todas desactivadas con
+   `prefers-reduced-motion`:
+
+     1. Entrada del hero      — keyframes CSS, 0 JS.
+     2. Revelado al scroll    — CSS scroll-driven animations
+                                (`animation-timeline: view()`), 0 JS.
+                                Donde el navegador no las soporta
+                                (Firefox) el contenido simplemente
+                                está visible: nada depende de ellas.
+     3. Transición de página  — `@view-transition` nativa, 0 JS.
+
+   El scroll con inercia (Lenis) vive en Layout.astro.
+   La firma `.media-frame` sigue siendo la única animación con
+   carga expresiva en hover; esto es coreografía de entrada.
+   ============================================================= */
+
+/* --- Retícula de plano: textura de fondo para encabezados --- */
+.page-hero,
+.hero {
+  --grid-line: color-mix(in srgb, var(--color-text) 4.5%, transparent);
+}
+
+.page-hero {
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* --- Transición entre páginas (cross-document) --- */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.32s;
+  animation-timing-function: var(--ease-out);
+}
+
+/* El header y el FAB no deben parpadear al navegar: son la misma pieza en
+   las dos páginas, así que viajan como grupo aparte. */
+.header {
+  view-transition-name: site-header;
+}
+
+.fab {
+  view-transition-name: site-fab;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* 1. Hero: la foto se asienta y el texto sube en cascada */
+  .hero__media {
+    animation: settle 1.8s var(--ease-out) both;
+  }
+
+  .hero__inner > * {
+    animation: rise-in 0.7s var(--ease-out) both;
+  }
+
+  .hero__inner > :nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  .hero__inner > :nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  .hero__inner > :nth-child(4) {
+    animation-delay: 0.26s;
+  }
+
+  .page-hero .container > * {
+    animation: rise-in 0.6s var(--ease-out) both;
+  }
+
+  .page-hero .container > :nth-child(2) {
+    animation-delay: 0.07s;
+  }
+  .page-hero .container > :nth-child(3) {
+    animation-delay: 0.14s;
+  }
+  .page-hero .container > :nth-child(n + 4) {
+    animation-delay: 0.2s;
+  }
+
+  /* 2. Revelado al hacer scroll */
+  @supports (animation-timeline: view()) {
+    .section-head,
+    .strip__row,
+    .bento,
+    .cta-plate,
+    .closing__inner,
+    .brand-card,
+    .history,
+    .contact__layout {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 38%;
+    }
+
+    /* Las celdas de un bento entran escalonadas por columna */
+    .bento > :nth-child(3n + 2) {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 6% entry 44%;
+    }
+
+    .bento > :nth-child(3n) {
+      animation: reveal-up linear both;
+      animation-timeline: view();
+      animation-range: entry 12% entry 50%;
+    }
+  }
+}
+
+/* --- Lenis: el scroll lo anima la librería, no el navegador --- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }

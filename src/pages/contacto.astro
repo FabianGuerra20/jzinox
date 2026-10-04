@@ -309,13 +309,13 @@ import { site } from "../data/site.js";
 		margin: 0.35rem 0 0;
 		font-size: 0.82rem;
 		line-height: 1.4;
-		color: var(--color-accent-dark);
+		color: var(--color-error);
 	}
 
 	.field input[aria-invalid="true"],
 	.field select[aria-invalid="true"],
 	.field textarea[aria-invalid="true"] {
-		border-color: var(--color-accent-dark);
+		border-color: var(--color-error);
 		border-width: 2px;
 	}
 
@@ -324,9 +324,9 @@ import { site } from "../data/site.js";
 	.form__demo {
 		margin: 0;
 		padding: 0.8rem 1rem;
-		border: 1px solid #d9c47a;
+		border: 1px solid var(--color-warn);
 		border-left-width: 4px;
-		background-color: #fdf6e3;
+		background-color: color-mix(in srgb, var(--color-warn) 14%, var(--color-bg));
 		color: var(--color-graphite);
 		font-size: 0.85rem;
 		line-height: 1.5;
@@ -341,14 +341,14 @@ import { site } from "../data/site.js";
 	}
 
 	.form__result--ok {
-		border-color: #2e7d32;
-		background-color: #eef6ee;
+		border-color: var(--color-ok);
+		background-color: color-mix(in srgb, var(--color-ok) 12%, var(--color-bg));
 		color: var(--color-graphite);
 	}
 
 	.form__result--fail {
-		border-color: var(--color-accent);
-		background-color: #fdeeec;
+		border-color: var(--color-error);
+		background-color: color-mix(in srgb, var(--color-error) 12%, var(--color-bg));
 		color: var(--color-graphite);
 	}
 
@@ -388,7 +388,7 @@ import { site } from "../data/site.js";
 		font-size: 0.78rem;
 		text-transform: uppercase;
 		letter-spacing: 0.1em;
-		color: var(--color-steel);
+		color: var(--color-text-muted);
 		margin-bottom: 0.2rem;
 	}
 
@@ -459,7 +459,7 @@ import { site } from "../data/site.js";
 		font-weight: 600;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
-		color: var(--color-steel);
+		color: var(--color-text-muted);
 	}
 
 	/* 16px exactos, no 0.95rem: bajo ese umbral iOS hace zoom automático al
@@ -512,7 +512,7 @@ import { site } from "../data/site.js";
 		margin: 0.35rem 0 0;
 		font-size: 0.82rem;
 		line-height: 1.4;
-		color: var(--color-steel);
+		color: var(--color-text-muted);
 	}
 
 	/* El control de archivo nativo trae su propio botón con esquinas
@@ -551,7 +551,7 @@ import { site } from "../data/site.js";
 	   secundario frente al grafito del valor escrito (17:1). */
 	.field input::placeholder,
 	.field textarea::placeholder {
-		color: var(--color-steel);
+		color: var(--color-text-muted);
 	}
 
 	/* El foco NO se anula: el aro de :focus-visible de global.css es el
@@ -576,7 +576,7 @@ import { site } from "../data/site.js";
 	.field input[aria-invalid="true"]:focus,
 	.field select[aria-invalid="true"]:focus,
 	.field textarea[aria-invalid="true"]:focus {
-		border-color: var(--color-accent-dark);
+		border-color: var(--color-error);
 	}
 
 	.contact__submit {
@@ -586,7 +586,7 @@ import { site } from "../data/site.js";
 	.contact__legal {
 		margin: 0;
 		font-size: 0.8rem;
-		color: var(--color-steel);
+		color: var(--color-text-muted);
 		text-align: center;
 	}
 </style>

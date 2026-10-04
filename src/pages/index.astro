@@ -24,10 +24,10 @@ import { site } from "../data/site.js";
  * Formato recomendado: 1920x1080, JPG/WebP, por debajo de 300 KB.
  */
 const heroImage = {
-  src: "/hero-inicio.svg",
-  alt: "Trama de plano técnico que ocupa el lugar de la fotografía del taller de JZ INOX",
+  src: "/img/taller-estanteria.webp",
+  alt: "Taller de JZ INOX: estantería de acero inoxidable en fabricación junto a la plegadora",
   /** Con `pending: false` desaparece el rótulo del hueco y el alt pasa a describir la foto real. */
-  pending: true,
+  pending: false,
 };
 
 const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`;
@@ -96,7 +96,22 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 							</div>
 
 							<div class="strip__media">
-								{service.media.map((m) => <MediaPlaceholder slot={m.slot} ratio={m.ratio} />)}
+								{service.media.map((m) =>
+										m.src ? (
+											<img
+												class="strip__img"
+												src={m.src}
+												alt={m.alt}
+												width="900"
+												height="600"
+												loading="lazy"
+												decoding="async"
+												style={m.position ? `object-position: ${m.position}` : undefined}
+											/>
+										) : (
+											<MediaPlaceholder slot={m.slot} ratio={m.ratio} />
+										),
+									)}
 							</div>
 						</article>
 					))
@@ -157,7 +172,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		   cinco líneas. Cuando llegue la foto, vuelve a clamp(2rem, 5vw, 3rem). */
 		padding-bottom: clamp(4.5rem, 7vw, 5rem);
 		overflow: hidden;
-		background-color: var(--color-steel);
+		background-color: var(--color-page);
 		border-bottom: 1px solid var(--color-border);
 	}
 
@@ -183,14 +198,9 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	.hero__veil {
 		position: absolute;
 		inset: 0;
-		background-color: rgba(95, 94, 94, 0.55);
-		background-image: linear-gradient(
-			180deg,
-			rgba(26, 28, 28, 0.15) 0%,
-			rgba(26, 28, 28, 0.55) 45%,
-			rgba(26, 28, 28, 0.55) 70%,
-			rgba(26, 28, 28, 0.2) 100%
-		);
+		background-color: rgba(22, 18, 15, 0.5);
+		background-image:
+			linear-gradient(180deg, rgba(22, 18, 15, 0.35) 0%, rgba(22, 18, 15, 0.72) 45%, rgba(22, 18, 15, 0.72) 70%, rgba(22, 18, 15, 0.9) 100%);
 	}
 
 	.hero__slot {
@@ -361,6 +371,14 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 
 	.strip__link:hover {
 		color: var(--color-accent-dark);
+	}
+
+	.strip__img {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 3 / 2;
+		object-fit: cover;
 	}
 
 	/* Las dos fotos comparten la junta de 1px del sistema, igual que el bento. */

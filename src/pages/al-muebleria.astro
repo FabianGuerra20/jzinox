@@ -3,7 +3,7 @@
  * Vista interna del aliado estratégico AL Mueblería.
  *
  * Landing resumida dentro del ecosistema JZ Inox: presentación, servicios
- * propios y mini-catálogo de 4 piezas. Mantiene el fondo, la tipografía y las
+ * propios y galería de proyectos. Mantiene el fondo, la tipografía y las
  * juntas de 1px del sistema JZ Inox; no introduce una paleta paralela.
  *
  * Jerarquía SEO: h1 (marca) → h2 (secciones AL 2/3/4) → h3 (servicios y piezas).
@@ -14,7 +14,7 @@ import { alMuebleriaPage, alMuebleriaCatalog, alMuebleria } from "../data/brands
 import { site } from "../data/site.js";
 
 const { hero, services, catalog, cta } = alMuebleriaPage;
-const featured = alMuebleriaCatalog.slice(0, 4);
+const featured = alMuebleriaCatalog;
 ---
 
 <Layout
@@ -64,7 +64,7 @@ const featured = alMuebleriaCatalog.slice(0, 4);
 		</div>
 	</section>
 
-	{/* --- AL 3: mini-catálogo destacado (máximo 4 piezas) --- */}
+	{/* --- AL 3: galería de proyectos reales --- */}
 	<section class="section" id="al-catalogo" aria-labelledby="al-catalogo-title">
 		<div class="container">
 			<div class="section-head">
@@ -92,6 +92,7 @@ const featured = alMuebleriaCatalog.slice(0, 4);
 										<img
 											src={item.image.src}
 											alt={item.image.alt}
+											style={item.image.position ? `object-position: ${item.image.position}` : undefined}
 											width="800"
 											height="600"
 											loading="lazy"

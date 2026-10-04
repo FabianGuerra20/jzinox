@@ -56,14 +56,14 @@ const cssRatio = ratio.replace(":", " / ");
     width: 100%;
     padding: 1rem;
     text-align: center;
-    background-color: var(--color-bg-alt);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     /* Trama diagonal muy tenue: distingue el hueco de una superficie del sistema
        sin competir con el contenido real que lo rodea. */
     background-image: repeating-linear-gradient(
       135deg,
       transparent 0 9px,
-      rgba(0, 0, 0, 0.022) 9px 18px
+      color-mix(in srgb, var(--color-text) 4%, transparent) 9px 18px
     );
   }
 
@@ -88,14 +88,14 @@ const cssRatio = ratio.replace(":", " / ");
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: #fff;
-    background-color: var(--color-steel);
+    background-color: var(--color-ink);
     padding: 0.2rem 0.5rem;
   }
 
   .media-ph__ratio {
     font-size: 0.68rem;
     letter-spacing: 0.06em;
-    color: var(--color-steel);
+    color: var(--color-text-muted);
   }
 
   /* Huecos muy chicos: la etiqueta secundaria estorba más de lo que informa. */
