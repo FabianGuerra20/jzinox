@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Propuestas de paleta — JZ Inox</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;border-radius:0}
+body{font-family:Inter,sans-serif;background:#222;color:#eee;padding:32px 20px 80px;line-height:1.5}
+h1,h2,h3{font-family:"Hanken Grotesk",sans-serif}
+.wrap{max-width:1100px;margin:0 auto}
+.intro h1{font-size:28px;margin-bottom:8px}
+.intro p{color:#aaa;max-width:70ch}
+.opt{margin-top:56px}
+.opt>h2{font-size:22px;margin-bottom:4px}
+.opt>.idea{color:#aaa;margin-bottom:16px;max-width:75ch}
+
+/* ===== mini-sitio ===== */
+.site{background:var(--bg);color:var(--text);border:1px solid #444}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:0 24px;height:64px;background:var(--nav);color:var(--navtext);border-bottom:2px solid var(--navline)}
+.logo{font-family:"Hanken Grotesk";font-size:20px;letter-spacing:-.02em}
+.logo b{font-weight:800}.logo span{font-weight:600;letter-spacing:.22em;margin-left:6px}
+.nav ul{display:flex;gap:22px;list-style:none;font-size:14px;font-weight:500}
+.nav li.on{border-bottom:2px solid var(--acc);padding-bottom:2px}
+.hero{background:var(--hero);color:var(--herotext);padding:72px 24px 64px;border-bottom:1px solid var(--line);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:40px 40px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--heroacc);margin-bottom:14px}
+.hero h3{font-size:clamp(30px,5vw,52px);font-weight:800;line-height:1.08;letter-spacing:-.02em;text-transform:uppercase;max-width:20ch}
+.hero p{margin-top:16px;max-width:52ch;color:var(--herosub)}
+.btns{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+.btn{font:600 14px Inter;padding:0 22px;min-height:44px;display:inline-flex;align-items:center;border:1px solid transparent;letter-spacing:.04em;text-transform:uppercase}
+.btn.p{background:var(--acc);color:var(--onacc)}
+.btn.g{border-color:var(--herotext);color:var(--herotext)}
+.sec{padding:40px 24px;background:var(--bg)}
+.sec.alt{background:var(--alt);color:var(--textalt)}
+.sec h4{font-family:"Hanken Grotesk";font-size:24px;margin-bottom:6px}
+.sec .eye{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--accsec);margin-bottom:8px}
+.bento{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:18px}
+.bento>div{background:var(--card);color:var(--cardtext);padding:22px}
+.bento .n{font:700 12px "Hanken Grotesk";color:var(--accsec);letter-spacing:.1em}
+.bento h5{font:700 17px "Hanken Grotesk";margin:6px 0 4px}
+.bento p{font-size:14px;color:var(--cardmuted)}
+.stats{display:flex;gap:1px;background:var(--line);margin-top:18px;border:1px solid var(--line)}
+.stats div{flex:1;background:var(--card);color:var(--cardtext);padding:18px;font-size:13px;color:var(--cardmuted)}
+.stats b{display:block;font:800 30px "Hanken Grotesk";color:var(--cardtext)}
+.field{margin-top:18px;max-width:340px}
+.field label{font-size:13px;font-weight:600;display:block;margin-bottom:4px}
+.field .in{border:1px solid var(--inborder);background:var(--card);color:var(--cardtext);min-height:44px;padding:10px 12px;font-size:15px}
+.field .in.err{border-color:var(--err);border-width:2px}
+.field small{color:var(--errtext);font-weight:600;font-size:13px}
+.sw{display:flex;flex-wrap:wrap;gap:1px;background:#444;border:1px solid #444;margin-top:12px}
+.sw div{flex:1 1 130px;padding:10px;font-size:12px;min-height:74px;display:flex;flex-direction:column;justify-content:flex-end}
+.sw b{font-size:13px}
+.notes{margin-top:12px;color:#aaa;font-size:14px}
+.notes strong{color:#eee}
+
+/* ===== A: Calor TIG (oscuro cálido + paja) ===== */
+.A{--bg:#14120f;--text:#f1ece4;--nav:#14120f;--navtext:#f1ece4;--navline:#e2b04a;--hero:#14120f;--herotext:#f1ece4;--herosub:#b3a898;--heroacc:#e2b04a;--grid:rgba(241,236,228,.05);--line:#3a352e;--acc:#e2b04a;--onacc:#14120f;--alt:#efe9df;--textalt:#14120f;--accsec:#8a5a00;--card:#1e1b17;--cardtext:#f1ece4;--cardmuted:#b3a898;--inborder:#6b6256;--err:#ff7a6a;--errtext:#ff7a6a}
+.A .sec.alt .bento{--line:#cfc6b6}.A .sec.alt .bento>div{--card:#fff;background:#fff;color:#14120f}.A .sec.alt .bento p{color:#5c5246}.A .sec.alt .bento .n{color:#8a5a00}
+/* ===== B: Cobalto de soldadura (claro hueso + azul) ===== */
+.B{--bg:#f3f0ea;--text:#12141c;--nav:#12141c;--navtext:#f3f0ea;--navline:#3946b8;--hero:#12141c;--herotext:#f3f0ea;--herosub:#c7c4be;--heroacc:#aab2ff;--grid:rgba(243,240,234,.06);--line:#d4cfc5;--acc:#3946b8;--onacc:#fff;--alt:#e6e2da;--textalt:#12141c;--accsec:#3946b8;--card:#fff;--cardtext:#12141c;--cardmuted:#4d5160;--inborder:#6d7080;--err:#b3261e;--errtext:#b3261e}
+.B .hero .btn.p{background:#aab2ff;color:#12141c}
+/* ===== C: Acero frío + chispa (oscuro azulado + naranja) ===== */
+.C{--bg:#0f1215;--text:#e9edf0;--nav:#0f1215;--navtext:#e9edf0;--navline:#ff6a1a;--hero:#0f1215;--herotext:#e9edf0;--herosub:#9aa5ad;--heroacc:#ff6a1a;--grid:rgba(233,237,240,.05);--line:#2a3036;--acc:#ff6a1a;--onacc:#0f1215;--alt:#e4e8eb;--textalt:#0f1215;--accsec:#a33a04;--card:#181c20;--cardtext:#e9edf0;--cardmuted:#9aa5ad;--inborder:#5d6870;--err:#ff8a7a;--errtext:#ff8a7a}
+.C .sec.alt .bento{--line:#c4cbd0}.C .sec.alt .bento>div{background:#fff;color:#0f1215}.C .sec.alt .bento p{color:#4a555c}.C .sec.alt .bento .n{color:#a33a04}
+/* ===== C cálida: la elegida (acero en sombra con fondo cálido + chispa) ===== */
+.D{--bg:#16120f;--text:#f0ebe3;--nav:#16120f;--navtext:#f0ebe3;--navline:#ff6a1a;--hero:#16120f;--herotext:#f0ebe3;--herosub:#aa9f92;--heroacc:#ff6a1a;--grid:rgba(240,235,227,.05);--line:#3b342d;--acc:#ff6a1a;--onacc:#16120f;--alt:#ebe5db;--textalt:#16120f;--accsec:#a33a04;--card:#201b17;--cardtext:#f0ebe3;--cardmuted:#aa9f92;--inborder:#7a6f62;--err:#ff8a7a;--errtext:#ff8a7a}
+.D .sec.alt .bento{--line:#cdc4b6}.D .sec.alt .bento>div{background:#fff;color:#16120f}.D .sec.alt .bento p{color:#554b40}.D .sec.alt .bento .n{color:#a33a04}
+@media(max-width:700px){.bento{grid-template-columns:1fr}.nav ul{display:none}.stats{flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="intro">
+    <h1>Propuestas de paleta — JZ Inox</h1>
+    <p>Tres direcciones que conservan las reglas del sistema (radio cero, junta de 1px, acento solo en acciones y estados) y cambian la piel. La idea común: el color del oficio. El acero inoxidable soldado con TIG vira de paja dorado a azul violáceo según el calor. Todos los contrastes están calculados, no asumidos.</p>
+  </div>
+
+  <!-- ================= A ================= -->
+  <section class="opt">
+    <h2>A · Calor TIG</h2>
+    <p class="idea">Negro cálido y hueso, con el dorado paja del acero recién soldado como único acento. Es la más “taller de noche”: oscura, sobria y con aire premium. Riesgo: el sitio queda mayormente oscuro.</p>
+    <div class="site A">
+      <div class="nav"><div class="logo"><b>JZ</b><span>INOX</span></div><ul><li class="on">Inicio</li><li>Nosotros</li><li>Servicios</li><li>Productos</li><li>Contacto</li></ul></div>
+      <div class="hero"><div class="eyebrow">Acero inoxidable a medida</div><h3>Fabricación, reparación y mantención de estructuras en acero inoxidable</h3><p>Soluciones diseñadas a la medida de tu negocio, para restaurantes, comida rápida e industria alimentaria.</p><div class="btns"><span class="btn p">Cotizar Proyecto</span><span class="btn g">Hablar con un Asesor</span></div></div>
+      <div class="sec alt"><div class="eye">Por qué elegirnos</div><h4>¿Por qué elegir JZINOX?</h4>
+        <div class="bento"><div><span class="n">01</span><h5>20+ años de experiencia</h5><p>Conocemos las exigencias del sector gastronómico.</p></div><div><span class="n">02</span><h5>Fabricación 100% a medida</h5><p>Cada estructura a las dimensiones exactas.</p></div><div><span class="n">03</span><h5>Resistencia superior</h5><p>Manufactura nacional, uso intensivo.</p></div></div></div>
+      <div class="sec"><div class="stats"><div><b>20+</b>Años de experiencia</div><div><b>—</b>Dato por confirmar</div><div><b>—</b>Dato por confirmar</div></div>
+        <div class="field"><label>Correo</label><div class="in err">correo-sin-arroba</div><small>Revisa el correo: falta la @</small></div></div>
+    </div>
+    <div class="sw">
+      <div style="background:#14120f;color:#f1ece4"><b>#14120f</b>fondo · texto 15,9:1</div>
+      <div style="background:#1e1b17;color:#f1ece4"><b>#1e1b17</b>tarjeta</div>
+      <div style="background:#efe9df;color:#14120f"><b>#efe9df</b>sección clara · 15,5:1</div>
+      <div style="background:#e2b04a;color:#14120f"><b>#e2b04a</b>acento · 9,4:1 sobre fondo</div>
+      <div style="background:#efe9df;color:#8a5a00"><b>#8a5a00</b>acento sobre claro · 4,9:1</div>
+      <div style="background:#14120f;color:#ff7a6a"><b>#ff7a6a</b>error · 7,3:1</div>
+    </div>
+  </section>
+
+  <!-- ================= B ================= -->
+  <section class="opt">
+    <h2>B · Cobalto de soldadura</h2>
+    <p class="idea">Papel hueso claro, tinta casi negra y el azul del acero templado como acento. Cabecera y hero oscuros para que el acero luzca. Es la más cercana a la actual (mayormente clara), pero sin el gris apagado ni el rojo. La más segura de aprobar con el cliente.</p>
+    <div class="site B">
+      <div class="nav"><div class="logo"><b>JZ</b><span>INOX</span></div><ul><li class="on">Inicio</li><li>Nosotros</li><li>Servicios</li><li>Productos</li><li>Contacto</li></ul></div>
+      <div class="hero"><div class="eyebrow">Acero inoxidable a medida</div><h3>Fabricación, reparación y mantención de estructuras en acero inoxidable</h3><p>Soluciones diseñadas a la medida de tu negocio, para restaurantes, comida rápida e industria alimentaria.</p><div class="btns"><span class="btn p">Cotizar Proyecto</span><span class="btn g">Hablar con un Asesor</span></div></div>
+      <div class="sec alt"><div class="eye">Por qué elegirnos</div><h4>¿Por qué elegir JZINOX?</h4>
+        <div class="bento"><div><span class="n">01</span><h5>20+ años de experiencia</h5><p>Conocemos las exigencias del sector gastronómico.</p></div><div><span class="n">02</span><h5>Fabricación 100% a medida</h5><p>Cada estructura a las dimensiones exactas.</p></div><div><span class="n">03</span><h5>Resistencia superior</h5><p>Manufactura nacional, uso intensivo.</p></div></div></div>
+      <div class="sec"><div class="stats"><div><b>20+</b>Años de experiencia</div><div><b>—</b>Dato por confirmar</div><div><b>—</b>Dato por confirmar</div></div>
+        <div class="field"><label>Correo</label><div class="in err">correo-sin-arroba</div><small>Revisa el correo: falta la @</small></div></div>
+    </div>
+    <div class="sw">
+      <div style="background:#f3f0ea;color:#12141c"><b>#f3f0ea</b>fondo · texto 16,2:1</div>
+      <div style="background:#e6e2da;color:#12141c"><b>#e6e2da</b>sección alterna · muted 6,1:1</div>
+      <div style="background:#12141c;color:#f3f0ea"><b>#12141c</b>cabecera y hero · 16,2:1</div>
+      <div style="background:#3946b8;color:#fff"><b>#3946b8</b>acento · 7,7:1 con blanco · 5,9:1 sobre alterna</div>
+      <div style="background:#12141c;color:#aab2ff"><b>#aab2ff</b>acento sobre oscuro · 9,2:1</div>
+      <div style="background:#f3f0ea;color:#b3261e"><b>#b3261e</b>error · 5,8:1</div>
+    </div>
+  </section>
+
+  <!-- ================= C ================= -->
+  <section class="opt">
+    <h2>C · Acero frío + chispa</h2>
+    <p class="idea">Gris azulado casi negro, como acero en sombra, y el naranja de la chispa de soldadura como acento. La más industrial y la más contrastada: se ve a taller de verdad. Riesgo: naranja sobre oscuro puede leerse agresivo si se abusa, y exige disciplina en “acento solo en acciones”.</p>
+    <div class="site C">
+      <div class="nav"><div class="logo"><b>JZ</b><span>INOX</span></div><ul><li class="on">Inicio</li><li>Nosotros</li><li>Servicios</li><li>Productos</li><li>Contacto</li></ul></div>
+      <div class="hero"><div class="eyebrow">Acero inoxidable a medida</div><h3>Fabricación, reparación y mantención de estructuras en acero inoxidable</h3><p>Soluciones diseñadas a la medida de tu negocio, para restaurantes, comida rápida e industria alimentaria.</p><div class="btns"><span class="btn p">Cotizar Proyecto</span><span class="btn g">Hablar con un Asesor</span></div></div>
+      <div class="sec alt"><div class="eye">Por qué elegirnos</div><h4>¿Por qué elegir JZINOX?</h4>
+        <div class="bento"><div><span class="n">01</span><h5>20+ años de experiencia</h5><p>Conocemos las exigencias del sector gastronómico.</p></div><div><span class="n">02</span><h5>Fabricación 100% a medida</h5><p>Cada estructura a las dimensiones exactas.</p></div><div><span class="n">03</span><h5>Resistencia superior</h5><p>Manufactura nacional, uso intensivo.</p></div></div></div>
+      <div class="sec"><div class="stats"><div><b>20+</b>Años de experiencia</div><div><b>—</b>Dato por confirmar</div><div><b>—</b>Dato por confirmar</div></div>
+        <div class="field"><label>Correo</label><div class="in err">correo-sin-arroba</div><small>Revisa el correo: falta la @</small></div></div>
+    </div>
+    <div class="sw">
+      <div style="background:#0f1215;color:#e9edf0"><b>#0f1215</b>fondo · texto 16,0:1</div>
+      <div style="background:#181c20;color:#e9edf0"><b>#181c20</b>tarjeta</div>
+      <div style="background:#e4e8eb;color:#0f1215"><b>#e4e8eb</b>sección clara · 15,3:1</div>
+      <div style="background:#ff6a1a;color:#0f1215"><b>#ff6a1a</b>acento · 6,6:1 sobre fondo</div>
+      <div style="background:#e4e8eb;color:#a33a04"><b>#a33a04</b>acento sobre claro · 5,4:1</div>
+      <div style="background:#0f1215;color:#ff8a7a"><b>#ff8a7a</b>error · 8,2:1</div>
+    </div>
+  </section>
+
+  <!-- ================= C cálida ================= -->
+  <section class="opt">
+    <h2>C cálida · Acero en sombra + chispa <span style="color:#ff6a1a;font-size:14px">← elegida</span></h2>
+    <p class="idea">La C que elegiste, con el fondo pasado de gris azulado a un negro con base marrón (como el acero con luz de fragua) y las secciones claras en hueso cálido. El naranja de la chispa queda igual. Pierde lo frío de la C original y gana coherencia: el naranja y el fondo ahora son de la misma familia.</p>
+    <div class="site D">
+      <div class="nav"><div class="logo"><b>JZ</b><span>INOX</span></div><ul><li class="on">Inicio</li><li>Nosotros</li><li>Servicios</li><li>Productos</li><li>Contacto</li></ul></div>
+      <div class="hero"><div class="eyebrow">Acero inoxidable a medida</div><h3>Fabricación, reparación y mantención de estructuras en acero inoxidable</h3><p>Soluciones diseñadas a la medida de tu negocio, para restaurantes, comida rápida e industria alimentaria.</p><div class="btns"><span class="btn p">Cotizar Proyecto</span><span class="btn g">Hablar con un Asesor</span></div></div>
+      <div class="sec alt"><div class="eye">Por qué elegirnos</div><h4>¿Por qué elegir JZINOX?</h4>
+        <div class="bento"><div><span class="n">01</span><h5>20+ años de experiencia</h5><p>Conocemos las exigencias del sector gastronómico.</p></div><div><span class="n">02</span><h5>Fabricación 100% a medida</h5><p>Cada estructura a las dimensiones exactas.</p></div><div><span class="n">03</span><h5>Resistencia superior</h5><p>Manufactura nacional, uso intensivo.</p></div></div></div>
+      <div class="sec"><div class="stats"><div><b>20+</b>Años de experiencia</div><div><b>—</b>Dato por confirmar</div><div><b>—</b>Dato por confirmar</div></div>
+        <div class="field"><label>Correo</label><div class="in err">correo-sin-arroba</div><small>Revisa el correo: falta la @</small></div></div>
+    </div>
+    <div class="sw">
+      <div style="background:#16120f;color:#f0ebe3"><b>#16120f</b>fondo · texto 15,7:1 · muted 7,2:1</div>
+      <div style="background:#201b17;color:#f0ebe3"><b>#201b17</b>tarjeta · muted 6,6:1</div>
+      <div style="background:#ebe5db;color:#16120f"><b>#ebe5db</b>sección clara · 14,9:1 · muted 6,8:1</div>
+      <div style="background:#ff6a1a;color:#16120f"><b>#ff6a1a</b>acento · 6,5:1 sobre fondo · 6,0:1 sobre tarjeta</div>
+      <div style="background:#ebe5db;color:#a33a04"><b>#a33a04</b>acento sobre claro · 5,3:1</div>
+      <div style="background:#16120f;color:#ff8a7a"><b>#ff8a7a</b>error · 8,1:1</div>
+    </div>
+  </section>
+
+  <p class="notes"><strong>Nota:</strong> es una maqueta de color, no el sitio real. Fotos, movimiento y tipografía final no están incluidos. Aplicar cualquiera es una desviación del mockup aprobado y requiere el visto bueno del cliente.</p>
+</div>
+</body>
+</html>

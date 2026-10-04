@@ -12,16 +12,25 @@ const isActive = (href) => {
 
 {/* Barra única fija: el logotipo manda a la izquierda y la navegación cierra a la derecha. */}
 <header class="header">
+  {/* Lockup tipográfico, no un archivo de imagen.
+
+      El logotipo anterior era un PNG de cromo biselado con extrusión 3D: el
+      único elemento con brillo y volumen de un sistema cuya primera regla es
+      radio cero y cuya tercera prohíbe el relleno decorativo. Encima, sus
+      facetas oscuras hacían que la Z y la N se perdieran contra la barra de
+      acero (#5f5e5e), justo donde la marca tiene que leerse primero.
+
+      Como texto del documento es plano, de una sola tinta, da entre 5,1:1 y 6,4:1 sobre la
+      barra translúcida, se mantiene nítido en cualquier densidad de pantalla, es
+      seleccionable, y ahorra los 18,9 KB del PNG más un `fetchpriority="high"`
+      que competía con la imagen del hero por el LCP.
+
+      El PNG original se conserva en public/logo-jzinox.png: si el cliente
+      exige su logotipo tal cual, se revierte solo este bloque. */}
   <a class="header__brand" href="/" aria-label={`${site.name} — ir al inicio`}>
-    <img
-      class="header__logo"
-      src="/logo-jzinox.png"
-      alt={`Logotipo de ${site.name}`}
-      width="709"
-      height="163"
-      fetchpriority="high"
-      decoding="async"
-    />
+    <span class="header__logo" aria-hidden="true">
+      <span class="header__logo-jz">JZ</span><span class="header__logo-inox">INOX</span>
+    </span>
   </a>
 
   {/* Checkbox oculto: el menú móvil funciona sin JavaScript. Layout.astro solo
@@ -124,11 +133,34 @@ const isActive = (href) => {
     flex-shrink: 0;
   }
 
-  /* width/height intrínsecos (709x163) reservan la caja: cero CLS al cargar. */
+  /* El nombre accesible lo da el aria-label del enlace, así que el lockup va
+     aria-hidden: de otro modo un lector de pantalla leería "JZ INOX" dos
+     veces. La caja no cambia de tamaño al cargar la fuente porque la altura la
+     fija la línea, no el glifo. */
   .header__logo {
-    height: 40px;
-    width: auto;
-    object-fit: contain;
+    display: flex;
+    align-items: baseline;
+    gap: 0.34em;
+    font-family: var(--font-heading);
+    font-size: 1.32rem;
+    line-height: 1;
+    color: #fff;
+    white-space: nowrap;
+  }
+
+  /* Dos pesos y una sola tinta: el contraste de la marca lo pone la tipografía,
+     no un degradado. Es el mismo recurso que usa el resto del sistema. */
+  .header__logo-jz {
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .header__logo-inox {
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    /* Compensa el tracking sobrante a la derecha del último glifo, para que el
+       bloque quede óptimamente centrado y no desplazado. */
+    margin-right: -0.22em;
   }
 
   /* --- Navegación --- */
@@ -323,7 +355,7 @@ const isActive = (href) => {
 
   @media (min-width: 768px) {
     .header__logo {
-      height: 48px;
+      font-size: 1.55rem;
     }
   }
 

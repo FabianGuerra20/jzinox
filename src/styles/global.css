@@ -57,6 +57,11 @@
   --color-accent-dark: #ae3023; /* surface-tint — estado hover */
   --color-accent-light: #ffb4a9; /* primary-fixed-dim — acento SOBRE fondo oscuro */
   --color-whatsapp: #25d366;
+  /* Verde del canal oscurecido hasta que el blanco encima llegue a 5.45:1.
+     El #25d366 de marca da 1.7:1 con blanco y 2.6:1 con grafito: como fondo
+     de un botón con texto no sirve en ninguna combinación. */
+  --color-whatsapp-ink: #0f7a35;
+  --color-whatsapp-ink-dark: #0b6029;
 
   /* --- Tipografía --- */
   /* Hanken Grotesk: grotesca geométrica de asta cerrada. En 800 tiene
@@ -417,16 +422,23 @@ ul {
   color: #fff;
 }
 
-/* Acción de WhatsApp: verde de marca del canal, no el rojo de JZINOX */
+/* Acción de WhatsApp: verde del canal, no el rojo de JZINOX.
+   Era un botón fantasma con texto #128c3d, que daba 3.54:1 sobre la sección
+   de cierre (#e8e8e8) y 4.34:1 incluso sobre blanco puro: bajo AA en los dos
+   casos, en un botón de conversión de 14px. Con el verde como relleno y el
+   texto en blanco el par llega a 5.45:1, el borde contra el fondo claro da
+   4.45:1 (sobre el 3:1 que pide WCAG 1.4.11 para el límite de un control) y,
+   de paso, queda igual al botón verde del FAB. */
 .btn--whatsapp {
-  background-color: transparent;
-  border-color: var(--color-whatsapp);
-  color: #128c3d; /* el #25d366 puro no llega a 4.5:1 sobre fondo claro */
+  background-color: var(--color-whatsapp-ink);
+  border-color: var(--color-whatsapp-ink);
+  color: #fff;
 }
 
 .btn--whatsapp:hover {
-  background-color: rgba(37, 211, 102, 0.12);
-  border-color: #128c3d;
+  background-color: var(--color-whatsapp-ink-dark);
+  border-color: var(--color-whatsapp-ink-dark);
+  color: #fff;
 }
 
 /* Enlace de texto que igual debe cumplir el mínimo táctil de 44px */
@@ -456,6 +468,21 @@ ul {
   padding-bottom: clamp(2rem, 4.5vw, 2.5rem);
   border-bottom: 1px solid var(--color-border);
   background-color: var(--color-bg);
+}
+
+/* Variante para páginas transaccionales: el titular presenta, pero lo que el
+   visitante vino a usar tiene que caber en el primer pliegue junto a él. */
+.page-hero--tight {
+  padding-top: clamp(1.6rem, 3.2vw, 2.2rem);
+  padding-bottom: clamp(1.2rem, 2.4vw, 1.5rem);
+}
+
+.page-hero--tight h1 {
+  font-size: clamp(1.75rem, 4vw, 2.4rem);
+}
+
+.page-hero--tight p {
+  font-size: 1rem;
 }
 
 .page-hero h1 {

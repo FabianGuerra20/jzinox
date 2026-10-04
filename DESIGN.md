@@ -161,10 +161,19 @@ Modificadores: `--2` `--3` `--4` (columnas) · `__cell` `__cell--flush` (sin pad
 
 ### Botones
 `.btn` + `--primary` (relleno rojo) · `--outline` (rojo sin relleno) · `--ghost`
-(borde acero) · `--whatsapp`.
+(borde acero) · `--whatsapp` (**relleno verde**, texto blanco).
 
 **Sin `transform` en el hover.** En un sistema de radio cero, un botón que levita rompe
 la lectura de placa apoyada. El cambio es de color.
+
+`--whatsapp` era un botón fantasma con texto `#128c3d` y borde `#25d366`. Daba **3,54:1**
+sobre la sección de cierre (`#e8e8e8`) y **4,34:1** incluso sobre blanco puro: bajo AA en
+los dos casos, en un botón de conversión de 14 px. Ahora el verde va como relleno
+(`--color-whatsapp-ink: #0f7a35`) con texto blanco, que da **5,45:1**; el borde contra el
+fondo claro da 4,45:1, sobre el 3:1 que pide WCAG 1.4.11 para el límite de un control. El
+`#25d366` de marca del canal solo sobrevive en el FAB, donde el glifo es una silueta y no
+texto. **No revertir a texto verde sobre fondo claro: no existe un verde de WhatsApp que
+cumpla AA a 14 px sobre nuestras superficies.**
 
 ### Placa de marca (`BrandCard.astro`)
 Proporción **3/6/3** en escritorio, apilada en móvil:
@@ -179,12 +188,61 @@ El carrusel funciona **sin JavaScript** (scroll-snap + gesto). Flechas y puntos 
 `hidden` y solo se revelan cuando el script confirma que funcionan.
 
 ### Header
-Barra **única y fija** de 80px. Acero al 90% (`color-mix`) + `backdrop-filter: blur(12px)`,
+Barra **única y fija** de 80px.
+
+**El logotipo es un lockup tipográfico, no un archivo.** Hanken Grotesk en dos pesos y
+una sola tinta: `JZ` en 800 con tracking negativo, `INOX` en 600 con `letter-spacing:
+.22em` (compensado con un `margin-right` negativo para que el bloque quede centrado por
+el glifo y no por la caja). Da entre **5,1:1 y 6,4:1** sobre la barra translúcida.
+
+Antes era un PNG de cromo biselado con extrusión 3D. Era el único elemento con brillo y
+volumen de un sistema cuya **regla 1 es radio cero** y cuya **regla 3 prohíbe el relleno
+decorativo**: el sistema y la marca estaban peleados, y la marca ganaba en el lugar más
+visible del sitio. Encima, sus facetas oscuras hacían que la Z y la N se perdieran contra
+el acero. Como texto también se mantiene nítido a cualquier densidad, es seleccionable,
+ahorra 18,9 KB y libera el `fetchpriority="high"` que le competía al hero por el LCP.
+
+El PNG se conserva en `public/logo-jzinox.png`. Si el cliente exige su logotipo tal cual,
+se revierte solo el bloque `.header__brand` de `Header.astro`. Acero al 90% (`color-mix`) + `backdrop-filter: blur(12px)`,
 con respaldo opaco vía `@supports not`. Logotipo a la izquierda, nav al centro-derecha,
 CTA a la derecha. El foco visible va en **blanco**: el rojo global es ilegible sobre el acero.
 
 `Layout.astro` compensa la altura con `padding-top` en `<main>` una sola vez para todo
 el sitio. El Inicio pasa `flush` para que el hero cruce por debajo de la barra.
+
+---
+
+### Hero y variantes de encabezado
+
+`.page-hero` es el encabezado estándar de página interior. `.page-hero--tight` reduce el
+aire vertical a la mitad y baja el `<h1>`: es para **páginas transaccionales**, donde el
+titular no debe competir con el control que el visitante vino a usar. Hoy solo la usa
+`/contacto`, para que el formulario entre en el primer pliegue.
+
+**El texto nunca se dibuja dentro de una imagen del hero.** El velo
+(`.hero__veil`) es semitransparente, así que cualquier rotulación del archivo se
+transparenta por detrás del `<h1>` y se lee como página rota, no como hueco honesto.
+`public/hero-inicio.svg` es por eso pura textura de plano, sin una sola letra, y el
+rótulo del hueco vive en el documento (`.hero__slot`): franja sólida anclada al canto
+inferior, fuera de la banda del texto e independiente de cómo `object-fit: cover`
+recorte la imagen. El hero reserva esa banda con su `padding-bottom`; cuando llegue la
+foto, `heroImage.pending` pasa a `false` y ambas cosas vuelven a su valor normal.
+
+### Campos de formulario
+
+**El rojo significa error, y solo error.** El borde de foco era `--color-accent` y el de
+error `--color-accent-dark`: dos rojos separados por un 5% de luminosidad, así que el
+campo donde estabas escribiendo se veía igual que el campo que estaba mal. El foco se
+marca con `--color-graphite` a 2px más el aro global de `:focus-visible`; el rojo queda
+reservado para `[aria-invalid="true"]`, que además lo mantiene mientras está enfocado
+—perder la señal al entrar a corregir obligaría a recordar cuál era el problema—.
+
+Todo `<select>` que represente una elección real **nace vacío y es `required`**. Un
+`<select>` que arranca en la primera opción no tiene valor por defecto: tiene un valor
+falso, y llena la bandeja de entrada del cliente con datos que nadie eligió.
+
+El control `type="file"` lleva su `::file-selector-button` estilado: el nativo trae
+esquinas redondeadas y su propia tipografía, y sería el único radio del sitio.
 
 ---
 
@@ -293,8 +351,16 @@ formulario, los datos de contacto, las `meta description` y la página `/gracias
 2. **`.eyebrow` sobre `.section--alt`** da **4.55:1**: pasa AA, pero con 0.05 puntos de
    margen. Cualquier retoque de la paleta lo rompe. *Propuesta:* un token
    `--color-accent-on-light` dedicado (`#ae3023` da 5.57:1).
-3. **`--font-mono` sin cargar.** `catalogo.astro` y `al-muebleria.astro` todavía la usan
-   y aterrizan en Consolas. Decidir: cargarla de verdad o eliminarla del sistema.
-4. **Imágenes reales.** Todo lo visual son placeholders SVG. `public/hero-inicio.svg`
-   se sustituye cambiando una sola línea en `index.astro`.
-5. Ver `MEJORAS.md` para el resto del backlog técnico y de SEO.
+3. **`--font-mono` sin cargar.** `catalogo.astro`, `al-muebleria.astro` y `nosotros.astro`
+   todavía la usan y aterrizan en Consolas. Decidir: cargarla de verdad o eliminarla del
+   sistema.
+4. **Imágenes reales.** Todo lo visual son huecos rotulados. El hero se sustituye
+   cambiando `heroImage` en `index.astro` (y poniendo `pending: false`); los 15 productos
+   del catálogo, su `image` en `catalog.js`.
+5. **El favicon sigue siendo la versión cromada.** Coherencia con el logotipo plano
+   pediría aplanarlo también, pero el cliente aprobó ese archivo aparte ("más grande y
+   con más contraste"), así que no se toca sin preguntar.
+6. **Cinco etiquetas para la misma acción:** "Cotizar Proyecto", "Cotizar este ítem",
+   "Cotizar por WhatsApp", "Hablar con un Asesor", "Enviar consulta". Se unificaron las
+   del catálogo; el resto sigue abierto.
+7. Ver `MEJORAS.md` para el resto del backlog técnico y de SEO.

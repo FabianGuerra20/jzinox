@@ -3,9 +3,12 @@
 > Auditoría de estructura, SEO técnico, accesibilidad y rendimiento.
 > Fecha: 2026-09-02 · Base: commit `23acbe9` · Astro 7.2.1
 >
-> **Actualizado 2026-09-22.** Cerrados: 1.1, 1.2, 1.3, 2.1, 2.2, 2.3 y 5.2.
-> 1.4 (fusión productos/catálogo) se implementó solo en `feat/propuesta-ux`,
-> para que el cliente compare. Abiertos: 2.4, 3.1, 3.2 y 5.1.
+> **Actualizado 2026-09-23.** Cerrados: 1.1, 1.2, 1.3, **1.4**, 2.1, 2.2, 2.3 y 5.2.
+> Abiertos: 2.4, 3.1, 3.2, 5.1 y 6 (movimiento y paleta, anotado 2026-10-04).
+>
+> 1.4 se cerró en `main` por la opción (A): sobrevive `/catalogo`, `/productos`
+> redirige con 301 y sale del sitemap. Ver el registro de la crítica de diseño
+> del 2026-09-23 más abajo.
 >
 > Cada punto está verificado contra el código y el `dist/` generado, no inferido.
 
@@ -16,8 +19,8 @@
 ```
 8 páginas estáticas · 7 componentes · 5 archivos de datos · 1 layout · 522 líneas de CSS global
 
-src/pages/       index (portal de 2 marcas) · nosotros · servicios · productos
-                 catalogo · contacto · gracias · al-muebleria
+src/pages/       index (portal de 2 marcas) · nosotros · servicios · catalogo
+                 contacto · gracias · al-muebleria · 404
 src/components/  Header · Footer · Seo · BrandCard · ServiceIcon
                  FloatingContact · WeldingCursor
 src/data/        site · company · brands · services · catalog
@@ -91,7 +94,16 @@ visitas a esa URL, las cifras quedan infladas por tráfico orgánico.
 
 ---
 
-### 1.4 `/productos` y `/catalogo` son contenido casi duplicado
+### 1.4 `/productos` y `/catalogo` son contenido casi duplicado — ✅ CERRADO (2026-09-23)
+
+**Resuelto por la opción (A).** Sobrevive `/catalogo` porque es la URL a la que ya
+apuntaban la portada, `/servicios` y el 404. `astro.config.mjs` emite un redirect
+a `/catalogo` (con `noindex` y `canonical`), el sitemap excluye `/productos`, y la
+entrada del menú quedó una sola, rotulada **Productos**: es como lo nombra quien
+compra, mientras "Catálogo" en el rubro suele significar un PDF descargable.
+`/catalogo` heredó el `<h1>` de `/productos` ("Todo lo que fabricamos en acero
+inoxidable"), que era el que traía la frase por la que compite el negocio.
+
 
 **Dónde:** `src/pages/productos.astro` y `src/pages/catalogo.astro`
 
@@ -265,5 +277,111 @@ localizadores.
 ## Orden de ataque sugerido
 
 Los puntos **1.1, 1.2, 1.3, 2.1 y 2.2** son autocontenidos, no dependen del cliente y se
-pueden cerrar en una sola sesión. El resto requiere una decisión de producto (1.4) o
-contenido que aún no llega (5.2).
+pueden cerrar en una sola sesión. Lo que queda abierto (2.4, 3.1, 3.2, 5.1) no depende de
+una decisión de producto sino de trabajo propio.
+
+---
+
+## Crítica de diseño del 2026-09-23 — lo que se arregló
+
+Informe completo en `.impeccable/critique/2026-09-23T21-14-44Z__src-pages-index-astro.md`
+(24/40 en las heurísticas de Nielsen). De ahí salieron estos cinco arreglos:
+
+1. **El catálogo no tenía hueco de imagen** (P0). No faltaban fotos: faltaba la ranura.
+   En la única superficie donde se elige qué comprar, había que distinguir "Mesón de
+   trabajo" de "Mesón con entrepaño inferior" leyendo. Cada uno de los 15 productos
+   tiene ahora su `image` con `slot` y `ratio` en `catalog.js`, y la tarjeta pasó a
+   celda a sangre con la foto arriba.
+2. **Productos y Catálogo eran la misma página dos veces** (P1). Ver 1.4.
+3. **`/contacto` mal etiquetaba cada consulta** (P1). El `select` arrancaba en
+   "Soldadura TIG" sin opción neutra: todo el que no tocaba el campo llegaba marcado
+   como TIG. Ahora la primera opción está vacía y el campo es `required`. Además el
+   titular pedía "el plano que tengas" y no había dónde adjuntarlo: se agregó un campo
+   de archivo opcional con `enctype="multipart/form-data"`. Y el hero se comprimió
+   (`.page-hero--tight`) para que el formulario entre en el primer pliegue.
+4. **El SVG del hero tenía texto que se transparentaba tras el `<h1>`** (P1). Traía un
+   cartucho central con "JZ INOX", un "01" rojo de 96 px y la leyenda "REEMPLAZAR POR
+   FOTOGRAFÍA DEL TALLER" justo en la banda del titular. El archivo quedó sin una sola
+   letra y el rótulo del hueco pasó a ser un elemento del documento anclado al canto
+   inferior (`.hero__slot`), donde no puede cruzarse con el texto.
+5. **`.btn--whatsapp` incumplía AA** (P1). Era un botón fantasma con texto `#128c3d`:
+   3,54:1 sobre la sección de cierre y 4,34:1 incluso sobre blanco puro, en un botón de
+   conversión de 14 px. Pasó a relleno verde con texto blanco, 5,45:1. El comentario del
+   código que justificaba ese verde era incorrecto y se corrigió.
+
+Y dos que salieron por el camino:
+
+* **El logotipo cedió.** Era un PNG de cromo biselado con extrusión 3D: el único
+  elemento con brillo y volumen de un sistema cuya primera regla es radio cero. Sus
+  facetas oscuras hacían que la Z y la N se perdieran contra la barra de acero. Pasó a
+  lockup tipográfico en Hanken Grotesk, dos pesos y una sola tinta, 5,1–6,4:1 sobre la
+  barra. Ahorra 18,9 KB y libera el `fetchpriority="high"` que competía con el hero.
+  El PNG sigue en `public/logo-jzinox.png` por si el cliente lo exige.
+* **El foco del formulario dejó de parecer un error.** El borde de foco era
+  `--color-accent` y el de error `--color-accent-dark`: dos rojos separados por un 5% de
+  luminosidad. El campo donde escribías se veía igual que el campo que estaba mal. El
+  rojo ahora significa una sola cosa.
+
+**Lo que la crítica dejó abierto y NO se tocó:** las cinco etiquetas distintas para la
+misma acción (P2, parcialmente unificadas), el favicon —que sigue siendo la versión
+cromada, aprobada aparte por el cliente—, la junta de 1px a 1,24:1, `--font-mono`
+aterrizando en Consolas en `/nosotros`, y las 6 inversiones de orden de tabulación.
+
+---
+
+## 6. Mejora del frente: movimiento y paleta (anotado 2026-10-04)
+
+**Objetivo:** que el sitio se vea mejor hecho, con scroll y transiciones suaves y modernas,
+sin perder la estética industrial. La paleta actual (gris sobre gris con rojo ladrillo)
+no convence ni al equipo.
+
+### Decisión de stack: NO sumar un framework de UI
+React, Tailwind o shadcn cambian cómo se escribe el código, no cómo se ve. Se queda
+Astro + CSS nativo. Lo que hace que hoy se vea poco pulido es:
+
+1. Todo lo visual son placeholders grises (la palanca más grande: **fotos o video reales**).
+2. Casi no hay movimiento (solo el revelado gris a color de `.media-frame`).
+3. La paleta.
+
+### 6.1 Movimiento (de menor a mayor costo)
+| Qué | Con qué | Peso |
+|---|---|---|
+| Elementos que aparecen al hacer scroll | CSS scroll-driven animations (`animation-timeline: view()`) | 0 KB JS |
+| Transiciones entre páginas | View Transitions de Astro o `@view-transition` nativo | casi 0 |
+| Scroll con inercia | Lenis | ~3 KB |
+| Secuencias del hero | GSAP + ScrollTrigger, solo si hace falta | ~30 KB |
+
+* **Conflicto con `CLAUDE.md`:** la regla "cero JS externo" se rompe con Lenis y GSAP.
+  Decidir si se relaja (sugerencia: solo para Lenis).
+* `prefers-reduced-motion` sigue siendo no negociable en todo lo anterior.
+* Respetar la regla del sistema: la única animación *expresiva* hoy es `.media-frame`.
+  Si se añade movimiento de scroll, actualizar `DESIGN.md §7`.
+
+### 6.2 Paleta: tres propuestas
+Maqueta visual en **`propuestas/paletas.html`** (abrir en el navegador). Las tres conservan
+radio cero, junta de 1px y acento solo en acciones y estados. Idea común: el color del
+oficio, el acero soldado con TIG vira de paja dorado a azul violáceo con el calor.
+Contrastes calculados.
+
+| | Idea | Acento | Riesgo |
+|---|---|---|---|
+| **A · Calor TIG** | Negro cálido + hueso | Dorado paja `#e2b04a` | Sitio mayormente oscuro |
+| **B · Cobalto de soldadura** | Hueso claro, cabecera y hero oscuros | Azul `#3946b8` | Es la más segura de aprobar con el cliente |
+| **C · Acero frío + chispa** | Gris azulado casi negro | Naranja `#ff6a1a` | Puede leerse agresivo si se abusa |
+
+* El rojo `#c13d2f` pasa a ser **solo error** en las tres.
+* **Elegida (2026-10-04): C, con fondo más cálido** (en `paletas.html` como "C cálida").
+  Fondo `#16120f`, tarjeta `#201b17`, sección clara `#ebe5db`, texto `#f0ebe3`, muted
+  `#aa9f92`, acento `#ff6a1a` (sobre claro `#a33a04`), error `#ff8a7a`, junta `#3b342d`,
+  borde de campo `#7a6f62`. Todo el texto pasa AA (mínimo 5,3:1). **Falta la aprobación
+  del cliente y aplicarla en `global.css`.**
+* Aplicar cualquiera es una **desviación del mockup aprobado** (ver `DESIGN.md §8` y §11.1):
+  hay que mostrarla al cliente antes. Al elegir, recalcular contrastes en `global.css`
+  y actualizar `DESIGN.md §2`.
+
+### 6.3 Orden sugerido
+1. Elegir paleta (con el cliente).
+2. Aplicarla en `global.css` y recalcular contraste.
+3. Scroll reveal y View Transitions con CSS.
+4. Lenis, si se aprueba tras ver el resultado.
+5. Hero con foto o video real cuando lleguen (bloqueado por el cliente).

@@ -24,7 +24,8 @@ Consult these guides before working on related tasks:
 - Supporting multiple languages: https://docs.astro.build/en/guides/internationalization/
 
 ## 🏢 Arquitectura de Marcas y Navegación
-* **JZ Inox (Marca Principal):** Domina la estructura global del sitio. Navegación real: **Inicio, Nosotros, Servicios, Productos, Catálogo, Contacto**.
+* **JZ Inox (Marca Principal):** Domina la estructura global del sitio. Navegación real: **Inicio, Nosotros, Servicios, Productos, Contacto**.
+    * "Productos" apunta a **`/catalogo`**. La antigua `/productos` se dio de baja el 2026-09-23: mostraba los mismos 15 ítems que el catálogo y las dos URLs se canibalizaban. Hoy `/productos` es un redirect 301 declarado en `astro.config.mjs`. La etiqueta del menú dice "Productos" y no "Catálogo" porque en el rubro un catálogo suele significar un PDF descargable.
 * **AL Mueblería (Aliado Estratégico):** Vista interna exclusiva en `/al-muebleria`. Funciona como *landing page* resumida dentro del ecosistema de JZ Inox: presentación, servicios propios y mini-catálogo. En el menú va tras un divisor, porque el clic cambia de marca, no de sección.
 * **Soldadura TIG** ya NO es una página propia: se dio de baja en el commit `eb50818` y hoy es uno de los servicios dentro de `/servicios`.
 
@@ -102,3 +103,16 @@ Tienes permitido y recomendado usar tus skills internos (dependen de que gstack 
 * **Corrección a este documento:** se afirmaba que `astro dev --background` no existía. Sí existe. El error estaba en la auditoría, no en las instrucciones.
 
 **Pendiente y conocido:** QA visual en navegador sin hacer (la extensión de Chrome no tenía permiso para `localhost`). Ver `DESIGN.md §11` para los puntos abiertos de diseño.
+
+### 2026-09-23 — Crítica de diseño (`/impeccable critique`) y sus arreglos
+Informe completo en `.impeccable/critique/2026-09-23T21-14-44Z__src-pages-index-astro.md` (24/40 en las heurísticas de Nielsen). Resumen de lo aplicado en `MEJORAS.md`.
+
+* **El catálogo ganó su hueco de imagen.** Los 15 productos de `catalog.js` llevan `image` con `slot` y `ratio`; la tarjeta pasó a celda a sangre con la foto arriba. En la única página donde se elige qué comprar, antes había que distinguir quince piezas de acero leyendo.
+* **`/productos` se fusionó en `/catalogo`** (cierra `MEJORAS.md §1.4`). Redirect 301 en `astro.config.mjs`, fuera del sitemap, una sola entrada en el menú.
+* **`/contacto`:** el `<select>` nace vacío y es `required` (antes toda consulta sin tocar el campo llegaba etiquetada como "Soldadura TIG"), se agregó campo de adjunto con `enctype="multipart/form-data"` porque el titular pide "el plano que tengas", y el hero se comprimió con `.page-hero--tight` para que el formulario entre en el primer pliegue.
+* **El SVG del hero quedó sin una sola letra.** Traía un cartucho central que se transparentaba por detrás del `<h1>`. El rótulo del hueco pasó a `.hero__slot`, un elemento del documento anclado al canto inferior.
+* **`.btn--whatsapp` pasó a relleno verde** con texto blanco: era texto `#128c3d` a 3,54:1, bajo AA.
+* **El logotipo cedió ante el sistema:** el PNG de cromo 3D se reemplazó por un lockup tipográfico plano en Hanken Grotesk. Decisión del usuario, documentada en `DESIGN.md §6`. El PNG sigue en `public/` por si el cliente lo exige.
+* **El foco del formulario dejó de ser rojo**, para que el rojo signifique solo "error".
+
+**Pendiente y conocido:** la QA visual en navegador sigue sin hacerse — la extensión de Chrome continúa sin permiso para `localhost` (`ERR_CONNECTION_REFUSED` con el servidor respondiendo 200 a `curl`). La verificación de esta ronda fue por build, inspección del HTML/CSS generado y cálculo de contraste, no por medición en pantalla.

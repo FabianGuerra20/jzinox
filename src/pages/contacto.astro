@@ -8,7 +8,10 @@ import { site } from "../data/site.js";
 	title="Contacto"
 	description={`Cotiza tu proyecto de equipamiento gastronómico en acero inoxidable. ${site.street}, ${site.city}, ${site.region}.`}
 >
-	<section class="section page-hero">
+	{/* Hero comprimido a propósito: en una página transaccional el titular
+	    no compite con el formulario por el primer pliegue. Mismo contenido,
+	    la mitad del aire vertical. */}
+	<section class="section page-hero page-hero--tight">
 		<div class="container">
 			<span class="eyebrow">Contacto</span>
 			<h1>Cuéntanos sobre tu proyecto</h1>
@@ -64,6 +67,7 @@ import { site } from "../data/site.js";
 					class="bento__cell contact__form"
 					action={site.formsubmitEndpoint}
 					method="POST"
+					enctype="multipart/form-data"
 					aria-label="Formulario de contacto"
 					novalidate
 					data-contact-form
@@ -120,12 +124,25 @@ import { site } from "../data/site.js";
 						</div>
 					</div>
 
+					{/* La primera opción está vacía y el campo es `required`: sin ella,
+					    cada consulta de quien no toca el campo llegaba etiquetada como
+					    el primer servicio de la lista, y la bandeja de entrada del
+					    taller quedaba con datos falsos. */}
 					<div class="field">
 						<label for="service">Servicio de interés</label>
-						<select id="service" name="Servicio">
+						<select
+							id="service"
+							name="Servicio"
+							required
+							aria-describedby="service-error"
+							data-error="Elige el servicio que te interesa para derivar tu consulta."
+						>
+							<option value="">Selecciona un servicio</option>
 							{services.map((service) => <option value={service.title}>{service.title}</option>)}
+							<option value="No lo sé todavía">No lo sé todavía</option>
 							<option value="Otro">Otro</option>
 						</select>
+						<p class="field__error" id="service-error" hidden></p>
 					</div>
 
 					<div class="field">
@@ -139,6 +156,25 @@ import { site } from "../data/site.js";
 							aria-describedby="message-error"
 							data-error="Cuéntanos brevemente qué necesitas, aunque sean dos líneas."></textarea>
 						<p class="field__error" id="message-error" hidden></p>
+					</div>
+
+					{/* El titular de la página pide "el plano que tengas". Sin este campo,
+					    la única salida era WhatsApp, y la consulta se partía en dos
+					    canales. Opcional a propósito: exigir un archivo excluiría al
+					    cliente que solo tiene medidas anotadas a mano. */}
+					<div class="field">
+						<label for="plan">Plano o foto del espacio <span class="field__hint">(opcional)</span></label>
+						<input
+							type="file"
+							id="plan"
+							name="Plano"
+							accept="image/*,.pdf,.dwg,.dxf"
+							aria-describedby="plan-help"
+						/>
+						<p class="field__help" id="plan-help">
+							Imagen, PDF o plano CAD, hasta 10 MB. Si tienes varias fotos, mándalas por
+							WhatsApp y las juntamos con tu consulta.
+						</p>
 					</div>
 
 					{/* Aviso de maqueta. Nace oculto y solo el script lo revela cuando
@@ -277,6 +313,7 @@ import { site } from "../data/site.js";
 	}
 
 	.field input[aria-invalid="true"],
+	.field select[aria-invalid="true"],
 	.field textarea[aria-invalid="true"] {
 		border-color: var(--color-accent-dark);
 		border-width: 2px;
@@ -462,6 +499,53 @@ import { site } from "../data/site.js";
 		resize: vertical;
 	}
 
+	/* "(opcional)" en minúscula dentro de una etiqueta en versalitas: la
+	   distinción tiene que leerse de un vistazo, no descubrirse al enviar. */
+	.field__hint {
+		text-transform: none;
+		letter-spacing: 0;
+		font-weight: 400;
+		color: var(--color-text-muted);
+	}
+
+	.field__help {
+		margin: 0.35rem 0 0;
+		font-size: 0.82rem;
+		line-height: 1.4;
+		color: var(--color-steel);
+	}
+
+	/* El control de archivo nativo trae su propio botón con esquinas
+	   redondeadas y su propia tipografía. Sin esto, el único radio del sitio
+	   aparecería justo en el formulario. */
+	.field input[type="file"] {
+		padding: 0.55rem 0.85rem;
+		font-size: 0.9rem;
+		color: var(--color-text-muted);
+		cursor: pointer;
+	}
+
+	.field input[type="file"]::file-selector-button {
+		margin-right: 0.85rem;
+		padding: 0.5rem 0.9rem;
+		border: 1px solid var(--color-steel-dark);
+		border-radius: var(--radius);
+		background-color: var(--color-surface);
+		color: var(--color-graphite);
+		font-family: var(--font-heading);
+		font-size: 0.78rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		cursor: pointer;
+		transition: background-color 0.15s ease, border-color 0.15s ease;
+	}
+
+	.field input[type="file"]::file-selector-button:hover {
+		background-color: var(--color-bg-alt);
+		border-color: var(--color-graphite);
+	}
+
 	/* #9aa0a7 daba 2.6:1 sobre blanco: el texto de ayuda era ilegible y el color
 	   estaba fuera del contrato. --color-steel da 6.5:1 y sigue leyéndose como
 	   secundario frente al grafito del valor escrito (17:1). */
@@ -474,10 +558,25 @@ import { site } from "../data/site.js";
 	   indicador accesible del sitio. Aquí solo se tiñe el borde del campo, sin
 	   el halo difuminado que el sistema descarta y que además arrastraba el
 	   acento viejo (#c0392b). */
+	/* El borde de foco era --color-accent (#c13d2f) y el de error
+	   --color-accent-dark (#ae3023): dos rojos separados por un 5% de
+	   luminosidad. El campo donde estabas escribiendo se veía igual que el
+	   campo que estaba mal. Ahora el rojo significa una sola cosa —error— y
+	   el foco se marca con grafito más el aro de :focus-visible del sistema. */
 	.field input:focus,
 	.field select:focus,
 	.field textarea:focus {
-		border-color: var(--color-accent);
+		border-color: var(--color-graphite);
+		border-width: 2px;
+	}
+
+	/* El campo en error mantiene su rojo incluso enfocado: el aro de foco ya
+	   dice dónde estás, y perder la señal de error al entrar a corregirlo
+	   obligaría a recordar cuál era el problema. */
+	.field input[aria-invalid="true"]:focus,
+	.field select[aria-invalid="true"]:focus,
+	.field textarea[aria-invalid="true"]:focus {
+		border-color: var(--color-accent-dark);
 	}
 
 	.contact__submit {

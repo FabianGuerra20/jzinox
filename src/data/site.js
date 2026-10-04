@@ -46,8 +46,11 @@ export const navItems = [
   { href: "/", label: "Inicio" },
   { href: "/nosotros", label: "Nosotros" },
   { href: "/servicios", label: "Servicios" },
-  { href: "/productos", label: "Productos" },
-  { href: "/catalogo", label: "Catálogo" },
+  // Una sola entrada para el catálogo: "Productos" es como lo nombra el
+  // cliente que compra, mientras "Catálogo" en el rubro suele significar un
+  // PDF descargable. La URL se mantiene en /catalogo porque es la que ya
+  // enlazan la portada, /servicios y el 404.
+  { href: "/catalogo", label: "Productos" },
   { href: "/contacto", label: "Contacto" },
   { href: "/al-muebleria", label: "AL Mueblería", ally: true },
 ];

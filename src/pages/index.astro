@@ -25,7 +25,9 @@ import { site } from "../data/site.js";
  */
 const heroImage = {
   src: "/hero-inicio.svg",
-  alt: "Taller de JZ INOX: mesón de acero inoxidable en primer plano y puesto de soldadura al fondo — imagen referencial",
+  alt: "Trama de plano técnico que ocupa el lugar de la fotografía del taller de JZ INOX",
+  /** Con `pending: false` desaparece el rótulo del hueco y el alt pasa a describir la foto real. */
+  pending: true,
 };
 
 const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`;
@@ -40,6 +42,19 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	<section class="hero">
 		<img class="hero__media" src={heroImage.src} alt={heroImage.alt} fetchpriority="high" decoding="async" />
 		<div class="hero__veil" aria-hidden="true"></div>
+
+		{/* Rótulo del hueco de foto. Vive en el documento y no dentro del SVG
+		    porque el velo del hero es semitransparente: cualquier texto dibujado
+		    en la imagen se transparenta por detrás del titular. Anclado al canto
+		    inferior, con fondo sólido, nunca se cruza con el texto centrado y no
+		    depende de cómo `object-fit: cover` recorte la imagen. Se borra junto
+		    con esta línea cuando llegue la fotografía del taller. */}
+		{heroImage.pending && (
+			<p class="hero__slot">
+				<span class="hero__slot-tag">Foto pendiente</span>
+				<span>Fachada o nave del taller, 1920 × 1080</span>
+			</p>
+		)}
 
 		<div class="container hero__inner">
 			<span class="hero__eyebrow">Manufactura nacional · 20+ años</span>
@@ -137,7 +152,10 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		justify-content: center;
 		min-height: 80vh;
 		padding-top: var(--header-height);
-		padding-bottom: clamp(2rem, 5vw, 3rem);
+		/* El padding inferior reserva la banda del rótulo del hueco: sin ella,
+		   los botones y el rótulo se solapan en celular, donde el titular ocupa
+		   cinco líneas. Cuando llegue la foto, vuelve a clamp(2rem, 5vw, 3rem). */
+		padding-bottom: clamp(4.5rem, 7vw, 5rem);
 		overflow: hidden;
 		background-color: var(--color-steel);
 		border-bottom: 1px solid var(--color-border);
@@ -173,6 +191,36 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 			rgba(26, 28, 28, 0.55) 70%,
 			rgba(26, 28, 28, 0.2) 100%
 		);
+	}
+
+	.hero__slot {
+		position: absolute;
+		z-index: 1;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: 0.6rem;
+		margin: 0;
+		padding: 0.55rem 1rem;
+		background-color: var(--color-ink);
+		color: #fff;
+		font-size: 0.75rem;
+		letter-spacing: 0.04em;
+		text-align: center;
+	}
+
+	.hero__slot-tag {
+		font-family: var(--font-heading);
+		font-size: 0.62rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		background-color: var(--color-accent);
+		padding: 0.18rem 0.5rem;
 	}
 
 	.hero__inner {

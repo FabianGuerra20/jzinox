@@ -22,12 +22,12 @@ export const brands = [
     lead: "Soluciones en acero inoxidable diseñadas a la medida de tu negocio. Fabricamos mesones, equipamiento y mobiliario de alta durabilidad para restaurantes, comida rápida e industria alimentaria.",
     href: "/",
     actions: [
-      { href: "/catalogo", label: "Ver catálogo", variant: "primary" },
+      { href: "/catalogo", label: "Ver productos", variant: "primary" },
       { href: "/servicios", label: "Ver servicios", variant: "outline" },
     ],
     featuredTitle: "Productos destacados",
     featuredHref: "/catalogo",
-    featuredLabel: "Ver catálogo completo",
+    featuredLabel: "Ver los 15 productos",
     // [PROPUESTA] Los nombres salen de las ranuras previstas del catálogo.
     featured: [
       { name: "Mesón de trabajo en acero inoxidable", note: "Cubierta lisa o con peto, patas regulables." },

@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import MediaPlaceholder from "../components/MediaPlaceholder.astro";
 import { catalog, catalogCategories, pricesArePlaceholder } from "../data/catalog.js";
 import { site } from "../data/site.js";
 
@@ -66,17 +67,19 @@ const groups = catalogCategories
 ---
 
 <Layout
-	title="Catálogo"
+	title="Productos y precios"
 	description="Catálogo de mesones, lavaplatos, campanas y estructuras en acero inoxidable con valores referenciales para dimensionar tu proyecto."
 	jsonLd={catalogLd}
 >
 	<section class="section page-hero">
 		<div class="container">
-			<span class="eyebrow">Catálogo</span>
-			<h1>Catálogo y valores referenciales</h1>
+			<span class="eyebrow">Productos y precios</span>
+			<h1>Todo lo que fabricamos en acero inoxidable</h1>
 			<p>
-				Valores de referencia para dimensionar tu proyecto. El precio final depende de las
-				medidas, el espesor de la plancha y la complejidad de la instalación.
+				Quince piezas que hacemos habitualmente, con valores de referencia para dimensionar
+				tu proyecto. El precio final depende de las medidas, el espesor de la plancha y la
+				complejidad de la instalación. Si lo que necesitas no está en la lista, lo
+				fabricamos igual: mándanos el plano o las medidas.
 			</p>
 
 			{
@@ -112,7 +115,33 @@ const groups = catalogCategories
 
 					<div class="bento bento--3 catalog-grid">
 						{group.items.map((item) => (
-							<article class="bento__cell bento__cell--hover catalog-card">
+							<article class="bento__cell bento__cell--flush bento__cell--hover catalog-card">
+								{/* La foto va PRIMERO: en una lista de quince piezas de acero
+								    los nombres se parecen entre sí y el comprador elige por
+								    la imagen. El hueco rotulado ocupa su sitio con la misma
+								    proporción que tendrá la foto final, así que reemplazarla
+								    no mueve el layout. */}
+								<div
+									class:list={[
+										"catalog-card__media",
+										{ "media-frame": !item.image?.pending },
+									]}
+								>
+									{item.image?.pending ? (
+										<MediaPlaceholder slot={item.image.slot} ratio={item.image.ratio} />
+									) : (
+										<img
+											src={item.image.src}
+											alt={item.image.alt}
+											width="600"
+											height="450"
+											loading="lazy"
+											decoding="async"
+										/>
+									)}
+								</div>
+
+								<div class="catalog-card__body">
 								<span class="tag">{item.category}</span>
 								<h3 id={`${item.id}-name`}>{item.name}</h3>
 								<p>{item.description}</p>
@@ -132,6 +161,7 @@ const groups = catalogCategories
 								>
 									Cotizar este ítem
 								</a>
+								</div>
 							</article>
 						))}
 					</div>
@@ -213,8 +243,28 @@ const groups = catalogCategories
 	.catalog-card {
 		display: flex;
 		flex-direction: column;
+	}
+
+	/* La celda va a sangre para que la foto toque los tres cantos de la
+	   tarjeta; el aire vuelve en el cuerpo, con la misma medida que
+	   `.bento__cell` para no romper el ritmo del resto del sitio. */
+	.catalog-card__media {
+		overflow: hidden;
+	}
+
+	.catalog-card__media img {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+
+	.catalog-card__body {
+		display: flex;
+		flex-direction: column;
 		gap: 0.6rem;
 		align-items: flex-start;
+		flex-grow: 1;
+		padding: clamp(1.25rem, 3vw, 1.6rem);
 	}
 
 	.catalog-card h3 {
