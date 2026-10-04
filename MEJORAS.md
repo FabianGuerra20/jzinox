@@ -413,4 +413,4 @@ Contrastes calculados.
 2. Fotos de **Soldadura TIG** y **Diseño** (4 huecos en el Inicio), y de **Nosotros** y
    **Servicios**: esas carpetas llegaron vacías.
 3. Validar los nombres y descripciones de los 3 productos nuevos (`[PROPUESTA]`, sin precio).
-4. Favicon cromado vs. logotipo plano.
+4. ~~Favicon~~ — resuelto el 2026-10-04 (recoloreado y agrandado; `og-image.png` rehecha).

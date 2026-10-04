@@ -360,8 +360,10 @@ formulario, los datos de contacto, las `meta description` y la página `/gracias
 3. **Cinco etiquetas para la misma acción:** "Cotizar Proyecto", "Cotizar este ítem",
    "Cotizar por WhatsApp", "Hablar con un Asesor", "Enviar consulta". Se unificaron las
    del catálogo; el resto sigue abierto.
-4. **El favicon sigue siendo la versión cromada** y desentona con el logotipo plano. El
-   cliente lo aprobó aparte ("más grande y con más contraste"): no se toca sin preguntar.
+4. ~~Favicon~~ — **resuelto el 2026-10-04**: mismo monograma `JZ` aprobado por el cliente
+   (no se redibujó), recoloreado a hueso `#f0ebe3` sobre `#16120f`, más grande (~82 % del
+   cuadro) y con 15,7:1. `og-image.png` rehecha en la paleta nueva; su fuente editable es
+   `propuestas/og-image.html`. Nunca fue cromado: era blanco plano sobre gris.
 5. **Fotos de celular, casi todas verticales**, recortadas a 4:3 y 3:2 con
    `object-position` por imagen. Fotos horizontales mejorarían el hero y las filas.
 6. Ver `MEJORAS.md` para el resto del backlog.
@@ -391,6 +393,15 @@ hover. Un menú abierto detiene Lenis (`lenis.stop()`).
 frame en 90 nodos): es un degradado radial en `::after`, con color e intensidad por las
 variables `--c` y `--a`. El ciclo térmico blanco → amarillo → naranja → óxido ya coincide
 con la paleta.
+
+### La costura (firma de entrada)
+
+Al cargar, una línea de soldadura de 2px recorre el canto inferior del hero y de cada
+encabezado de página (`.hero::after`, `.page-hero::after`), de izquierda a derecha y con
+la punta al rojo blanco (`#ffe9c9`). Dura 1,6 s y no se repite. Es **la única excepción**
+a la regla 3 (acento solo en acciones y estados): sin movimiento queda como un borde
+inferior fijo de acento. Sin puntero (`hover: none`) las fotos de `.media-frame` entran
+a color, porque no existe el hover que se lo devolvería.
 
 ## 13. Fotos
 
