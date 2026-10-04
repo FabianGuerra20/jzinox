@@ -126,3 +126,4 @@ Informe completo en `.impeccable/critique/2026-09-23T21-14-44Z__src-pages-index-
 
 **Pendiente y conocido:** mostrar la paleta nueva al cliente; fotos de Soldadura TIG, Diseño, Nosotros y Servicios (esas carpetas llegaron vacías); el favicon ya está alineado con la paleta nueva. La QA visual se hizo con Playwright + Edge headless sobre `dist/` (la extensión de Chrome sigue sin permiso para `localhost`).
 * **Favicon y og-image** en la paleta nueva (el monograma `JZ` aprobado no se redibujó). **La costura**: línea de soldadura animada en hero y encabezados, única excepción a «acento solo en acciones» (`DESIGN.md §12`). Auditoría Playwright en 5 anchos (360–1920): sin desbordes; áreas táctiles OK.
+* **Logotipo nuevo del cliente** (JZINOX origami metálico, `public/img/logo-jzinox.webp`) en header, footer y `og-image.png`; reemplaza al lockup tipográfico. Es la excepción visual del sistema (tiene volumen): ver `DESIGN.md §6`. El original está en `fotos-originales/`.

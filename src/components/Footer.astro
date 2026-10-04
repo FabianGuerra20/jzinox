@@ -18,7 +18,9 @@ const legalLinks = [
   <div class="container footer__grid">
     <!-- Columna 1 — Marca y contacto -->
     <div class="footer__col">
-      <a href="/" class="footer__brand">{site.name}</a>
+      <a href="/" class="footer__brand" aria-label={`${site.name} — ir al inicio`}>
+        <img src="/img/logo-jzinox.webp" alt="" width="900" height="200" loading="lazy" decoding="async" />
+      </a>
       <address class="footer__address">
         {site.street},<br />
         {site.city}, {site.region}, Chile
@@ -174,17 +176,13 @@ const legalLinks = [
   .footer__col a.footer__brand {
     display: inline-flex;
     width: fit-content;
-    font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: 1.5rem;
-    line-height: 1.2;
-    letter-spacing: 0.03em;
-    color: var(--color-graphite);
     margin-bottom: 0.6rem;
   }
 
-  .footer__col a.footer__brand:hover {
-    color: var(--color-accent);
+  .footer__brand img {
+    display: block;
+    height: 34px;
+    width: auto;
   }
 
   .footer__col a.footer__cta,

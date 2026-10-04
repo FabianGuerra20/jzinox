@@ -194,20 +194,16 @@ El carrusel funciona **sin JavaScript** (scroll-snap + gesto). Flechas y puntos 
 ### Header
 Barra **única y fija** de 80px.
 
-**El logotipo es un lockup tipográfico, no un archivo.** Hanken Grotesk en dos pesos y
-una sola tinta: `JZ` en 800 con tracking negativo, `INOX` en 600 con `letter-spacing:
-.22em` (compensado con un `margin-right` negativo para que el bloque quede centrado por
-el glifo y no por la caja). Da entre **5,1:1 y 6,4:1** sobre la barra translúcida.
-
-Antes era un PNG de cromo biselado con extrusión 3D. Era el único elemento con brillo y
-volumen de un sistema cuya **regla 1 es radio cero** y cuya **regla 3 prohíbe el relleno
-decorativo**: el sistema y la marca estaban peleados, y la marca ganaba en el lugar más
-visible del sitio. Encima, sus facetas oscuras hacían que la Z y la N se perdieran contra
-el acero. Como texto también se mantiene nítido a cualquier densidad, es seleccionable,
-ahorra 18,9 KB y libera el `fetchpriority="high"` que le competía al hero por el LCP.
-
-El PNG se conserva en `public/logo-jzinox.png`. Si el cliente exige su logotipo tal cual,
-se revierte solo el bloque `.header__brand` de `Header.astro`. Acero al 90% (`color-mix`) + `backdrop-filter: blur(12px)`,
+**El logotipo es el del cliente (2026-10-04): JZINOX en acero plegado, estilo origami**,
+exportado como WebP con transparencia (`public/img/logo-jzinox.webp`, 36 KB, recortado al
+borde de las letras). Sustituye al lockup tipográfico plano de la ronda del 2026-09-23 por
+decisión del equipo. Tiene volumen y reflejos, así que es **la excepción visual del
+sistema** (radio cero, sin relleno decorativo): se tolera porque es la marca del cliente y
+porque el metal gris da más de 7:1 sobre la barra `#16120f`. Va con `alt=""` dentro de un
+enlace con `aria-label`; header a 32 px (móvil) y 40 px (escritorio) de alto, footer a
+34 px, y también en `propuestas/og-image.html`. El monograma `JZ` plano sigue siendo el
+favicon. Si hiciera falta volver al lockup tipográfico, está en el historial de git
+(commit `09ad873`). Acero al 90% (`color-mix`) + `backdrop-filter: blur(12px)`,
 con respaldo opaco vía `@supports not`. Logotipo a la izquierda, nav al centro-derecha,
 CTA a la derecha. El foco visible va en **blanco**: el rojo global es ilegible sobre el acero.
 
