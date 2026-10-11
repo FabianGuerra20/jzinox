@@ -17,9 +17,12 @@ export const brands = [
     name: "JZ INOX",
     // [PDF] Subtítulo de la página de inicio
     lead: "Soluciones en acero inoxidable diseñadas a la medida de tu negocio. Fabricamos mesones, equipamiento y mobiliario de alta durabilidad para restaurantes, comida rápida e industria alimentaria.",
-    // [PDF, recortado] Segunda oración del mismo párrafo, sin cambiar palabras.
-    // Es la que se muestra: la primera no informa nada que no diga el titular.
-    leadShort: "Fabricamos mesones, equipamiento y mobiliario de alta durabilidad para restaurantes, comida rápida e industria alimentaria.",
+    // El subtítulo del cliente tiene dos oraciones y se reparten, literales, en
+    // dos lugares del Inicio para que ninguna se repita:
+    //   heroLead   segunda oración, bajo el titular del hero
+    //   leadShort  primera oración, bajo el nombre de la marca en su bloque
+    heroLead: "Fabricamos mesones, equipamiento y mobiliario de alta durabilidad para restaurantes, comida rápida e industria alimentaria.",
+    leadShort: "Soluciones en acero inoxidable diseñadas a la medida de tu negocio.",
     href: "/",
     actions: [
       { href: "/catalogo", label: "Ver productos", variant: "primary" },

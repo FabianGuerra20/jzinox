@@ -471,7 +471,7 @@ Todo lo listado en `CLAUDE.md` (registro del 2026-10-11) y `DESIGN.md §14`.
 3. **Plazo y garantía** declarados.
 4. **Sección de trabajos de acero**, con fotos de instalaciones. Hoy solo AL Mueblería la tiene.
 5. **Fotos:** 13 de 18 productos sin foto (incluidas las «fotos 1, 2 y 3» de revestimientos), foto horizontal de obra terminada para el hero, fotos para `/servicios` y `/nosotros`. `columna-inox` es vertical en una celda apaisada del mosaico y se lee como fragmento.
-6. **Datos:** comuna del taller; qué son «Porta Nova» y «Mesa bebidas CCU»; teléfono o correo propios de AL Mueblería; si «Mueblistería» es la palabra que quieren.
+6. **Datos:** qué son «Porta Nova» y «Mesa bebidas CCU»; teléfono o correo propios de AL Mueblería; si «Mueblistería» es la palabra que quieren.
 7. **Promesas nuestras por confirmar:** taller propio, visita a terreno, instalación, mantención programada, fabricación de ductos, materiales de la galería de AL (cuarzo, melamina).
 8. **Textos del cliente con errata** (no se tocaron): «fabricado y diseñado a grandes empresas» (falta «para»), coma entre oraciones en la historia, «una imagen… de alta resistencia».
 9. **Mantención como bloque propio** y **«Para quién trabajamos»**: ideas de la comparación web que no se pueden redactar sin datos del cliente.

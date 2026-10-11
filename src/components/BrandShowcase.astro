@@ -13,6 +13,9 @@
  *
  * Sustituye a la placa 3/6/3 con carrusel: el mosaico muestra las tres fotos
  * a la vez y no necesita JavaScript ni controles.
+ *
+ * Cada bloque lleva nombre, subtítulo y botones, como pidió el cliente
+ * ("Título / Subtítulo / Botones"). El subtítulo es `leadShort`.
  */
 interface Props {
   brand: {
@@ -28,11 +31,9 @@ interface Props {
     images: Array<{ src?: string; alt?: string; pending?: boolean; position?: string }>;
   };
   flip?: boolean;
-  /** El bloque de JZ INOX va justo bajo el hero, que ya dice este mismo párrafo. */
-  hideLead?: boolean;
 }
 
-const { brand, flip = false, hideLead = false } = Astro.props as Props;
+const { brand, flip = false } = Astro.props as Props;
 
 const photos = brand.images.filter((image) => !image.pending && image.src).slice(0, 3);
 import { srcset } from "../utils/img.js";
@@ -41,10 +42,10 @@ const headingId = `marca-${brand.slug}`;
 const indexId = `indice-${brand.slug}`;
 ---
 
-<article class:list={["brand", { "brand--flip": flip, "brand--bare": hideLead }]} aria-labelledby={headingId}>
+<article class:list={["brand", { "brand--flip": flip }]} aria-labelledby={headingId}>
   <div class="brand__head" data-reveal>
     <h2 id={headingId} class="brand__name">{brand.name}</h2>
-    {!hideLead && <p class="brand__lead">{brand.leadShort ?? brand.lead}</p>}
+    <p class="brand__lead">{brand.leadShort ?? brand.lead}</p>
 
     <div class="brand__actions">
       {
@@ -117,7 +118,9 @@ const indexId = `indice-${brand.slug}`;
       grid-template-areas:
         "head mosaic"
         "index index";
-      align-items: end;
+      /* Nombre, subtítulo y botones centrados contra el alto del mosaico: ni
+         colgados arriba ni apoyados abajo con un hueco encima. */
+      align-items: center;
     }
 
     .brand--flip {
@@ -146,8 +149,9 @@ const indexId = `indice-${brand.slug}`;
   }
 
   .brand__lead {
-    max-width: 44ch;
-    font-size: 1.0625rem;
+    max-width: 40ch;
+    font-size: 1.125rem;
+    line-height: 1.5;
     margin-bottom: 0;
   }
 
@@ -166,26 +170,6 @@ const indexId = `indice-${brand.slug}`;
     aspect-ratio: 4 / 3;
     background-color: var(--color-border);
     border: 1px solid var(--color-border);
-  }
-
-  /* Bloque sin párrafo (el de JZ INOX, bajo el hero): el nombre se apoya en
-     el canto superior del mosaico y los botones en el inferior. Con todo
-     anclado abajo quedaba un hueco negro de 318 x 533px encima del nombre. */
-  @media (min-width: 1024px) {
-    .brand--bare .brand__head {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-self: stretch;
-    }
-
-    .brand--bare .brand__name {
-      margin-bottom: 0;
-    }
-
-    .brand--bare .brand__actions {
-      margin-top: 2rem;
-    }
   }
 
   /* En teléfono el mosaico va cuadrado: a 4:3 las dos fotos chicas medían
@@ -229,6 +213,7 @@ const indexId = `indice-${brand.slug}`;
   /* --- Índice: renglones a lo ancho, cada uno con su junta encima --- */
   .brand__index {
     grid-area: index;
+    align-self: start;
   }
 
   .brand__index-head {

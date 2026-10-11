@@ -220,8 +220,9 @@ Sustituye desde el 2026-10-11 a la placa 3/6/3 con carrusel. Composición asimé
 
 `flip` invierte el lado del mosaico, para que JZ INOX y AL Mueblería no se lean como el
 mismo módulo repetido. El mosaico muestra las tres fotos a la vez: no hay carrusel, ni
-flechas, ni JavaScript. `hideLead` omite el párrafo en el bloque de JZ INOX, porque va justo
-bajo el hero, que ya dice esa misma frase.
+flechas, ni JavaScript. Cada bloque lleva **nombre, subtítulo y botones**, centrados contra
+el alto del mosaico. El subtítulo del cliente para JZ INOX tiene dos oraciones: la primera
+va aquí (`leadShort`) y la segunda bajo el titular del hero (`heroLead`), sin repetirse.
 
 ### Renglones en vez de tarjetas
 Donde el contenido es una lista (servicios, puntos clave, misión y visión, índice de marca)
@@ -448,9 +449,10 @@ animación avanzaba y retrocedía con la rueda, se sentía pegajosa y aplicaba e
 Partículas DOM movidas con `translate3d`. El color del halo es un degradado, y cambiarlo
 obliga a repintar: por eso el ciclo térmico va en **8 escalones** y no se escribe en cada
 frame (eran hasta 90 repintados por frame). Por frame solo cambian `transform` y `opacity`.
-No existe con táctil ni con movimiento reducido, y **solo se dispara sobre el hero, los
-encabezados de página y el cierre del Inicio**: sobre el catálogo o el formulario era
-decoración encima de algo que el visitante está leyendo o llenando.
+No existe con táctil ni con movimiento reducido. **Corre en todo el sitio salvo sobre el
+formulario y el visor de fotos** (`SPARK_OFF`), donde el visitante escribe o mira un
+detalle. Durante unas horas del 2026-10-11 estuvo limitado a los encabezados por la
+revisión de animaciones; el dueño lo quiso de vuelta en todo el sitio.
 
 ### Lo que NO se anima
 El enlace de salto al contenido (lo activa el teclado) y nada con `box-shadow`, `top`,

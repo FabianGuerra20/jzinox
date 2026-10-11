@@ -1,7 +1,9 @@
 ---
 /**
- * Estela de soldadura TIG que sigue al puntero, SOLO sobre el hero, los
- * encabezados de página y el cierre del Inicio (`SPARK_ZONES`).
+ * Estela de soldadura TIG que sigue al puntero en todo el sitio. Es un sitio
+ * de presentación, no una herramienta: la decoración que sigue al mouse tiene
+ * lugar aquí. La única zona sin chispas es donde el visitante escribe o lee
+ * de cerca (`SPARK_OFF`): el formulario y el visor de fotos.
  *
  * Partículas DOM en vez de canvas: el movimiento va en `translate3d`, que
  * resuelve el compositor sin provocar reflow. El halo incandescente NO usa
@@ -84,7 +86,7 @@
     const MAX_DT = 0.05; // corta el salto acumulado al volver de otra pestaña
     const MAX_DRAG_SPEED = 1400; // techo px/s de la velocidad heredada del puntero
     const HEAT_STEPS = 8; // escalones del ciclo térmico (ver cabecera)
-    const SPARK_ZONES = ".hero, .page-hero, .closing"; // dónde existe el efecto
+    const SPARK_OFF = "form, dialog"; // dónde NO existe el efecto
 
     /* --- Ciclo térmico: del blanco incandescente al rojo óxido apagado ---
        glow = radio del halo en px, se apaga a medida que la chispa se enfría. */
@@ -221,10 +223,9 @@
     }
 
     function onPointerMove(event) {
-      // Solo sobre los encabezados y el cierre: ahí es parte de la presentación.
-      // Sobre el catálogo o el formulario sería decoración encima de algo que
-      // el visitante está leyendo o llenando, y se disparaba con cada gesto.
-      if (!(event.target instanceof Element) || !event.target.closest(SPARK_ZONES)) {
+      // Sin chispas sobre el formulario ni sobre una foto ampliada: ahí el
+      // visitante está escribiendo o mirando un detalle.
+      if (!(event.target instanceof Element) || event.target.closest(SPARK_OFF)) {
         lastX = null;
         return;
       }

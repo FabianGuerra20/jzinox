@@ -63,8 +63,9 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 						))
 					}
 				</h1>
-				{/* [PDF, recortado] Segunda oración del subtítulo del cliente, literal. */}
-				<p class="hero__lead">{brands[0].leadShort}</p>
+				{/* [PDF] Segunda oración del subtítulo del cliente, literal. La primera
+				    va bajo el nombre de la marca, en el bloque siguiente. */}
+				<p class="hero__lead">{brands[0].heroLead}</p>
 				{/* Dos CTA con peso distinto: cotizar es la acción que el negocio quiere,
 				    WhatsApp es la salida para quien todavía no sabe qué pedir. */}
 				<div class="hero__actions">
@@ -109,7 +110,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		brands.map((brand, i) => (
 			<section class:list={["section", "brand-section", { "section--alt": i % 2 === 1 }]}>
 				<div class="container">
-					<BrandShowcase brand={brand} flip={i % 2 === 1} hideLead={i === 0} />
+					<BrandShowcase brand={brand} flip={i % 2 === 1} />
 				</div>
 			</section>
 		))

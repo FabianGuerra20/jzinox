@@ -17,16 +17,14 @@ export const site = {
 
   email: "ventas@jzinox.cl",
   street: "Av. Departamental 999, Galpón 11",
-  // TODO: confirmar comuna con el cliente. Av. Departamental cruza La Florida,
-  // Macul y San Joaquín, así que no la deducimos desde la dirección.
-  city: "Santiago",
+  // Comuna confirmada por el dueño el 2026-10-11: San Miguel.
+  city: "San Miguel, Santiago",
   region: "Región Metropolitana",
   country: "CL",
-  // Enlaces de búsqueda, sin mapa incrustado ni script. OJO: falta la comuna
-  // (ver TODO de arriba); mientras no esté, el buscador decide cuál
-  // "Departamental 999" mostrar. Reemplazar por el enlace exacto del taller.
-  mapsHref: "https://www.google.com/maps/search/?api=1&query=Av.+Departamental+999%2C+Galp%C3%B3n+11%2C+Santiago%2C+Chile",
-  wazeHref: "https://waze.com/ul?q=Av.%20Departamental%20999%2C%20Santiago%2C%20Chile&navigate=yes",
+  // Sin mapa incrustado ni script: dos enlaces. El de Google Maps es la ficha
+  // exacta del taller que entregó el dueño; el de Waze busca por dirección.
+  mapsHref: "https://maps.app.goo.gl/PqZwo9yp7u6cGVfD7",
+  wazeHref: "https://waze.com/ul?q=Av.%20Departamental%20999%2C%20San%20Miguel%2C%20Santiago%2C%20Chile&navigate=yes",
 
   // Un solo formato de horario en todo el sitio: prosa, con "de… a…".
   hours: "lunes a viernes de 9:00 a 18:00 y sábado de 9:00 a 13:00",
