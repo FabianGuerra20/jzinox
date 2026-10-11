@@ -11,14 +11,15 @@ const otherFacts = facts.slice(1);
 >
 	<section class="section page-hero about" aria-labelledby="nosotros-titulo">
 		<div class="container about__grid">
-			<p class="about__numeral">
-				{pageHero.numeral}
-				<span>{pageHero.numeralUnit}</span>
-			</p>
+			<h1 id="nosotros-titulo" class="about__title">
+				<span class="about__lead">{pageHero.titleLead}</span>
+				{" "}
+				<span class="about__rest">{pageHero.titleRest}</span>
+			</h1>
 
-			<h1 id="nosotros-titulo" class="about__title">{pageHero.titleRest}</h1>
-
-			{history.paragraphs.map((paragraph) => <p class="about__text">{paragraph}</p>)}
+			<div class="about__story">
+				{history.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+			</div>
 
 			<dl class="about__facts">
 				{
@@ -99,41 +100,34 @@ const otherFacts = facts.slice(1);
 		gap: 1.5rem clamp(2rem, 5vw, 4rem);
 	}
 
-	.about__numeral {
-		display: flex;
-		align-items: baseline;
-		gap: 0.75rem;
-		margin: 0;
-		font-family: var(--font-heading);
-		font-size: clamp(6.5rem, 19vw, 15rem);
-		font-weight: 800;
-		line-height: 0.8;
-		letter-spacing: -0.05em;
-		color: var(--color-text);
-	}
-
-	.about__numeral span {
-		font-family: var(--font-body);
-		font-size: 0.75rem;
-		font-weight: 500;
-		line-height: 1.3;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-		color: var(--color-text-muted);
-	}
-
 	.page-hero .about__title {
 		max-width: none;
 		margin: 0;
-		font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+		font-size: clamp(2rem, 3.6vw, 3rem);
 		line-height: 1.08;
 	}
 
-	.page-hero .about__text {
+	.about__lead {
+		display: block;
+		font-size: 1.35em;
+		line-height: 1;
+		margin-bottom: 0.2em;
+		color: var(--color-text);
+	}
+
+	.about__rest {
+		color: var(--color-text-muted);
+	}
+
+	.page-hero .about__story p {
 		max-width: 60ch;
 		font-size: 1.0625rem;
 		line-height: 1.65;
-		margin: 0;
+		margin: 0 0 1em;
+	}
+
+	.page-hero .about__story p:last-child {
+		margin-bottom: 0;
 	}
 
 	.about__facts {
@@ -182,12 +176,8 @@ const otherFacts = facts.slice(1);
 
 	@media (min-width: 1024px) {
 		.about__grid {
-			grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-			align-items: end;
-		}
-
-		.about__text {
-			align-self: start;
+			grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+			align-items: center;
 		}
 
 		.about__facts {

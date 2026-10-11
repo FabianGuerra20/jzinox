@@ -537,11 +537,12 @@ debajo), el cierre del Inicio (los botones miden lo mismo que el título con su 
 encabezados partidos (la entrada va a 24px, en la grotesca de titulares, centrada con el h1).
 
 ### Nosotros
-El encabezado y la historia son una sola pieza: el «20+» a gran tamaño con «años» a la
-izquierda, el titular del cliente sin los años a la derecha («Garantizando calidad y
-resistencia en acero inoxidable»), los dos párrafos de historia debajo y la fila de datos
-al pie. El numeral y el titular se leen juntos como la frase original del cliente. La
-primera oración de la historia se reformuló para no repetir las dos décadas.
+El encabezado y la historia son una sola pieza: el titular del cliente a la izquierda, los
+dos párrafos de historia a la derecha y la fila de datos al pie. Los 20 años se destacan
+**dentro del titular**: «Más de 20 años» va en su propia línea, un 35 % más grande y en tinta
+plena; el resto de la frase, en tinta apagada. Se probó un «20+» gigante aparte y se
+descartó: junto al titular se veía recargado. La primera oración de la historia se
+reformuló para no repetir las dos décadas.
 
 ### Redes y botón flotante
 Instagram va con icono de una tinta (`InstagramIcon.astro`) y el usuario, en el pie y en

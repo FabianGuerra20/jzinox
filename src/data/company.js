@@ -1,10 +1,10 @@
 import { site } from "./site.js";
 
 export const pageHero = {
-  numeral: "20+",
-  numeralUnit: "años",
-  // [PDF, recortado]
-  titleRest: "Garantizando calidad y resistencia en acero inoxidable",
+  // [PDF]
+  titleLead: "Más de 20 años",
+  // [PDF]
+  titleRest: "garantizando calidad y resistencia en acero inoxidable",
 };
 
 export const history = {
