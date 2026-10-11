@@ -1,14 +1,18 @@
 ---
 /**
- * Estela de soldadura TIG que sigue al puntero.
+ * Estela de soldadura TIG que sigue al puntero, SOLO sobre el hero, los
+ * encabezados de página y el cierre del Inicio (`SPARK_ZONES`).
  *
  * Partículas DOM en vez de canvas: el movimiento va en `translate3d`, que
  * resuelve el compositor sin provocar reflow. El halo incandescente NO usa
  * `box-shadow` (de las propiedades más caras de pintar, y se recalculaba en
  * cada frame para 90 nodos): es un degradado radial en un `::after` cuya
- * intensidad y color se mandan por variables CSS (`--c`, `--a`). El pool de
- * nodos se crea una sola vez y se recicla, así que durante la animación no
- * se inserta ni se borra ningún elemento.
+ * intensidad y color se mandan por variables CSS (`--c`, `--a`). Esas
+ * variables NO se escriben en cada frame: cambiar el color de un degradado
+ * obliga a repintarlo, y eran hasta 90 repintados por frame. El ciclo térmico
+ * va en 8 escalones, así que cada chispa repinta su halo 8 veces en toda su
+ * vida; por frame solo cambian `transform` y `opacity`, que resuelve el
+ * compositor. El pool de nodos se crea una sola vez y se recicla.
  */
 ---
 
@@ -79,6 +83,8 @@
     const SPAWN_DISTANCE = 9; // px que recorre el puntero antes de emitir
     const MAX_DT = 0.05; // corta el salto acumulado al volver de otra pestaña
     const MAX_DRAG_SPEED = 1400; // techo px/s de la velocidad heredada del puntero
+    const HEAT_STEPS = 8; // escalones del ciclo térmico (ver cabecera)
+    const SPARK_ZONES = ".hero, .page-hero, .closing"; // dónde existe el efecto
 
     /* --- Ciclo térmico: del blanco incandescente al rojo óxido apagado ---
        glow = radio del halo en px, se apaga a medida que la chispa se enfría. */
@@ -117,7 +123,7 @@
       const el = document.createElement("span");
       el.className = "spark";
       frag.appendChild(el);
-      pool.push({ el, alive: false, x: 0, y: 0, vx: 0, vy: 0, age: 0, life: 1, scale: 1 });
+      pool.push({ el, alive: false, x: 0, y: 0, vx: 0, vy: 0, age: 0, life: 1, scale: 1, stage: -1 });
     }
     layer.appendChild(frag);
 
@@ -146,6 +152,7 @@
       p.age = 0;
       p.life = (heavy ? 0.62 : 0.34) + Math.random() * 0.38;
       p.scale = heavy ? 1.15 + Math.random() * 0.5 : 0.55 + Math.random() * 0.5;
+      p.stage = -1;
       p.alive = true;
     }
 
@@ -175,7 +182,15 @@
         p.y += p.vy * dt;
 
         const t = p.age / p.life;
-        const heat = heatAt(t);
+
+        // Color y halo en escalones: solo se repinta al cambiar de escalón
+        const stage = Math.min(Math.floor(t * HEAT_STEPS), HEAT_STEPS - 1);
+        if (stage !== p.stage) {
+          p.stage = stage;
+          const heat = heatAt((stage + 0.5) / HEAT_STEPS);
+          p.el.style.setProperty("--c", heat.r + "," + heat.g + "," + heat.b);
+          p.el.style.setProperty("--a", (heat.glow / 13).toFixed(2));
+        }
 
         // El filamento se orienta según su vector de avance y se estira con la
         // velocidad: cuanto más rápido va, más largo es el trazo.
@@ -185,7 +200,6 @@
 
         // Brilla pleno hasta pasada la mitad de la vida y después se apaga
         const alpha = t < 0.55 ? 1 : 1 - (t - 0.55) / 0.45;
-        const rgb = heat.r + "," + heat.g + "," + heat.b;
 
         // translate3d primero (lo resuelve el compositor); el translate(-50%,-50%)
         // final centra el filamento sobre su propio eje antes de rotarlo.
@@ -193,8 +207,6 @@
           "translate3d(" + p.x.toFixed(2) + "px," + p.y.toFixed(2) + "px,0) rotate(" +
           angle.toFixed(1) + "deg) scale(" + p.scale.toFixed(2) + "," +
           (p.scale * stretch).toFixed(2) + ") translate(-50%,-50%)";
-        p.el.style.setProperty("--c", rgb);
-        p.el.style.setProperty("--a", (heat.glow / 13).toFixed(2));
         p.el.style.opacity = alpha.toFixed(3);
       }
 
@@ -209,6 +221,14 @@
     }
 
     function onPointerMove(event) {
+      // Solo sobre los encabezados y el cierre: ahí es parte de la presentación.
+      // Sobre el catálogo o el formulario sería decoración encima de algo que
+      // el visitante está leyendo o llenando, y se disparaba con cada gesto.
+      if (!(event.target instanceof Element) || !event.target.closest(SPARK_ZONES)) {
+        lastX = null;
+        return;
+      }
+
       const x = event.clientX;
       const y = event.clientY;
       const now = performance.now();

@@ -93,8 +93,11 @@
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.45);
 
-  /* Curva y tiempos de la interacción con medios (ver .media-frame) */
-  --ease-out: cubic-bezier(0.22, 0.7, 0.3, 1);
+  /* Curvas del sistema. Las nativas (`ease-out`, `ease-in-out`) son demasiado
+     blandas para movimiento deliberado; estas dos son las únicas que se usan.
+     Nunca `ease-in`: arranca lento justo cuando el ojo está mirando. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* entradas, salidas, hover */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* lo que se mueve o se corta en pantalla */
 }
 
 /* =============================================================
@@ -233,7 +236,7 @@ a {
   letter-spacing: 0.05em;
   font-size: 0.875rem;
   padding: 0.7rem 1.2rem;
-  transition: top 0.15s ease;
+  /* Sin transición: lo activa el teclado, y una acción de teclado no se anima. */
 }
 
 .skip-link:focus-visible {
@@ -258,7 +261,8 @@ img {
   display: block;
 }
 
-ul {
+ul,
+ol[role="list"] {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -286,12 +290,16 @@ ul {
 .media-frame img {
   width: 100%;
   transform: scale(1);
-  transition: transform 0.6s var(--ease-out);
+  transition: transform 0.3s var(--ease-out);
 }
 
-.media-frame:hover img,
-.media-frame:focus-within img {
-  transform: scale(1.05);
+/* Solo con puntero fino: en táctil el `:hover` se dispara al tocar y la foto
+   se quedaría ampliada hasta el siguiente toque. */
+@media (hover: hover) and (pointer: fine) {
+  .media-frame:hover img,
+  .media-frame:focus-within img {
+    transform: scale(1.05);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -384,9 +392,24 @@ ul {
   padding: 0.9rem 1.5rem;
   border: 1px solid transparent;
   cursor: pointer;
-  /* Sin transform en el hover: en un sistema de radio cero, un botón que
-     levita rompe la lectura de placa apoyada. El cambio es de color. */
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  /* Sin transform en el HOVER: en un sistema de radio cero, un botón que
+     levita rompe la lectura de placa apoyada. El cambio es de color. Al
+     PRESIONAR sí cede un 3 %: es la confirmación de que el clic se oyó. */
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.16s var(--ease-out);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:active {
+    transform: none;
+  }
 }
 
 .btn--primary {
@@ -477,8 +500,8 @@ ul {
    Bloques compartidos entre páginas
    ============================================================= */
 .page-hero {
-  padding-top: clamp(2.2rem, 5vw, 3.5rem);
-  padding-bottom: clamp(2rem, 4.5vw, 2.5rem);
+  padding-top: clamp(2.75rem, 7vw, 5.5rem);
+  padding-bottom: clamp(2.25rem, 5vw, 4rem);
   border-bottom: 1px solid var(--color-border);
   background-color: var(--color-bg);
 }
@@ -509,6 +532,32 @@ ul {
   max-width: 58ch;
   margin-bottom: 0;
   font-size: 1.125rem;
+}
+
+/* Encabezado partido: el titular a la izquierda y la entrada a la derecha,
+   apoyada en la misma línea de base. Con todo apilado a la izquierda, la mitad
+   derecha del encabezado quedaba vacía en escritorio. */
+@media (min-width: 1024px) {
+  .page-hero--split .container {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: clamp(2rem, 5vw, 4rem);
+    align-items: end;
+  }
+
+  .page-hero--split .container > * {
+    grid-column: 1 / -1;
+  }
+
+  .page-hero--split .container > h1 {
+    grid-column: 1;
+    max-width: none;
+    margin-bottom: 0;
+  }
+
+  .page-hero--split .container > h1 + p {
+    grid-column: 2;
+  }
 }
 
 .cta-band__inner {
@@ -588,15 +637,46 @@ ul {
   padding: 0;
 }
 
-/* Interacción sin sombras difusas: la celda se tiñe y aparece una barra sólida de acento */
+/* Interacción sin sombras difusas: la celda se tiñe y aparece una barra sólida
+   de acento. La barra es un pseudo-elemento que cambia de `opacity`, no un
+   `box-shadow` animado (que repinta la celda en cada frame), y va por encima
+   de cualquier foto a sangre que lleve la celda. */
 .bento__cell--hover {
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  transition: background-color 0.2s ease;
 }
 
-.bento__cell--hover:hover,
+.bento__cell--hover::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+  background-color: var(--color-accent);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
 .bento__cell--hover:focus-within {
   background-color: var(--color-surface);
-  box-shadow: inset 3px 0 0 var(--color-accent);
+}
+
+.bento__cell--hover:focus-within::before {
+  opacity: 1;
+}
+
+/* Con puntero fino: en táctil el hover queda pegado después de tocar. */
+@media (hover: hover) and (pointer: fine) {
+  .bento__cell--hover:hover {
+    background-color: var(--color-surface);
+  }
+
+  .bento__cell--hover:hover::before {
+    opacity: 1;
+  }
 }
 
 /* Índice tipo lista de despiece de un plano (01, 02, 03...) */
@@ -682,19 +762,6 @@ ul {
    carga expresiva en hover; esto es coreografía de entrada.
    ============================================================= */
 
-/* --- Retícula de plano: textura de fondo para encabezados --- */
-.page-hero,
-.hero {
-  --grid-line: color-mix(in srgb, var(--color-text) 4.5%, transparent);
-}
-
-.page-hero {
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 48px 48px;
-}
-
 /* --- Transición entre páginas (cross-document) --- */
 @view-transition {
   navigation: auto;
@@ -727,87 +794,126 @@ ul {
   }
 }
 
-@keyframes reveal-up {
-  from {
-    opacity: 0;
-    transform: translateY(32px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@keyframes settle {
-  from {
-    transform: scale(1.08);
-  }
-  to {
-    transform: scale(1);
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
-  /* 1. Hero: la foto se asienta y el texto sube en cascada */
-  .hero__media {
-    animation: settle 1.8s var(--ease-out) both;
-  }
-
-  .hero__inner > * {
-    animation: rise-in 0.7s var(--ease-out) both;
-  }
-
-  .hero__inner > :nth-child(2) {
-    animation-delay: 0.08s;
-  }
-  .hero__inner > :nth-child(3) {
-    animation-delay: 0.16s;
-  }
-  .hero__inner > :nth-child(4) {
-    animation-delay: 0.26s;
-  }
-
+  /* 1. Encabezados de página interior: el texto sube en cascada. El hero del
+     Inicio tiene su propia coreografía en index.astro. */
   .page-hero .container > * {
-    animation: rise-in 0.6s var(--ease-out) both;
+    animation: rise-in 0.35s var(--ease-out) both;
   }
 
   .page-hero .container > :nth-child(2) {
-    animation-delay: 0.07s;
+    animation-delay: 0.04s;
   }
   .page-hero .container > :nth-child(3) {
-    animation-delay: 0.14s;
+    animation-delay: 0.08s;
   }
   .page-hero .container > :nth-child(n + 4) {
-    animation-delay: 0.2s;
+    animation-delay: 0.12s;
+  }
+}
+
+/* =============================================================
+   2. Revelado al entrar en pantalla
+   -------------------------------------------------------------
+   Un elemento con `data-reveal` nace oculto y aparece UNA vez,
+   cuando entra en el viewport (Layout.astro le pone `.is-in`).
+   No va atado a la posición del scroll: una animación que avanza
+   y retrocede con la rueda se siente pegajosa y nunca termina de
+   asentarse.
+
+   Tres gestos, uno por tipo de contenido:
+     data-reveal          texto: sube 18px y aparece
+     data-reveal="cut"    fotos: sus hijos se descubren como un
+                          corte de guillotina, de izquierda a derecha
+     data-reveal="line"   juntas y costuras: se trazan
+     data-reveal="fade"   listados funcionales: solo aparecen
+
+   `--i` escalona hermanos (70 ms por paso).
+
+   Todo cuelga de `html.js`: sin JavaScript la clase no existe y el
+   contenido está visible desde el principio.
+   ============================================================= */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s var(--ease-out),
+    transform 0.7s var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+
+/* El corte va en los HIJOS, no en el propio elemento: un `clip-path` que lo
+   recorta entero lo deja sin area visible y el IntersectionObserver nunca lo
+   da por entrado. El marco (fondo y borde) espera transparente hasta entonces. */
+html.js [data-reveal="cut"] {
+  opacity: 1;
+  transform: none;
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease;
+}
+
+html.js [data-reveal="cut"]:not(.is-in) {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+html.js [data-reveal="cut"] > * {
+  clip-path: inset(0 100% 0 0);
+  transition:
+    clip-path 1s var(--ease-in-out),
+    transform 0.3s var(--ease-out);
+}
+
+html.js [data-reveal="cut"] > :nth-child(2) {
+  transition-delay: 0.07s, 0s;
+}
+
+html.js [data-reveal="cut"] > :nth-child(3) {
+  transition-delay: 0.14s, 0s;
+}
+
+html.js [data-reveal="cut"].is-in > * {
+  clip-path: inset(0 0 0 0);
+}
+
+/* Fundido solo: para listados que el visitante viene a LEER (el catálogo).
+   Aparecen sin desplazarse y en menos de la mitad del tiempo. */
+html.js [data-reveal="fade"] {
+  transform: none;
+  transition: opacity 0.3s ease;
+}
+
+html.js [data-reveal="line"] {
+  opacity: 1;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 1.1s var(--ease-out);
+}
+
+html.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Movimiento reducido: sin desplazamiento ni corte, solo un fundido corto. */
+@media (prefers-reduced-motion: reduce) {
+  html.js [data-reveal],
+  html.js [data-reveal="cut"],
+  html.js [data-reveal="line"] {
+    opacity: 0;
+    transform: none;
+    transition: opacity 0.3s ease;
+    transition-delay: 0s;
   }
 
-  /* 2. Revelado al hacer scroll */
-  @supports (animation-timeline: view()) {
-    .section-head,
-    .strip__row,
-    .bento,
-    .cta-plate,
-    .closing__inner,
-    .brand-card,
-    .history,
-    .contact__layout {
-      animation: reveal-up linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 38%;
-    }
+  html.js [data-reveal="cut"] > * {
+    clip-path: none;
+    transition: none;
+  }
 
-    /* Las celdas de un bento entran escalonadas por columna */
-    .bento > :nth-child(3n + 2) {
-      animation: reveal-up linear both;
-      animation-timeline: view();
-      animation-range: entry 6% entry 44%;
-    }
-
-    .bento > :nth-child(3n) {
-      animation: reveal-up linear both;
-      animation-timeline: view();
-      animation-range: entry 12% entry 50%;
-    }
+  html.js [data-reveal].is-in {
+    opacity: 1;
   }
 }
 
@@ -838,7 +944,7 @@ html.lenis body {
    interfaz: dice qué hace la empresa sin una sola palabra.
 
    Es la ÚNICA excepción a "el acento solo en acciones y estados":
-   dura 1.6 s, mide 2px y no se repite. Sin movimiento (o sin
+   dura 1 s, mide 2px y no se repite. Sin movimiento (o sin
    soporte) queda como una línea fija de acento, que es un borde
    inferior más. Se apaga con `prefers-reduced-motion`.
    ============================================================= */
@@ -874,6 +980,6 @@ html.lenis body {
 @media (prefers-reduced-motion: no-preference) {
   .hero::after,
   .page-hero::after {
-    animation: seam-run 1.6s var(--ease-out) 0.35s both;
+    animation: seam-run 1s var(--ease-out) both;
   }
 }

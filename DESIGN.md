@@ -192,19 +192,29 @@ fondo claro da 4,45:1, sobre el 3:1 que pide WCAG 1.4.11 para el límite de un c
 texto. **No revertir a texto verde sobre fondo claro: no existe un verde de WhatsApp que
 cumpla AA a 14 px sobre nuestras superficies.**
 
-### Placa de marca (`BrandCard.astro`)
-Proporción **3/6/3** desde 1280px; entre 1024 y 1279px dos columnas (identidad + galería)
-con los destacados debajo; apilada en móvil. Sin etiqueta de «marca principal / aliada»
-sobre el nombre (pedido del cliente, 2026-10-11):
-`[ Identidad + CTAs ] | [ Galería enmarcada ] | [ Productos destacados ]`
+### Bloque de marca (`BrandShowcase.astro`)
+Sustituye desde el 2026-10-11 a la placa 3/6/3 con carrusel. Composición asimétrica:
 
-El bloque central no es una imagen a sangre: es una imagen **enmarcada** sobre una mesa
-de trabajo con retícula de puntos (`radial-gradient` cada 20px). Ese aire alrededor es
-lo que la hace leer como pieza sobre un plano y no como banner. Las flechas se apoyan
-justo en el canto del marco, medio dentro y medio fuera.
+```
+[ Nombre a 76px + CTAs ]   [ Mosaico: una foto alta + dos apiladas ]
+[ Índice de lo que se fabrica: 4 renglones a lo ancho, junta arriba ]
+```
 
-El carrusel funciona **sin JavaScript** (scroll-snap + gesto). Flechas y puntos nacen
-`hidden` y solo se revelan cuando el script confirma que funcionan.
+`flip` invierte el lado del mosaico, para que JZ INOX y AL Mueblería no se lean como el
+mismo módulo repetido. El mosaico muestra las tres fotos a la vez: no hay carrusel, ni
+flechas, ni JavaScript. `hideLead` omite el párrafo en el bloque de JZ INOX, porque va justo
+bajo el hero, que ya dice esa misma frase.
+
+### Renglones en vez de tarjetas
+Donde el contenido es una lista (servicios, puntos clave, misión y visión, índice de marca)
+**no va en cajas**: va en renglones separados por la junta de 1px, con la junta ARRIBA de
+cada uno. La rejilla de tarjetas iguales con icono es el patrón más reconocible de un sitio
+de plantilla. El bento queda para el formulario de contacto y la galería de AL Mueblería.
+
+### Línea de tiempo (`/servicios`)
+Las cuatro etapas cuelgan de una línea que se traza de izquierda a derecha, cada una con
+una marca vertical, como una cota. Es el único lugar donde va numeración `01–04`: ahí el
+número es información (un orden), no decoración.
 
 ### Header
 Barra **única y fija** de 80px.
@@ -227,21 +237,18 @@ el sitio. El Inicio pasa `flush` para que el hero cruce por debajo de la barra.
 
 ---
 
-### Hero y variantes de encabezado
+### Hero del Inicio
+Partido en dos: el texto vive sobre el lienzo, a la izquierda, y la foto del taller sangra
+por la derecha y pasa por debajo de la barra. **El texto no va encima de la foto**, así que
+no hace falta velo y la imagen se ve a plena luz. Cierra el **cartucho del plano**: cuatro
+celdas a junta con los datos que identifican al taller (oficio, origen, taller,
+fabricación). Todos salen del documento del cliente; ninguno es una cifra nueva.
 
-`.page-hero` es el encabezado estándar de página interior. `.page-hero--tight` reduce el
-aire vertical a la mitad y baja el `<h1>`: es para **páginas transaccionales**, donde el
-titular no debe competir con el control que el visitante vino a usar. Hoy solo la usa
-`/contacto`, para que el formulario entre en el primer pliegue.
-
-**El texto nunca se dibuja dentro de una imagen del hero.** El velo
-(`.hero__veil`) es semitransparente, así que cualquier rotulación del archivo se
-transparenta por detrás del `<h1>` y se lee como página rota, no como hueco honesto.
-`public/hero-inicio.svg` es por eso pura textura de plano, sin una sola letra, y el
-rótulo del hueco vive en el documento (`.hero__slot`): franja sólida anclada al canto
-inferior, fuera de la banda del texto e independiente de cómo `object-fit: cover`
-recorte la imagen. El hero reserva esa banda con su `padding-bottom`; cuando llegue la
-foto, `heroImage.pending` pasa a `false` y ambas cosas vuelven a su valor normal.
+### Encabezado de página interior
+`.page-hero` + `.page-hero--split`: en escritorio el titular va a la izquierda y la entrada
+a la derecha, apoyada en la misma línea de base. `.page-hero--tight` reduce el aire a la
+mitad para **páginas transaccionales** (hoy solo `/contacto`). La retícula de papel
+milimetrado que llevaba de fondo se quitó: apenas se veía y es un recurso de plantilla.
 
 ### Campos de formulario
 
@@ -277,7 +284,8 @@ y pasado a gris se lee como fotocopia, y nadie pasa el cursor por cada tarjeta. 
 zoom del 5 %. **El zoom vive en la imagen y el recorte en el marco**, así que la escala
 nunca desborda ni provoca reflow. Bajo `prefers-reduced-motion` no hay zoom.
 
-Aplicado en: carrusel de las placas de marca y tarjetas de `/catalogo`. Un borde que
+Aplicado en: mosaico de los bloques de marca, foto de servicios del Inicio y tarjetas de
+`/catalogo`. El zoom solo existe con puntero fino. Un borde que
 rodee una imagen con esta clase debe ir en el **marco**, nunca en la imagen.
 
 ---
@@ -350,8 +358,8 @@ en `company.js` como recordatorio, pero no se muestran.
 3. **Etiquetas de acción:** quedan «Cotizar Proyecto» (formulario), «Escríbenos por
    WhatsApp» (canal), «Cotizar» (tarjeta de producto) y «Enviar consulta» (envío). «Cotizar
    por WhatsApp» en la galería de AL Mueblería sigue aparte.
-3b. **Pendientes de las revisiones del 2026-10-11** (ver `MEJORAS.md §7`): foto del hero,
-   `/servicios` y `/nosotros` sin imágenes, icono del menú móvil que no cambia a «X».
+3b. **Pendientes de las revisiones del 2026-10-11** (ver `MEJORAS.md §7`): foto del hero
+   y fotos para `/servicios` y `/nosotros`.
 4. ~~Favicon~~ — **resuelto el 2026-10-04**: mismo monograma `JZ` aprobado por el cliente
    (no se redibujó), recoloreado a hueso `#f0ebe3` sobre `#16120f`, más grande (~82 % del
    cuadro) y con 15,7:1. `og-image.png` rehecha en la paleta nueva; su fuente editable es
@@ -368,31 +376,66 @@ sistema; el cuerpo usa Inter).
 
 ## 12. Movimiento
 
-Tres capas, de menor a mayor costo. **Todas se desactivan con `prefers-reduced-motion`.**
+Reescrito el 2026-10-11. Es un sitio de presentación que se visita de vez en cuando, así
+que tiene presupuesto para coreografía de entrada; lo que se usa a diario (menú, botones)
+va rápido y casi imperceptible. **Todo se reduce con `prefers-reduced-motion`** (queda un
+fundido corto, sin desplazamiento).
 
-| Capa | Técnica | JS |
+### Curvas y tiempos
+| Token | Valor | Uso |
 |---|---|---|
-| Entrada del hero y de los encabezados | `@keyframes rise-in` en cascada + `settle` (la foto se asienta de `scale(1.08)` a 1) | 0 |
-| Revelado al scroll | CSS scroll-driven animations: `animation-timeline: view()`, `animation-range: entry 0% entry 38%`. Detrás de `@supports`: en Firefox el contenido simplemente está visible | 0 |
-| Transición entre páginas | `@view-transition { navigation: auto }` nativa. El header y el FAB llevan `view-transition-name` para no parpadear | 0 |
-| Scroll con inercia | **Lenis** (~3 KB, npm, se empaqueta; no hay CDN). Solo con movimiento no reducido; con puntero táctil no suaviza. `anchors` con el offset del header | sí |
+| `--ease-out` | `cubic-bezier(0.23, 1, 0.32, 1)` | Entradas, salidas, hover |
+| `--ease-in-out` | `cubic-bezier(0.77, 0, 0.175, 1)` | Lo que se mueve o se corta en pantalla |
 
-Reglas: la **firma** `.media-frame` sigue siendo la única animación en *hover* con carga
-expresiva; lo de arriba es coreografía de entrada. Los botones siguen sin `transform` en
-hover. Un menú abierto detiene Lenis (`lenis.stop()`).
+Nunca `ease-in` (arranca lento justo cuando el ojo mira) ni las curvas nativas en movimiento
+deliberado. Nunca `transition: all`. Interfaz: 160–280 ms. Coreografía de entrada: hasta 1,1 s.
 
-**WeldingCursor:** el halo de las chispas ya no usa `box-shadow` (se recalculaba por
-frame en 90 nodos): es un degradado radial en `::after`, con color e intensidad por las
-variables `--c` y `--a`. El ciclo térmico blanco → amarillo → naranja → óxido ya coincide
-con la paleta.
+### Solo `transform`, `opacity` y `clip-path`
+Son las que resuelve el compositor sin recalcular layout. El menú móvil se descubre con
+`clip-path`, no animando `max-height`.
 
-### La costura (firma de entrada)
+### Las capas
+| Qué | Cómo |
+|---|---|
+| Hero del Inicio | Cada palabra del titular sube desde su caja recortada (35 ms de escalón); la foto entra como un corte de guillotina de izquierda a derecha (0,8 s) y se asienta de `scale(1.1)`; el cartucho sube al final. Toda la secuencia cabe en ~1 s. Keyframes CSS, una sola vez |
+| Encabezados interiores | `rise-in` en cascada, 350 ms: se suma al fundido entre páginas, así que va corto |
+| Revelado al entrar en pantalla | `data-reveal` + clase `.is-in` que pone un `IntersectionObserver` en línea (`Layout.astro`). Se dispara UNA vez; no va atado al scroll |
+| La costura | Línea de soldadura de 2px en el canto del hero, de los encabezados y sobre el cierre del Inicio. 1 s |
+| Presión | `.btn:active { transform: scale(0.97) }`, 160 ms. Confirma el clic. **Sin transform en hover** |
+| Hover de medios y flechas | Zoom del 5 % en fotos (300 ms), flecha que avanza 4px (200 ms). Solo con `(hover: hover) and (pointer: fine)` |
+| Menú móvil | Panel por `clip-path` (280 ms), barras que giran a «X» (200 ms) |
+| Entre páginas | `@view-transition { navigation: auto }` nativa; header y FAB con `view-transition-name` |
+| Scroll con inercia | **Lenis** (~3 KB, empaquetado), `duration: 0.7`. Sin movimiento reducido y sin táctil |
 
-Al cargar, una línea de soldadura de 2px recorre el canto inferior del hero y de cada
-encabezado de página (`.hero::after`, `.page-hero::after`), de izquierda a derecha y con
-la punta al rojo blanco (`#ffe9c9`). Dura 1,6 s y no se repite. Es **la única excepción**
-a la regla 3 (acento solo en acciones y estados): sin movimiento queda como un borde
-inferior fijo de acento. Las fotos de `.media-frame` entran siempre a color (§7).
+### `data-reveal`: tres gestos
+| Atributo | Para | Gesto |
+|---|---|---|
+| `data-reveal` | Texto | Sube 18px y aparece, 700 ms |
+| `data-reveal="cut"` | Fotos | Sus hijos se descubren de izquierda a derecha, 1 s. El corte va en los HIJOS: recortar el propio elemento lo deja sin área visible y el observador nunca lo da por entrado |
+| `data-reveal="line"` | Juntas y costuras | Se trazan con `scaleX`, 1,1 s |
+| `data-reveal="fade"` | Listados que se vienen a leer (tarjetas del catálogo) | Solo aparecen, 300 ms, sin desplazarse |
+
+`--i` escalona hermanos (70 ms). **Una regla que añada su propia `transition` a un elemento
+con `data-reveal` debe repetir las propiedades del revelado**: si no, al llegar `.is-in` la
+pisa y el elemento aparece de golpe (pasó con el borde de las tarjetas del catálogo). Todo cuelga de `html.js`: sin JavaScript la clase no existe
+y el contenido está visible desde el principio.
+
+**Por qué no va atado al scroll.** Antes el revelado usaba `animation-timeline: view()`: la
+animación avanzaba y retrocedía con la rueda, se sentía pegajosa y aplicaba el mismo
+«sube y aparece» a todo.
+
+### WeldingCursor
+Partículas DOM movidas con `translate3d`. El color del halo es un degradado, y cambiarlo
+obliga a repintar: por eso el ciclo térmico va en **8 escalones** y no se escribe en cada
+frame (eran hasta 90 repintados por frame). Por frame solo cambian `transform` y `opacity`.
+No existe con táctil ni con movimiento reducido, y **solo se dispara sobre el hero, los
+encabezados de página y el cierre del Inicio**: sobre el catálogo o el formulario era
+decoración encima de algo que el visitante está leyendo o llenando.
+
+### Lo que NO se anima
+El enlace de salto al contenido (lo activa el teclado) y nada con `box-shadow`, `top`,
+`height` ni `max-height`. La barra de acento de `.bento__cell--hover` es un pseudo-elemento
+que cambia de `opacity`.
 
 ## 13. Fotos
 

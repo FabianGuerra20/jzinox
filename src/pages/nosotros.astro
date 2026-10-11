@@ -4,13 +4,15 @@
  *
  * El copy sale del PDF del cliente. Los bloques marcados [PROPUESTA] en
  * `company.js` los redactamos nosotros y esperan validación.
+ *
+ * Sin tarjetas: la cifra confirmada va como numeral a gran tamaño, misión y
+ * visión como dos columnas de texto, y los cuatro puntos clave como renglones.
  */
 import Layout from "../layouts/Layout.astro";
 import { pageHero, history, mission, valuesSection, values, stats } from "../data/company.js";
 
 // Solo se publican las cifras confirmadas por el cliente. Las `pending` siguen
-// en `company.js` como recordatorio de lo que falta pedir, pero tres celdas
-// "Dato por confirmar" junto a un único número real dejaban el bloque 75 % vacío.
+// en `company.js` como recordatorio de lo que falta pedir.
 const confirmedStats = stats.filter((stat) => !stat.pending);
 ---
 
@@ -18,8 +20,8 @@ const confirmedStats = stats.filter((stat) => !stat.pending);
 	title="Nosotros"
 	description="Más de 20 años fabricando estructuras en acero inoxidable 100% a medida en Santiago. Manufactura nacional para restaurantes, comida rápida e industria alimentaria."
 >
-	{/* --- NOSOTROS 1: encabezado --- */}
-	<section class="section page-hero" aria-labelledby="nosotros-titulo">
+	{/* --- Encabezado --- */}
+	<section class="section page-hero page-hero--split" aria-labelledby="nosotros-titulo">
 		<div class="container">
 			<span class="eyebrow">{pageHero.eyebrow}</span>
 			<h1 id="nosotros-titulo">{pageHero.title}</h1>
@@ -27,45 +29,45 @@ const confirmedStats = stats.filter((stat) => !stat.pending);
 		</div>
 	</section>
 
-	{/* --- NOSOTROS 2: historia + cifras --- */}
-	<section class="section section--alt history" aria-labelledby="nosotros-historia">
-		<div class="container history__grid">
-			<div class="history__text">
-				<span class="eyebrow">{history.eyebrow}</span>
-				<h2 id="nosotros-historia">{history.title}</h2>
-				{history.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-			</div>
-
+	{/* --- Historia + cifra --- */}
+	<section class="section section--alt" aria-labelledby="nosotros-historia">
+		<div class="container history">
 			{/*
-				Las cifras son una lista de descripción, no cuatro divs sueltos: cada
-				número es el VALOR de su etiqueta. El orden del DOM es etiqueta → valor
-				porque <dl> lo exige; la inversión visual la hace el CSS.
+				Las cifras son una lista de descripción: cada número es el VALOR de su
+				etiqueta. El orden del DOM es etiqueta → valor porque <dl> lo exige; la
+				inversión visual la hace el CSS.
 			*/}
-			<dl class:list={["bento", "history__stats", { "history__stats--single": confirmedStats.length === 1 }]}>
+			<dl class="history__stats" data-reveal>
 				{
 					confirmedStats.map((stat) => (
-						<div class="bento__cell history__stat">
+						<div class="history__stat">
 							<dt>{stat.label}</dt>
 							<dd>{stat.value}</dd>
 						</div>
 					))
 				}
 			</dl>
+
+			<div class="history__text" data-reveal style="--i: 1">
+				<span class="eyebrow">{history.eyebrow}</span>
+				<h2 id="nosotros-historia">{history.title}</h2>
+				{history.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+			</div>
 		</div>
 	</section>
 
-	{/* --- NOSOTROS 3: misión y visión --- */}
+	{/* --- Misión y visión --- */}
 	<section class="section" aria-labelledby="nosotros-mision">
 		<div class="container">
-			<div class="section-head">
+			<div class="section-head" data-reveal>
 				<span class="eyebrow">{mission.eyebrow}</span>
 				<h2 id="nosotros-mision">{mission.title}</h2>
 			</div>
 
-			<div class="bento bento--2">
+			<div class="creed">
 				{
-					mission.items.map((item) => (
-						<article class="bento__cell">
+					mission.items.map((item, i) => (
+						<article class="creed__item" data-reveal style={`--i: ${i}`}>
 							<h3>{item.title}</h3>
 							<p>{item.description}</p>
 						</article>
@@ -75,17 +77,17 @@ const confirmedStats = stats.filter((stat) => !stat.pending);
 		</div>
 	</section>
 
-	{/* --- NOSOTROS 4: valores --- */}
+	{/* --- Puntos clave --- */}
 	<section class="section section--alt" aria-labelledby="nosotros-valores">
-		<div class="container">
-			<div class="section-head">
+		<div class="container values">
+			<div class="values__head" data-reveal>
 				<h2 id="nosotros-valores">{valuesSection.title}</h2>
 			</div>
 
-			<div class="bento bento--4">
+			<div class="values__list">
 				{
 					values.map((value) => (
-						<article class="bento__cell value-card">
+						<article class="values__row" data-reveal>
 							<h3>{value.title}</h3>
 							<p>{value.description}</p>
 						</article>
@@ -95,10 +97,10 @@ const confirmedStats = stats.filter((stat) => !stat.pending);
 		</div>
 	</section>
 
-	{/* --- NOSOTROS 5: cierre --- */}
+	{/* --- Cierre --- */}
 	<section class="section section--tight" aria-labelledby="nosotros-cierre">
 		<div class="container">
-			<div class="cta-plate">
+			<div class="cta-plate" data-reveal>
 				<div class="cta-plate__text">
 					<h2 id="nosotros-cierre">¿Tienes un proyecto en mente?</h2>
 					<p>Medimos tu espacio, te mostramos la propuesta y recién ahí fabricamos.</p>
@@ -110,42 +112,29 @@ const confirmedStats = stats.filter((stat) => !stat.pending);
 </Layout>
 
 <style>
-	.history__grid {
+	/* =========================================================
+	   Historia: el numeral manda
+	   ---------------------------------------------------------
+	   "20+" es el único dato duro confirmado. Va a 11rem, sin caja,
+	   apoyado en una junta: ocupa el lugar de la foto que no hay.
+	   ========================================================= */
+	.history {
 		display: grid;
-		gap: 3rem;
+		gap: clamp(2rem, 5vw, 4rem);
 	}
 
 	@media (min-width: 1024px) {
-		.history__grid {
-			grid-template-columns: 1.4fr 1fr;
+		.history {
+			grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+			align-items: start;
 		}
 	}
 
-	.history__text p {
-		/* Con el contenedor de 1440px la columna de texto mide ~737px: sin tope,
-		   la línea se va a ~95 caracteres. 62ch es la medida de lectura del
-		   sistema (la misma de .page-hero p y del Inicio). */
-		max-width: 62ch;
-	}
-
-	/* Una columna en teléfonos angostos: dos cifras de 1.9rem lado a lado no
-	   caben a 320px sin apretujarse.
-	   `align-self: start` es necesario: sin él la placa se estira hasta igualar
-	   la altura de la columna de texto y asoma el fondo gris del bento bajo la
-	   última fila de cifras. */
 	.history__stats {
-		grid-template-columns: 1fr;
-		align-content: start;
-		align-self: start;
-		/* <dl> llega con margen de agente de usuario: descuadraría la placa
-		   respecto al inicio de la columna de texto. */
+		display: grid;
+		gap: 2rem;
+		/* <dl> llega con margen de agente de usuario */
 		margin: 0;
-	}
-
-	@media (min-width: 420px) {
-		.history__stats {
-			grid-template-columns: repeat(2, 1fr);
-		}
 	}
 
 	/* `column-reverse` deja la cifra arriba y su etiqueta debajo sin alterar el
@@ -153,52 +142,120 @@ const confirmedStats = stats.filter((stat) => !stat.pending);
 	.history__stat {
 		display: flex;
 		flex-direction: column-reverse;
-		gap: 0.35rem;
-		padding: 1.4rem;
-		text-align: center;
+		gap: 0.9rem;
+		padding-bottom: 1.25rem;
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	.history__stat dd {
 		margin: 0; /* el sangrado por defecto de <dd> descentraría la cifra */
 		font-family: var(--font-heading);
-		font-size: clamp(1.5rem, 4vw, 1.9rem);
-		font-weight: 700;
-		line-height: 1.15;
-		color: var(--color-accent);
+		font-size: clamp(5.5rem, 15vw, 11rem);
+		font-weight: 800;
+		line-height: 0.82;
+		letter-spacing: -0.05em;
+		color: var(--color-text);
 	}
 
-	/* 0.75rem es el piso de tamaño de etiqueta del sistema (.eyebrow,
-	   .bento__index). A 0.72rem quedaban 11,5px en versalitas espaciadas. */
 	.history__stat dt {
 		font-family: var(--font-body);
 		font-size: 0.75rem;
+		font-weight: 500;
 		line-height: 1.3;
 		text-transform: uppercase;
-		letter-spacing: 0.1em;
+		letter-spacing: 0.14em;
 		color: var(--color-text-muted);
 	}
 
-	/* Una sola cifra confirmada: va grande y sola, no en una rejilla de dos. */
-	.history__stats.history__stats--single {
-		grid-template-columns: 1fr;
+	.history__text p {
+		font-size: 1.0625rem;
+		max-width: 62ch;
 	}
 
-	.history__stats--single .history__stat {
-		padding: clamp(1.75rem, 4vw, 2.5rem);
-	}
-
-	.history__stats--single dd {
-		font-size: clamp(3rem, 8vw, 4.5rem);
-		line-height: 1;
-	}
-
-	.value-card p {
-		font-size: 1rem;
+	.history__text p:last-child {
 		margin-bottom: 0;
 	}
 
+	/* =========================================================
+	   Misión y visión: dos columnas de texto, sin caja
+	   ========================================================= */
+	.creed {
+		display: grid;
+		gap: 2.5rem var(--gutter);
+	}
+
+	@media (min-width: 900px) {
+		.creed {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: clamp(2rem, 6vw, 5rem);
+		}
+	}
+
+	.creed__item {
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.creed__item h3 {
+		margin-bottom: 0.75rem;
+	}
+
+	.creed__item p {
+		font-size: 1.0625rem;
+		max-width: 54ch;
+		margin-bottom: 0;
+	}
+
+	/* =========================================================
+	   Puntos clave: título fijo a la izquierda, renglones a la derecha
+	   ========================================================= */
+	.values {
+		display: grid;
+		gap: clamp(1.75rem, 4vw, 3rem);
+	}
+
+	.values__head h2 {
+		margin: 0;
+	}
+
+	@media (min-width: 1024px) {
+		.values {
+			grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+			align-items: start;
+		}
+
+		.values__head {
+			position: sticky;
+			top: calc(var(--header-height) + 2rem);
+		}
+	}
+
+	.values__list {
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.values__row {
+		display: grid;
+		gap: 0.5rem;
+		padding: clamp(1.25rem, 2.6vw, 1.75rem) 0;
+		border-top: 1px solid var(--color-border);
+	}
+
+	@media (min-width: 640px) {
+		.values__row {
+			grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+			gap: var(--gutter);
+			align-items: baseline;
+		}
+	}
+
+	.values__row h3,
+	.values__row p {
+		margin: 0;
+	}
+
 	/* La placa de cierre es flex: sin tope, el párrafo se estira a lo ancho de
-	   los 1.312px útiles del contenedor nuevo. */
+	   los 1.312px útiles del contenedor. */
 	.cta-plate__text {
 		max-width: 62ch;
 	}

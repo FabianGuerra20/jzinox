@@ -440,10 +440,12 @@ terminar**. Ninguna encontró incumplimientos de contraste AA ni desbordes.
 
 ### Abierto
 1. **Foto del hero.** Es de celular, 1600px, y muestra una estantería a medio terminar con una caja y un pallet. Hace falta una foto horizontal de obra terminada, y `srcset`.
-2. **`/servicios` y `/nosotros` no tienen ninguna imagen** ni hueco para ella. Propuesta de ambas revisiones: filas texto + foto como en el Inicio, y `page-hero` a dos columnas.
-3. **Menú móvil:** el icono no cambia a «X» al abrir (el `aria-expanded` sí cambia).
+2. **`/servicios` y `/nosotros` siguen sin fotos.** Ya no son muros de tarjetas (renglones, línea de tiempo, numeral «20+»), pero una foto real por página las cerraría.
+3. ~~Menú móvil: el icono no cambia a «X»~~ — hecho (segunda tanda del 2026-10-11).
 4. **Superficies oscuras casi iguales** (lienzo vs tarjeta 1,08:1): las secciones oscuras contiguas se leen como una sola masa. Requiere recalcular contrastes.
 5. **Nota «Sitio web en construcción»** en el pie: quitarla al publicar de verdad.
 6. **Puntos del carrusel:** área táctil de 24×44px (cumple WCAG 2.5.8, no los 44px propios en horizontal).
 7. Páginas legales (aviso de privacidad, términos): no existen; sus enlaces se quitaron del pie.
-8. `ServiceIcon.astro` quedó sin uso.
+8. ~~`ServiceIcon.astro` sin uso~~ — eliminado, junto con `BrandCard.astro`.
+9. **Rendimiento del movimiento sin medir en un equipo real.** Los arreglos (cursor de chispas sin repintar por frame, menú por `clip-path`) salen de leer el código; falta una grabación del panel Performance en un teléfono de gama media.
+10. `.bento__icon` y `.check-list` en `global.css`: revisar si el primero sigue en uso.

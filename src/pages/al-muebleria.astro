@@ -39,7 +39,7 @@ const featured = alMuebleriaCatalog;
 	{/* --- AL 2: resumen de servicios --- */}
 	<section class="section section--alt" id="servicios" aria-labelledby="al-servicios">
 		<div class="container">
-			<div class="section-head">
+			<div class="section-head" data-reveal>
 				<span class="eyebrow">{services.eyebrow}</span>
 				<h2 id="al-servicios">{services.title}</h2>
 				<p>{services.lead}</p>
@@ -47,7 +47,7 @@ const featured = alMuebleriaCatalog;
 
 			{/* Tres celdas, no cuatro: el PDF entrega exactamente tres servicios
 			    con sus viñetas. Forzar una cuarta obligaría a inventar un servicio. */}
-			<div class="bento bento--3">
+			<div class="bento bento--3" data-reveal>
 				{
 					services.items.map((service, i) => (
 						<article class="bento__cell al-service">
@@ -67,13 +67,13 @@ const featured = alMuebleriaCatalog;
 	{/* --- AL 3: galería de proyectos reales --- */}
 	<section class="section" id="al-catalogo" aria-labelledby="al-catalogo-title">
 		<div class="container">
-			<div class="section-head">
+			<div class="section-head" data-reveal>
 				<span class="eyebrow">{catalog.eyebrow}</span>
 				<h2 id="al-catalogo-title">{catalog.title}</h2>
 				<p>{catalog.lead}</p>
 			</div>
 
-			<div class="bento bento--4">
+			<div class="bento bento--4" data-reveal>
 				{
 					featured.map((item) => (
 						<article class="bento__cell bento__cell--flush bento__cell--hover al-product">
@@ -126,7 +126,7 @@ const featured = alMuebleriaCatalog;
 	{/* --- AL 4: cierre + vuelta al ecosistema JZ Inox --- */}
 	<section class="section section--tight section--alt" aria-labelledby="al-cierre">
 		<div class="container">
-			<div class="cta-plate">
+			<div class="cta-plate" data-reveal>
 				<div>
 					<h2 id="al-cierre">{cta.title}</h2>
 					<p>{cta.lead}</p>
@@ -188,27 +188,6 @@ const featured = alMuebleriaCatalog;
 		border-bottom: 1px solid var(--color-border);
 	}
 
-	/* La barra de acento del hover la pinta `.bento__cell--hover` como
-	   `inset box-shadow` de la placa, así que queda DEBAJO de la imagen —que es
-	   opaca— y se corta a su altura. Se repite aquí encima del medio para que la
-	   marca recorra la tarjeta entera, como en las placas de servicios. El corte
-	   de 1px sobre el borde inferior es la junta del plano. */
-	.al-product__frame::after {
-		content: "";
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		left: 0;
-		width: 3px;
-		background-color: var(--color-accent);
-		opacity: 0;
-		transition: opacity 0.2s ease;
-	}
-
-	.al-product:hover .al-product__frame::after,
-	.al-product:focus-within .al-product__frame::after {
-		opacity: 1;
-	}
 
 	/* `height: auto` es obligatorio: sin él manda el atributo height="600" del
 	   HTML y el aspect-ratio queda ignorado. `display: block` también: dentro

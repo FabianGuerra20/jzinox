@@ -1,35 +1,52 @@
 ---
 /**
- * Inicio: portal de las dos marcas del ecosistema.
+ * Inicio.
  *
- * Estructura del mockup aprobado, de arriba abajo:
- *   INICIO 1  hero a sangre bajo la barra translúcida
- *   INICIO 2  placa de JZ INOX      (pedido del cliente: va primero)
- *   INICIO 3  placa de AL Mueblería (sección clara)
- *             servicios principales, tres filas alternadas
- *   INICIO 4  cierre centrado con doble CTA
+ * De arriba abajo:
+ *   1. Hero partido: titular a la izquierda, foto del taller a sangre a la
+ *      derecha y, cerrando, el cartucho del plano con los cuatro datos.
+ *   2. Bloque de JZ INOX      (pedido del cliente: va primero)
+ *   3. Bloque de AL Mueblería (sección clara, composición invertida)
+ *   4. Servicios principales: columna fija con la foto + tres renglones
+ *   5. Cierre a gran tamaño con doble CTA
  *
  * El copy sale del PDF del cliente. Los bloques marcados [PROPUESTA] en
  * `src/data/` los redactamos nosotros y esperan validación.
  */
 import Layout from "../layouts/Layout.astro";
-import BrandCard from "../components/BrandCard.astro";
-import MediaPlaceholder from "../components/MediaPlaceholder.astro";
+import BrandShowcase from "../components/BrandShowcase.astro";
 import { brands } from "../data/brands.js";
 import { mainServices } from "../data/services.js";
 import { site } from "../data/site.js";
 
 /**
- * Imagen del hero. Para publicar la foto real del taller basta con reemplazar
- * este archivo (o cambiar esta ruta): el resto del bloque no se toca.
- * Formato recomendado: 1920x1080, JPG/WebP, por debajo de 300 KB.
+ * Imagen del hero. Para publicar otra foto basta con cambiar esta ruta.
+ * Formato recomendado: horizontal, 2400 px de ancho, WebP bajo 300 KB.
  */
 const heroImage = {
   src: "/img/taller-estanteria.webp",
   alt: "Taller de JZ INOX: estantería de acero inoxidable en fabricación junto a la plegadora",
-  /** Con `pending: false` desaparece el rótulo del hueco y el alt pasa a describir la foto real. */
-  pending: false,
 };
+
+// [PDF] Titular de la página de inicio. Se parte en palabras para que cada una
+// suba por separado al cargar; el texto y su orden no cambian.
+const heroTitle = "Fabricación, reparación y mantención de estructuras en acero inoxidable";
+const heroWords = heroTitle.split(" ");
+
+/**
+ * Cartucho del plano: los cuatro datos que identifican al taller. Todos salen
+ * del documento del cliente; ninguno es una cifra nueva.
+ */
+const titleBlock = [
+  { label: "Oficio", value: "20+ años" },
+  { label: "Origen", value: "Manufactura nacional" },
+  { label: "Taller", value: "Propio, en Santiago" },
+  { label: "Fabricación", value: "100% a medida" },
+];
+
+// El PDF pide dos imágenes por servicio; hasta que lleguen, la sección muestra
+// la única foto real que hay y no los huecos rotulados.
+const servicePhoto = mainServices.flatMap((service) => service.media).find((media) => media.src);
 
 const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`;
 ---
@@ -39,115 +56,132 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	title="Inicio"
 	description="Fabricación, reparación y mantención de estructuras en acero inoxidable 100% a medida. Más de 20 años equipando restaurantes, comida rápida e industria alimentaria."
 >
-	{/* --- INICIO 1: hero --- */}
+	{/* --- 1. Hero --- */}
 	<section class="hero">
-		<img class="hero__media" src={heroImage.src} alt={heroImage.alt} fetchpriority="high" decoding="async" />
-		<div class="hero__veil" aria-hidden="true"></div>
-
-		{/* Rótulo del hueco de foto. Vive en el documento y no dentro del SVG
-		    porque el velo del hero es semitransparente: cualquier texto dibujado
-		    en la imagen se transparenta por detrás del titular. Anclado al canto
-		    inferior, con fondo sólido, nunca se cruza con el texto centrado y no
-		    depende de cómo `object-fit: cover` recorte la imagen. Se borra junto
-		    con esta línea cuando llegue la fotografía del taller. */}
-		{heroImage.pending && (
-			<p class="hero__slot">
-				<span class="hero__slot-tag">Foto pendiente</span>
-				<span>Fachada o nave del taller, 1920 × 1080</span>
-			</p>
-		)}
-
-		<div class="container hero__inner">
-			<span class="hero__eyebrow">Manufactura nacional · 20+ años</span>
-			<h1 class="hero__title">Fabricación, reparación y mantención de estructuras en acero inoxidable</h1>
-			<p class="hero__lead">
-				Soluciones en acero inoxidable diseñadas a la medida de tu negocio. Fabricamos
-				mesones, equipamiento y mobiliario de alta durabilidad para restaurantes, comida
-				rápida e industria alimentaria.
-			</p>
-			{/* Dos CTA con peso distinto: cotizar es la acción que el negocio quiere,
-			    hablar con un asesor es la salida para quien todavía no sabe qué pedir.
-			    Con ambos en relleno de acento, la primera decisión sería un volado. */}
-			<div class="hero__actions">
-				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
-				<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--hero-ghost">
-					Escríbenos por WhatsApp
-				</a>
+		<div class="hero__main">
+			<div class="hero__copy">
+				<h1 class="hero__title">
+					{
+						heroWords.map((word, i) => (
+							<>
+								<span class="hero__word" style={`--i: ${i}`}>
+									<span>{word}</span>
+								</span>{" "}
+							</>
+						))
+					}
+				</h1>
+				<p class="hero__lead">
+					Soluciones en acero inoxidable diseñadas a la medida de tu negocio. Fabricamos
+					mesones, equipamiento y mobiliario de alta durabilidad para restaurantes, comida
+					rápida e industria alimentaria.
+				</p>
+				{/* Dos CTA con peso distinto: cotizar es la acción que el negocio quiere,
+				    WhatsApp es la salida para quien todavía no sabe qué pedir. */}
+				<div class="hero__actions">
+					<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+					<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--ghost">
+						Escríbenos por WhatsApp
+					</a>
+				</div>
 			</div>
+
+			{/* `<img>` y no background-image: el preloader la descubre en el HTML
+			    inicial y la trata como candidata a LCP. */}
+			<figure class="hero__figure">
+				<img src={heroImage.src} alt={heroImage.alt} width="1600" height="1189" fetchpriority="high" decoding="async" />
+			</figure>
 		</div>
+
+		<dl class="hero__block">
+			{
+				titleBlock.map((cell, i) => (
+					<div class="hero__cell" style={`--i: ${i}`}>
+						<dt>{cell.label}</dt>
+						<dd>{cell.value}</dd>
+					</div>
+				))
+			}
+		</dl>
 	</section>
 
-	{/* --- INICIO 2 e INICIO 3: las dos placas de marca --- */}
+	{/* --- 2 y 3. Las dos marcas --- */}
 	{
 		brands.map((brand, i) => (
 			<section class:list={["section", "brand-section", { "section--alt": i % 2 === 1 }]}>
 				<div class="container">
-					<BrandCard brand={brand} eager={i === 0} />
+					<BrandShowcase brand={brand} flip={i % 2 === 1} hideLead={i === 0} />
 				</div>
 			</section>
 		))
 	}
 
-	{/* --- Servicios principales: las tres filas que pide el PDF, alternadas --- */}
-	<section class="section services-strip" aria-labelledby="servicios-principales">
-		<div class="container">
-			<div class="section-head">
-				<span class="eyebrow">Principales servicios</span>
-				<h2 id="servicios-principales">Lo que hacemos en taller</h2>
-			</div>
+	{/* --- 4. Servicios principales --- */}
+	<section class="section services" aria-labelledby="servicios-principales">
+		<div class="container services__grid">
+			<div class="services__aside">
+				<div data-reveal>
+					<span class="eyebrow">Principales servicios</span>
+					<h2 id="servicios-principales">Lo que hacemos en taller</h2>
+				</div>
 
-			<div class="strip">
 				{
-					mainServices.map((service, i) => (
-						<article class:list={["strip__row", { "strip__row--flip": i % 2 === 1 }]}>
-							<div class="strip__text">
-								<span class="strip__index">{String(i + 1).padStart(2, "0")}</span>
-								<h3>{service.title}</h3>
-								<p>{service.blurb}</p>
-								<a href={`/servicios#${service.slug}`} class="strip__link">Ver el detalle</a>
-							</div>
-
-							<div class="strip__media">
-								{service.media.map((m) =>
-										m.src ? (
-											<img
-												class="strip__img"
-												src={m.src}
-												alt={m.alt}
-												width="900"
-												height="600"
-												loading="lazy"
-												decoding="async"
-												style={m.position ? `object-position: ${m.position}` : undefined}
-											/>
-										) : (
-											<MediaPlaceholder slot={m.slot} ratio={m.ratio} />
-										),
-									)}
-							</div>
-						</article>
-					))
+					servicePhoto && (
+						<figure class="services__photo media-frame" data-reveal="cut">
+							<img
+								src={servicePhoto.src}
+								alt={servicePhoto.alt}
+								width="900"
+								height="675"
+								loading="lazy"
+								decoding="async"
+								style={servicePhoto.position ? `object-position: ${servicePhoto.position}` : undefined}
+							/>
+						</figure>
+					)
 				}
 			</div>
+
+			<ol class="services__list" role="list">
+				{
+					mainServices.map((service, i) => (
+						<li class="services__item" data-reveal style={`--i: ${i}`}>
+							<h3>{service.title}</h3>
+							<p>{service.blurb}</p>
+							<a href={`/servicios#${service.slug}`} class="services__link">
+								Ver el detalle
+								<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+									<path d="M5 12h14M13 6l6 6-6 6" />
+								</svg>
+							</a>
+						</li>
+					))
+				}
+			</ol>
 		</div>
 	</section>
 
-	{/* --- INICIO 4: cierre --- */}
-	<section class="section closing">
-		<div class="container closing__inner">
-			<h2>Cotiza tu proyecto</h2>
-			<p>Medimos tu espacio, te mostramos la propuesta con plazos y recién ahí fabricamos.</p>
+	{/* --- 5. Cierre --- */}
+	<section class="closing" aria-labelledby="cierre">
+		<div class="container">
+			<span class="closing__seam" data-reveal="line" aria-hidden="true"></span>
+			<div class="closing__inner" data-reveal>
+				<h2 id="cierre">Cotiza tu proyecto</h2>
+				<div class="closing__side">
+					<p>Medimos tu espacio, te mostramos la propuesta con plazos y recién ahí fabricamos.</p>
 
-			<div class="closing__actions">
-				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
-				<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp">
-					<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
-						<path
-							d="M12.02 2c-5.5 0-9.98 4.48-9.98 9.98 0 1.76.46 3.48 1.34 4.99L2 22l5.2-1.36a9.94 9.94 0 0 0 4.82 1.23h.01c5.5 0 9.98-4.47 9.98-9.98C22 6.48 17.53 2 12.02 2Zm0 18.26h-.01a8.3 8.3 0 0 1-4.24-1.16l-.3-.18-3.09.81.82-3.01-.2-.31a8.26 8.26 0 0 1-1.27-4.43c0-4.57 3.72-8.29 8.3-8.29 2.22 0 4.3.86 5.87 2.43a8.23 8.23 0 0 1 2.43 5.87c0 4.58-3.73 8.27-8.31 8.27Zm4.53-6.19c-.25-.12-1.46-.72-1.68-.8-.23-.08-.39-.12-.56.12-.16.25-.64.8-.78.97-.14.16-.29.18-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.86.84-.86 2.04 0 1.2.88 2.37 1 2.53.12.16 1.73 2.64 4.2 3.7.59.25 1.04.4 1.4.52.59.19 1.12.16 1.54.1.47-.07 1.46-.6 1.66-1.17.21-.58.21-1.07.14-1.17-.06-.11-.22-.17-.47-.29Z"
-						></path>
-					</svg>
-					Escríbenos por WhatsApp
-				</a>
+					<div class="closing__actions">
+						<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+						<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp">
+							<svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+								<path
+									d="M12.02 2c-5.5 0-9.98 4.48-9.98 9.98 0 1.76.46 3.48 1.34 4.99L2 22l5.2-1.36a9.94 9.94 0 0 0 4.82 1.23h.01c5.5 0 9.98-4.47 9.98-9.98C22 6.48 17.53 2 12.02 2Zm0 18.26h-.01a8.3 8.3 0 0 1-4.24-1.16l-.3-.18-3.09.81.82-3.01-.2-.31a8.26 8.26 0 0 1-1.27-4.43c0-4.57 3.72-8.29 8.3-8.29 2.22 0 4.3.86 5.87 2.43a8.23 8.23 0 0 1 2.43 5.87c0 4.58-3.73 8.27-8.31 8.27Zm4.53-6.19c-.25-.12-1.46-.72-1.68-.8-.23-.08-.39-.12-.56.12-.16.25-.64.8-.78.97-.14.16-.29.18-.53.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.16 0-.43.06-.66.31-.23.25-.86.84-.86 2.04 0 1.2.88 2.37 1 2.53.12.16 1.73 2.64 4.2 3.7.59.25 1.04.4 1.4.52.59.19 1.12.16 1.54.1.47-.07 1.46-.6 1.66-1.17.21-.58.21-1.07.14-1.17-.06-.11-.22-.17-.47-.29Z"
+								></path>
+							</svg>
+							Escríbenos por WhatsApp
+						</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</section>
@@ -155,135 +189,93 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 
 <style>
 	/* =========================================================
-	   INICIO 1 — Hero
+	   1. Hero partido
 	   ---------------------------------------------------------
-	   Pasa POR DEBAJO del header translúcido, así que el padding
-	   superior compensa la barra para que el bloque de texto quede
-	   centrado en el área realmente visible, no en la sección.
+	   El texto vive sobre el lienzo, no sobre la foto: así el
+	   titular no necesita velo y la foto se ve a plena luz. La
+	   foto sangra por la derecha y por arriba (pasa bajo la barra
+	   translúcida). Debajo, el cartucho del plano.
 	   ========================================================= */
 	.hero {
-		position: relative;
-		display: flex;
-		align-items: flex-end;
-		min-height: 88vh;
-		padding-top: calc(var(--header-height) + 2rem);
-		padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
-		overflow: hidden;
+		display: grid;
+		grid-template-rows: 1fr auto;
+		min-height: 100svh;
 		background-color: var(--color-page);
 		border-bottom: 1px solid var(--color-border);
 	}
 
-	/* `<img>` en lugar de background-image: el preloader del navegador la
-	   descubre en el HTML inicial y la trata como candidata a LCP. Un
-	   background-image en CSS solo se descarga tras resolver la hoja de estilo. */
-	.hero__media {
+	.hero__main {
+		display: grid;
+	}
+
+	.hero__copy {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		padding: calc(var(--header-height) + clamp(2rem, 6vw, 3.5rem)) var(--margin-mobile) clamp(2rem, 6vw, 3.5rem);
+	}
+
+	.hero__figure {
+		position: relative;
+		margin: 0;
+		min-height: 56vw;
+		overflow: hidden;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.hero__figure img {
 		position: absolute;
 		inset: 0;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		object-position: 32% 50%;
 	}
 
-	/* Velo de acero: baja la foto lo justo para que el texto blanco pase AA
-	   con holgura sin apagar la imagen.
+	@media (min-width: 960px) {
+		.hero__main {
+			grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+		}
 
-	   El velo plano al 60% deja el contraste a merced de la foto: sobre una
-	   toma clara de taller, el texto se acerca al mínimo. Encima del tinte va
-	   un degradado que oscurece el centro, justo la banda donde vive el texto,
-	   y deja los bordes casi limpios para que la foto siga leyéndose. Así el
-	   contraste no depende de qué imagen se publique. */
-	.hero__veil {
-		position: absolute;
-		inset: 0;
-		background-color: rgba(22, 18, 15, 0.45);
-		background-image:
-			linear-gradient(180deg, rgba(22, 18, 15, 0.3) 0%, rgba(22, 18, 15, 0.7) 45%, rgba(22, 18, 15, 0.92) 100%);
-	}
+		/* El margen izquierdo sigue al contenedor de 1440px del resto del sitio,
+		   aunque el hero no use `.container` (la foto tiene que llegar al borde). */
+		.hero__copy {
+			padding-left: max(var(--margin-desktop), calc((100vw - var(--container-width)) / 2 + var(--margin-desktop)));
+			padding-right: clamp(2rem, 4vw, 4.5rem);
+		}
 
-	/* En escritorio el texto va apoyado a la izquierda, así que el velo también:
-	   oscurece la mitad donde se lee y suelta la otra, para que la foto del
-	   taller se vea de verdad. Con el velo parejo la imagen quedaba en penumbra
-	   y el hero se leía como un fondo negro. Peor caso (foto blanca bajo el
-	   final del titular): blanco sobre ≈#40 da más de 10:1. */
-	@media (min-width: 900px) {
-		.hero__veil {
-			background-color: rgba(22, 18, 15, 0.32);
-			background-image:
-				linear-gradient(90deg, rgba(22, 18, 15, 0.9) 0%, rgba(22, 18, 15, 0.78) 48%, rgba(22, 18, 15, 0.2) 82%, rgba(22, 18, 15, 0.05) 100%),
-				linear-gradient(180deg, rgba(22, 18, 15, 0.45) 0%, transparent 28%, transparent 70%, rgba(22, 18, 15, 0.6) 100%);
+		.hero__figure {
+			min-height: 0;
+			border-top: 0;
+			border-left: 1px solid var(--color-border);
 		}
 	}
 
-	.hero__slot {
-		position: absolute;
-		z-index: 1;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: center;
-		gap: 0.6rem;
-		margin: 0;
-		padding: 0.55rem 1rem;
-		background-color: var(--color-ink);
-		color: #fff;
-		font-size: 0.75rem;
-		letter-spacing: 0.04em;
-		text-align: center;
-	}
-
-	.hero__slot-tag {
-		font-family: var(--font-heading);
-		font-size: 0.62rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.12em;
-		background-color: var(--color-accent);
-		padding: 0.18rem 0.5rem;
-	}
-
-	.hero__inner {
-		position: relative;
-		z-index: 1;
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-	}
-
-	.hero__eyebrow {
-		font-size: 0.875rem;
-		font-weight: 600;
-		line-height: 1;
-		letter-spacing: 0.16em;
-		text-transform: uppercase;
-		/* Blanco, no --color-accent-light: el rosa claro sobre un velo
-		   semitransparente da 3.8:1 y empeora con cualquier foto luminosa.
-		   El acento del hero lo pone el botón, que sí tiene fondo propio. */
-		color: #fff;
-		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-		margin-bottom: 1.5rem;
-	}
-
-	/* El titular del cliente tiene 70 caracteres. Con la escala global de h1 y
-	   20ch de medida se parte en cinco líneas y se come el hero entero, así que
-	   aquí baja un escalón y la medida sube: cabe en dos o tres líneas y el
-	   subtítulo y los CTA vuelven a entrar en la primera pantalla. */
+	/* El titular del cliente tiene 70 caracteres: a 56px y 24ch cabe en cuatro
+	   líneas. Cada palabra va en su propia caja recortada para la entrada. */
 	.hero__title {
 		max-width: 24ch;
 		font-size: clamp(1.9rem, 3.9vw, 3.5rem);
-		line-height: 1.06;
-		color: #fff;
-		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+		line-height: 1.08;
 		margin-bottom: 1.5rem;
 	}
 
+	/* El recorte se extiende hacia arriba para no comerse la tilde de las
+	   mayúsculas (FABRICACIÓN), que sobresale de la caja de línea. */
+	.hero__word {
+		display: inline-block;
+		vertical-align: top;
+		clip-path: inset(-0.25em -0.05em 0 -0.05em);
+	}
+
+	.hero__word > span {
+		display: inline-block;
+	}
+
 	.hero__lead {
-		max-width: 54ch;
+		max-width: 52ch;
 		font-size: 1.125rem;
-		color: rgba(255, 255, 255, 0.92);
-		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 		margin-bottom: 0;
 	}
 
@@ -295,155 +287,270 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	}
 
 	.hero__actions .btn {
-		padding: 1rem 2rem;
+		padding: 1rem 1.75rem;
 	}
 
-	/* Secundario sobre el velo de acero: el contorno claro se lee sin competir
-	   con el relleno de acento del CTA principal. El rojo de marca sobre este
-	   fondo da 1.18:1, así que aquí el secundario va en blanco. */
-	.btn--hero-ghost {
-		background-color: transparent;
-		border-color: rgba(255, 255, 255, 0.75);
-		color: #fff;
+	/* --- Cartucho del plano --- */
+	.hero__block {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1px;
+		margin: 0;
+		background-color: var(--color-border);
+		border-top: 1px solid var(--color-border);
 	}
 
-	.btn--hero-ghost:hover {
-		border-color: #fff;
-		background-color: rgba(255, 255, 255, 0.14);
-		color: #fff;
-	}
-
-	/* =========================================================
-	   Servicios principales — tres filas alternadas
-	   ---------------------------------------------------------
-	   El PDF pide tres servicios con dos imágenes cada uno. En tres
-	   columnas iguales las seis fotos quedan en miniaturas donde no
-	   se distingue el trabajo, y la composición cae en la grilla de
-	   tarjetas simétricas que delata una plantilla. Alternando el
-	   lado del texto, cada servicio tiene su propia fila ancha.
-	   ========================================================= */
-	.strip {
+	.hero__cell {
 		display: flex;
 		flex-direction: column;
-		gap: clamp(2rem, 5vw, 3.5rem);
+		gap: 0.4rem;
+		padding: 1rem var(--margin-mobile) 1.1rem;
+		background-color: var(--color-bg);
 	}
 
-	.strip__row {
-		display: grid;
-		gap: clamp(1.25rem, 3vw, 2.5rem);
-		align-items: center;
+	.hero__cell dt {
+		font-size: 0.75rem;
+		font-weight: 500;
+		line-height: 1;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
 	}
 
-	@media (min-width: 900px) {
-		.strip__row {
-			grid-template-columns: 0.85fr 1.15fr;
-		}
-
-		/* El flip invierte solo el orden visual: el DOM mantiene texto → imágenes,
-		   que es el orden en que conviene leerlo y escucharlo. */
-		.strip__row--flip .strip__text {
-			order: 2;
-		}
-
-		/* El flip solo cambiaba el orden: la columna ancha se quedaba con el
-		   texto y las fotos reales salían más chicas que los huecos. */
-		.strip__row--flip {
-			grid-template-columns: 1.15fr 0.85fr;
-		}
-	}
-
-	.strip__index {
-		display: block;
+	.hero__cell dd {
+		margin: 0;
 		font-family: var(--font-heading);
-		font-variant-numeric: tabular-nums;
-		font-weight: 800;
-		font-size: 0.875rem;
-		letter-spacing: 0.08em;
-		color: var(--color-accent);
-		margin-bottom: 0.75rem;
-	}
-
-	.strip__text h3 {
-		font-size: clamp(1.25rem, 2.6vw, 1.75rem);
-		margin-bottom: 0.75rem;
-	}
-
-	.strip__text p {
-		max-width: 46ch;
-		margin-bottom: 1.25rem;
-	}
-
-	.strip__link {
-		display: inline-flex;
-		align-items: center;
-		min-height: var(--tap);
-		font-family: var(--font-heading);
+		font-size: clamp(1rem, 1.5vw, 1.25rem);
 		font-weight: 600;
-		font-size: 0.875rem;
-		letter-spacing: 0.02em;
-		color: var(--color-accent);
-		border-bottom: 1px solid currentColor;
+		line-height: 1.2;
+		color: var(--color-text);
 	}
 
-	.strip__link:hover {
-		color: var(--color-accent-dark);
+	@media (min-width: 960px) {
+		.hero__block {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+		}
+
+		.hero__cell {
+			padding: 1.25rem 2rem 1.4rem;
+		}
+
+		.hero__cell:first-child {
+			padding-left: max(var(--margin-desktop), calc((100vw - var(--container-width)) / 2 + var(--margin-desktop)));
+		}
 	}
 
-	.strip__img {
-		display: block;
-		width: 100%;
-		height: auto;
-		aspect-ratio: 3 / 2;
-		object-fit: cover;
+	/* --- Entrada: una sola vez, al cargar --- */
+	@keyframes word-up {
+		from {
+			transform: translateY(105%);
+		}
+		to {
+			transform: none;
+		}
 	}
 
-	/* Las dos fotos comparten la junta de 1px del sistema, igual que el bento. */
-	.strip__media {
-		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-		gap: 1px;
-		background-color: var(--color-border);
-		border: 1px solid var(--color-border);
-		container-type: inline-size;
+	@keyframes cut-in {
+		from {
+			clip-path: inset(0 100% 0 0);
+		}
+		to {
+			clip-path: inset(0 0 0 0);
+		}
 	}
 
-	/* Una sola foto: ocupa la columna entera en vez de media. */
-	.strip__media:has(> :only-child) {
-		grid-template-columns: minmax(0, 1fr);
+	@keyframes hero-settle {
+		from {
+			transform: scale(1.1);
+		}
+		to {
+			transform: none;
+		}
+	}
+
+	@keyframes hero-rise {
+		from {
+			opacity: 0;
+			transform: translateY(14px);
+		}
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.hero__word > span {
+			animation: word-up 0.7s var(--ease-out) both;
+			animation-delay: calc(var(--i) * 35ms);
+		}
+
+		.hero__lead,
+		.hero__actions {
+			animation: hero-rise 0.6s var(--ease-out) 0.35s both;
+		}
+
+		.hero__actions {
+			animation-delay: 0.42s;
+		}
+
+		/* La foto entra como un corte de guillotina, de izquierda a derecha, y
+		   se asienta por debajo: el mismo sentido que la costura del canto. */
+		.hero__figure {
+			animation: cut-in 0.8s var(--ease-in-out) both;
+		}
+
+		.hero__figure img {
+			animation: hero-settle 1.4s var(--ease-out) both;
+		}
+
+		.hero__cell > * {
+			animation: hero-rise 0.6s var(--ease-out) both;
+			animation-delay: calc(0.45s + var(--i) * 60ms);
+		}
 	}
 
 	/* =========================================================
-	   INICIO 2 / 3 — Placas de marca
+	   2 y 3. Bloques de marca
 	   ========================================================= */
 	.brand-section {
-		background-color: var(--color-bg);
 		border-bottom: 1px solid var(--color-border);
 	}
 
-	/* `.section--alt` ya trae el gris; se repite aquí para ganarle en
-	   especificidad a `.brand-section`, que si no lo pisaría por orden. */
-	.brand-section.section--alt {
-		background-color: var(--color-bg-alt);
+	/* =========================================================
+	   4. Servicios — columna fija + renglones
+	   ---------------------------------------------------------
+	   El título y la foto se quedan a la vista mientras pasan los
+	   tres servicios. Sin tarjetas: cada renglón se separa del
+	   siguiente con la junta de 1px.
+	   ========================================================= */
+	.services__grid {
+		display: grid;
+		gap: clamp(2rem, 5vw, 4rem);
+	}
+
+	.services__aside h2 {
+		margin-bottom: 0;
+	}
+
+	.services__photo {
+		margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
+		aspect-ratio: 4 / 3;
+		border: 1px solid var(--color-border);
+	}
+
+	.services__photo img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	@media (min-width: 1024px) {
+		.services__grid {
+			grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+			align-items: start;
+		}
+
+		.services__aside {
+			position: sticky;
+			top: calc(var(--header-height) + 2rem);
+		}
+	}
+
+	.services__list {
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.services__item {
+		padding: clamp(1.5rem, 3.4vw, 2.5rem) 0;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.services__item h3 {
+		font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+		line-height: 1.12;
+		letter-spacing: -0.015em;
+		font-weight: 700;
+		margin-bottom: 0.75rem;
+	}
+
+	.services__item p {
+		max-width: 52ch;
+		font-size: 1.0625rem;
+		margin-bottom: 1rem;
+	}
+
+	.services__link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		min-height: var(--tap);
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 0.9375rem;
+		color: var(--color-accent);
+		transition: color 0.2s ease;
+	}
+
+	.services__link svg {
+		transition: transform 0.2s var(--ease-out);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.services__link:hover {
+			color: var(--color-accent-dark);
+		}
+
+		.services__link:hover svg {
+			transform: translateX(4px);
+		}
 	}
 
 	/* =========================================================
-	   INICIO 4 — Cierre
+	   5. Cierre
+	   ---------------------------------------------------------
+	   La costura de soldadura vuelve aquí como línea superior: se
+	   traza al entrar en pantalla y deja el titular apoyado en ella.
 	   ========================================================= */
 	.closing {
 		background-color: var(--color-surface-high);
 		border-bottom: 1px solid var(--color-border);
-		padding-top: clamp(3rem, 8vw, 6rem);
-		padding-bottom: clamp(3rem, 8vw, 6rem);
+		padding: clamp(3.5rem, 9vw, 7.5rem) 0;
+	}
+
+	.closing__seam {
+		display: block;
+		height: 2px;
+		margin-bottom: clamp(1.75rem, 4vw, 3rem);
+		background: linear-gradient(90deg, var(--color-accent) 0, var(--color-accent) 92%, #ffe9c9 100%);
+		transform-origin: left center;
+	}
+
+	.closing__inner {
+		display: grid;
+		gap: 1.5rem clamp(2rem, 5vw, 4rem);
+	}
+
+	@media (min-width: 1024px) {
+		.closing__inner {
+			grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+			align-items: end;
+		}
 	}
 
 	.closing h2 {
-		margin-bottom: 1rem;
+		font-size: clamp(2.5rem, 7.2vw, 6rem);
+		font-weight: 800;
+		line-height: 0.95;
+		letter-spacing: -0.03em;
+		text-transform: uppercase;
+		margin: 0;
 	}
 
 	.closing p {
-		max-width: 56ch;
-		margin: 0 0 2rem;
+		max-width: 46ch;
 		font-size: 1.125rem;
+		margin: 0 0 1.75rem;
 	}
 
 	.closing__actions {
@@ -453,6 +560,16 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	}
 
 	.closing__actions .btn {
-		padding: 1rem 2rem;
+		padding: 1rem 1.75rem;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.services__link svg {
+			transition: none;
+		}
+
+		.services__link:hover svg {
+			transform: none;
+		}
 	}
 </style>

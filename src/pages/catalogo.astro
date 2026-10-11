@@ -50,7 +50,7 @@ const groups = catalogCategories
 	description="Campanas, revestimientos, mesones, carros, soportes y protectores en acero inoxidable fabricados a medida. Cotiza cada pieza según tus medidas."
 	jsonLd={catalogLd}
 >
-	<section class="section page-hero">
+	<section class="section page-hero page-hero--split">
 		<div class="container">
 			<span class="eyebrow">Productos</span>
 			<h1>Todo lo que fabricamos en acero inoxidable</h1>
@@ -76,11 +76,11 @@ const groups = catalogCategories
 	{
 		groups.map((group) => (
 			<section class="catalog-group" id={group.id} aria-labelledby={`${group.id}-title`}>
-					<h2 class="catalog-group-title" id={`${group.id}-title`}>{group.name}</h2>
+					<h2 class="catalog-group-title" id={`${group.id}-title`} data-reveal>{group.name}</h2>
 
 					<div class="catalog-grid">
-						{group.items.map((item) => (
-							<article class="catalog-card">
+						{group.items.map((item, i) => (
+							<article class="catalog-card" data-reveal="fade" style={`--i: ${i % 3}`}>
 								{/* La foto va PRIMERO: en una lista de quince piezas de acero
 								    los nombres se parecen entre sí y el comprador elige por
 								    la imagen. El hueco rotulado ocupa su sitio con la misma
@@ -134,7 +134,7 @@ const groups = catalogCategories
 
 	<section class="section section--tight">
 		<div class="container">
-			<div class="cta-plate">
+			<div class="cta-plate" data-reveal>
 				<div>
 					<h2>¿No encuentras lo que buscas?</h2>
 					<p>Fabricamos a medida según tus planos o el levantamiento en terreno.</p>
@@ -150,7 +150,7 @@ const groups = catalogCategories
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.5rem;
-		margin-top: 1.5rem;
+		margin-top: clamp(1.5rem, 3vw, 2.5rem);
 	}
 
 	.catalog-nav a {
@@ -203,6 +203,22 @@ const groups = catalogCategories
 		flex-direction: column;
 		background-color: var(--color-bg);
 		border: 1px solid var(--color-border);
+	}
+
+	/* La tarjeta entera responde al cursor: el borde toma la tinta. La
+	   transición repite la del revelado (`data-reveal="fade"`): si solo listara
+	   `border-color`, al llegar `.is-in` pisaría el fundido y la tarjeta
+	   aparecería de golpe. */
+	@media (hover: hover) and (pointer: fine) {
+		.catalog-card.is-in {
+			transition:
+				opacity 0.3s ease,
+				border-color 0.2s ease;
+		}
+
+		.catalog-card:hover {
+			border-color: var(--color-text);
+		}
 	}
 
 	/* La celda va a sangre para que la foto toque los tres cantos de la

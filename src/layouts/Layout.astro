@@ -26,6 +26,11 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.t
 <html lang="es">
 	<head>
 		<meta charset="utf-8" />
+		{/* Marca que hay JavaScript ANTES del primer pintado: de esta clase cuelga
+		    el estado oculto de `data-reveal`. Sin JS no existe y todo se ve. */}
+		<script is:inline>
+			document.documentElement.classList.add("js");
+		</script>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
 		<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png" />
@@ -83,8 +88,10 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.t
 			const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
 			if (!calm.matches) {
 				const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-height")) || 80;
+				// 0.7 s y no más: el scroll es la acción más repetida del sitio, y con
+				// 1.1 s cada gesto de rueda y cada salto a ancla se sentía con lastre.
 				const lenis = new Lenis({
-					duration: 1.1,
+					duration: 0.7,
 					easing: (t: number) => 1 - Math.pow(1 - t, 3),
 					anchors: { offset: -(header + 16) },
 					autoRaf: true,
@@ -95,6 +102,30 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.t
 				});
 				calm.addEventListener("change", (e) => e.matches && lenis.destroy());
 			}
+		</script>
+
+		{/* Revelado al entrar en pantalla (ver global.css). Va en línea y al final
+		    del body para que corra apenas existe el DOM, sin esperar al bundle. Si
+		    el navegador no tiene IntersectionObserver, todo se muestra de una vez. */}
+		<script is:inline>
+			(function () {
+				var items = document.querySelectorAll("[data-reveal]");
+				if (!("IntersectionObserver" in window)) {
+					for (var i = 0; i < items.length; i++) items[i].classList.add("is-in");
+					return;
+				}
+				var observer = new IntersectionObserver(
+					function (entries) {
+						for (var i = 0; i < entries.length; i++) {
+							if (!entries[i].isIntersecting) continue;
+							entries[i].target.classList.add("is-in");
+							observer.unobserve(entries[i].target);
+						}
+					},
+					{ rootMargin: "0px 0px -10% 0px", threshold: 0.05 },
+				);
+				for (var j = 0; j < items.length; j++) observer.observe(items[j]);
+			})();
 		</script>
 
 		<script>

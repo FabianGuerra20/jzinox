@@ -224,6 +224,23 @@ const isActive = (href) => {
     width: 22px;
     height: 2px;
     background-color: #fff;
+    transition:
+      transform 0.2s var(--ease-out),
+      opacity 0.15s ease;
+  }
+
+  /* Menú abierto: las tres barras pasan a ser la X de cerrar. Las barras
+     están a 7px una de otra (2px de alto + 5px de separación). */
+  .header__toggle-input:checked ~ .header__actions .header__bar:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .header__toggle-input:checked ~ .header__actions .header__bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .header__toggle-input:checked ~ .header__actions .header__bar:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
   }
 
   /* =============================================================
@@ -242,24 +259,29 @@ const isActive = (href) => {
       align-items: stretch;
       background-color: var(--color-steel);
       border-bottom: 1px solid var(--color-steel-dark);
-      max-height: 0;
-      overflow: hidden;
+      max-height: calc(100dvh - var(--header-height));
+      overflow-y: auto;
+      /* El panel se descubre con `clip-path`, no animando `max-height`: el
+         recorte lo resuelve el compositor y no recalcula el layout en cada
+         frame. Entra y sale por el mismo canto, el de la barra. */
+      clip-path: inset(0 0 100% 0);
       /* visibility evita que el teclado entre en enlaces invisibles. */
       visibility: hidden;
       transition:
-        max-height 0.28s var(--ease-out),
+        clip-path 0.28s var(--ease-out),
         visibility 0s linear 0.28s;
     }
 
     .header__toggle-input:checked ~ .header__nav {
-      max-height: 34rem;
+      clip-path: inset(0 0 0 0);
       visibility: visible;
       transition:
-        max-height 0.28s var(--ease-out),
+        clip-path 0.28s var(--ease-out),
         visibility 0s;
     }
 
     .header__link {
+      justify-content: flex-start;
       padding: 0.75rem var(--margin-mobile);
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
@@ -338,7 +360,8 @@ const isActive = (href) => {
   @media (prefers-reduced-motion: reduce) {
     .header__nav,
     .header__toggle-input:checked ~ .header__nav,
-    .header__link {
+    .header__link,
+    .header__bar {
       transition: none;
     }
   }

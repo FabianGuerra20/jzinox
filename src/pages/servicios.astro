@@ -2,9 +2,12 @@
 /**
  * Servicios de JZINOX.
  *
- * Los nombres de servicio son los reales; los textos de apoyo son placeholder
  * El copy sale del PDF del cliente; los bloques [PROPUESTA] esperan validación.
  * Jerarquía: h1 → h2 por sección → h3 por servicio y por etapa.
+ *
+ * Sin tarjetas: los seis servicios son renglones de una lista de despiece
+ * (nombre | qué es | qué incluye) y las cuatro etapas van sobre una línea de
+ * tiempo que se traza al entrar en pantalla.
  */
 import Layout from "../layouts/Layout.astro";
 import { services, processSteps } from "../data/services.js";
@@ -14,8 +17,8 @@ import { services, processSteps } from "../data/services.js";
 	title="Servicios"
 	description="Soldadura TIG, MIG y aluminio, corte y plegado, diseño y fabricación a medida en acero inoxidable. Taller propio con más de 20 años de oficio."
 >
-	{/* --- SERVICIOS 1: encabezado --- */}
-	<section class="section page-hero" aria-labelledby="servicios-titulo">
+	{/* --- Encabezado --- */}
+	<section class="section page-hero page-hero--split" aria-labelledby="servicios-titulo">
 		<div class="container">
 			<span class="eyebrow">Servicios</span>
 			<h1 id="servicios-titulo">Soldadura, corte, plegado y diseño en acero inoxidable</h1>
@@ -26,19 +29,19 @@ import { services, processSteps } from "../data/services.js";
 		</div>
 	</section>
 
-	{/* --- SERVICIOS 2: listado de servicios --- */}
+	{/* --- Listado de servicios --- */}
 	<section class="section section--alt" aria-labelledby="servicios-listado">
 		<div class="container">
-			<div class="section-head">
+			<div class="section-head" data-reveal>
 				<h2 id="servicios-listado">Qué hacemos</h2>
 				<p>Seis servicios que cubren el proyecto de punta a punta, sin subcontratar la parte difícil.</p>
 			</div>
 
-			<div class="bento bento--3">
+			<div class="ledger">
 				{
 					services.map((service) => (
-						<article class="bento__cell service-detail" id={service.slug}>
-							<h3 class="service-detail__title">{service.title}</h3>
+						<article class="ledger__row" id={service.slug} data-reveal>
+							<h3>{service.title}</h3>
 							<p>{service.summary}</p>
 							<ul class="check-list">
 								{service.details.map((detail) => <li>{detail}</li>)}
@@ -50,31 +53,34 @@ import { services, processSteps } from "../data/services.js";
 		</div>
 	</section>
 
-	{/* --- SERVICIOS 3: cómo trabajamos --- */}
+	{/* --- Cómo trabajamos --- */}
 	<section class="section" aria-labelledby="servicios-proceso">
 		<div class="container">
-			<div class="section-head">
+			<div class="section-head" data-reveal>
 				<h2 id="servicios-proceso">Cómo trabajamos</h2>
 				<p>Cuatro etapas, y en cada una sabes qué viene después y cuánto demora.</p>
 			</div>
 
-			<ol class="bento bento--4 steps" role="list">
-				{
-					processSteps.map((step, i) => (
-						<li class="bento__cell steps__item">
-							<span class="steps__num">{String(i + 1).padStart(2, "0")}</span>
-							<h3>{step.title}</h3>
-							<p>{step.description}</p>
-						</li>
-					))
-				}
-			</ol>
+			<div class="timeline">
+				<span class="timeline__line" data-reveal="line" aria-hidden="true"></span>
+				<ol class="timeline__steps" role="list">
+					{
+						processSteps.map((step, i) => (
+							<li class="timeline__step" data-reveal style={`--i: ${i}`}>
+								<span class="timeline__num">{String(i + 1).padStart(2, "0")}</span>
+								<h3>{step.title}</h3>
+								<p>{step.description}</p>
+							</li>
+						))
+					}
+				</ol>
+			</div>
 		</div>
 	</section>
 
-	{/* --- SERVICIOS 4: cierre --- */}
+	{/* --- Cierre --- */}
 	<section class="section section--tight section--alt cta-band" aria-labelledby="servicios-cierre">
-		<div class="container cta-band__inner">
+		<div class="container cta-band__inner" data-reveal>
 			<div>
 				<h2 id="servicios-cierre">¿Listo para cotizar?</h2>
 				<p>Cuéntanos qué necesitas y te respondemos con medidas, materiales y plazos.</p>
@@ -88,39 +94,120 @@ import { services, processSteps } from "../data/services.js";
 </Layout>
 
 <style>
-	.steps {
-		list-style: none;
+	/* =========================================================
+	   Lista de despiece
+	   ---------------------------------------------------------
+	   Un renglón por servicio, tres columnas en escritorio. La
+	   junta de 1px va ARRIBA de cada renglón y una más cierra la
+	   lista: son líneas de tabla, no cajas.
+	   ========================================================= */
+	.ledger {
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.ledger__row {
+		display: grid;
+		gap: 0.75rem;
+		padding: clamp(1.5rem, 3.4vw, 2.25rem) 0;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.ledger__row h3 {
+		font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+		line-height: 1.15;
+		letter-spacing: -0.01em;
+		font-weight: 700;
+		margin: 0;
+	}
+
+	.ledger__row p {
+		max-width: 52ch;
+		margin: 0;
+	}
+
+	.ledger__row .check-list li {
+		font-size: 0.9375rem;
+	}
+
+	@media (min-width: 1024px) {
+		.ledger__row {
+			grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 4fr);
+			gap: var(--gutter);
+			align-items: start;
+		}
+	}
+
+	/* =========================================================
+	   Línea de tiempo
+	   ---------------------------------------------------------
+	   Aquí la numeración sí es información: son etapas en orden.
+	   La línea se traza de izquierda a derecha y cada etapa cuelga
+	   de ella con una marca vertical, como una cota.
+	   ========================================================= */
+	.timeline {
+		position: relative;
+	}
+
+	.timeline__line {
+		display: block;
+		height: 1px;
+		background-color: var(--color-text-muted);
+		transform-origin: left center;
+	}
+
+	.timeline__steps {
+		display: grid;
+		gap: 2rem var(--gutter);
 		margin: 0;
 		padding: 0;
 	}
 
-	/* Numeración como viñeta de plano. Antes declaraba var(--font-body), que
-	   no se carga desde Google Fonts y aterrizaba en Consolas: una cara de
-	   editor de código, ajena a Hanken Grotesk e Inter. Con la grotesca de
-	   titulares y cifras tabulares, el 01/02/03/04 alinea en columna como la
-	   llamada de un plano. */
-	.steps__num {
+	@media (min-width: 640px) {
+		.timeline__steps {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.timeline__steps {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+		}
+	}
+
+	.timeline__step {
+		position: relative;
+		padding-top: 1.75rem;
+	}
+
+	/* Marca de cota: baja desde la línea hasta la etapa */
+	.timeline__step::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 1px;
+		height: 1rem;
+		background-color: var(--color-text-muted);
+	}
+
+	.timeline__num {
 		display: block;
 		font-family: var(--font-heading);
 		font-variant-numeric: tabular-nums;
 		font-weight: 800;
-		font-size: clamp(1.25rem, 3vw, 1.5rem);
+		font-size: clamp(2.25rem, 4vw, 3.25rem);
 		line-height: 1;
-		letter-spacing: 0.02em;
-		color: var(--color-accent);
-		margin-bottom: 0.6rem;
+		letter-spacing: -0.02em;
+		color: var(--color-text);
+		margin-bottom: 0.9rem;
 	}
 
-	/* El tamaño lo gobierna la escala global de h3; aquí solo se ajusta el
-	   aire hacia la descripción. */
-	.steps__item h3 {
+	.timeline__step h3 {
 		margin-bottom: 0.4rem;
 	}
 
-	/* Mismo cuerpo pequeño que .check-list y .btn. El 0.92rem anterior era un
-	   valor suelto fuera de la escala. */
-	.steps__item p {
-		font-size: 1rem;
+	.timeline__step p {
+		max-width: 34ch;
 		margin-bottom: 0;
 	}
 </style>

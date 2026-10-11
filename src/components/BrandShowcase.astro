@@ -1,0 +1,308 @@
+---
+/**
+ * Bloque de marca del Inicio.
+ *
+ * Tres piezas en una composición asimétrica, no tres columnas iguales:
+ *
+ *   [ Nombre a gran tamaño + CTAs ]  [ Mosaico de tres fotos ]
+ *   [ Índice de lo que se fabrica, a lo ancho, como renglones de una lista ]
+ *
+ * `flip` invierte el lado del mosaico para que dos bloques seguidos no se
+ * lean como el mismo módulo repetido. El orden del DOM no cambia: nombre,
+ * fotos, índice, que es el orden en que conviene leerlo y escucharlo.
+ *
+ * Sustituye a la placa 3/6/3 con carrusel: el mosaico muestra las tres fotos
+ * a la vez y no necesita JavaScript ni controles.
+ */
+interface Props {
+  brand: {
+    slug: string;
+    name: string;
+    lead: string;
+    actions: Array<{ href: string; label: string; variant: string }>;
+    featuredTitle: string;
+    featuredHref: string;
+    featuredLabel: string;
+    featured: Array<{ name: string; note: string }>;
+    images: Array<{ src?: string; alt?: string; pending?: boolean; position?: string }>;
+  };
+  flip?: boolean;
+  /** El bloque de JZ INOX va justo bajo el hero, que ya dice este mismo párrafo. */
+  hideLead?: boolean;
+}
+
+const { brand, flip = false, hideLead = false } = Astro.props as Props;
+
+const photos = brand.images.filter((image) => !image.pending && image.src).slice(0, 3);
+const headingId = `marca-${brand.slug}`;
+const indexId = `indice-${brand.slug}`;
+---
+
+<article class:list={["brand", { "brand--flip": flip }]} aria-labelledby={headingId}>
+  <div class="brand__head" data-reveal>
+    <h2 id={headingId} class="brand__name">{brand.name}</h2>
+    {!hideLead && <p class="brand__lead">{brand.lead}</p>}
+
+    <div class="brand__actions">
+      {
+        brand.actions.map((action) => (
+          <a href={action.href} class:list={["btn", `btn--${action.variant}`]}>
+            {action.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class:list={["brand__mosaic", `brand__mosaic--${photos.length}`]} data-reveal="cut">
+    {
+      photos.map((image) => (
+        <figure class="brand__tile media-frame">
+          <img
+            src={image.src}
+            alt={image.alt}
+            style={image.position ? `object-position: ${image.position}` : undefined}
+            width="800"
+            height="600"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      ))
+    }
+  </div>
+
+  <div class="brand__index">
+    <div class="brand__index-head">
+      <h3 id={indexId} class="brand__index-title">{brand.featuredTitle}</h3>
+      <a href={brand.featuredHref} class="brand__more">{brand.featuredLabel}</a>
+    </div>
+
+    <ul class="brand__list" aria-labelledby={indexId}>
+      {
+        brand.featured.map((item, i) => (
+          <li data-reveal style={`--i: ${i}`}>
+            <a href={brand.featuredHref} class="brand__row">
+              <strong>{item.name}</strong>
+              <span>{item.note}</span>
+              <svg class="brand__arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</article>
+
+<style>
+  .brand {
+    display: grid;
+    grid-template-areas:
+      "head"
+      "mosaic"
+      "index";
+    gap: clamp(2rem, 5vw, 3.5rem) var(--gutter);
+  }
+
+  @media (min-width: 1024px) {
+    .brand {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      grid-template-areas:
+        "head mosaic"
+        "index index";
+      align-items: end;
+    }
+
+    .brand--flip {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      grid-template-areas:
+        "mosaic head"
+        "index index";
+    }
+  }
+
+  /* --- Nombre --- */
+  .brand__head {
+    grid-area: head;
+  }
+
+  /* El nombre de la marca es el titular más grande de la página después del
+     h1: a 76px en mayúsculas ancla el bloque sin necesitar una caja alrededor. */
+  .brand__name {
+    font-size: clamp(2.5rem, 5.6vw, 4.75rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .brand__lead {
+    max-width: 44ch;
+    font-size: 1.0625rem;
+    margin-bottom: 0;
+  }
+
+  .brand__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  /* --- Mosaico: una foto alta y dos apiladas, unidas por la junta de 1px --- */
+  .brand__mosaic {
+    grid-area: mosaic;
+    display: grid;
+    gap: 1px;
+    aspect-ratio: 4 / 3;
+    background-color: var(--color-border);
+    border: 1px solid var(--color-border);
+  }
+
+  .brand__mosaic--3 {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .brand__mosaic--3 .brand__tile:first-child {
+    grid-row: 1 / 3;
+  }
+
+  .brand__mosaic--2 {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  }
+
+  @media (min-width: 1024px) {
+    .brand__mosaic {
+      aspect-ratio: 16 / 10;
+    }
+  }
+
+  .brand__tile {
+    margin: 0;
+    min-height: 0;
+  }
+
+  .brand__tile img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* --- Índice: renglones a lo ancho, cada uno con su junta encima --- */
+  .brand__index {
+    grid-area: index;
+  }
+
+  .brand__index-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .brand__index-title {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .brand__more {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    border-bottom: 1px solid currentColor;
+    transition: color 0.2s ease;
+  }
+
+  .brand__more:hover {
+    color: var(--color-accent-dark);
+  }
+
+  .brand__list {
+    display: grid;
+    gap: 0 var(--gutter);
+  }
+
+  @media (min-width: 640px) {
+    .brand__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .brand__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .brand__row {
+    position: relative;
+    display: grid;
+    gap: 0.3rem;
+    height: 100%;
+    min-height: var(--tap);
+    padding: 1.1rem 2.25rem 1.25rem 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .brand__row strong {
+    font-family: var(--font-heading);
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--color-text);
+    transition: color 0.2s ease;
+  }
+
+  .brand__row span {
+    font-size: 0.9375rem;
+    line-height: 1.45;
+    color: var(--color-text-muted);
+  }
+
+  .brand__arrow {
+    position: absolute;
+    top: 1.25rem;
+    right: 0.25rem;
+    color: var(--color-text-muted);
+    transition:
+      transform 0.2s var(--ease-out),
+      color 0.2s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .brand__row:hover strong,
+    .brand__row:hover .brand__arrow {
+      color: var(--color-accent);
+    }
+
+    .brand__row:hover .brand__arrow {
+      transform: translateX(4px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brand__arrow {
+      transition: color 0.2s ease;
+    }
+
+    .brand__row:hover .brand__arrow {
+      transform: none;
+    }
+  }
+</style>

@@ -44,8 +44,14 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
       background-color 200ms var(--ease-out);
   }
 
-  .fab:hover {
-    transform: scale(1.1);
+  @media (hover: hover) and (pointer: fine) {
+    .fab:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .fab:active {
+    transform: scale(0.96);
   }
 
   /* Foco visible con contraste alto sobre el verde y sobre el lienzo claro. */
@@ -63,6 +69,10 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
     .fab:hover {
       transform: none;
       background-color: #1faa53;
+    }
+
+    .fab:active {
+      transform: none;
     }
   }
 </style>
