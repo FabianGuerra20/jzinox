@@ -530,6 +530,12 @@ Inicio es la versión grande, en claro. El pie no lleva botón de cotizar.
   logo). `src/utils/img.js` arma el `srcset` desde `src/data/img-manifest.json`. Al agregar
   una foto hay que generar su variante y su entrada en el manifiesto.
 
+### Columnas equilibradas
+En un bloque de dos columnas ambos lados ocupan la misma altura visual. Aplicado en: la
+historia de `/nosotros` (título a todo el ancho, numeral y texto a la par, datos en una fila
+debajo), el cierre del Inicio (los botones miden lo mismo que el título con su texto) y los
+encabezados partidos (la entrada va a 24px, en la grotesca de titulares, centrada con el h1).
+
 ### Datos del taller
 Los cuatro datos del cartucho viven en `facts` (`company.js`). El de «Taller» muestra la
 dirección (`Departamental 999, San Miguel`) y enlaza a la ficha de Google Maps; no dice

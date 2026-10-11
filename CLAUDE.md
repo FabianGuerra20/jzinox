@@ -89,6 +89,7 @@ Resumen. El detalle está en `DESIGN.md`.
 
 ### Composición
 * Encabezados alineados a la izquierda.
+* **En un bloque de dos columnas, las dos pesan lo mismo:** misma altura visual a cada lado. Si un lado queda corto, se sube su tamaño, se reparte el contenido o se saca una pieza a una fila propia.
 * **Las listas van en renglones** separados por la junta, no en tarjetas.
 * Una pieza sin foto es un renglón, no una caja vacía.
 * Un solo tipo de cierre de página: la banda `.cta-band`.

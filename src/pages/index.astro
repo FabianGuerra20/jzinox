@@ -467,8 +467,8 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 
 	@media (min-width: 900px) {
 		.closing__inner {
-			grid-template-columns: minmax(0, 1fr) auto;
-			align-items: end;
+			grid-template-columns: minmax(0, 1fr) minmax(20rem, 26rem);
+			align-items: stretch;
 		}
 	}
 
@@ -489,14 +489,12 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 
 	.closing__actions {
 		display: grid;
-		grid-template-columns: max-content;
+		grid-auto-rows: minmax(3.5rem, 1fr);
 		gap: 0.75rem;
 	}
 
-	@media (max-width: 420px) {
-		.closing__actions {
-			grid-template-columns: 1fr;
-		}
+	.closing__actions .btn {
+		font-size: 1rem;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
