@@ -223,6 +223,8 @@ mismo módulo repetido. El mosaico muestra las tres fotos a la vez: no hay carru
 flechas, ni JavaScript. Cada bloque lleva **nombre, subtítulo y botones**, centrados contra
 el alto del mosaico. El subtítulo del cliente para JZ INOX tiene dos oraciones: la primera
 va aquí (`leadShort`) y la segunda bajo el titular del hero (`heroLead`), sin repetirse.
+Bajo la frase del cliente va un párrafo de apoyo nuestro (`blurb`, `[PROPUESTA]`), y la
+frase sube a 24px en tinta plena para leerse como afirmación.
 
 ### Renglones en vez de tarjetas
 Donde el contenido es una lista (servicios, puntos clave, misión y visión, índice de marca)
@@ -527,6 +529,15 @@ Inicio es la versión grande, en claro. El pie no lleva botón de cotizar.
 * Cada foto de `public/img` tiene variantes `-w800` (y `-w1200` el hero, `-w360`/`-w540` el
   logo). `src/utils/img.js` arma el `srcset` desde `src/data/img-manifest.json`. Al agregar
   una foto hay que generar su variante y su entrada en el manifiesto.
+
+### Datos del taller
+Los cuatro datos del cartucho viven en `facts` (`company.js`). El de «Taller» muestra la
+dirección (`Departamental 999, San Miguel`) y enlaza a la ficha de Google Maps; no dice
+«propio».
+
+### Código
+El código no lleva comentarios (regla en `CLAUDE.md §2.2`). El porqué de cada decisión
+está en este documento.
 
 ### Impresión
 Hay un bloque `@media print` en `global.css`: sin él, el revelado dejaba la página en blanco.

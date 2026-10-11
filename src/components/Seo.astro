@@ -1,13 +1,4 @@
 ---
-/**
- * Metadatos y datos estructurados, centralizados en el Layout.
- *
- * El JSON-LD de `ProfessionalService` describe a la EMPRESA, no a la página.
- * Repetirlo idéntico en las ocho URLs no aporta señal y ensucia el grafo de
- * entidades, así que solo se emite donde la ficha del negocio es el contenido:
- * el Inicio y Contacto. El resto de las páginas emite el schema que les es
- * propio, si lo tienen.
- */
 import { site } from "../data/site.js";
 
 interface Props {
@@ -20,7 +11,6 @@ const { title, description } = Astro.props as Props;
 const canonicalUrl = new URL(Astro.url.pathname, site.siteUrl).toString();
 const ogImageUrl = new URL(site.ogImage, site.siteUrl).toString();
 
-// Normaliza "/contacto/" y "/contacto" al mismo valor
 const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
 const isBusinessPage = path === "/" || path === "/contacto";
 
@@ -70,5 +60,4 @@ const businessLd = {
 
 {isBusinessPage && <script type="application/ld+json" set:html={JSON.stringify(businessLd)} />}
 
-{/* Cada página puede añadir su propio JSON-LD por este hueco */}
 <slot />

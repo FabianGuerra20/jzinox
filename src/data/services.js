@@ -1,19 +1,7 @@
-// CONTENIDO DEL CLIENTE — entregado en el PDF de textos.
-//
-//   [PDF]       texto o servicio nombrado en el documento del cliente.
-//   [PROPUESTA] redactado por nosotros porque el PDF dejó la ranura vacía.
-//               El cliente debe validarlo antes de publicar.
-//
-// El PDF nombra tres servicios principales para la portada (soldadura TIG/MIG/
-// aluminio, corte y plegado, diseño) y menciona fabricación, reparación y
-// mantención en el titular. Esos cinco son [PDF]; el sexto es propuesta nuestra.
-//
-// `slug` e `icon` son identificadores técnicos: el slug es el ancla de la URL.
-
 export const services = [
   {
     slug: "soldadura-tig-mig",
-    // [PDF] "Soldadura tig, mig y aluminio"
+    // [PDF]
     title: "Soldadura TIG, MIG y aluminio",
     icon: "tig",
     summary:
@@ -26,7 +14,7 @@ export const services = [
   },
   {
     slug: "corte-plegado",
-    // [PDF] "corte y plegado"
+    // [PDF]
     title: "Corte y plegado",
     icon: "shelf",
     summary:
@@ -39,7 +27,7 @@ export const services = [
   },
   {
     slug: "diseno-proyecto",
-    // [PDF] "diseño"
+    // [PDF]
     title: "Diseño de proyecto",
     icon: "counter",
     summary:
@@ -52,7 +40,7 @@ export const services = [
   },
   {
     slug: "mesones-equipamiento",
-    // [PDF] "Fabricamos mesones, equipamiento y mobiliario de alta durabilidad"
+    // [PDF]
     title: "Mesones y equipamiento",
     icon: "kitchen",
     summary:
@@ -64,7 +52,7 @@ export const services = [
   },
   {
     slug: "campanas-extraccion",
-    // [PROPUESTA] No está en el PDF, pero es parte del rubro y del catálogo
+    // [PROPUESTA]
     title: "Campanas y extracción",
     icon: "hood",
     summary:
@@ -77,7 +65,7 @@ export const services = [
   },
   {
     slug: "reparacion-mantencion",
-    // [PDF] "Fabricación, reparación y mantención de estructuras"
+    // [PDF]
     title: "Reparación y mantención",
     icon: "tools",
     summary:
@@ -90,17 +78,7 @@ export const services = [
   },
 ];
 
-/**
- * Los tres servicios que el PDF nombra como principales para la portada, con
- * las dos imágenes por servicio que el propio documento pide.
- *
- * [PDF] "Principales servicios: Soldadura tig, mig y aluminio (2 imagenes) /
- *        corte y plegado (2 imagenes) / diseño (2 imagenes)"
- *
- * Se componen en filas alternadas, no en tres columnas iguales: la grilla de
- * tres tarjetas simétricas con icono es el patrón que delata una plantilla, y
- * además aplasta las seis fotos a miniaturas donde no se distingue el trabajo.
- */
+// [PDF]
 export const mainServices = [
   {
     slug: "soldadura-tig-mig",
@@ -133,9 +111,7 @@ export const mainServices = [
   },
 ];
 
-// [PROPUESTA] El PDF no describe el proceso de trabajo. Estas cuatro etapas
-// salen de lo que el propio documento implica ("desde el diseño inicial hasta
-// la fabricación, reparación y mantención"). Validar con el cliente.
+// [PROPUESTA]
 export const processSteps = [
   {
     title: "Levantamiento",
@@ -155,15 +131,7 @@ export const processSteps = [
   },
 ];
 
-/**
- * Preguntas frecuentes de /servicios.
- *
- * [PROPUESTA] Borrador nuestro del 2026-10-11. Cada respuesta usa SOLO datos
- * que ya están en el sitio (documento del cliente o textos ya publicados):
- * nada de plazos, garantías, cobertura ni costos, que el cliente no ha dado.
- * Preguntas que quedaron fuera por eso: cuánto demora, si instalan fuera de
- * Santiago, si la visita tiene costo, qué acero usan (304 o 430).
- */
+// [PROPUESTA]
 export const faqs = [
   {
     question: "¿Qué necesito para pedir una cotización?",

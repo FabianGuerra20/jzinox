@@ -6,9 +6,6 @@ const year = new Date().getFullYear();
 const logo = "/img/logo-jzinox.webp";
 ---
 
-{/* Tres columnas: marca y contacto, navegación, y taller (horario y cómo
-    llegar). El botón "Cotizar proyecto" que había aquí se quitó: en la última
-    pantalla de cada página coincidía con el del cierre y el de la barra. */}
 <footer class="footer">
   <div class="container footer__grid">
     <div class="footer__col">
@@ -82,9 +79,6 @@ const logo = "/img/logo-jzinox.webp";
     }
   }
 
-  /* --- Títulos de columna --- */
-  /* Son <h2> a propósito: el pie es una landmark independiente y saltar de h1
-     a h4 rompe la jerarquía. El tamaño de etiqueta lo da la clase, no el tag. */
   .footer__title {
     font-family: var(--font-body);
     font-size: 0.75rem;
@@ -108,8 +102,6 @@ const logo = "/img/logo-jzinox.webp";
     margin-top: 0.5rem;
   }
 
-  /* En teléfono la navegación va a dos columnas: seis enlaces de 44px apilados
-     eran casi 300px de un pie que medía más de una pantalla. */
   .footer__nav {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -128,7 +120,6 @@ const logo = "/img/logo-jzinox.webp";
     margin-top: 0.25rem;
   }
 
-  /* Cada enlace del pie es un objetivo táctil real de 44px. */
   .footer__col a {
     display: flex;
     align-items: center;
@@ -151,8 +142,6 @@ const logo = "/img/logo-jzinox.webp";
     }
   }
 
-  /* AL Mueblería no es una sección de JZ Inox sino la marca aliada: peso extra
-     para que se lea como un salto de marca, no de página. */
   .footer__link--ally {
     font-weight: 700;
   }
@@ -169,9 +158,6 @@ const logo = "/img/logo-jzinox.webp";
     width: auto;
   }
 
-  /* --- Barra inferior --- */
-  /* El padding inferior extra deja libre el botón flotante de WhatsApp, que
-     en teléfono quedaba pegado al texto legal. */
   .footer__bottom {
     grid-column: 1 / -1;
     margin-top: 0.5rem;

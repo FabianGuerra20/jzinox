@@ -1,28 +1,11 @@
 ---
-/**
- * Bloque de marca del Inicio.
- *
- * Tres piezas en una composición asimétrica, no tres columnas iguales:
- *
- *   [ Nombre a gran tamaño + CTAs ]  [ Mosaico de tres fotos ]
- *   [ Índice de lo que se fabrica, a lo ancho, como renglones de una lista ]
- *
- * `flip` invierte el lado del mosaico para que dos bloques seguidos no se
- * lean como el mismo módulo repetido. El orden del DOM no cambia: nombre,
- * fotos, índice, que es el orden en que conviene leerlo y escucharlo.
- *
- * Sustituye a la placa 3/6/3 con carrusel: el mosaico muestra las tres fotos
- * a la vez y no necesita JavaScript ni controles.
- *
- * Cada bloque lleva nombre, subtítulo y botones, como pidió el cliente
- * ("Título / Subtítulo / Botones"). El subtítulo es `leadShort`.
- */
 interface Props {
   brand: {
     slug: string;
     name: string;
     lead: string;
     leadShort?: string;
+    blurb?: string;
     actions: Array<{ href: string; label: string; variant: string }>;
     featuredTitle: string;
     featuredHref: string;
@@ -45,7 +28,8 @@ const indexId = `indice-${brand.slug}`;
 <article class:list={["brand", { "brand--flip": flip }]} aria-labelledby={headingId}>
   <div class="brand__head" data-reveal>
     <h2 id={headingId} class="brand__name">{brand.name}</h2>
-    <p class="brand__lead">{brand.leadShort ?? brand.lead}</p>
+    <p class:list={["brand__lead", { "brand__lead--statement": brand.blurb }]}>{brand.leadShort ?? brand.lead}</p>
+    {brand.blurb && <p class="brand__text">{brand.blurb}</p>}
 
     <div class="brand__actions">
       {
@@ -118,8 +102,6 @@ const indexId = `indice-${brand.slug}`;
       grid-template-areas:
         "head mosaic"
         "index index";
-      /* Nombre, subtítulo y botones centrados contra el alto del mosaico: ni
-         colgados arriba ni apoyados abajo con un hueco encima. */
       align-items: center;
     }
 
@@ -131,15 +113,11 @@ const indexId = `indice-${brand.slug}`;
     }
   }
 
-  /* --- Nombre --- */
   .brand__head {
     grid-area: head;
   }
 
-  /* El nombre de la marca es el titular más grande de la página después del
-     h1: a 76px en mayúsculas ancla el bloque sin necesitar una caja alrededor. */
   .brand__name {
-    /* Tope en 60px: el titular más grande de la página es el h1 del hero */
     font-size: clamp(2.25rem, 4.4vw, 3.75rem);
     font-weight: 800;
     line-height: 0.95;
@@ -155,6 +133,22 @@ const indexId = `indice-${brand.slug}`;
     margin-bottom: 0;
   }
 
+  .brand__lead--statement {
+    max-width: 30ch;
+    font-family: var(--font-heading);
+    font-size: clamp(1.25rem, 1.8vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-text);
+  }
+
+  .brand__text {
+    max-width: 46ch;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    margin: 1rem 0 0;
+  }
+
   .brand__actions {
     display: flex;
     flex-wrap: wrap;
@@ -162,7 +156,6 @@ const indexId = `indice-${brand.slug}`;
     margin-top: 2rem;
   }
 
-  /* --- Mosaico: una foto alta y dos apiladas, unidas por la junta de 1px --- */
   .brand__mosaic {
     grid-area: mosaic;
     display: grid;
@@ -172,8 +165,6 @@ const indexId = `indice-${brand.slug}`;
     border: 1px solid var(--color-border);
   }
 
-  /* En teléfono el mosaico va cuadrado: a 4:3 las dos fotos chicas medían
-     139 x 130px. */
   @media (max-width: 639.98px) {
     .brand__mosaic {
       aspect-ratio: 1 / 1;
@@ -210,7 +201,6 @@ const indexId = `indice-${brand.slug}`;
     object-fit: cover;
   }
 
-  /* --- Índice: renglones a lo ancho, cada uno con su junta encima --- */
   .brand__index {
     grid-area: index;
     align-self: start;

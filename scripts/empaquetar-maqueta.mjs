@@ -1,24 +1,3 @@
-/**
- * Empaqueta el build como una maqueta autónoma para enviar al cliente.
- *
- * EL PROBLEMA QUE RESUELVE
- * Astro genera enlaces absolutos desde la raíz del dominio:
- *
- *     href="/nosotros"        href="/_astro/index.BN-kPppp.css"
- *
- * Eso funciona servido por HTTP, pero la entrega es una carpeta que el cliente
- * abre con doble clic. Bajo `file://`, el navegador resuelve `/nosotros` como
- * `C:/nosotros`: la página aparece sin estilos y con la navegación muerta.
- *
- * Este script reescribe cada ruta absoluta como relativa según la profundidad
- * del archivo que la contiene, y añade `index.html` donde Astro confiaba en que
- * el servidor lo resolviera solo.
- *
- * NO toca las URLs canónicas ni las de Open Graph: esas describen dónde vivirá
- * el sitio publicado y tienen que seguir siendo absolutas.
- *
- * Uso:  node scripts/empaquetar-maqueta.mjs <destino> [--etiqueta "Versión A"]
- */
 import { cp, mkdir, readdir, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
@@ -39,7 +18,6 @@ if (!existsSync(DIST)) {
   process.exit(1);
 }
 
-/** Todos los archivos bajo un directorio, recursivo. */
 async function listarArchivos(dir) {
   const salida = [];
   for (const entrada of await readdir(dir, { withFileTypes: true })) {
@@ -50,32 +28,21 @@ async function listarArchivos(dir) {
   return salida;
 }
 
-/**
- * Convierte una ruta absoluta del sitio en una relativa al archivo que la usa.
- *
- * @param {string} ruta      ruta absoluta tal como aparece en el HTML ("/nosotros")
- * @param {string} prefijo   "./" o "../" repetido según la profundidad
- * @param {Set<string>} paginas  rutas que son páginas y necesitan "/index.html"
- */
 function aRelativa(ruta, prefijo, paginas) {
   const [limpia, sufijo = ""] = ruta.split(/(?=[#?])/);
   const sinBarra = limpia.replace(/\/+$/, "");
 
-  // La raíz del sitio
   if (sinBarra === "") return `${prefijo}index.html${sufijo}`;
 
-  const destinoRuta = sinBarra.slice(1); // sin la barra inicial
+  const destinoRuta = sinBarra.slice(1);
 
-  // Una página: el servidor habría servido su index.html; con file:// hay que pedirlo.
   if (paginas.has(sinBarra)) return `${prefijo}${destinoRuta}/index.html${sufijo}`;
 
-  // Un archivo (CSS, imagen, XML...): va tal cual, solo re-anclado.
   return `${prefijo}${destinoRuta}${sufijo}`;
 }
 
 const archivos = await listarArchivos(DIST);
 
-// Qué rutas son páginas: las carpetas que contienen un index.html
 const paginas = new Set(
   archivos
     .filter((f) => path.basename(f) === "index.html")
@@ -99,8 +66,6 @@ for (const archivo of archivos) {
   const antes = contenido;
 
   if (ext === ".html") {
-    // El canonical y las URLs de Open Graph describen el sitio PUBLICADO:
-    // se protegen antes de reescribir y se restauran después.
     const protegidas = [];
     contenido = contenido.replace(
       /<(?:link[^>]*rel="canonical"|meta[^>]*(?:property="og:url"|name="twitter:[^"]*"|property="og:image"))[^>]*>/g,
@@ -110,7 +75,6 @@ for (const archivo of archivos) {
       },
     );
 
-    // El JSON-LD también lleva URLs absolutas del sitio publicado.
     const scripts = [];
     contenido = contenido.replace(/<script type="application\/ld\+json"[\s\S]*?<\/script>/g, (m) => {
       scripts.push(m);
@@ -126,7 +90,6 @@ for (const archivo of archivos) {
       .replace(/\u0000LD(\d+)\u0000/g, (_m, i) => scripts[Number(i)])
       .replace(/\u0000PROTEGIDA(\d+)\u0000/g, (_m, i) => protegidas[Number(i)]);
   } else {
-    // En CSS solo aparecen assets (fuentes, imágenes de fondo).
     contenido = contenido.replace(/url\((["']?)(\/[^"')]+)\1\)/g, (_m, q, ruta) => {
       rutasReescritas += 1;
       return `url(${q}${aRelativa(ruta, prefijo, paginas)}${q})`;
@@ -139,12 +102,10 @@ for (const archivo of archivos) {
   }
 }
 
-// Copia limpia al destino
 await rm(destino, { recursive: true, force: true });
 await mkdir(destino, { recursive: true });
 await cp(DIST, destino, { recursive: true });
 
-// El sitemap y robots.txt describen el sitio publicado, no una carpeta local.
 for (const sobra of ["sitemap-index.xml", "sitemap-0.xml", "robots.txt"]) {
   await rm(path.join(destino, sobra), { force: true });
 }

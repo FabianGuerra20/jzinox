@@ -1,18 +1,4 @@
 ---
-/**
- * Inicio.
- *
- * De arriba abajo:
- *   1. Hero partido: titular a la izquierda, foto del taller a sangre a la
- *      derecha y, cerrando, el cartucho del plano con los cuatro datos.
- *   2. Bloque de JZ INOX      (pedido del cliente: va primero)
- *   3. Bloque de AL Mueblería (sección clara, composición invertida)
- *   4. Servicios principales: columna fija con la foto + tres renglones
- *   5. Cierre a gran tamaño con doble CTA
- *
- * El copy sale del PDF del cliente. Los bloques marcados [PROPUESTA] en
- * `src/data/` los redactamos nosotros y esperan validación.
- */
 import Layout from "../layouts/Layout.astro";
 import BrandShowcase from "../components/BrandShowcase.astro";
 import WhatsAppIcon from "../components/WhatsAppIcon.astro";
@@ -22,23 +8,14 @@ import { srcset } from "../utils/img.js";
 import { mainServices } from "../data/services.js";
 import { site } from "../data/site.js";
 
-/**
- * Imagen del hero. Para publicar otra foto basta con cambiar esta ruta.
- * Formato recomendado: horizontal, 2400 px de ancho, WebP bajo 300 KB.
- */
 const heroImage = {
   src: "/img/taller-estanteria.webp",
   alt: "Taller de JZ INOX: estantería de acero inoxidable en fabricación junto a la plegadora",
 };
 
-// [PDF] Titular de la página de inicio. Se parte en palabras para que cada una
-// suba por separado al cargar; el texto y su orden no cambian.
 const heroTitle = "Fabricación, reparación y mantención de estructuras en acero inoxidable";
 const heroWords = heroTitle.split(" ");
 
-
-// El PDF pide dos imágenes por servicio; hasta que lleguen, la sección muestra
-// la única foto real que hay y no los huecos rotulados.
 const servicePhoto = mainServices.flatMap((service) => service.media).find((media) => media.src);
 
 const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`;
@@ -48,7 +25,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	flush
 	description="Mesones, campanas y equipamiento en acero inoxidable a medida para restaurantes y comida rápida. Taller en Santiago con más de 20 años de oficio."
 >
-	{/* --- 1. Hero --- */}
 	<section class="hero">
 		<div class="hero__main">
 			<div class="hero__copy">
@@ -63,11 +39,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 						))
 					}
 				</h1>
-				{/* [PDF] Segunda oración del subtítulo del cliente, literal. La primera
-				    va bajo el nombre de la marca, en el bloque siguiente. */}
 				<p class="hero__lead">{brands[0].heroLead}</p>
-				{/* Dos CTA con peso distinto: cotizar es la acción que el negocio quiere,
-				    WhatsApp es la salida para quien todavía no sabe qué pedir. */}
 				<div class="hero__actions">
 					<a href="/contacto" class="btn btn--primary btn--lg">Cotizar proyecto</a>
 					<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--lg">
@@ -77,8 +49,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 				</div>
 			</div>
 
-			{/* `<img>` y no background-image: el preloader la descubre en el HTML
-			    inicial y la trata como candidata a LCP. */}
 			<figure class="hero__figure">
 				<img
 					src={heroImage.src}
@@ -98,14 +68,22 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 				facts.map((cell, i) => (
 					<div class="hero__cell" style={`--i: ${i}`}>
 						<dt>{cell.label}</dt>
-						<dd>{cell.value}</dd>
+						<dd>
+							{cell.href ? (
+							<a class="fact-link link-press" href={cell.href} target="_blank" rel="noopener noreferrer">
+								{cell.value}
+								<span class="visually-hidden"> (abre Google Maps)</span>
+							</a>
+						) : (
+							cell.value
+						)}
+						</dd>
 					</div>
 				))
 			}
 		</dl>
 	</section>
 
-	{/* --- 2 y 3. Las dos marcas --- */}
 	{
 		brands.map((brand, i) => (
 			<section class:list={["section", "brand-section", { "section--alt": i % 2 === 1 }]}>
@@ -116,7 +94,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		))
 	}
 
-	{/* --- 4. Servicios principales --- */}
 	<section class="section services" aria-labelledby="servicios-principales">
 		<div class="container services__grid">
 			<div class="services__aside">
@@ -162,21 +139,20 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		</div>
 	</section>
 
-	{/* --- 5. Cierre --- */}
 	<section class="closing section--alt" aria-labelledby="cierre">
 		<div class="container">
 			<div class="closing__inner" data-reveal>
-				<h2 id="cierre">Cotiza tu proyecto</h2>
-				<div class="closing__side">
+				<div class="closing__text">
+					<h2 id="cierre">Cotiza tu proyecto</h2>
 					<p>Medimos tu espacio, te mostramos la propuesta con plazos y recién ahí fabricamos.</p>
+				</div>
 
-					<div class="closing__actions">
-						<a href="/contacto" class="btn btn--primary btn--lg">Cotizar proyecto</a>
-						<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp btn--lg">
-							<WhatsAppIcon size={18} />
-							Escríbenos por WhatsApp
-						</a>
-					</div>
+				<div class="closing__actions">
+					<a href="/contacto" class="btn btn--primary btn--lg">Cotizar proyecto</a>
+					<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp btn--lg">
+						<WhatsAppIcon size={18} />
+						Escríbenos por WhatsApp
+					</a>
 				</div>
 			</div>
 		</div>
@@ -184,14 +160,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 </Layout>
 
 <style>
-	/* =========================================================
-	   1. Hero partido
-	   ---------------------------------------------------------
-	   El texto vive sobre el lienzo, no sobre la foto: así el
-	   titular no necesita velo y la foto se ve a plena luz. La
-	   foto sangra por la derecha y por arriba (pasa bajo la barra
-	   translúcida). Debajo, el cartucho del plano.
-	   ========================================================= */
 	.hero {
 		display: grid;
 		grid-template-rows: 1fr auto;
@@ -234,8 +202,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 			grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
 		}
 
-		/* El margen izquierdo sigue al contenedor de 1440px del resto del sitio,
-		   aunque el hero no use `.container` (la foto tiene que llegar al borde). */
 		.hero__copy {
 			padding-left: max(var(--margin-desktop), calc((100vw - var(--container-width)) / 2 + var(--margin-desktop)));
 			padding-right: clamp(2rem, 4vw, 4.5rem);
@@ -248,8 +214,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		}
 	}
 
-	/* El titular del cliente tiene 70 caracteres: a 56px y 24ch cabe en cuatro
-	   líneas. Cada palabra va en su propia caja recortada para la entrada. */
 	.hero__title {
 		max-width: 24ch;
 		font-size: clamp(2.125rem, 3.9vw, 3.5rem);
@@ -257,8 +221,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		margin-bottom: 1.5rem;
 	}
 
-	/* El recorte se extiende hacia arriba para no comerse la tilde de las
-	   mayúsculas (FABRICACIÓN), que sobresale de la caja de línea. */
 	.hero__word {
 		display: inline-block;
 		vertical-align: top;
@@ -288,7 +250,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		}
 	}
 
-	/* --- Cartucho del plano --- */
 	.hero__block {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -337,13 +298,11 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 			padding-left: max(var(--margin-desktop), calc((100vw - var(--container-width)) / 2 + var(--margin-desktop)));
 		}
 
-		/* El botón flotante de WhatsApp cae sobre esta celda */
 		.hero__cell:last-child {
 			padding-right: 6rem;
 		}
 	}
 
-	/* --- Entrada: una sola vez, al cargar --- */
 	@keyframes word-up {
 		from {
 			transform: translateY(105%);
@@ -397,8 +356,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 			animation-delay: 0.42s;
 		}
 
-		/* La foto entra como un corte de guillotina, de izquierda a derecha, y
-		   se asienta por debajo. */
 		.hero__figure {
 			animation: cut-in 0.8s var(--ease-in-out) both;
 		}
@@ -413,20 +370,10 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		}
 	}
 
-	/* =========================================================
-	   2 y 3. Bloques de marca
-	   ========================================================= */
 	.brand-section {
 		border-bottom: 1px solid var(--color-border);
 	}
 
-	/* =========================================================
-	   4. Servicios — columna fija + renglones
-	   ---------------------------------------------------------
-	   El título y la foto se quedan a la vista mientras pasan los
-	   tres servicios. Sin tarjetas: cada renglón se separa del
-	   siguiente con la junta de 1px.
-	   ========================================================= */
 	.services__grid {
 		display: grid;
 		gap: clamp(2rem, 5vw, 4rem);
@@ -509,45 +456,37 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		}
 	}
 
-	/* =========================================================
-	   5. Cierre
-	   ========================================================= */
-	/* Banda clara (`section--alt`): tras 970px de servicios en oscuro y antes
-	   del pie, el cierre oscuro se fundía con ambos. Es la versión grande de la
-	   banda de cierre de las demás páginas. */
 	.closing {
 		padding: clamp(3.5rem, 8vw, 6.5rem) 0;
 	}
 
 	.closing__inner {
 		display: grid;
-		gap: 1.5rem clamp(2rem, 5vw, 4rem);
+		gap: 2rem clamp(2rem, 6vw, 5rem);
 	}
 
-	@media (min-width: 1024px) {
+	@media (min-width: 900px) {
 		.closing__inner {
-			grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+			grid-template-columns: minmax(0, 1fr) auto;
 			align-items: end;
 		}
 	}
 
 	.closing h2 {
-		/* Tope en 72px: a 96px le ganaba al titular principal de la página */
 		font-size: clamp(2.25rem, 5.2vw, 4.5rem);
 		font-weight: 800;
 		line-height: 0.95;
 		letter-spacing: -0.03em;
 		text-transform: uppercase;
-		margin: 0;
+		margin: 0 0 1.25rem;
 	}
 
 	.closing p {
 		max-width: 46ch;
 		font-size: 1.125rem;
-		margin: 0 0 1.75rem;
+		margin: 0;
 	}
 
-	/* Los dos botones miden lo mismo, apilados o en fila */
 	.closing__actions {
 		display: grid;
 		grid-template-columns: max-content;

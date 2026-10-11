@@ -1,7 +1,4 @@
 ---
-// Boton flotante de contacto directo por WhatsApp.
-// El mockup lo reduce a un unico enlace: sin estado desplegable, sin checkbox
-// y sin JavaScript. Cuadrado de 56px (radio cero, como todo el sistema).
 import { site } from "../data/site.js";
 
 const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(
@@ -24,10 +21,8 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 </a>
 
 <style>
-  /* Cuadrado, nunca circular: el sistema completo trabaja con radio cero. */
   .fab {
     position: fixed;
-    /* Respeta la barra de gestos y el borde curvo de los teléfonos */
     right: calc(1.5rem + env(safe-area-inset-right, 0px));
     bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
     touch-action: manipulation;
@@ -56,13 +51,11 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
     transform: scale(0.96);
   }
 
-  /* Foco visible con contraste alto sobre el verde y sobre el lienzo claro. */
   .fab:focus-visible {
     outline: 2px solid var(--color-graphite);
     outline-offset: 3px;
   }
 
-  /* Sin movimiento: el feedback de hover pasa a ser un oscurecido del fondo. */
   @media (prefers-reduced-motion: reduce) {
     .fab {
       transition: background-color 200ms linear;

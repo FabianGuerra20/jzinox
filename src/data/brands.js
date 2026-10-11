@@ -1,28 +1,13 @@
-/**
- * Las dos marcas del ecosistema, tal como se presentan en el Inicio.
- *
- * CONTENIDO DEL CLIENTE — entregado en el PDF de textos.
- *   [PDF]       texto literal del documento del cliente. No reescribir.
- *   [PROPUESTA] redactado por nosotros porque el PDF dejó la ranura vacía.
- *               El cliente debe validarlo antes de publicar.
- *
- * Las imágenes siguen siendo placeholders. Cada una declara `pending: true`,
- * el nombre de la ranura y la proporción requerida, para que sustituir la foto
- * real no provoque reflujo y el cliente sepa qué foto mandar.
- */
-
 export const brands = [
   {
     slug: "jzinox",
     name: "JZ INOX",
-    // [PDF] Subtítulo de la página de inicio
+    // [PDF]
     lead: "Soluciones en acero inoxidable diseñadas a la medida de tu negocio. Fabricamos mesones, equipamiento y mobiliario de alta durabilidad para restaurantes, comida rápida e industria alimentaria.",
-    // El subtítulo del cliente tiene dos oraciones y se reparten, literales, en
-    // dos lugares del Inicio para que ninguna se repita:
-    //   heroLead   segunda oración, bajo el titular del hero
-    //   leadShort  primera oración, bajo el nombre de la marca en su bloque
     heroLead: "Fabricamos mesones, equipamiento y mobiliario de alta durabilidad para restaurantes, comida rápida e industria alimentaria.",
     leadShort: "Soluciones en acero inoxidable diseñadas a la medida de tu negocio.",
+    // [PROPUESTA]
+    blurb: "Llevamos más de 20 años trabajando el acero inoxidable en nuestro taller de San Miguel. Diseñamos, cortamos, plegamos y soldamos cada pieza a la medida de tu cocina: campanas, mesones, carros, revestimientos y soportes. Y cuando lo que ya tienes instalado necesita arreglo, también lo reparamos y lo mantenemos.",
     href: "/",
     actions: [
       { href: "/catalogo", label: "Ver productos", variant: "primary" },
@@ -31,8 +16,8 @@ export const brands = [
     featuredTitle: "Productos destacados",
     featuredHref: "/catalogo",
     featuredLabel: "Ver todos los productos",
-    // [CLIENTE] Nombres tomados de la lista de productos del 2026-10-11, uno
-    // por categoría. Las notas son [PROPUESTA].
+    // [CLIENTE]
+    // [PROPUESTA]
     featured: [
       { name: "Campana", note: "A la medida de la línea de cocción.", href: "/catalogo#extraccion" },
       { name: "Mesón con repisa", note: "Mesón de trabajo a medida.", href: "/catalogo#mesones" },
@@ -48,9 +33,9 @@ export const brands = [
   {
     slug: "al-muebleria",
     name: "AL Mueblería",
-    // [PDF] Primer párrafo de la descripción
+    // [PDF]
     lead: "Nos dedicamos a dar vida a tus espacios mediante la fabricación de mobiliario a medida. Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo.",
-    // [PDF, recortado] Segunda oración, literal.
+    // [PDF, recortado]
     leadShort: "Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo.",
     href: "/al-muebleria",
     actions: [
@@ -60,7 +45,7 @@ export const brands = [
     featuredTitle: "Lo que fabricamos",
     featuredHref: "/al-muebleria#al-catalogo",
     featuredLabel: "Ver proyectos",
-    // [PDF] Salen de los bullets de servicios del documento
+    // [PDF]
     featured: [
       { name: "Cocinas empotradas y clósets", note: "Línea plana, medida al rincón exacto.", href: "/al-muebleria#al-catalogo" },
       { name: "Mostradores y recepción", note: "Locales comerciales y patios de comida.", href: "/al-muebleria#al-catalogo" },
@@ -78,30 +63,24 @@ export const brands = [
 export const jzinox = brands[0];
 export const alMuebleria = brands[1];
 
-/**
- * Landing interna de AL Mueblería.
- * Casi todo es [PDF]: el documento del cliente trae esta sección completa.
- */
+// [PDF]
 export const alMuebleriaPage = {
   hero: {
     eyebrow: "AL Mueblería",
-    // [PDF] "Muebles a Medida | Mueblistería y Ebanistería"
+    // [PDF]
     title: "Muebles a medida",
     subtitle: "Mueblistería y ebanistería",
-    // [PDF] Primer párrafo, literal
-    // [PDF, recortado] Se muestra desde la segunda oración, literal. La primera
-    // ("Nos dedicamos a dar vida a tus espacios mediante la fabricación de
-    // mobiliario a medida.") repite el titular.
+    // [PDF]
+    // [PDF, recortado]
     lead: "Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo, como patios de comida, locales y áreas de personal.",
   },
   services: {
-    // [PROPUESTA] El PDF titula la sección solo como "Nuestros Servicios"
+    // [PROPUESTA]
     title: "Muebles para tu casa y para tu negocio",
-    // [PDF] Segundo párrafo de la descripción
-    // [PDF, recortado] Oración central del párrafo, literal. La pregunta inicial
-    // ya es el título del cierre de la página.
+    // [PDF]
+    // [PDF, recortado]
     lead: "Te acompañamos en cada etapa de la fabricación y te hacemos parte activa del proceso.",
-    // [PDF] Los tres servicios con sus bullets, literales
+    // [PDF]
     items: [
       {
         title: "Mobiliario domiciliario",
@@ -135,22 +114,18 @@ export const alMuebleriaPage = {
     ],
   },
   catalog: {
-    // [PROPUESTA] El PDF deja la galería vacía
+    // [PROPUESTA]
     title: "Proyectos",
     lead: "Una muestra de lo que hemos fabricado, cada pieza a medida.",
   },
   cta: {
-    // [PDF] "¿Tienes un proyecto en mente? Cotiza con nosotros."
+    // [PDF]
     title: "¿Tienes un proyecto en mente?",
     lead: "Cotiza con nosotros. Te acompañamos en cada etapa de la fabricación.",
   },
 };
 
-/**
- * Galería de AL Mueblería (8 piezas, fotos reales del cliente).
- * [PROPUESTA] El PDF deja la galería vacía; los nombres salen de los bullets
- * de servicios del propio documento.
- */
+// [PROPUESTA]
 export const alMuebleriaCatalog = [
   {
     id: "closet-escritorio",

@@ -1,29 +1,16 @@
-// CONTENIDO DEL CLIENTE — entregado en el PDF de textos.
-//
-// Procedencia de cada bloque:
-//   [PDF]       texto literal del documento del cliente. No reescribir.
-//   [PROPUESTA] redactado por nosotros porque el PDF dejó la ranura vacía.
-//               El cliente debe validarlo antes de publicar.
-//
-// Las cifras NO se inventan: un número inventado en un sitio corporativo es una
-// afirmación falsa, distinto de un texto descriptivo de relleno. Las que el
-// cliente no confirmó se renderizan como ranura de solicitud (`pending: true`),
-// nunca como "00".
+import { site } from "./site.js";
 
-// El H1 de la página. Lleva el título que el PDF entrega para "Nosotros":
-// contiene la keyword del negocio y el diferenciador (20 años, resistencia),
-// así que sirve igual de bien como encabezado principal y para buscadores.
 export const pageHero = {
-  // [PDF] Título de la sección
+  // [PDF]
   title: "Más de 20 años garantizando calidad y resistencia en acero inoxidable",
-  // [PDF] Primera frase de la presentación, como entrada
+  // [PDF]
   lead: "Llevamos más de dos décadas transformando el acero inoxidable en soluciones duraderas para la industria alimentaria, restaurantes y locales de comida rápida.",
 };
 
 export const history = {
-  // [PROPUESTA] El PDF no titula este bloque; el H1 ya tomó su título
+  // [PROPUESTA]
   title: "Fabricamos a medida, pieza por pieza",
-  // [PDF] Historia / Presentación, literal
+  // [PDF]
   paragraphs: [
     "En JZ INOX llevamos más de dos décadas transformando el acero inoxidable en soluciones duraderas para la industria alimentaria, restaurantes y locales de comida rápida. Hemos fabricado y diseñado a grandes empresas de la industria alimentaria de la comida rápida.",
     "Nos dedicamos a la fabricación a medida, sabemos que cada cocina y espacio de trabajo tiene necesidades únicas que los muebles estandarizados no pueden resolver.",
@@ -31,18 +18,18 @@ export const history = {
 };
 
 export const mission = {
-  // [PROPUESTA] El PDF no titula esta sección
+  // [PROPUESTA]
   title: "Misión y visión",
   items: [
     {
       title: "Nuestra misión",
-      // [PDF] Misión, literal
+      // [PDF]
       description:
         "Brindar equipamiento e infraestructura en acero inoxidable de la máxima calidad y resistencia, ofreciendo un producto robusto y personalizado que supere con creces la mueblería importada de baja durabilidad. Trabajamos para que tu inversión dure años en perfectas condiciones, optimizando la higiene y operatividad de tu negocio.",
     },
     {
       title: "Nuestra visión",
-      // [PROPUESTA] El PDF entrega la misión pero no la visión
+      // [PROPUESTA]
       description:
         "Ser el taller al que llaman cuando la pieza tiene que entrar exacta y aguantar el uso diario durante años.",
     },
@@ -50,11 +37,11 @@ export const mission = {
 };
 
 export const valuesSection = {
-  // [PDF] "¿Por qué elegir JZINOX? (Puntos clave)"
+  // [PDF]
   title: "¿Por qué elegir JZ INOX?",
 };
 
-// [PDF] Los cuatro puntos clave, literales
+// [PDF]
 export const values = [
   {
     title: "20+ años de experiencia",
@@ -78,10 +65,7 @@ export const values = [
   },
 ];
 
-// Banda de cifras. Solo la primera está confirmada por el cliente ([PDF]: "Más
-// de 20 años"). Las otras tres quedan como ranura de solicitud hasta que las
-// confirme: se renderizan con borde punteado y la etiqueta "Dato por confirmar",
-// la misma convención que los placeholders de foto.
+// [PDF]
 export const stats = [
   { value: "20+", label: "Años de experiencia" },
   { value: null, label: "Dato por confirmar", pending: true, hint: "Proyectos entregados" },
@@ -89,14 +73,10 @@ export const stats = [
   { value: null, label: "Dato por confirmar", pending: true, hint: "Garantía de fabricación" },
 ];
 
-/**
- * Los cuatro datos que identifican al taller. Van en el cartucho del hero del
- * Inicio y bajo el numeral de /nosotros. Todos salen del documento del cliente;
- * ninguno es una cifra nueva. "Taller propio" es [PROPUESTA]: confirmar.
- */
+// [PROPUESTA]
 export const facts = [
   { label: "Experiencia", value: "20+ años" },
   { label: "Origen", value: "Manufactura nacional" },
-  { label: "Taller", value: "Propio, en Santiago" },
+  { label: "Taller", value: "Departamental 999, San Miguel", href: site.mapsHref },
   { label: "Fabricación", value: "100% a medida" },
 ];

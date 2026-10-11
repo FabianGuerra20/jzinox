@@ -1,22 +1,9 @@
 ---
-/**
- * Nosotros: historia, misión/visión y valores de JZINOX.
- *
- * El copy sale del PDF del cliente. Los bloques marcados [PROPUESTA] en
- * `company.js` los redactamos nosotros y esperan validación.
- *
- * Sin tarjetas: la cifra confirmada va como numeral a gran tamaño, misión y
- * visión como dos columnas de texto, y los cuatro puntos clave como renglones.
- */
 import Layout from "../layouts/Layout.astro";
 import { pageHero, history, mission, valuesSection, values, stats, facts } from "../data/company.js";
 
-// Solo se publican las cifras confirmadas por el cliente. Las `pending` siguen
-// en `company.js` como recordatorio de lo que falta pedir.
 const confirmedStats = stats.filter((stat) => !stat.pending);
 
-// Bajo el numeral van los otros datos confirmados del taller (el primero de
-// `facts` ya es la cifra de años).
 const otherFacts = facts.slice(1);
 ---
 
@@ -24,23 +11,14 @@ const otherFacts = facts.slice(1);
 	title="Taller de acero inoxidable a medida en Santiago"
 	description="Taller de acero inoxidable en Santiago con más de 20 años de oficio. Conoce cómo trabajamos y por qué fabricamos cada pieza a medida."
 >
-	{/* --- Encabezado --- */}
 	<section class="section page-hero page-hero--split" aria-labelledby="nosotros-titulo">
 		<div class="container">
-			{/* Sin entradilla: la que había era, palabra por palabra, la primera
-			    frase de la historia que empieza justo debajo. */}
 			<h1 id="nosotros-titulo">{pageHero.title}</h1>
 		</div>
 	</section>
 
-	{/* --- Historia + cifra --- */}
 	<section class="section section--alt" aria-labelledby="nosotros-historia">
 		<div class="container history">
-			{/*
-				Las cifras son una lista de descripción: cada número es el VALOR de su
-				etiqueta. El orden del DOM es etiqueta → valor porque <dl> lo exige; la
-				inversión visual la hace el CSS.
-			*/}
 			<dl class="history__stats" data-reveal>
 				{
 					confirmedStats.map((stat) => (
@@ -54,7 +32,16 @@ const otherFacts = facts.slice(1);
 					otherFacts.map((fact) => (
 						<div class="history__fact">
 							<dt>{fact.label}</dt>
-							<dd>{fact.value}</dd>
+							<dd>
+								{fact.href ? (
+								<a class="fact-link link-press" href={fact.href} target="_blank" rel="noopener noreferrer">
+									{fact.value}
+									<span class="visually-hidden"> (abre Google Maps)</span>
+								</a>
+							) : (
+								fact.value
+							)}
+							</dd>
 						</div>
 					))
 				}
@@ -67,7 +54,6 @@ const otherFacts = facts.slice(1);
 		</div>
 	</section>
 
-	{/* --- Misión y visión --- */}
 	<section class="section" aria-labelledby="nosotros-mision">
 		<div class="container">
 			<div class="section-head" data-reveal>
@@ -87,7 +73,6 @@ const otherFacts = facts.slice(1);
 		</div>
 	</section>
 
-	{/* --- Puntos clave --- */}
 	<section class="section section--alt" aria-labelledby="nosotros-valores">
 		<div class="container values">
 			<div class="values__head" data-reveal>
@@ -107,7 +92,6 @@ const otherFacts = facts.slice(1);
 		</div>
 	</section>
 
-	{/* --- Cierre --- */}
 	<section class="section section--tight cta-band cta-band--dark" aria-labelledby="nosotros-cierre">
 		<div class="container cta-band__inner" data-reveal>
 			<div class="cta-band__text">
@@ -122,12 +106,6 @@ const otherFacts = facts.slice(1);
 </Layout>
 
 <style>
-	/* =========================================================
-	   Historia: el numeral manda
-	   ---------------------------------------------------------
-	   "20+" es el único dato duro confirmado. Va a 11rem, sin caja,
-	   apoyado en una junta: ocupa el lugar de la foto que no hay.
-	   ========================================================= */
 	.history {
 		display: grid;
 		gap: clamp(2rem, 5vw, 4rem);
@@ -143,12 +121,9 @@ const otherFacts = facts.slice(1);
 	.history__stats {
 		display: grid;
 		gap: 0;
-		/* <dl> llega con margen de agente de usuario */
 		margin: 0;
 	}
 
-	/* `column-reverse` deja la cifra arriba y su etiqueta debajo sin alterar el
-	   orden semántico dt → dd que lee el navegador. */
 	.history__stat {
 		display: flex;
 		flex-direction: column-reverse;
@@ -158,7 +133,7 @@ const otherFacts = facts.slice(1);
 	}
 
 	.history__stat dd {
-		margin: 0; /* el sangrado por defecto de <dd> descentraría la cifra */
+		margin: 0;
 		font-family: var(--font-heading);
 		font-size: clamp(5.5rem, 15vw, 11rem);
 		font-weight: 800;
@@ -177,8 +152,6 @@ const otherFacts = facts.slice(1);
 		color: var(--color-text-muted);
 	}
 
-	/* Los otros datos confirmados, como renglones bajo el numeral: llenan la
-	   columna con información y no con aire. */
 	.history__fact {
 		display: flex;
 		align-items: baseline;
@@ -215,9 +188,6 @@ const otherFacts = facts.slice(1);
 		margin-bottom: 0;
 	}
 
-	/* =========================================================
-	   Misión y visión: dos columnas de texto, sin caja
-	   ========================================================= */
 	.creed {
 		display: grid;
 		gap: 2.5rem var(--gutter);
@@ -245,9 +215,6 @@ const otherFacts = facts.slice(1);
 		margin-bottom: 0;
 	}
 
-	/* =========================================================
-	   Puntos clave: título fijo a la izquierda, renglones a la derecha
-	   ========================================================= */
 	.values {
 		display: grid;
 		gap: clamp(1.75rem, 4vw, 3rem);

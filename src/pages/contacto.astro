@@ -9,9 +9,6 @@ import { site } from "../data/site.js";
 	title="Cotiza tu proyecto en acero inoxidable"
 	description={`Cotiza tu proyecto de equipamiento gastronómico en acero inoxidable. ${site.street}, ${site.city}, ${site.region}.`}
 >
-	{/* Hero comprimido a propósito: en una página transaccional el titular
-	    no compite con el formulario por el primer pliegue. Mismo contenido,
-	    la mitad del aire vertical. */}
 	<section class="section page-hero page-hero--tight page-hero--split">
 		<div class="container">
 			<h1>Cotiza tu proyecto en acero inoxidable</h1>
@@ -25,8 +22,6 @@ import { site } from "../data/site.js";
 				<div class="bento__cell bento__cell--accent contact__info">
 					<h2>Datos de contacto</h2>
 
-					{/* Lista de definiciones: cada dato es un par etiqueta/valor, no
-					    texto enfatizado dentro de una lista de ítems. */}
 					<dl class="contact__list">
 						<dt>Teléfono / WhatsApp</dt>
 						<dd><a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a></dd>
@@ -60,13 +55,6 @@ import { site } from "../data/site.js";
 					</a>
 				</div>
 
-				{/* aria-label convierte el form en landmark navegable: sin nombre
-				    accesible no expone su rol.
-
-				    `novalidate` es deliberado: los mensajes nativos del navegador son
-				    genéricos, salen en el idioma del navegador y no del sitio, y
-				    desaparecen solos. Los reemplazamos por mensajes propios anclados
-				    al campo. La validación real sigue existiendo, la hace el script. */}
 				<form
 					class="bento__cell contact__form"
 					action={site.formsubmitEndpoint}
@@ -132,10 +120,6 @@ import { site } from "../data/site.js";
 						</div>
 					</div>
 
-					{/* La primera opción está vacía y el campo es `required`: sin ella,
-					    cada consulta de quien no toca el campo llegaba etiquetada como
-					    el primer servicio de la lista, y la bandeja de entrada del
-					    taller quedaba con datos falsos. */}
 					<div class="field">
 						<label for="service">¿Qué necesitas?</label>
 						<select
@@ -147,8 +131,6 @@ import { site } from "../data/site.js";
 						>
 							<option value="">Selecciona una opción</option>
 							{services.map((service) => <option value={service.title}>{service.title}</option>)}
-							{/* Quien llega desde Productos o desde AL Mueblería no encontraba
-							    su caso entre los servicios y terminaba en "Otro". */}
 							<option value="Un producto de la lista">Un producto de la lista</option>
 							<option value="Muebles a medida (AL Mueblería)">Muebles a medida (AL Mueblería)</option>
 							<option value="No lo sé todavía">No lo sé todavía</option>
@@ -167,16 +149,10 @@ import { site } from "../data/site.js";
 							minlength="10"
 							aria-describedby="message-help message-error"
 							data-error="Cuéntanos brevemente qué necesitas, aunque sean dos líneas."></textarea>
-						{/* La instrucción va fija bajo el campo, no como placeholder, que
-						    desaparece justo cuando se empieza a escribir. */}
 						<p class="field__help" id="message-help">Qué pieza necesitas, medidas aproximadas y para cuándo.</p>
 						<p class="field__error" id="message-error" hidden></p>
 					</div>
 
-					{/* El titular de la página pide "el plano que tengas". Sin este campo,
-					    la única salida era WhatsApp, y la consulta se partía en dos
-					    canales. Opcional a propósito: exigir un archivo excluiría al
-					    cliente que solo tiene medidas anotadas a mano. */}
 					<div class="field">
 						<label for="plan">Plano o foto del espacio <span class="field__hint">(opcional)</span></label>
 						<input
@@ -193,9 +169,6 @@ import { site } from "../data/site.js";
 						<p class="field__error" id="plan-error" hidden></p>
 					</div>
 
-					{/* Aviso de maqueta. Nace oculto y solo el script lo revela cuando
-					    detecta protocolo file:, es decir en la carpeta que se entrega al
-					    cliente. En el sitio publicado nunca aparece. */}
 					<p class="form__demo" data-demo-note hidden>
 						<strong>Maqueta de demostración.</strong> El envío se activa al publicar el sitio.
 						Para escribirnos ahora, usa el WhatsApp o el correo de esta página.
@@ -206,9 +179,6 @@ import { site } from "../data/site.js";
 					</button>
 					<p class="contact__legal">Te respondemos en horario de taller: {site.hours}.</p>
 
-					{/* Región de estado: anuncia a lectores de pantalla el resultado del
-					    envío y los errores de validación, que de otro modo solo existen
-					    visualmente junto a cada campo. */}
 					<p class="visually-hidden" role="status" aria-live="polite" data-form-status></p>
 
 					<div class="form__result form__result--ok" data-success hidden></div>
@@ -219,15 +189,6 @@ import { site } from "../data/site.js";
 </Layout>
 
 <script>
-	// Validación y estados del formulario.
-	//
-	// Dos entornos, un solo build:
-	//   http(s):  el formulario envía de verdad a FormSubmit.
-	//   file:     es la maqueta que se le entrega al cliente. Ahí NO hay
-	//             servidor, así que enviar es imposible. En vez de navegar a
-	//             /gracias y afirmar un envío que nunca ocurrió, el formulario
-	//             valida, muestra el aviso de demostración y confirma en línea.
-	//             Mentirle al cliente sobre el envío sería peor que no tenerlo.
 	const form = document.querySelector("[data-contact-form]");
 
 	if (form instanceof HTMLFormElement) {
@@ -238,18 +199,10 @@ import { site } from "../data/site.js";
 		const fileInput = form.querySelector('input[type="file"]');
 		const nextField = form.querySelector('input[name="_next"]');
 
-		// La página de gracias vive en el mismo sitio desde el que se envía, sea
-		// el dominio definitivo o la dirección de pruebas: sin esto, FormSubmit
-		// redirigía siempre al dominio de `site.siteUrl`.
 		if (!isDemo && nextField instanceof HTMLInputElement) {
 			nextField.value = `${window.location.origin}/gracias`;
 		}
 
-		/**
-		 * El adjunto promete un tope y el servicio de envío lo aplica: si el
-		 * archivo se pasa, el rechazo llegaría desde una página ajena con el
-		 * formulario ya perdido. Se comprueba aquí, antes de enviar.
-		 */
 		const checkFile = () => {
 			if (!(fileInput instanceof HTMLInputElement)) return true;
 			const box = document.getElementById("plan-error");
@@ -276,11 +229,8 @@ import { site } from "../data/site.js";
 			if (status instanceof HTMLElement) status.textContent = text;
 		};
 
-		/** Marca o limpia un campo. Devuelve true si es válido. */
 		const check = (field) => {
 			const box = document.getElementById(`${field.id}-error`);
-			// `novalidate` apaga la burbuja nativa pero NO la API de validación:
-			// required, type=email y pattern siguen evaluándose aquí.
 			const ok = field.validity.valid;
 			field.setAttribute("aria-invalid", String(!ok));
 			if (box instanceof HTMLElement) {
@@ -291,10 +241,7 @@ import { site } from "../data/site.js";
 		};
 
 		fields.forEach((field) => {
-			// Al salir del campo, no mientras escribe: corregir a alguien en medio
-			// de la primera palabra es hostil.
 			field.addEventListener("blur", () => check(field));
-			// Una vez marcado, sí se limpia en vivo: ve que lo arregló.
 			field.addEventListener("input", () => {
 				if (field.getAttribute("aria-invalid") === "true") check(field);
 			});
@@ -323,8 +270,6 @@ import { site } from "../data/site.js";
 				return;
 			}
 
-			// Envío real: el botón pasa a estado ocupado y queda bloqueado para
-			// que un doble clic no genere dos consultas.
 			if (submit instanceof HTMLButtonElement) {
 				submit.setAttribute("aria-busy", "true");
 				submit.disabled = true;
@@ -336,11 +281,7 @@ import { site } from "../data/site.js";
 </script>
 
 <style>
-	/* --- Estados del formulario --- */
 
-	/* El mensaje vive pegado a su campo, no en un resumen arriba: el usuario lo
-	   lee donde está el problema. El borde rojo NO es la única señal —hay texto—
-	   porque el color solo no basta (WCAG 1.4.1). */
 	.field__error {
 		margin: 0.35rem 0 0;
 		font-size: 0.875rem;
@@ -348,8 +289,6 @@ import { site } from "../data/site.js";
 		color: var(--color-error);
 	}
 
-	/* El grosor extra va como sombra interior, no como borde: con `border-width`
-	   el campo crecía 2px al enfocarlo o marcarlo y empujaba todo el formulario. */
 	.field input[aria-invalid="true"],
 	.field select[aria-invalid="true"],
 	.field textarea[aria-invalid="true"] {
@@ -357,8 +296,6 @@ import { site } from "../data/site.js";
 		box-shadow: inset 0 0 0 1px var(--color-error);
 	}
 
-	/* Aviso de maqueta: solo aparece en la carpeta entregada (protocolo file:),
-	   nunca en el sitio publicado. */
 	.form__demo {
 		margin: 0;
 		padding: 0.8rem 1rem;
@@ -383,8 +320,6 @@ import { site } from "../data/site.js";
 		color: var(--color-graphite);
 	}
 
-	/* Mientras envía: el botón dice qué está pasando y no se puede pulsar dos
-	   veces. `aria-busy` lo anuncia a quien no ve el cambio de texto. */
 	.contact__submit[aria-busy="true"] {
 		opacity: 0.75;
 		cursor: progress;
@@ -405,7 +340,6 @@ import { site } from "../data/site.js";
 		margin: 1.5rem 0 0;
 	}
 
-	/* Misma etiqueta que el cartucho del hero y el índice de marca: 12px, Inter */
 	.contact__list dt {
 		font-family: var(--font-body);
 		font-weight: 500;
@@ -427,9 +361,6 @@ import { site } from "../data/site.js";
 		margin-bottom: 0;
 	}
 
-	/* Teléfono y correo son enlaces que se tocan con el pulgar: 44px de alto.
-	   El subrayado los separa del texto plano sin depender del color, que aquí
-	   es el mismo grafito del resto del bloque. */
 	.contact__list a {
 		display: inline-flex;
 		align-items: center;
@@ -461,8 +392,6 @@ import { site } from "../data/site.js";
 		font-size: 0.875rem;
 	}
 
-	/* El panel de datos es una columna: el botón de WhatsApp se apoya abajo
-	   en vez de dejar un tercio de la celda vacío. */
 	.contact__info {
 		display: flex;
 		flex-direction: column;
@@ -481,8 +410,6 @@ import { site } from "../data/site.js";
 		margin-bottom: 1.8rem;
 	}
 
-	/* Titular de un panel de datos, no de una sección: con la escala global
-	   (44px) le ganaba al h1 de la página. */
 	.contact__info h2 {
 		font-size: 1.5rem;
 		line-height: 1.2;
@@ -521,13 +448,6 @@ import { site } from "../data/site.js";
 		color: var(--color-text-muted);
 	}
 
-	/* 16px exactos, no 0.95rem: bajo ese umbral iOS hace zoom automático al
-	   enfocar el campo y descuadra toda la página en el celular.
-
-	   El borde es --color-steel-dark, no la junta --color-border: sobre blanco
-	   esa junta da 1.24:1 y el campo desaparece. El límite de un control debe
-	   llegar a 3:1 (WCAG 1.4.11); --color-steel-dark da 7.6:1 y además iguala
-	   el borde del botón fantasma de la columna vecina. */
 	.field input,
 	.field select,
 	.field textarea {
@@ -542,9 +462,6 @@ import { site } from "../data/site.js";
 		padding: 0.7rem 0.85rem;
 	}
 
-	/* Safari e iOS ignoran border-radius en un <select> nativo y lo pintan con
-	   esquinas redondeadas y degradado: sin appearance:none el radio cero se
-	   rompe en móvil. El caret va como SVG embebido, sin petición de red. */
 	.field select {
 		appearance: none;
 		-webkit-appearance: none;
@@ -558,8 +475,6 @@ import { site } from "../data/site.js";
 		resize: vertical;
 	}
 
-	/* "(opcional)" en minúscula dentro de una etiqueta en versalitas: la
-	   distinción tiene que leerse de un vistazo, no descubrirse al enviar. */
 	.field__hint {
 		text-transform: none;
 		letter-spacing: 0;
@@ -575,9 +490,6 @@ import { site } from "../data/site.js";
 		color: var(--color-text-muted);
 	}
 
-	/* El control de archivo nativo trae su propio botón con esquinas
-	   redondeadas y su propia tipografía. Sin esto, el único radio del sitio
-	   aparecería justo en el formulario. */
 	.field input[type="file"] {
 		padding: 0.55rem 0.85rem;
 		font-size: 0.875rem;
@@ -608,23 +520,11 @@ import { site } from "../data/site.js";
 		}
 	}
 
-	/* #9aa0a7 daba 2.6:1 sobre blanco: el texto de ayuda era ilegible y el color
-	   estaba fuera del contrato. --color-steel da 6.5:1 y sigue leyéndose como
-	   secundario frente al grafito del valor escrito (17:1). */
 	.field input::placeholder,
 	.field textarea::placeholder {
 		color: var(--color-text-muted);
 	}
 
-	/* El foco NO se anula: el aro de :focus-visible de global.css es el
-	   indicador accesible del sitio. Aquí solo se tiñe el borde del campo, sin
-	   el halo difuminado que el sistema descarta y que además arrastraba el
-	   acento viejo (#c0392b). */
-	/* El borde de foco era --color-accent (#c13d2f) y el de error
-	   --color-accent-dark (#ae3023): dos rojos separados por un 5% de
-	   luminosidad. El campo donde estabas escribiendo se veía igual que el
-	   campo que estaba mal. Ahora el rojo significa una sola cosa —error— y
-	   el foco se marca con grafito más el aro de :focus-visible del sistema. */
 	.field input:focus,
 	.field select:focus,
 	.field textarea:focus {
@@ -632,15 +532,10 @@ import { site } from "../data/site.js";
 		box-shadow: inset 0 0 0 1px var(--color-graphite);
 	}
 
-	/* En el formulario el aro de foco va en tinta, no en acento: el naranja
-	   quemado junto al rojo de error se leía como dos marcos del mismo color. */
 	.contact__form :focus-visible {
 		outline-color: var(--color-graphite);
 	}
 
-	/* El campo en error mantiene su rojo incluso enfocado: el aro de foco ya
-	   dice dónde estás, y perder la señal de error al entrar a corregirlo
-	   obligaría a recordar cuál era el problema. */
 	.field input[aria-invalid="true"]:focus,
 	.field select[aria-invalid="true"]:focus,
 	.field textarea[aria-invalid="true"]:focus {

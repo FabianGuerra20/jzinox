@@ -4,22 +4,14 @@ import { srcset } from "../utils/img.js";
 
 const currentPath = Astro.url.pathname;
 
-// Normaliza el path para que "/servicios/" y "/servicios" marquen el mismo item.
 const clean = (value) => (value !== "/" && value.endsWith("/") ? value.slice(0, -1) : value);
 const isActive = (href) => clean(currentPath) === clean(href);
 
-// En /contacto el CTA "Cotizar proyecto" apuntaría a la página en la que ya
-// estás: ahí lleva directo al primer campo del formulario.
 const ctaHref = isActive(navCta.href) ? "#name" : navCta.href;
 const logo = "/img/logo-jzinox.webp";
 ---
 
-{/* Barra única fija: el logotipo manda a la izquierda y la navegación cierra a la derecha. */}
 <header class="header">
-  {/* Logotipo del cliente (2026-10-04): acero plegado, estilo origami. WebP con
-      transparencia recortado al borde de las letras; la altura la fija el CSS y
-      el ancho sale de la proporción. Va con alt vacío dentro de un enlace con
-      aria-label, para que un lector de pantalla no lo lea dos veces. */}
   <a class="header__brand" href="/" aria-label={`${site.name}, volver al inicio`}>
     <img
       class="header__logo"
@@ -33,14 +25,8 @@ const logo = "/img/logo-jzinox.webp";
     />
   </a>
 
-  {/* Checkbox oculto: el menú móvil funciona sin JavaScript. Layout.astro añade
-      teclado, estado accesible y el cierre al navegar. `autocomplete="off"`
-      evita que el navegador lo restaure marcado al volver con "Atrás". */}
   <input type="checkbox" id="nav-toggle" class="header__toggle-input" autocomplete="off" />
 
-  {/* El botón va ANTES del panel en el DOM: al abrir, el siguiente Tab entra a
-      los enlaces del menú y no al contenido de la página. El orden visual lo
-      pone `order` en el CSS. */}
   <label
     for="nav-toggle"
     class="header__toggle js-toggle-label"
@@ -78,24 +64,15 @@ const logo = "/img/logo-jzinox.webp";
       }
     </ul>
 
-    {/* Solo se muestra uno de los dos CTA: el otro va en display:none y queda
-        fuera del árbol de accesibilidad. */}
     <a href={ctaHref} class="btn btn--primary header__cta header__cta--mobile">{navCta.label}</a>
   </nav>
 
   <a href={ctaHref} class="btn btn--primary header__cta header__cta--desktop">{navCta.label}</a>
 
-  {/* Velo bajo el panel: oscurece la página y, al ser un <label> del mismo
-      checkbox, tocarlo cierra el menú sin JavaScript. */}
   <label for="nav-toggle" class="header__scrim" aria-hidden="true"></label>
 </header>
 
 <style>
-  /* =============================================================
-     Barra única de acero, fija sobre el contenido.
-     Layout.astro compensa la altura con padding-top en <main>:
-     este componente NO deja espaciador propio.
-     ============================================================= */
   .header {
     position: fixed;
     top: 0;
@@ -107,8 +84,6 @@ const logo = "/img/logo-jzinox.webp";
     align-items: center;
     gap: 1rem;
     padding: 0 var(--margin-mobile);
-    /* Acero al 90 % + desenfoque: la placa deja intuir lo que pasa debajo. La
-       primera línea es el respaldo opaco para navegadores sin color-mix(). */
     background-color: var(--color-steel);
     background-color: color-mix(in srgb, var(--color-steel) 90%, transparent);
     -webkit-backdrop-filter: blur(12px);
@@ -116,19 +91,16 @@ const logo = "/img/logo-jzinox.webp";
     border-bottom: 1px solid var(--color-steel-dark);
   }
 
-  /* Sin desenfoque, la translucidez ensuciaría el contraste: acero opaco. */
   @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
     .header {
       background-color: var(--color-steel);
     }
   }
 
-  /* El foco de acento es ilegible sobre el acero: aquí va en blanco. */
   .header :focus-visible {
     outline-color: #fff;
   }
 
-  /* --- Marca --- */
   .header__brand {
     display: flex;
     align-items: center;
@@ -143,7 +115,6 @@ const logo = "/img/logo-jzinox.webp";
     width: auto;
   }
 
-  /* --- Navegación --- */
   .header__list {
     list-style: none;
     margin: 0;
@@ -163,17 +134,10 @@ const logo = "/img/logo-jzinox.webp";
     letter-spacing: 0.05em;
     line-height: 1;
     white-space: nowrap;
-    /* 0.92 de blanco: 5.8:1 sobre la barra sólida y 4.6:1 en el peor caso
-       (barra translúcida sobre página clara). */
     color: rgba(255, 255, 255, 0.92);
     transition: color 0.2s ease;
   }
 
-  /* El estado se marca con una línea bajo el texto, no con un bloque de color
-     detrás: el rectángulo teñido se leía como un botón de plantilla. La línea
-     entra desde la izquierda y sale por la derecha, así que al recorrer el menú
-     parece pasar de un enlace al siguiente. Es un hover, se ve decenas de veces:
-     200 ms y solo `transform`. */
   .header__link::after {
     content: "";
     position: absolute;
@@ -187,7 +151,6 @@ const logo = "/img/logo-jzinox.webp";
     transition: transform 0.2s var(--ease-out);
   }
 
-  /* La página actual lleva la línea fija y en acento: es un estado. */
   .header__link--active {
     color: #fff;
   }
@@ -208,21 +171,16 @@ const logo = "/img/logo-jzinox.webp";
     }
   }
 
-  /* --- Marca aliada --- */
-  /* AL Mueblería no es una sección de JZ Inox: el divisor avisa de que el
-     clic cambia de marca, no de página. */
   .header__link--ally {
     font-size: 0.8125rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
   }
 
-  /* --- CTA --- */
   .header__cta {
     white-space: nowrap;
   }
 
-  /* --- Botón hamburguesa --- */
   .header__toggle-input {
     display: none;
   }
@@ -236,7 +194,6 @@ const logo = "/img/logo-jzinox.webp";
     width: var(--tap);
     height: var(--tap);
     cursor: pointer;
-    /* Va primero en el DOM (ver arriba) y último a la vista */
     order: 3;
     -webkit-user-select: none;
     user-select: none;
@@ -252,8 +209,6 @@ const logo = "/img/logo-jzinox.webp";
       opacity 0.15s ease;
   }
 
-  /* Menú abierto: las tres barras pasan a ser la X de cerrar. Las barras
-     están a 7px una de otra (2px de alto + 5px de separación). */
   .header__toggle-input:checked ~ .header__toggle .header__bar:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
   }
@@ -270,14 +225,10 @@ const logo = "/img/logo-jzinox.webp";
     display: none;
   }
 
-  /* =============================================================
-     Móvil y tablet (< 1280px): panel desplegable bajo la barra
-     ============================================================= */
   @media (max-width: 1279.98px) {
     .header__nav {
       position: absolute;
       z-index: 2;
-      /* La altura completa de la barra deja el panel justo debajo de la junta. */
       top: var(--header-height);
       left: 0;
       right: 0;
@@ -289,11 +240,7 @@ const logo = "/img/logo-jzinox.webp";
       max-height: calc(100dvh - var(--header-height));
       overflow-y: auto;
       overscroll-behavior: contain;
-      /* El panel se descubre con `clip-path`, no animando `max-height`: el
-         recorte lo resuelve el compositor y no recalcula el layout en cada
-         frame. Entra y sale por el mismo canto, el de la barra. */
       clip-path: inset(0 0 100% 0);
-      /* visibility evita que el teclado entre en enlaces invisibles. */
       visibility: hidden;
       transition:
         clip-path 0.28s var(--ease-out),
@@ -308,9 +255,6 @@ const logo = "/img/logo-jzinox.webp";
         visibility 0s;
     }
 
-    /* El velo cuelga de la barra (y no del viewport) porque el
-       `backdrop-filter` de la barra la convierte en bloque contenedor de
-       cualquier hijo `fixed`. */
     .header__scrim {
       display: block;
       position: absolute;
@@ -341,8 +285,6 @@ const logo = "/img/logo-jzinox.webp";
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
 
-    /* En el panel los enlaces son renglones: la línea bajo el texto no aplica.
-       La página actual se marca con el acento en el propio texto (6.5:1). */
     .header__link::after {
       display: none;
     }
@@ -351,12 +293,10 @@ const logo = "/img/logo-jzinox.webp";
       color: var(--color-accent);
     }
 
-    /* Sin hover en táctil, el toque necesita su propia respuesta */
     .header__link:active {
       background-color: color-mix(in srgb, var(--color-accent) 18%, transparent);
     }
 
-    /* En vertical el divisor de marca cruza el ancho, no la altura. */
     .header__item--ally {
       margin-top: 0.75rem;
       border-top: 1px solid var(--color-steel-medium);
@@ -371,9 +311,6 @@ const logo = "/img/logo-jzinox.webp";
     }
   }
 
-  /* =============================================================
-     Escritorio (>= 1280px): navegación en línea
-     ============================================================= */
   @media (min-width: 1280px) {
     .header {
       gap: clamp(1rem, 3vw, 3rem);
@@ -388,8 +325,6 @@ const logo = "/img/logo-jzinox.webp";
     .header__list {
       display: flex;
       align-items: center;
-      /* var(--gutter) es el objetivo; entre 1280 y ~1880px se comprime para
-         que los enlaces y el CTA no desborden la barra. */
       gap: clamp(0.75rem, 1.7vw, var(--gutter));
     }
 
@@ -398,8 +333,6 @@ const logo = "/img/logo-jzinox.webp";
       align-items: center;
     }
 
-    /* Divisor vertical de 1px x 24px antes de la marca aliada. Va en un
-       pseudo-elemento para no recortar el área táctil de 44px del enlace. */
     .header__item--ally {
       position: relative;
       padding-left: clamp(0.75rem, 1.7vw, var(--gutter));

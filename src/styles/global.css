@@ -1,39 +1,3 @@
-/* =============================================================
-   JZ INOX — Sistema de diseño "Acero en sombra"
-   -------------------------------------------------------------
-   Paleta C cálida (aprobada 2026-10-04): negro con base marrón,
-   como el acero con luz de fragua, y el naranja de la chispa de
-   soldadura como único acento. Las secciones alternas son claras
-   (hueso cálido) y se activan con `.section--alt` o `.theme-light`,
-   que REDEFINEN los tokens: ningún componente necesita saber en qué
-   tema está, solo usa var(--color-*).
-
-   Tres reglas que gobiernan todo el sistema:
-
-     1. RADIO CERO. Ni un solo borde redondeado en el sitio.
-     2. La junta es de 1px y siempre del mismo tono (--color-border).
-        Es la línea del plano de ingeniería, no un separador.
-     3. El acento (naranja) solo vive en acciones y en marcas de
-        estado. El ERROR no es naranja: va en --color-error.
-
-   Los nombres de variable heredados (--color-graphite, --color-ink,
-   --color-accent…) se conservan como alias: las páginas adoptan el
-   rediseño sin tocar una línea de su código.
-
-   Breakpoints:
-     640px  → tablet: las grillas pasan a 2 columnas
-     1024px → escritorio: layout de contenido completo
-     1280px → la navegación pasa a horizontal
-   ============================================================= */
-
-/* =============================================================
-   Fuentes alojadas en el propio sitio (public/fonts)
-   -------------------------------------------------------------
-   Son los mismos archivos variables que servía Google Fonts
-   (subconjunto latino, que cubre el español). Alojarlos aquí
-   quita dos conexiones a terceros y la hoja de estilos que
-   bloqueaba el primer pintado. Layout.astro los precarga.
-   ============================================================= */
 @font-face {
   font-family: "Hanken Grotesk";
   font-style: normal;
@@ -51,90 +15,61 @@
 }
 
 :root {
-  /* Controles nativos y barras de scroll en oscuro, como el lienzo */
   color-scheme: dark;
 
-  /* --- Superficies (tema oscuro, el de base) ---
-     Tres tonos, no cinco (2026-10-11): lienzo, elevado y pie. Antes había
-     cinco oscuros que diferían 1,05–1,15 entre sí y en pantalla se leían como
-     una sola masa. El elevado da 1,20 contra el lienzo. */
-  --color-page: #16120f; /* lienzo del documento */
-  --color-bg: #2a231d; /* ELEVADO: tarjeta, celda, encabezado interior, cierre */
-  --color-bg-alt: #ebe5db; /* sección alterna: CLARA, ver .section--alt */
-  --color-surface: #332b24; /* hover de celda y superficie hundida sobre el elevado */
+  --color-page: #16120f;
+  --color-bg: #2a231d;
+  --color-bg-alt: #ebe5db;
+  --color-surface: #332b24;
   --color-surface-hover: #3b322a;
-  --color-surface-high: #2a231d; /* alias del elevado */
+  --color-surface-high: #2a231d;
   --color-surface-highest: #3b322a;
   --color-surface-dim: #5e5245;
 
-  /* --- Estructura --- */
-  --color-border: #5e5245; /* TODA junta de 1px: 2,46 sobre el lienzo, 2,04 sobre el elevado */
-  --color-steel: #16120f; /* barra del header */
+  --color-border: #5e5245;
+  --color-steel: #16120f;
   --color-steel-medium: #8a7f72;
-  --color-steel-dark: #5e5245; /* borde inferior del header y de los campos */
+  --color-steel-dark: #5e5245;
   --color-steel-light: #5e5245;
-  --color-ink: #3b342d; /* etiquetas sólidas (.tag) */
-  --color-footer: #0f0c0a; /* pie de página: más hondo que el lienzo */
+  --color-ink: #3b342d;
+  --color-footer: #0f0c0a;
 
-  /* --- Texto --- */
   --color-text: #f0ebe3;
   --color-graphite: #f0ebe3;
-  --color-text-muted: #aa9f92; /* 7,2 sobre el lienzo · 6,0 sobre el elevado · 5,4 sobre su hover */
+  --color-text-muted: #aa9f92;
 
-  /* --- Acento: la chispa --- */
-  --color-accent: #ff6a1a; /* 6,5 sobre el lienzo · 5,4 sobre el elevado · 4,9 sobre su hover */
-  --color-accent-dark: #ff8a45; /* hover: SUBE de luminosidad sobre fondo oscuro */
-  --color-accent-light: #ffb38a; /* acento sobre superficies muy oscuras o fotos */
-  --color-on-accent: #16120f; /* texto sobre relleno de acento: 6.5:1 */
-  --color-error: #ff8a7a; /* el rojo ya NO es acento: significa error */
-  --color-warn: #e2b04a; /* aviso de maqueta: el único color fuera del sistema, a propósito */
-  --color-ok: #7bd89a; /* confirmación */
+  --color-accent: #ff6a1a;
+  --color-accent-dark: #ff8a45;
+  --color-accent-light: #ffb38a;
+  --color-on-accent: #16120f;
+  --color-error: #ff8a7a;
+  --color-warn: #e2b04a;
+  --color-ok: #7bd89a;
   --color-whatsapp: #25d366;
-  /* Verde del canal oscurecido hasta que el blanco encima llegue a 5.45:1.
-     El #25d366 de marca da 1.7:1 con blanco y 2.6:1 con grafito: como fondo
-     de un botón con texto no sirve en ninguna combinación. */
   --color-whatsapp-ink: #0f7a35;
   --color-whatsapp-ink-dark: #0b6029;
 
-  /* --- Tipografía --- */
-  /* Hanken Grotesk: grotesca geométrica de asta cerrada. En 800 tiene
-     el peso de rotulación industrial que pide el hero. */
   --font-heading: "Hanken Grotesk", "Segoe UI", system-ui, sans-serif;
   --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
 
-  /* --- Métrica del mockup --- */
   --container-width: 1440px;
   --gutter: 32px;
-  --section-gap: 112px; /* tope de escritorio; en móvil baja a 56px, ver .section */
+  --section-gap: 112px;
   --margin-mobile: 20px;
   --margin-desktop: 64px;
   --header-height: 80px;
 
-  /* Regla 1: cero radio. La variable existe solo para que ningún
-     componente heredado reintroduzca esquinas redondeadas. */
   --radius: 0;
 
-  /* Mínimo táctil recomendado. Se usa como min-height en cada control. */
   --tap: 44px;
 
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.45);
 
-  /* Curvas del sistema. Las nativas (`ease-out`, `ease-in-out`) son demasiado
-     blandas para movimiento deliberado; estas dos son las únicas que se usan.
-     Nunca `ease-in`: arranca lento justo cuando el ojo está mirando. */
-  --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* entradas, salidas, hover */
-  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* lo que se mueve o se corta en pantalla */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
-/* =============================================================
-   TEMA CLARO — hueso cálido
-   -------------------------------------------------------------
-   Redefine los tokens dentro de su alcance. Contrastes calculados:
-   texto 14.9:1 · muted 6.8:1 · acento 5.3:1 (#a33a04 sobre #ebe5db).
-   El naranja puro #ff6a1a NO sirve como texto sobre claro (2.4:1),
-   por eso el acento cambia a su variante quemada.
-   ============================================================= */
 .section--alt,
 .theme-light {
   --color-bg: #ffffff;
@@ -142,10 +77,8 @@
   --color-surface-hover: #efe9df;
   --color-surface-high: #e6dfd3;
   --color-surface-dim: #b5aa9a;
-  /* La junta clara era más débil que la oscura (1,38 sobre hueso). Con este
-     tono da 1,83 sobre hueso y 2,29 sobre blanco. */
   --color-border: #b5aa9a;
-  --color-steel-dark: #4a4137; /* borde de campos sobre blanco: 9,6:1 */
+  --color-steel-dark: #4a4137;
   --color-ink: #16120f;
   --color-text: #16120f;
   --color-graphite: #16120f;
@@ -175,18 +108,12 @@ body {
 
 html {
   scroll-behavior: smooth;
-  /* El header fijo mide 80px: sin esto, cada ancla queda tapada por él */
   scroll-padding-top: calc(var(--header-height) + 1rem);
-  /* El resaltado celeste o gris que el navegador pinta al tocar compite con la
-     respuesta propia de cada control (`:active`). Se apaga aquí y cada enlace
-     táctil declara la suya. */
   -webkit-tap-highlight-color: transparent;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
 
-/* Menú móvil abierto: la página no se desliza por detrás. Va en CSS para que
-   funcione sin JavaScript y en táctil, donde Lenis no se carga. */
 @media (max-width: 1279.98px) {
   html:has(.header__toggle-input:checked) {
     overflow: hidden;
@@ -206,12 +133,9 @@ body {
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden; /* red de seguridad para las secciones a sangre */
+  overflow-x: hidden;
 }
 
-/* --- Escala tipográfica del mockup ---
-   Los clamp() aterrizan exactamente en los valores especificados:
-   headline-xl 40px (móvil) → 64px (escritorio), md 32px, sm 24px. */
 h1,
 h2,
 h3,
@@ -223,15 +147,13 @@ h4 {
 }
 
 h1 {
-  font-size: clamp(2.5rem, 5vw, 4rem); /* 40 → 64 */
+  font-size: clamp(2.5rem, 5vw, 4rem);
   line-height: 1.1;
   letter-spacing: -0.02em;
   font-weight: 800;
   text-transform: uppercase;
 }
 
-/* 28 → 44. El mockup lo dejaba en 32px: contra un h1 de 64px y un cuerpo de
-   16px, los títulos de sección no llegaban a marcar el cambio de bloque. */
 h2 {
   font-size: clamp(1.75rem, 3.4vw, 2.75rem);
   line-height: 1.12;
@@ -239,8 +161,6 @@ h2 {
   font-weight: 700;
 }
 
-/* 18 → 22. Con el h2 en 44px, un h3 de 17px medía casi lo mismo que su
-   párrafo: faltaba el peldaño medio de la escala. */
 h3 {
   font-size: clamp(1.125rem, 1.5vw, 1.375rem);
   line-height: 1.25;
@@ -263,6 +183,11 @@ a {
   text-decoration: none;
 }
 
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
@@ -280,14 +205,12 @@ a {
   letter-spacing: 0.05em;
   font-size: 0.875rem;
   padding: 0.7rem 1.2rem;
-  /* Sin transición: lo activa el teclado, y una acción de teclado no se anima. */
 }
 
 .skip-link:focus-visible {
   top: 1rem;
 }
 
-/* Texto solo para lectores de pantalla (etiquetas de flechas y puntos del carrusel) */
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -312,19 +235,6 @@ ol[role="list"] {
   padding: 0;
 }
 
-/* =============================================================
-   FIRMA DEL SITIO — Medios enmarcados
-   -------------------------------------------------------------
-   La foto entra A COLOR y se acerca un 5 % cuando el cursor la
-   toca. Hasta el 2026-10-11 entraba desaturada y recuperaba el
-   color en hover: sobre fotos de celular de acero inoxidable el
-   gris se leía como fotocopia, y nadie pasa el cursor por cada
-   tarjeta de un catálogo. El producto es el argumento de venta;
-   no se entrega apagado.
-
-   El zoom vive en la imagen y el recorte en el marco, así que la
-   escala nunca desborda ni provoca reflow: solo repinta.
-   ============================================================= */
 .media-frame {
   position: relative;
   overflow: hidden;
@@ -337,8 +247,6 @@ ol[role="list"] {
   transition: transform 0.3s var(--ease-out);
 }
 
-/* Solo con puntero fino: en táctil el `:hover` se dispara al tocar y la foto
-   se quedaría ampliada hasta el siguiente toque. */
 @media (hover: hover) and (pointer: fine) {
   .media-frame:hover img,
   .media-frame:focus-within img {
@@ -357,9 +265,6 @@ ol[role="list"] {
   }
 }
 
-/* =============================================================
-   Estructura de página
-   ============================================================= */
 .container {
   width: 100%;
   max-width: var(--container-width);
@@ -381,15 +286,10 @@ ol[role="list"] {
   background-color: var(--color-bg-alt);
 }
 
-/* Bandas de cierre y bloques delgados: con el padding completo, una placa de
-   160px de alto quedaba flotando en 380px de sección. */
 .section--tight {
   padding: clamp(2.5rem, 5vw, 4.5rem) 0;
 }
 
-/* Etiqueta de plano: versalitas, nunca un titulillo de marketing. Va en tinta
-   apagada, no en acento: no es una acción ni un estado. Solo se usa donde dice
-   algo que el título no dice (404, gracias, AL Mueblería). */
 .eyebrow {
   display: inline-block;
   font-family: var(--font-body);
@@ -402,9 +302,6 @@ ol[role="list"] {
   margin-bottom: 0.9rem;
 }
 
-
-/* Alineado al margen izquierdo, como el rótulo de un plano: el eje centrado
-   sobre una grilla a todo el ancho es el gesto que delata una plantilla. */
 .section-head {
   max-width: 720px;
   margin: 0 0 clamp(2rem, 4.5vw, 3.5rem);
@@ -420,12 +317,6 @@ ol[role="list"] {
   font-size: 1.0625rem;
 }
 
-/* =============================================================
-   Controles
-   ============================================================= */
-/* Dos tamaños declarados, no tres medidas sueltas: base (44px) y grande
-   (48px, hero y cierre del Inicio). `.btn--sm` baja la letra para tarjetas y
-   renglones, pero conserva los 44px de alto táctil. */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -441,14 +332,10 @@ ol[role="list"] {
   padding: 0 1.5rem;
   border: 1px solid transparent;
   cursor: pointer;
-  /* Un botón no se selecciona ni espera el doble toque */
   touch-action: manipulation;
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
-  /* Sin transform en el HOVER: en un sistema de radio cero, un botón que
-     levita rompe la lectura de placa apoyada. El cambio es de color. Al
-     PRESIONAR sí cede un 3 %: es la confirmación de que el clic se oyó. */
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease,
@@ -487,7 +374,6 @@ ol[role="list"] {
   border-color: var(--color-accent-dark);
 }
 
-/* Acción secundaria: mismo acento, sin el peso del relleno */
 .btn--outline {
   background-color: transparent;
   border-color: var(--color-accent);
@@ -511,9 +397,6 @@ ol[role="list"] {
   background-color: color-mix(in srgb, var(--color-accent) 22%, transparent);
 }
 
-/* Todo lo que abre WhatsApp va en el verde del canal y con su glifo delante.
-   El verde de marca (#25d366) no sirve como fondo de texto: con blanco da
-   1,7:1. Este oscurecido da 5,45:1. */
 .btn--whatsapp {
   background-color: var(--color-whatsapp-ink);
   border-color: var(--color-whatsapp-ink);
@@ -525,9 +408,6 @@ ol[role="list"] {
   border-color: var(--color-whatsapp-ink-dark);
 }
 
-/* Los hover van SOLO con puntero fino. En táctil `:hover` se dispara al tocar
-   y queda pegado: un botón de contorno seguía relleno, como si estuviera
-   seleccionado, después de haber saltado a otra sección. */
 @media (hover: hover) and (pointer: fine) {
   .btn--primary:hover {
     background-color: var(--color-accent-dark);
@@ -553,26 +433,27 @@ ol[role="list"] {
   }
 }
 
-/* Enlace de texto con flecha o subrayado: respuesta al toque sin hover */
 .link-press:active {
   opacity: 0.7;
 }
 
-.tag {
-  display: inline-block;
-  font-size: 0.6875rem;
-  font-family: var(--font-body);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: #fff;
-  background-color: var(--color-ink);
-  padding: 0.35rem 0.7rem;
+.fact-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  margin-block: -0.6rem;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: color 0.15s ease;
 }
 
-/* =============================================================
-   Bloques compartidos entre páginas
-   ============================================================= */
+@media (hover: hover) and (pointer: fine) {
+  .fact-link:hover {
+    color: var(--color-accent);
+  }
+}
+
 .page-hero {
   padding-top: clamp(2.75rem, 7vw, 5.5rem);
   padding-bottom: clamp(2.25rem, 5vw, 4rem);
@@ -580,8 +461,6 @@ ol[role="list"] {
   background-color: var(--color-bg);
 }
 
-/* Variante para páginas transaccionales: el titular presenta, pero lo que el
-   visitante vino a usar tiene que caber en el primer pliegue junto a él. */
 .page-hero--tight {
   padding-top: clamp(1.6rem, 3.2vw, 2.2rem);
   padding-bottom: clamp(1.2rem, 2.4vw, 1.5rem);
@@ -595,24 +474,17 @@ ol[role="list"] {
   font-size: 1rem;
 }
 
-/* Los titulares interiores son frases largas de SEO: a 64px en mayúsculas
-   ocupaban cuatro líneas y media pantalla. Los 64px quedan para el Inicio. */
 .page-hero h1 {
   max-width: 26ch;
   font-size: clamp(2rem, 3.6vw, 3rem);
 }
 
 .page-hero p {
-  /* `ch` mide el ancho del "0", más ancho que la letra media de Inter: 50ch
-     son unos 62 caracteres reales. */
   max-width: 50ch;
   margin-bottom: 0;
   font-size: 1.125rem;
 }
 
-/* Encabezado partido: el titular a la izquierda y la entrada a la derecha,
-   apoyada en la misma línea de base. Con todo apilado a la izquierda, la mitad
-   derecha del encabezado quedaba vacía en escritorio. */
 @media (min-width: 1024px) {
   .page-hero--split .container {
     display: grid;
@@ -636,15 +508,6 @@ ol[role="list"] {
   }
 }
 
-/* =============================================================
-   Cierre de página: una sola banda
-   -------------------------------------------------------------
-   Título y texto a la izquierda, acciones a la derecha, a todo el
-   ancho y sin caja. Antes había tres cierres distintos (titular
-   gigante, placa con borde, banda) para la misma función. La banda
-   alterna con la sección que tiene encima: clara tras una oscura
-   (`section--alt`), elevada tras una clara (`cta-band--dark`).
-   ============================================================= */
 .cta-band--dark {
   background-color: var(--color-bg);
   border-top: 1px solid var(--color-border);
@@ -663,7 +526,6 @@ ol[role="list"] {
   max-width: 60ch;
 }
 
-/* Título de banda, no de sección: un escalón bajo el h2 global. */
 .cta-band h2 {
   font-size: clamp(1.5rem, 2.4vw, 2rem);
   margin-bottom: 0.4rem;
@@ -679,14 +541,6 @@ ol[role="list"] {
   gap: 0.75rem;
 }
 
-/* =============================================================
-   Renglones (lista de despiece)
-   -------------------------------------------------------------
-   Un renglón por ítem, tres columnas en escritorio (nombre | qué
-   es | qué incluye). La junta de 1px va ARRIBA de cada renglón y
-   una más cierra la lista: son líneas de tabla, no cajas. Lo usan
-   /servicios y /al-muebleria.
-   ============================================================= */
 .ledger {
   border-bottom: 1px solid var(--color-border);
 }
@@ -719,15 +573,6 @@ ol[role="list"] {
   }
 }
 
-/* =============================================================
-   Piezas: tarjeta con foto y renglón sin foto
-   -------------------------------------------------------------
-   Compartido por /catalogo y la galería de /al-muebleria.
-   Una pieza CON foto es una tarjeta (foto 4:3 que se amplía al
-   tocarla, nombre, descripción, botón). Una pieza SIN foto es un
-   renglón compacto: mostrar una caja vacía por cada foto que
-   falta hacía que los huecos pesaran más que los productos.
-   ============================================================= */
 .pgrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
@@ -751,8 +596,6 @@ ol[role="list"] {
   display: block;
   width: 100%;
   height: auto;
-  /* Las fotos del cliente son de celular, casi todas verticales: sin
-     aspect-ratio + cover, una tarjeta mediría el doble que sus vecinas. */
   aspect-ratio: 4 / 3;
   object-fit: cover;
 }
@@ -786,15 +629,10 @@ ol[role="list"] {
   margin-bottom: 0.4rem;
 }
 
-/* `margin-top: auto` ancla el botón al pie aunque la tarjeta no tenga
-   descripción: todos los botones de una fila quedan a la misma altura. */
 .pcard .btn {
   margin-top: auto;
 }
 
-/* La tarjeta entera responde al cursor: el borde toma la tinta. La transición
-   repite la del revelado (`data-reveal="fade"`): si solo listara
-   `border-color`, al llegar `.is-in` pisaría el fundido. */
 @media (hover: hover) and (pointer: fine) {
   .pcard.is-in {
     transition:
@@ -846,14 +684,6 @@ ol[role="list"] {
   }
 }
 
-/* =============================================================
-   Visor ampliado
-   -------------------------------------------------------------
-   Las fotos son verticales y el marco de la tarjeta es 4:3: se
-   veía entre el 34 % y el 62 % de cada una. Tocar la foto la abre
-   completa en un <dialog> nativo, que ya trae Escape, foco
-   atrapado y fondo. Sin JavaScript el enlace abre la imagen sola.
-   ============================================================= */
 .lightbox {
   max-width: min(94vw, 1200px);
   max-height: 92dvh;
@@ -911,9 +741,6 @@ ol[role="list"] {
   }
 }
 
-/* =============================================================
-   Preguntas frecuentes: <details> nativo, sin JavaScript
-   ============================================================= */
 .faq {
   border-bottom: 1px solid var(--color-border);
 }
@@ -942,7 +769,6 @@ ol[role="list"] {
   display: none;
 }
 
-/* Marca de abrir/cerrar: un + que pierde el trazo vertical al abrir */
 .faq__item summary::after {
   content: "";
   flex: none;
@@ -964,7 +790,6 @@ ol[role="list"] {
   font-size: 1.0625rem;
 }
 
-/* Lista de viñetas, usada en los renglones de servicios */
 .check-list {
   display: flex;
   flex-direction: column;
@@ -985,18 +810,9 @@ ol[role="list"] {
   top: 0.62em;
   width: 8px;
   height: 2px;
-  /* Tinta apagada, no acento: una viñeta no es una acción */
   background-color: var(--color-text-muted);
 }
 
-/* =============================================================
-   Bento Grid: placas de acero unidas por juntas de 1px
-   -------------------------------------------------------------
-   La línea divisoria es el propio `gap` del grid asomando sobre un
-   fondo gris. Con bordes por celda, dos celdas contiguas sumarían
-   2px y las esquinas se desalinearían al colapsar el layout; con la
-   junta siempre miden 1px exacto.
-   ============================================================= */
 .bento {
   display: grid;
   gap: 1px;
@@ -1009,96 +825,14 @@ ol[role="list"] {
 }
 
 .bento__cell {
-  min-width: 0; /* impide que una imagen ensanche su columna */
+  min-width: 0;
   padding: clamp(1.5rem, 3.6vw, 2rem);
 }
 
-.bento__cell--flush {
-  padding: 0;
-}
-
-/* Interacción sin sombras difusas: la celda se tiñe y aparece una barra sólida
-   de acento. La barra es un pseudo-elemento que cambia de `opacity`, no un
-   `box-shadow` animado (que repinta la celda en cada frame), y va por encima
-   de cualquier foto a sangre que lleve la celda. */
-.bento__cell--hover {
-  position: relative;
-  transition: background-color 0.2s ease;
-}
-
-.bento__cell--hover::before {
-  content: "";
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 3px;
-  background-color: var(--color-accent);
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  pointer-events: none;
-}
-
-.bento__cell--hover:focus-within {
-  background-color: var(--color-surface);
-}
-
-.bento__cell--hover:focus-within::before {
-  opacity: 1;
-}
-
-/* Con puntero fino: en táctil el hover queda pegado después de tocar. */
-@media (hover: hover) and (pointer: fine) {
-  .bento__cell--hover:hover {
-    background-color: var(--color-surface);
-  }
-
-  .bento__cell--hover:hover::before {
-    opacity: 1;
-  }
-}
-
-/* Columnas responsivas de las placas */
-@media (min-width: 640px) {
-  .bento--2,
-  .bento--3,
-  .bento--4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .bento--3 {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .bento--4 {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-/* Placa de acento: alterna el fondo, sin bordes de color de plantilla */
 .bento__cell--accent {
   background-color: var(--color-surface);
 }
 
-/* =============================================================
-   MOVIMIENTO
-   -------------------------------------------------------------
-   Capas, todas reducidas con `prefers-reduced-motion`:
-
-     1. Entrada del hero       keyframes CSS (index.astro).
-     2. Encabezados interiores `rise-in` en cascada.
-     3. Revelado en pantalla   `data-reveal` + IntersectionObserver.
-     4. Entre páginas          `@view-transition` nativa.
-
-   El scroll con inercia (Lenis) vive en Layout.astro y solo se
-   carga con puntero fino. Solo se animan `transform`, `opacity`
-   y `clip-path`. Detalle en DESIGN.md §12.
-   ============================================================= */
-
-/* --- Transición entre páginas (cross-document) --- */
 @view-transition {
   navigation: auto;
 }
@@ -1109,8 +843,6 @@ ol[role="list"] {
   animation-timing-function: var(--ease-out);
 }
 
-/* El header y el FAB no deben parpadear al navegar: son la misma pieza en
-   las dos páginas, así que viajan como grupo aparte. */
 .header {
   view-transition-name: site-header;
 }
@@ -1131,8 +863,6 @@ ol[role="list"] {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* 1. Encabezados de página interior: el texto sube en cascada. El hero del
-     Inicio tiene su propia coreografía en index.astro. */
   .page-hero .container > * {
     animation: rise-in 0.35s var(--ease-out) both;
   }
@@ -1145,27 +875,6 @@ ol[role="list"] {
   }
 }
 
-/* =============================================================
-   2. Revelado al entrar en pantalla
-   -------------------------------------------------------------
-   Un elemento con `data-reveal` nace oculto y aparece UNA vez,
-   cuando entra en el viewport (Layout.astro le pone `.is-in`).
-   No va atado a la posición del scroll: una animación que avanza
-   y retrocede con la rueda se siente pegajosa y nunca termina de
-   asentarse.
-
-   Tres gestos, uno por tipo de contenido:
-     data-reveal          texto: sube 18px y aparece
-     data-reveal="cut"    fotos: sus hijos se descubren como un
-                          corte de guillotina, de izquierda a derecha
-     data-reveal="line"   juntas: se trazan
-     data-reveal="fade"   listados funcionales: solo aparecen
-
-   `--i` escalona hermanos (70 ms por paso).
-
-   Todo cuelga de `html.js`: sin JavaScript la clase no existe y el
-   contenido está visible desde el principio.
-   ============================================================= */
 html.js [data-reveal] {
   opacity: 0;
   transform: translateY(18px);
@@ -1175,9 +884,6 @@ html.js [data-reveal] {
   transition-delay: calc(var(--i, 0) * 70ms);
 }
 
-/* El corte va en los HIJOS, no en el propio elemento: un `clip-path` que lo
-   recorta entero lo deja sin area visible y el IntersectionObserver nunca lo
-   da por entrado. El marco (fondo y borde) espera transparente hasta entonces. */
 html.js [data-reveal="cut"] {
   opacity: 1;
   transform: none;
@@ -1210,8 +916,6 @@ html.js [data-reveal="cut"].is-in > * {
   clip-path: inset(0 0 0 0);
 }
 
-/* Fundido solo: para listados que el visitante viene a LEER (el catálogo).
-   Aparecen sin desplazarse y en menos de la mitad del tiempo. */
 html.js [data-reveal="fade"] {
   transform: none;
   transition: opacity 0.3s ease;
@@ -1229,20 +933,15 @@ html.js [data-reveal].is-in {
   transform: none;
 }
 
-/* Lo que ya estaba en pantalla al cargar nace visible, sin animar (la clase
-   la pone y la quita el script de Layout.astro). */
 html.js [data-reveal].is-instant,
 html.js [data-reveal="cut"].is-instant > * {
   transition: none;
 }
 
-/* Un destino de ancla no puede estar desplazado: llegaría 18px corrido */
 html.js [data-reveal]:target {
   transform: none;
 }
 
-/* En una columna los hermanos van uno debajo de otro, no lado a lado: el
-   escalonado solo añadiría espera. Y el texto entra más rápido. */
 @media (max-width: 639.98px) {
   html.js [data-reveal] {
     transition-duration: 0.45s;
@@ -1254,7 +953,6 @@ html.js [data-reveal]:target {
   }
 }
 
-/* Movimiento reducido: sin desplazamiento ni corte, solo un fundido corto. */
 @media (prefers-reduced-motion: reduce) {
   html.js [data-reveal],
   html.js [data-reveal="cut"],
@@ -1275,7 +973,6 @@ html.js [data-reveal]:target {
   }
 }
 
-/* --- Lenis: el scroll lo anima la librería, no el navegador --- */
 html.lenis,
 html.lenis body {
   height: auto;
@@ -1293,13 +990,6 @@ html.lenis body {
   overflow: hidden;
 }
 
-/* =============================================================
-   Impresión
-   -------------------------------------------------------------
-   Sin esto, imprimir o guardar como PDF dejaba casi todo en
-   blanco: el revelado no corre al paginar y el texto claro caía
-   sobre papel blanco.
-   ============================================================= */
 @media print {
   :root,
   .section--alt,

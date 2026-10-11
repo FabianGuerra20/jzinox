@@ -1,12 +1,4 @@
 ---
-/**
- * Productos (URL /catalogo).
- *
- * Las categorías, su orden y los nombres son del cliente. Cada categoría se
- * pinta en el orden dado, agrupando en tandas: las piezas con foto van como
- * tarjetas y las que no la tienen como renglones, sin caja vacía. El orden
- * dentro de la categoría no cambia.
- */
 import Layout from "../layouts/Layout.astro";
 import WhatsAppIcon from "../components/WhatsAppIcon.astro";
 import { catalog, catalogCategories } from "../data/catalog.js";
@@ -23,7 +15,6 @@ const slugify = (value) =>
 
 const hasPhoto = (item) => Boolean(item.image && !item.image.pending && item.image.src);
 
-/** Parte la lista en tandas consecutivas de "con foto" / "sin foto". */
 const toRuns = (items) =>
 	items.reduce((runs, item) => {
 		const kind = hasPhoto(item) ? "cards" : "rows";
@@ -36,12 +27,6 @@ const toRuns = (items) =>
 const quoteHref = (item) =>
 	`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(`Hola ${site.name}, me interesa cotizar: ${item.name}`)}`;
 
-/**
- * Datos estructurados del catálogo.
- *
- * Se emite `Product` sin `offers`: el sitio no publica precios (decisión del
- * cliente), cada pieza se cotiza según medidas.
- */
 const catalogLd = JSON.stringify({
 	"@context": "https://schema.org",
 	"@type": "ItemList",
@@ -80,9 +65,6 @@ const groups = catalogCategories
 		</div>
 	</section>
 
-	{/* Categorías: barra propia, fija bajo el encabezado. Antes vivía dentro del
-	    hero y a media página no había forma de saltar de categoría; en teléfono
-	    el listado mide varias pantallas. Una sola fila que se desliza. */}
 	<nav class="catalog-bar theme-light" aria-label="Categorías de productos">
 		<div class="container catalog-bar__inner">
 			{groups.map((group) => (
@@ -91,8 +73,6 @@ const groups = catalogCategories
 		</div>
 	</nav>
 
-	{/* Todo el listado vive en UNA sección clara: las fotos se juzgan sobre el
-	    mismo fondo. */}
 	<section class="section section--alt catalog">
 		<div class="container catalog-groups">
 			{
@@ -105,9 +85,6 @@ const groups = catalogCategories
 								<div class="pgrid catalog-run">
 									{run.items.map((item, i) => (
 										<article class="pcard" data-reveal="fade" style={`--i: ${i % 3}`}>
-											{/* La foto es 4:3 en la tarjeta y casi todas son verticales:
-											    tocarla la abre completa en el visor. Sin JavaScript,
-											    el enlace abre la imagen sola. */}
 											<a
 												class="pcard__media media-frame"
 												href={item.image.src}
@@ -131,8 +108,6 @@ const groups = catalogCategories
 											<div class="pcard__body">
 												<h3 id={`${item.id}-name`}>{item.name}</h3>
 												{item.description && <p>{item.description}</p>}
-												{/* El rótulo se repite en las 18 piezas: el nombre accesible
-												    se compone con el del producto (WCAG 2.4.4). */}
 												<a
 													id={`${item.id}-cta`}
 													aria-labelledby={`${item.id}-cta ${item.id}-name`}
@@ -190,7 +165,6 @@ const groups = catalogCategories
 </Layout>
 
 <style>
-	/* --- Barra de categorías --- */
 	.catalog-bar {
 		position: sticky;
 		top: var(--header-height);
@@ -235,15 +209,12 @@ const groups = catalogCategories
 		}
 	}
 
-	/* --- Listado --- */
 	.catalog-groups {
 		display: flex;
 		flex-direction: column;
 		gap: clamp(3rem, 6vw, 4.5rem);
 	}
 
-	/* El salto de ancla tiene que dejar libre el encabezado (80px) Y la barra
-	   de categorías (49px). */
 	.catalog-group {
 		scroll-margin-top: 3.5rem;
 	}
@@ -257,7 +228,6 @@ const groups = catalogCategories
 		margin-top: clamp(1rem, 2.4vw, var(--gutter));
 	}
 
-	/* Un renglón sin descripción no deja su columna vacía a la vista */
 	.prow p:empty {
 		display: none;
 	}

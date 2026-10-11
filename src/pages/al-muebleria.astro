@@ -1,13 +1,4 @@
 ---
-/**
- * Vista interna del aliado estratégico AL Mueblería.
- *
- * Landing resumida dentro del ecosistema JZ Inox: presentación, servicios
- * propios y galería de proyectos. Mantiene el fondo, la tipografía y las
- * juntas de 1px del sistema; no introduce una paleta paralela.
- *
- * Jerarquía SEO: h1 → h2 (secciones) → h3 (servicios y piezas).
- */
 import Layout from "../layouts/Layout.astro";
 import WhatsAppIcon from "../components/WhatsAppIcon.astro";
 import { alMuebleriaPage, alMuebleriaCatalog, alMuebleria } from "../data/brands.js";
@@ -16,8 +7,6 @@ import { srcset } from "../utils/img.js";
 
 const { hero, services, catalog, cta } = alMuebleriaPage;
 
-// Foto del encabezado: la primera del mosaico del Inicio. Es la página con más
-// fotos del sitio y antes abría con media pantalla de puro texto.
 const heroPhoto = alMuebleria.images.find((image) => image.src);
 
 const quoteHref = (item) =>
@@ -28,7 +17,6 @@ const quoteHref = (item) =>
 	title="AL Mueblería: muebles a medida en línea plana"
 	description="Muebles a medida en línea plana y estilo industrial: clósets, cocinas empotradas y mobiliario comercial. Herrajes Häfele, Blum y Hettich."
 >
-	{/* --- Presentación --- */}
 	<section class="section page-hero al-hero">
 		<div class="container al-hero__grid">
 			<div class="al-hero__copy">
@@ -62,7 +50,6 @@ const quoteHref = (item) =>
 		</div>
 	</section>
 
-	{/* --- Servicios: renglones, como en /servicios --- */}
 	<section class="section section--alt" id="servicios" aria-labelledby="al-servicios">
 		<div class="container">
 			<div class="section-head" data-reveal>
@@ -86,7 +73,6 @@ const quoteHref = (item) =>
 		</div>
 	</section>
 
-	{/* --- Proyectos --- */}
 	<section class="section" id="al-catalogo" aria-labelledby="al-catalogo-title">
 		<div class="container">
 			<div class="section-head" data-reveal>
@@ -98,8 +84,6 @@ const quoteHref = (item) =>
 				{
 					alMuebleriaCatalog.map((item, i) => (
 						<article class="pcard" data-reveal="fade" style={`--i: ${i % 3}`}>
-							{/* Las fotos son verticales y el marco 4:3: tocar la foto la abre
-							    completa. En mueblería el acabado es el argumento de venta. */}
 							<a
 								class="pcard__media media-frame"
 								href={item.image.src}
@@ -143,7 +127,6 @@ const quoteHref = (item) =>
 		</div>
 	</section>
 
-	{/* --- Cierre --- */}
 	<section class="section section--tight section--alt cta-band" aria-labelledby="al-cierre">
 		<div class="container cta-band__inner" data-reveal>
 			<div class="cta-band__text">
@@ -159,7 +142,6 @@ const quoteHref = (item) =>
 </Layout>
 
 <style>
-	/* --- Encabezado: texto a la izquierda, foto a la derecha --- */
 	.al-hero__grid {
 		display: grid;
 		gap: clamp(1.75rem, 4vw, 3.5rem);
@@ -185,8 +167,6 @@ const quoteHref = (item) =>
 		object-fit: cover;
 	}
 
-	/* Bajada del titular: "Mueblistería y ebanistería" es el oficio de la marca.
-	   Va en la grotesca de titulares, un escalón bajo el h1. */
 	.al-hero__subtitle {
 		font-family: var(--font-heading);
 		font-weight: 600;
@@ -203,14 +183,10 @@ const quoteHref = (item) =>
 		margin-top: 1.75rem;
 	}
 
-	/* --- Galería --- */
 	.al-gallery__short {
 		display: none;
 	}
 
-	/* En teléfono, dos columnas con foto, tipo y nombre: ocho tarjetas completas
-	   a una columna eran más de cinco pantallas. La descripción vuelve desde
-	   640px; la foto completa siempre está a un toque. */
 	@media (max-width: 639.98px) {
 		.al-gallery {
 			grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -1,14 +1,4 @@
 ---
-/**
- * Página de error 404.
- *
- * Sin ella, cualquier enlace roto, error de tipeo o rastreador cae en la página
- * por defecto del hosting: fuera de la marca y sin ninguna salida hacia el sitio.
- *
- * El contenido importa tanto como el aspecto. Una 404 que solo dice "página no
- * encontrada" es un callejón sin salida: quien llegó aquí buscaba algo, así que
- * la página ofrece las tres rutas por las que ese algo puede estar.
- */
 import Layout from "../layouts/Layout.astro";
 import { site } from "../data/site.js";
 ---
@@ -26,8 +16,6 @@ import { site } from "../data/site.js";
 				El enlace puede estar roto o la página cambió de dirección. Prueba por aquí:
 			</p>
 
-			{/* Rutas reales, no un único "volver al inicio" que obliga a empezar
-			    de nuevo la búsqueda. */}
 			<nav class="notfound__actions" aria-label="Dónde seguir">
 				<a href="/" class="btn btn--primary">Volver al inicio</a>
 				<a href="/catalogo" class="btn btn--outline">Ver productos</a>
@@ -48,9 +36,6 @@ import { site } from "../data/site.js";
 </Layout>
 
 <style>
-	/* Mismo tratamiento que /gracias: el header es `fixed` y <main> ya compensa
-	   su altura, así que la sección ocupa exactamente el alto visible restante
-	   y centra su contenido ahí. */
 	.notfound {
 		display: flex;
 		align-items: center;
@@ -95,14 +80,10 @@ import { site } from "../data/site.js";
 		color: var(--color-text-muted);
 	}
 
-	/* Enlace dentro de un párrafo: el área táctil se amplía con padding
-	   vertical negativo compensado, para llegar a 44px sin separar la línea
-	   del texto que la rodea. */
 	.notfound__help a {
 		display: inline-flex;
 		align-items: center;
 		min-height: var(--tap);
-		/* inline-flex se come los espacios que lo rodean: se devuelven a mano */
 		margin-inline: 0.25em;
 		color: var(--color-accent-dark);
 		font-weight: 600;

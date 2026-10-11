@@ -1,13 +1,3 @@
-/**
- * Genera el LEEME.txt de cada maqueta y el COMPARACION.html que las enmarca.
- *
- * Por qué existe el comparador: entregar dos carpetas y esperar que el cliente
- * elija no es pedirle una decisión, es pedirle que adivine. Casi todo lo que
- * cambia entre A y B es invisible hasta que se interactúa. El comparador dice
- * qué cambia, por qué, y qué necesitamos de vuelta.
- *
- * Uso:  node scripts/generar-entrega.mjs <carpeta-escritorio>
- */
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
 

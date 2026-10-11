@@ -1,19 +1,3 @@
-// CONTENIDO DEL CLIENTE.
-//
-//   [CLIENTE]   las seis categorías, su orden y los 18 nombres de producto son
-//               la lista que entregó el cliente el 2026-10-11. No reordenar ni
-//               renombrar sin que lo pida.
-//   [PROPUESTA] las descripciones son nuestras. Regla: la descripción dice lo
-//               que el nombre NO dice (para qué sirve, dónde va). Si no hay nada
-//               que añadir sin inventar, la pieza va sin descripción: mejor eso
-//               que repetir el nombre más "de acero inoxidable".
-//
-// SIN PRECIOS (pedido del cliente, 2026-10-11): el sitio no publica valores.
-//
-// FOTOS: cinco piezas tienen foto real y se muestran como tarjeta. Las otras
-// trece llevan `pending` y se muestran como renglón, sin caja vacía. `slot` es
-// una nota interna de qué foto falta; no se publica.
-
 export const catalogCategories = [
   "Revestimientos",
   "Extracción",

@@ -11,8 +11,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		<div class="container thanks__inner">
 			<span class="eyebrow">Consulta enviada</span>
 			<h1 id="gracias-titulo">¡Gracias por escribirnos!</h1>
-			{/* Un acuse de recibo que no dice qué pasa después es un callejón sin
-			    salida: la persona queda sin saber si esperar una hora o una semana. */}
 			<p>
 				Recibimos tu consulta y te respondemos <strong>en horario de taller</strong>: {site.hours}.
 				Si necesitas una respuesta ahora, escríbenos por WhatsApp.
@@ -29,11 +27,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 </Layout>
 
 <style>
-	/* El header es `fixed` y <main> ya compensa sus 80px. Con los 6rem fijos
-	   que tenía la sección, esa compensación se sumaba y el bloque quedaba
-	   pegado al techo con el resto del viewport vacío. Ahora la sección ocupa
-	   exactamente el alto visible que queda bajo la barra y centra en él su
-	   contenido: el padding pasa a ser solo un mínimo para pantallas cortas. */
 	.thanks {
 		display: flex;
 		align-items: center;
@@ -43,9 +36,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		text-align: center;
 	}
 
-	/* Medida de lectura constante. `.container` pasa de 20px a 64px de padding
-	   lateral en escritorio: sobre una columna corta eso encogía el texto a
-	   432px. Se fija el margen lateral y se compensa en el max-width. */
 	.thanks__inner {
 		max-width: calc(600px + var(--margin-mobile) * 2);
 		margin: 0 auto;
@@ -57,17 +47,10 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		}
 	}
 
-	/* La escala global del h1 llega a 64px: dentro de una columna de 600px el
-	   titular pesa como una portada y esto es un acuse de recibo. Se rebaja
-	   SOLO el techo de escritorio (64 → 48px). El suelo se mantiene en los
-	   40px que fija la escala del mockup: por debajo, en móvil, el h1 caía a
-	   32px y quedaba del mismo tamaño que un h2. El margen inferior lo sigue
-	   dando la regla global (0.6em), que ya escala con el cuerpo. */
 	.thanks h1 {
 		font-size: clamp(2.5rem, 4.5vw, 3rem);
 	}
 
-	/* Mismo cuerpo de entradilla que `.page-hero p` (18px) */
 	.thanks p {
 		font-size: 1.125rem;
 		margin-bottom: 0;

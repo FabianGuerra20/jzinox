@@ -1,14 +1,4 @@
 ---
-/**
- * Servicios de JZINOX.
- *
- * El copy sale del PDF del cliente; los bloques [PROPUESTA] esperan validación.
- * Jerarquía: h1 → h2 por sección → h3 por servicio y por etapa.
- *
- * Sin tarjetas: los seis servicios son renglones de una lista de despiece
- * (nombre | qué es | qué incluye) y las cuatro etapas van sobre una línea de
- * tiempo que se traza al entrar en pantalla.
- */
 import Layout from "../layouts/Layout.astro";
 import { services, processSteps, faqs } from "../data/services.js";
 ---
@@ -17,7 +7,6 @@ import { services, processSteps, faqs } from "../data/services.js";
 	title="Soldadura TIG, corte y plegado en acero inoxidable"
 	description="Soldadura TIG, MIG y aluminio, corte y plegado, diseño y fabricación a medida en acero inoxidable. Taller propio con más de 20 años de oficio."
 >
-	{/* --- Encabezado --- */}
 	<section class="section page-hero page-hero--split" aria-labelledby="servicios-titulo">
 		<div class="container">
 			<h1 id="servicios-titulo">Soldadura, corte, plegado y diseño en acero inoxidable</h1>
@@ -28,7 +17,6 @@ import { services, processSteps, faqs } from "../data/services.js";
 		</div>
 	</section>
 
-	{/* --- Listado de servicios --- */}
 	<section class="section section--alt" aria-labelledby="servicios-listado">
 		<div class="container">
 			<div class="section-head" data-reveal>
@@ -52,7 +40,6 @@ import { services, processSteps, faqs } from "../data/services.js";
 		</div>
 	</section>
 
-	{/* --- Cómo trabajamos --- */}
 	<section class="section" aria-labelledby="servicios-proceso">
 		<div class="container">
 			<div class="section-head" data-reveal>
@@ -77,7 +64,6 @@ import { services, processSteps, faqs } from "../data/services.js";
 		</div>
 	</section>
 
-	{/* --- Preguntas frecuentes: <details> nativo, sin JavaScript --- */}
 	<section class="section section--alt" aria-labelledby="servicios-preguntas">
 		<div class="container faq-layout">
 			<div data-reveal>
@@ -97,7 +83,6 @@ import { services, processSteps, faqs } from "../data/services.js";
 		</div>
 	</section>
 
-	{/* --- Cierre --- */}
 	<section class="section section--tight cta-band cta-band--dark" aria-labelledby="servicios-cierre">
 		<div class="container cta-band__inner" data-reveal>
 			<div class="cta-band__text">
@@ -113,7 +98,6 @@ import { services, processSteps, faqs } from "../data/services.js";
 </Layout>
 
 <style>
-	/* Preguntas: título a la izquierda, lista a la derecha */
 	.faq-layout {
 		display: grid;
 		gap: clamp(1.5rem, 4vw, 3rem);
@@ -130,13 +114,6 @@ import { services, processSteps, faqs } from "../data/services.js";
 		}
 	}
 
-	/* =========================================================
-	   Línea de tiempo
-	   ---------------------------------------------------------
-	   Aquí la numeración sí es información: son etapas en orden.
-	   La línea se traza de izquierda a derecha y cada etapa cuelga
-	   de ella con una marca vertical, como una cota.
-	   ========================================================= */
 	.timeline {
 		position: relative;
 	}
@@ -172,7 +149,6 @@ import { services, processSteps, faqs } from "../data/services.js";
 		padding-top: 1.75rem;
 	}
 
-	/* Marca de cota: baja desde la línea hasta la etapa */
 	.timeline__step::before {
 		content: "";
 		position: absolute;
