@@ -536,6 +536,19 @@ historia de `/nosotros` (título a todo el ancho, numeral y texto a la par, dato
 debajo), el cierre del Inicio (los botones miden lo mismo que el título con su texto) y los
 encabezados partidos (la entrada va a 24px, en la grotesca de titulares, centrada con el h1).
 
+### Nosotros
+El encabezado y la historia son una sola pieza: el «20+» a gran tamaño con «años» a la
+izquierda, el titular del cliente sin los años a la derecha («Garantizando calidad y
+resistencia en acero inoxidable»), los dos párrafos de historia debajo y la fila de datos
+al pie. El numeral y el titular se leen juntos como la frase original del cliente. La
+primera oración de la historia se reformuló para no repetir las dos décadas.
+
+### Redes y botón flotante
+Instagram va con icono de una tinta (`InstagramIcon.astro`) y el usuario, en el pie y en
+Contacto. El botón flotante de WhatsApp mide 48px, va en el verde oscuro del sistema y
+desde 1536px de ancho muestra «Escríbenos»; por debajo es cuadrado para no pisar el
+cartucho del hero.
+
 ### Datos del taller
 Los cuatro datos del cartucho viven en `facts` (`company.js`). El de «Taller» muestra la
 dirección (`Departamental 999, San Miguel`) y enlaza a la ficha de Google Maps; no dice

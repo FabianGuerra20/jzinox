@@ -1,18 +1,16 @@
 import { site } from "./site.js";
 
 export const pageHero = {
-  // [PDF]
-  title: "Más de 20 años garantizando calidad y resistencia en acero inoxidable",
-  // [PDF]
-  lead: "Llevamos más de dos décadas transformando el acero inoxidable en soluciones duraderas para la industria alimentaria, restaurantes y locales de comida rápida.",
+  numeral: "20+",
+  numeralUnit: "años",
+  // [PDF, recortado]
+  titleRest: "Garantizando calidad y resistencia en acero inoxidable",
 };
 
 export const history = {
-  // [PROPUESTA]
-  title: "Fabricamos a medida, pieza por pieza",
-  // [PDF]
+  // [PDF, reformulado]
   paragraphs: [
-    "En JZ INOX llevamos más de dos décadas transformando el acero inoxidable en soluciones duraderas para la industria alimentaria, restaurantes y locales de comida rápida. Hemos fabricado y diseñado a grandes empresas de la industria alimentaria de la comida rápida.",
+    "En JZ INOX transformamos el acero inoxidable en soluciones duraderas para la industria alimentaria, restaurantes y locales de comida rápida. Hemos fabricado y diseñado a grandes empresas de la industria alimentaria de la comida rápida.",
     "Nos dedicamos a la fabricación a medida, sabemos que cada cocina y espacio de trabajo tiene necesidades únicas que los muebles estandarizados no pueden resolver.",
   ],
 };
@@ -66,13 +64,6 @@ export const values = [
 ];
 
 // [PDF]
-export const stats = [
-  { value: "20+", label: "Años de experiencia" },
-  { value: null, label: "Dato por confirmar", pending: true, hint: "Proyectos entregados" },
-  { value: null, label: "Dato por confirmar", pending: true, hint: "Clientes atendidos" },
-  { value: null, label: "Dato por confirmar", pending: true, hint: "Garantía de fabricación" },
-];
-
 // [PROPUESTA]
 export const facts = [
   { label: "Experiencia", value: "20+ años" },

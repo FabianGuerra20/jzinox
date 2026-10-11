@@ -11,6 +11,8 @@ export const site = {
   whatsappDefaultMessage: "Hola JZ INOX, quisiera cotizar un proyecto.",
 
   email: "ventas@jzinox.cl",
+  instagramHandle: "@jzinox_chile",
+  instagramHref: "https://www.instagram.com/jzinox_chile/",
   street: "Av. Departamental 999, Galpón 11",
   city: "San Miguel, Santiago",
   region: "Región Metropolitana",

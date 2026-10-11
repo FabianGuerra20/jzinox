@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { services } from "../data/services.js";
+import InstagramIcon from "../components/InstagramIcon.astro";
 import WhatsAppIcon from "../components/WhatsAppIcon.astro";
 import { site } from "../data/site.js";
 ---
@@ -28,6 +29,14 @@ import { site } from "../data/site.js";
 
 						<dt>Correo</dt>
 						<dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
+
+						<dt>Instagram</dt>
+						<dd>
+							<a class="contact__social" href={site.instagramHref} target="_blank" rel="noopener noreferrer">
+								<InstagramIcon size={18} />
+								{site.instagramHandle}
+							</a>
+						</dd>
 
 						<dt>Taller</dt>
 						<dd>
@@ -395,6 +404,10 @@ import { site } from "../data/site.js";
 	.contact__info {
 		display: flex;
 		flex-direction: column;
+	}
+
+	.contact__list a.contact__social {
+		gap: 0.5rem;
 	}
 
 	.contact__line {

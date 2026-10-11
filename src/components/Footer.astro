@@ -1,5 +1,6 @@
 ---
 import { navItems, site } from "../data/site.js";
+import InstagramIcon from "./InstagramIcon.astro";
 import { srcset } from "../utils/img.js";
 
 const year = new Date().getFullYear();
@@ -15,6 +16,13 @@ const logo = "/img/logo-jzinox.webp";
       <ul class="footer__contact">
         <li><a class="link-press" href={`mailto:${site.email}`}>{site.email}</a></li>
         <li><a class="link-press" href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a></li>
+        <li>
+          <a class="footer__social link-press" href={site.instagramHref} target="_blank" rel="noopener noreferrer">
+            <InstagramIcon size={18} />
+            {site.instagramHandle}
+            <span class="visually-hidden"> en Instagram</span>
+          </a>
+        </li>
       </ul>
     </div>
 
@@ -127,6 +135,11 @@ const logo = "/img/logo-jzinox.webp";
     font-size: 0.875rem;
     color: var(--color-text-muted);
     transition: color 0.15s ease;
+  }
+
+  .footer__col a.footer__social {
+    gap: 0.5rem;
+    color: var(--color-text);
   }
 
   .footer__maps a {

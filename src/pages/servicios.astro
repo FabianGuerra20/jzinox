@@ -1,6 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import WhatsAppIcon from "../components/WhatsAppIcon.astro";
 import { services, processSteps, faqs } from "../data/services.js";
+import { site } from "../data/site.js";
+
+const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`;
 ---
 
 <Layout
@@ -66,8 +70,13 @@ import { services, processSteps, faqs } from "../data/services.js";
 
 	<section class="section section--alt" aria-labelledby="servicios-preguntas">
 		<div class="container faq-layout">
-			<div data-reveal>
+			<div class="faq-layout__head" data-reveal>
 				<h2 id="servicios-preguntas">Preguntas frecuentes</h2>
+				<p>¿No está la tuya? Escríbenos y te respondemos en horario de taller.</p>
+				<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp">
+					<WhatsAppIcon size={18} />
+					Escríbenos por WhatsApp
+				</a>
 			</div>
 
 			<div class="faq" data-reveal>
@@ -103,8 +112,14 @@ import { services, processSteps, faqs } from "../data/services.js";
 		gap: clamp(1.5rem, 4vw, 3rem);
 	}
 
-	.faq-layout h2 {
-		margin: 0;
+	.faq-layout__head h2 {
+		margin-bottom: 0.75rem;
+	}
+
+	.faq-layout__head p {
+		max-width: 34ch;
+		font-size: 1.0625rem;
+		margin-bottom: 1.5rem;
 	}
 
 	@media (min-width: 1024px) {

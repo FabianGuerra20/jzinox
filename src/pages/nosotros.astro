@@ -1,8 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { pageHero, history, mission, valuesSection, values, stats, facts } from "../data/company.js";
-
-const confirmedStats = stats.filter((stat) => !stat.pending);
+import { pageHero, history, mission, valuesSection, values, facts } from "../data/company.js";
 
 const otherFacts = facts.slice(1);
 ---
@@ -11,35 +9,21 @@ const otherFacts = facts.slice(1);
 	title="Taller de acero inoxidable a medida en Santiago"
 	description="Taller de acero inoxidable en Santiago con más de 20 años de oficio. Conoce cómo trabajamos y por qué fabricamos cada pieza a medida."
 >
-	<section class="section page-hero page-hero--split" aria-labelledby="nosotros-titulo">
-		<div class="container">
-			<h1 id="nosotros-titulo">{pageHero.title}</h1>
-		</div>
-	</section>
+	<section class="section page-hero about" aria-labelledby="nosotros-titulo">
+		<div class="container about__grid">
+			<p class="about__numeral">
+				{pageHero.numeral}
+				<span>{pageHero.numeralUnit}</span>
+			</p>
 
-	<section class="section section--alt" aria-labelledby="nosotros-historia">
-		<div class="container history">
-			<h2 id="nosotros-historia" class="history__title" data-reveal>{history.title}</h2>
+			<h1 id="nosotros-titulo" class="about__title">{pageHero.titleRest}</h1>
 
-			<dl class="history__stats" data-reveal>
-				{
-					confirmedStats.map((stat) => (
-						<div class="history__stat">
-							<dt>{stat.label}</dt>
-							<dd>{stat.value}</dd>
-						</div>
-					))
-				}
-			</dl>
+			{history.paragraphs.map((paragraph) => <p class="about__text">{paragraph}</p>)}
 
-			<div class="history__text" data-reveal style="--i: 1">
-				{history.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
-			</div>
-
-			<dl class="history__facts" data-reveal>
+			<dl class="about__facts">
 				{
 					otherFacts.map((fact) => (
-						<div class="history__fact">
+						<div class="about__fact">
 							<dt>{fact.label}</dt>
 							<dd>
 								{fact.href ? (
@@ -58,16 +42,16 @@ const otherFacts = facts.slice(1);
 		</div>
 	</section>
 
-	<section class="section" aria-labelledby="nosotros-mision">
+	<section class="section section--alt" aria-labelledby="nosotros-mision">
 		<div class="container">
 			<div class="section-head" data-reveal>
 				<h2 id="nosotros-mision">{mission.title}</h2>
 			</div>
 
-			<div class="creed">
+			<div class="rows">
 				{
-					mission.items.map((item, i) => (
-						<article class="creed__item" data-reveal style={`--i: ${i}`}>
+					mission.items.map((item) => (
+						<article class="rows__row" data-reveal>
 							<h3>{item.title}</h3>
 							<p>{item.description}</p>
 						</article>
@@ -77,16 +61,16 @@ const otherFacts = facts.slice(1);
 		</div>
 	</section>
 
-	<section class="section section--alt" aria-labelledby="nosotros-valores">
-		<div class="container values">
-			<div class="values__head" data-reveal>
+	<section class="section" aria-labelledby="nosotros-valores">
+		<div class="container">
+			<div class="section-head" data-reveal>
 				<h2 id="nosotros-valores">{valuesSection.title}</h2>
 			</div>
 
-			<div class="values__list">
+			<div class="rows">
 				{
 					values.map((value) => (
-						<article class="values__row" data-reveal>
+						<article class="rows__row" data-reveal>
 							<h3>{value.title}</h3>
 							<p>{value.description}</p>
 						</article>
@@ -96,7 +80,7 @@ const otherFacts = facts.slice(1);
 		</div>
 	</section>
 
-	<section class="section section--tight cta-band cta-band--dark" aria-labelledby="nosotros-cierre">
+	<section class="section section--tight section--alt cta-band" aria-labelledby="nosotros-cierre">
 		<div class="container cta-band__inner" data-reveal>
 			<div class="cta-band__text">
 				<h2 id="nosotros-cierre">¿Necesitas una pieza a medida?</h2>
@@ -110,87 +94,74 @@ const otherFacts = facts.slice(1);
 </Layout>
 
 <style>
-	.history {
+	.about__grid {
 		display: grid;
-		gap: clamp(2rem, 5vw, 4rem);
+		gap: 1.5rem clamp(2rem, 5vw, 4rem);
 	}
 
-	@media (min-width: 1024px) {
-		.history {
-			grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-			align-items: center;
-		}
-
-		.history__title,
-		.history__facts {
-			grid-column: 1 / -1;
-		}
-	}
-
-	.history__title {
-		margin: 0;
-	}
-
-	.history__stats {
-		margin: 0;
-	}
-
-	.history__stat {
+	.about__numeral {
 		display: flex;
-		flex-direction: column-reverse;
-		gap: 1rem;
-	}
-
-	.history__stat dd {
+		align-items: baseline;
+		gap: 0.75rem;
 		margin: 0;
 		font-family: var(--font-heading);
-		font-size: clamp(6rem, 17vw, 13rem);
+		font-size: clamp(6.5rem, 19vw, 15rem);
 		font-weight: 800;
 		line-height: 0.8;
 		letter-spacing: -0.05em;
 		color: var(--color-text);
 	}
 
-	.history__stat dt,
-	.history__fact dt {
+	.about__numeral span {
 		font-family: var(--font-body);
 		font-size: 0.75rem;
 		font-weight: 500;
 		line-height: 1.3;
-		text-transform: uppercase;
 		letter-spacing: 0.14em;
+		text-transform: uppercase;
 		color: var(--color-text-muted);
 	}
 
-	.history__facts {
+	.page-hero .about__title {
+		max-width: none;
+		margin: 0;
+		font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+		line-height: 1.08;
+	}
+
+	.page-hero .about__text {
+		max-width: 60ch;
+		font-size: 1.0625rem;
+		line-height: 1.65;
+		margin: 0;
+	}
+
+	.about__facts {
 		display: grid;
 		gap: 1px;
-		margin: 0;
+		margin: clamp(1rem, 3vw, 2rem) 0 0;
 		background-color: var(--color-border);
 		border-block: 1px solid var(--color-border);
 	}
 
-	@media (min-width: 640px) {
-		.history__facts {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
-	}
-
-	.history__fact {
+	.about__fact {
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
 		padding: 1.25rem 0;
-		background-color: var(--color-bg-alt);
+		background-color: var(--color-bg);
 	}
 
-	@media (min-width: 640px) {
-		.history__fact:not(:first-child) {
-			padding-left: var(--gutter);
-		}
+	.about__fact dt {
+		font-size: 0.75rem;
+		font-weight: 500;
+		line-height: 1.3;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
 	}
 
-	.history__fact dd {
+	.about__fact dd {
 		margin: 0;
 		font-family: var(--font-heading);
 		font-size: clamp(1.125rem, 1.6vw, 1.375rem);
@@ -199,86 +170,58 @@ const otherFacts = facts.slice(1);
 		color: var(--color-text);
 	}
 
-	.history__text p {
-		font-size: 1.125rem;
-		line-height: 1.65;
-		max-width: 60ch;
-	}
-
-	.history__text p:last-child {
-		margin-bottom: 0;
-	}
-
-	.creed {
-		display: grid;
-		gap: 2.5rem var(--gutter);
-	}
-
-	@media (min-width: 900px) {
-		.creed {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-			gap: clamp(2rem, 6vw, 5rem);
+	@media (min-width: 640px) {
+		.about__facts {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
-	}
 
-	.creed__item {
-		padding-top: 1.5rem;
-		border-top: 1px solid var(--color-border);
-	}
-
-	.creed__item h3 {
-		margin-bottom: 0.75rem;
-	}
-
-	.creed__item p {
-		font-size: 1.0625rem;
-		max-width: 54ch;
-		margin-bottom: 0;
-	}
-
-	.values {
-		display: grid;
-		gap: clamp(1.75rem, 4vw, 3rem);
-	}
-
-	.values__head h2 {
-		margin: 0;
+		.about__fact:not(:first-child) {
+			padding-left: var(--gutter);
+		}
 	}
 
 	@media (min-width: 1024px) {
-		.values {
+		.about__grid {
 			grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-			align-items: start;
+			align-items: end;
 		}
 
-		.values__head {
-			position: sticky;
-			top: calc(var(--header-height) + 2rem);
+		.about__text {
+			align-self: start;
+		}
+
+		.about__facts {
+			grid-column: 1 / -1;
 		}
 	}
 
-	.values__list {
+	.rows {
 		border-bottom: 1px solid var(--color-border);
 	}
 
-	.values__row {
+	.rows__row {
 		display: grid;
 		gap: 0.5rem;
 		padding: clamp(1.25rem, 2.6vw, 1.75rem) 0;
 		border-top: 1px solid var(--color-border);
 	}
 
-	@media (min-width: 640px) {
-		.values__row {
-			grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+	@media (min-width: 768px) {
+		.rows__row {
+			grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
 			gap: var(--gutter);
 			align-items: baseline;
 		}
 	}
 
-	.values__row h3,
-	.values__row p {
+	.rows__row h3 {
+		font-size: clamp(1.25rem, 1.8vw, 1.5rem);
 		margin: 0;
 	}
 
+	.rows__row p {
+		max-width: 68ch;
+		font-size: 1.0625rem;
+		margin: 0;
+	}
 </style>

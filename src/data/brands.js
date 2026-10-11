@@ -36,7 +36,9 @@ export const brands = [
     // [PDF]
     lead: "Nos dedicamos a dar vida a tus espacios mediante la fabricación de mobiliario a medida. Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo.",
     // [PDF, recortado]
-    leadShort: "Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo.",
+    leadShort: "Nos dedicamos a dar vida a tus espacios mediante la fabricación de mobiliario a medida.",
+    // [PDF]
+    blurb: "Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo.",
     href: "/al-muebleria",
     actions: [
       { href: "/al-muebleria", label: "Conocer AL Mueblería", variant: "primary" },

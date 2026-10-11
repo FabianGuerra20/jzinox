@@ -92,7 +92,7 @@ Resumen. El detalle está en `DESIGN.md`.
 * **En un bloque de dos columnas, las dos pesan lo mismo:** misma altura visual a cada lado. Si un lado queda corto, se sube su tamaño, se reparte el contenido o se saca una pieza a una fila propia.
 * **Las listas van en renglones** separados por la junta, no en tarjetas.
 * Una pieza sin foto es un renglón, no una caja vacía.
-* Un solo tipo de cierre de página: la banda `.cta-band`.
+* Un solo tipo de cierre de página: la banda `.cta-band`, con los botones del mismo alto que el texto.
 * Bento (`gap: 1px` sobre fondo de junta) solo donde hay celdas contiguas de verdad.
 
 ### Botones y WhatsApp
@@ -155,6 +155,6 @@ Reglas:
 | 2026-09-02 | Implementación del mockup aprobado y auditoría inicial (`MEJORAS.md`). |
 | 2026-09-23 | Crítica de diseño: `/productos` se fusiona en `/catalogo`, arreglos de contacto y contraste. |
 | 2026-10-04 | Paleta cálida, movimiento, fotos reales, favicon y logotipo nuevo del cliente. |
-| 2026-10-11 | Pedidos del cliente (orden del Inicio, sin precios, 6 categorías y 18 productos). Rediseño de distribución y movimiento. Revisión con cinco estudios y sus arreglos. Marca "JZ INOX". Comuna San Miguel y enlace a Maps. Código sin comentarios. |
+| 2026-10-11 | Nosotros fundido en el encabezado, Instagram en pie y Contacto, botón flotante de WhatsApp rehecho, revisión de equilibrio de columnas. Pedidos del cliente (orden del Inicio, sin precios, 6 categorías y 18 productos). Rediseño de distribución y movimiento. Revisión con cinco estudios y sus arreglos. Marca "JZ INOX". Comuna San Miguel y enlace a Maps. Código sin comentarios. |
 
 El detalle de cada fecha está en `MEJORAS.md` y en el historial de git.

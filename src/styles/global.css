@@ -45,7 +45,6 @@
   --color-error: #ff8a7a;
   --color-warn: #e2b04a;
   --color-ok: #7bd89a;
-  --color-whatsapp: #25d366;
   --color-whatsapp-ink: #0f7a35;
   --color-whatsapp-ink-dark: #0b6029;
 
@@ -523,9 +522,9 @@ ol[role="list"] {
 .cta-band__inner {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 1.5rem clamp(2rem, 5vw, 4rem);
 }
 
 .cta-band__text {
@@ -544,7 +543,14 @@ ol[role="list"] {
 .cta-band__actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: stretch;
   gap: 0.75rem;
+}
+
+.cta-band__actions .btn {
+  min-height: 3.5rem;
+  padding-inline: 2rem;
+  font-size: 0.9375rem;
 }
 
 .ledger {
