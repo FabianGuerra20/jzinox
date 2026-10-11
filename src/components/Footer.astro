@@ -3,15 +3,6 @@ import { navItems, site } from "../data/site.js";
 
 const year = new Date().getFullYear();
 
-// TODO: faltan crear las páginas legales. "Aviso de Privacidad" y "Términos de
-// Servicio" apuntan a "#" hasta que existan /aviso-de-privacidad y
-// /terminos-de-servicio. "Mapa del Sitio" sí resuelve: /sitemap-index.xml lo
-// genera @astrojs/sitemap en el build.
-const legalLinks = [
-  { href: "#", label: "Aviso de Privacidad" },
-  { href: "#", label: "Términos de Servicio" },
-  { href: "/sitemap-index.xml", label: "Mapa del Sitio" },
-];
 ---
 
 <footer class="footer">
@@ -50,32 +41,24 @@ const legalLinks = [
       </ul>
     </nav>
 
-    <!-- Columnas 3-4 — Horario y CTA -->
-    <section class="footer__col footer__col--wide" aria-labelledby="footer-hours-title">
+    <!-- Columna 3 — Horario -->
+    <section class="footer__col" aria-labelledby="footer-hours-title">
       <h2 class="footer__title" id="footer-hours-title">Horario de Atención</h2>
       <ul class="footer__hours">
         {site.hoursLines.map((line) => <li>{line}</li>)}
       </ul>
-      <a href="/contacto" class="btn btn--primary footer__cta">Cotizar Proyecto</a>
     </section>
+
+    <!-- Columna 4 — CTA, apoyado al margen derecho -->
+    <div class="footer__col footer__col--cta">
+      <a href="/contacto" class="btn btn--primary footer__cta">Cotizar Proyecto</a>
+    </div>
 
     <!-- Barra inferior — ocupa las cuatro columnas -->
     <div class="footer__bottom">
       <p class="footer__copy">
         &copy; {year} {site.name}. Todos los derechos reservados.
       </p>
-
-      <nav class="footer__legal" aria-label="Enlaces legales">
-        <ul>
-          {
-            legalLinks.map((link) => (
-              <li>
-                <a href={link.href}>{link.label}</a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
 
       <p class="footer__note">Sitio web en construcción — contenido de referencia.</p>
     </div>
@@ -100,11 +83,19 @@ const legalLinks = [
 
   @media (min-width: 768px) {
     .footer__grid {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Cuatro columnas reales. Antes el horario ocupaba dos y la cuarta quedaba
+     vacía: un tercio del pie era aire muerto a la derecha. */
+  @media (min-width: 1024px) {
+    .footer__grid {
+      grid-template-columns: 1.5fr 1fr 1.2fr auto;
     }
 
-    .footer__col--wide {
-      grid-column: span 2;
+    .footer__col--cta {
+      justify-self: end;
     }
   }
 
@@ -190,7 +181,6 @@ const legalLinks = [
     display: inline-flex;
     justify-content: center;
     width: fit-content;
-    margin-top: 1.2rem;
     font-size: 0.875rem;
     color: var(--color-on-accent);
   }

@@ -414,3 +414,36 @@ Contrastes calculados.
    **Servicios**: esas carpetas llegaron vacías.
 3. Validar los nombres y descripciones de los 3 productos nuevos (`[PROPUESTA]`, sin precio).
 4. ~~Favicon~~ — resuelto el 2026-10-04 (recoloreado y agrandado; `og-image.png` rehecha).
+
+---
+
+## 7. Revisiones de diseño del 2026-10-11 (impeccable + design-review)
+
+Dos revisiones independientes sobre las 6 páginas. Coincidieron en el diagnóstico: el
+sistema (radio cero, junta, paleta) es bueno; lo que abarataba el sitio era **fotos en gris,
+letra chica en cajas grandes, páginas interiores hechas solo de cajas y señales de sitio sin
+terminar**. Ninguna encontró incumplimientos de contraste AA ni desbordes.
+
+### Hecho
+* Fotos a color por defecto (`.media-frame`).
+* Escala tipográfica: h2 44px, h3 22px, cuerpo de tarjeta 16px; h1 interiores a 48px.
+* Encabezados de sección y cierre del Inicio alineados a la izquierda.
+* `--section-gap` 112px con `.section--tight` para cierres; `/contacto` vuelve a mostrar el formulario arriba.
+* Catálogo: una sola sección clara, tarjetas sueltas (sin celdas de relleno), sin etiqueta de categoría repetida, botón de acento.
+* Huecos de foto sin trama diagonal y con rótulo de 12px.
+* `/servicios`: fuera los iconos en cuadrito y los eyebrows que repetían el título.
+* `/nosotros`: solo la cifra confirmada, grande.
+* Pie: 4 columnas reales, sin enlaces legales a `#` ni el sitemap XML.
+* Placas de marca: 2 columnas entre 1024 y 1279px.
+* La foto del hero ya no se repite en la franja de servicios.
+* `.bento__cell--hover` solo en celdas con enlace. `color-scheme` declarado.
+
+### Abierto
+1. **Foto del hero.** Es de celular, 1600px, y muestra una estantería a medio terminar con una caja y un pallet. Hace falta una foto horizontal de obra terminada, y `srcset`.
+2. **`/servicios` y `/nosotros` no tienen ninguna imagen** ni hueco para ella. Propuesta de ambas revisiones: filas texto + foto como en el Inicio, y `page-hero` a dos columnas.
+3. **Menú móvil:** el icono no cambia a «X» al abrir (el `aria-expanded` sí cambia).
+4. **Superficies oscuras casi iguales** (lienzo vs tarjeta 1,08:1): las secciones oscuras contiguas se leen como una sola masa. Requiere recalcular contrastes.
+5. **Nota «Sitio web en construcción»** en el pie: quitarla al publicar de verdad.
+6. **Puntos del carrusel:** área táctil de 24×44px (cumple WCAG 2.5.8, no los 44px propios en horizontal).
+7. Páginas legales (aviso de privacidad, términos): no existen; sus enlaces se quitaron del pie.
+8. `ServiceIcon.astro` quedó sin uso.

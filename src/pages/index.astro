@@ -4,8 +4,9 @@
  *
  * Estructura del mockup aprobado, de arriba abajo:
  *   INICIO 1  hero a sangre bajo la barra translúcida
- *   INICIO 2  placa de marca JZ INOX      (fondo blanco)
- *   INICIO 3  placa de marca AL Mueblería (fondo gris)
+ *   INICIO 2  placa de JZ INOX      (pedido del cliente: va primero)
+ *   INICIO 3  placa de AL Mueblería (sección clara)
+ *             servicios principales, tres filas alternadas
  *   INICIO 4  cierre centrado con doble CTA
  *
  * El copy sale del PDF del cliente. Los bloques marcados [PROPUESTA] en
@@ -70,11 +71,22 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 			<div class="hero__actions">
 				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
 				<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--hero-ghost">
-					Hablar con un Asesor
+					Escríbenos por WhatsApp
 				</a>
 			</div>
 		</div>
 	</section>
+
+	{/* --- INICIO 2 e INICIO 3: las dos placas de marca --- */}
+	{
+		brands.map((brand, i) => (
+			<section class:list={["section", "brand-section", { "section--alt": i % 2 === 1 }]}>
+				<div class="container">
+					<BrandCard brand={brand} eager={i === 0} />
+				</div>
+			</section>
+		))
+	}
 
 	{/* --- Servicios principales: las tres filas que pide el PDF, alternadas --- */}
 	<section class="section services-strip" aria-labelledby="servicios-principales">
@@ -120,17 +132,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		</div>
 	</section>
 
-	{/* --- INICIO 2 e INICIO 3: las dos placas de marca --- */}
-	{
-		brands.map((brand, i) => (
-			<section class:list={["section", "brand-section", { "section--alt": i % 2 === 1 }]}>
-				<div class="container">
-					<BrandCard brand={brand} eager={i === 0} />
-				</div>
-			</section>
-		))
-	}
-
 	{/* --- INICIO 4: cierre --- */}
 	<section class="section closing">
 		<div class="container closing__inner">
@@ -163,14 +164,10 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	.hero {
 		position: relative;
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		min-height: 80vh;
-		padding-top: var(--header-height);
-		/* El padding inferior reserva la banda del rótulo del hueco: sin ella,
-		   los botones y el rótulo se solapan en celular, donde el titular ocupa
-		   cinco líneas. Cuando llegue la foto, vuelve a clamp(2rem, 5vw, 3rem). */
-		padding-bottom: clamp(4.5rem, 7vw, 5rem);
+		align-items: flex-end;
+		min-height: 88vh;
+		padding-top: calc(var(--header-height) + 2rem);
+		padding-bottom: clamp(2.5rem, 6vw, 4.5rem);
 		overflow: hidden;
 		background-color: var(--color-page);
 		border-bottom: 1px solid var(--color-border);
@@ -198,9 +195,23 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	.hero__veil {
 		position: absolute;
 		inset: 0;
-		background-color: rgba(22, 18, 15, 0.5);
+		background-color: rgba(22, 18, 15, 0.45);
 		background-image:
-			linear-gradient(180deg, rgba(22, 18, 15, 0.35) 0%, rgba(22, 18, 15, 0.72) 45%, rgba(22, 18, 15, 0.72) 70%, rgba(22, 18, 15, 0.9) 100%);
+			linear-gradient(180deg, rgba(22, 18, 15, 0.3) 0%, rgba(22, 18, 15, 0.7) 45%, rgba(22, 18, 15, 0.92) 100%);
+	}
+
+	/* En escritorio el texto va apoyado a la izquierda, así que el velo también:
+	   oscurece la mitad donde se lee y suelta la otra, para que la foto del
+	   taller se vea de verdad. Con el velo parejo la imagen quedaba en penumbra
+	   y el hero se leía como un fondo negro. Peor caso (foto blanca bajo el
+	   final del titular): blanco sobre ≈#40 da más de 10:1. */
+	@media (min-width: 900px) {
+		.hero__veil {
+			background-color: rgba(22, 18, 15, 0.32);
+			background-image:
+				linear-gradient(90deg, rgba(22, 18, 15, 0.9) 0%, rgba(22, 18, 15, 0.78) 48%, rgba(22, 18, 15, 0.2) 82%, rgba(22, 18, 15, 0.05) 100%),
+				linear-gradient(180deg, rgba(22, 18, 15, 0.45) 0%, transparent 28%, transparent 70%, rgba(22, 18, 15, 0.6) 100%);
+		}
 	}
 
 	.hero__slot {
@@ -238,8 +249,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		z-index: 1;
 		display: flex;
 		flex-direction: column;
-		align-items: center;
-		text-align: center;
+		align-items: flex-start;
 	}
 
 	.hero__eyebrow {
@@ -261,16 +271,16 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	   aquí baja un escalón y la medida sube: cabe en dos o tres líneas y el
 	   subtítulo y los CTA vuelven a entrar en la primera pantalla. */
 	.hero__title {
-		max-width: 26ch;
-		font-size: clamp(1.75rem, 3.6vw, 3rem);
-		line-height: 1.08;
+		max-width: 24ch;
+		font-size: clamp(1.9rem, 3.9vw, 3.5rem);
+		line-height: 1.06;
 		color: #fff;
 		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 		margin-bottom: 1.5rem;
 	}
 
 	.hero__lead {
-		max-width: 62ch;
+		max-width: 54ch;
 		font-size: 1.125rem;
 		color: rgba(255, 255, 255, 0.92);
 		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
@@ -334,6 +344,12 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		.strip__row--flip .strip__text {
 			order: 2;
 		}
+
+		/* El flip solo cambiaba el orden: la columna ancha se quedaba con el
+		   texto y las fotos reales salían más chicas que los huecos. */
+		.strip__row--flip {
+			grid-template-columns: 1.15fr 0.85fr;
+		}
 	}
 
 	.strip__index {
@@ -391,6 +407,11 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		container-type: inline-size;
 	}
 
+	/* Una sola foto: ocupa la columna entera en vez de media. */
+	.strip__media:has(> :only-child) {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
 	/* =========================================================
 	   INICIO 2 / 3 — Placas de marca
 	   ========================================================= */
@@ -415,24 +436,19 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		padding-bottom: clamp(3rem, 8vw, 6rem);
 	}
 
-	.closing__inner {
-		text-align: center;
-	}
-
 	.closing h2 {
-		margin-bottom: 1.5rem;
+		margin-bottom: 1rem;
 	}
 
 	.closing p {
-		max-width: 62ch;
-		margin: 0 auto 2.5rem;
+		max-width: 56ch;
+		margin: 0 0 2rem;
 		font-size: 1.125rem;
 	}
 
 	.closing__actions {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: center;
 		gap: 1rem;
 	}
 

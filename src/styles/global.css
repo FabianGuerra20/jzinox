@@ -27,6 +27,9 @@
    ============================================================= */
 
 :root {
+  /* Controles nativos y barras de scroll en oscuro, como el lienzo */
+  color-scheme: dark;
+
   /* --- Superficies (tema oscuro, el de base) --- */
   --color-page: #16120f; /* lienzo del documento */
   --color-bg: #1e1a16; /* tarjeta, celda del bento */
@@ -75,7 +78,7 @@
   /* --- Métrica del mockup --- */
   --container-width: 1440px;
   --gutter: 32px;
-  --section-gap: 64px;
+  --section-gap: 112px; /* tope de escritorio; en móvil baja a 56px, ver .section */
   --margin-mobile: 20px;
   --margin-desktop: 64px;
   --header-height: 80px;
@@ -121,6 +124,7 @@
   --color-warn: #8a5a00;
   --color-ok: #1f6b34;
   --color-steel-medium: #8a7f72;
+  color-scheme: light;
   background-color: var(--color-bg-alt);
   color: var(--color-text);
 }
@@ -179,15 +183,20 @@ h1 {
   text-transform: uppercase;
 }
 
+/* 28 → 44. El mockup lo dejaba en 32px: contra un h1 de 64px y un cuerpo de
+   16px, los títulos de sección no llegaban a marcar el cambio de bloque. */
 h2 {
-  font-size: clamp(1.75rem, 3.2vw, 2rem); /* 28 → 32 */
-  line-height: 1.2;
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  line-height: 1.12;
+  letter-spacing: -0.015em;
   font-weight: 700;
 }
 
+/* 18 → 22. Con el h2 en 44px, un h3 de 17px medía casi lo mismo que su
+   párrafo: faltaba el peldaño medio de la escala. */
 h3 {
-  font-size: clamp(1.05rem, 1.6vw, 1.15rem);
-  line-height: 1.3;
+  font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+  line-height: 1.25;
   font-weight: 600;
 }
 
@@ -256,12 +265,14 @@ ul {
 }
 
 /* =============================================================
-   FIRMA DEL SITIO — Revelado de medios
+   FIRMA DEL SITIO — Medios enmarcados
    -------------------------------------------------------------
-   Toda imagen entra desaturada, como una plancha sin pulir, y
-   recupera color y escala cuando el cursor la toca. Es la única
-   animación con carga expresiva del sistema; el resto de las
-   transiciones son funcionales (color, borde, fondo).
+   La foto entra A COLOR y se acerca un 5 % cuando el cursor la
+   toca. Hasta el 2026-10-11 entraba desaturada y recuperaba el
+   color en hover: sobre fotos de celular de acero inoxidable el
+   gris se leía como fotocopia, y nadie pasa el cursor por cada
+   tarjeta de un catálogo. El producto es el argumento de venta;
+   no se entrega apagado.
 
    El zoom vive en la imagen y el recorte en el marco, así que la
    escala nunca desborda ni provoca reflow: solo repinta.
@@ -274,30 +285,18 @@ ul {
 
 .media-frame img {
   width: 100%;
-  filter: grayscale(1) contrast(1.04);
   transform: scale(1);
-  transition: filter 0.45s ease, transform 0.6s var(--ease-out);
+  transition: transform 0.6s var(--ease-out);
 }
 
 .media-frame:hover img,
 .media-frame:focus-within img {
-  filter: grayscale(0) contrast(1);
   transform: scale(1.05);
 }
 
-/* Sin puntero (móvil, tablet) no existe el hover que devuelve el color: las
-   fotos se quedarían grises para siempre. Ahí van a color de entrada. */
-@media (hover: none) {
-  .media-frame img {
-    filter: none;
-  }
-}
-
-/* Con movimiento reducido el color sigue apareciendo —es información,
-   no adorno— pero el desplazamiento desaparece. */
 @media (prefers-reduced-motion: reduce) {
   .media-frame img {
-    transition: filter 0.2s ease;
+    transition: none;
   }
 
   .media-frame:hover img,
@@ -323,11 +322,17 @@ ul {
 }
 
 .section {
-  padding: clamp(2.75rem, 6vw, 4rem) 0;
+  padding: clamp(3.5rem, 8vw, var(--section-gap)) 0;
 }
 
 .section--alt {
   background-color: var(--color-bg-alt);
+}
+
+/* Bandas de cierre y bloques delgados: con el padding completo, una placa de
+   160px de alto quedaba flotando en 380px de sección. */
+.section--tight {
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
 }
 
 /* Etiqueta de plano: versalitas, nunca un titulillo de marketing */
@@ -344,14 +349,21 @@ ul {
 }
 
 
+/* Alineado al margen izquierdo, como el rótulo de un plano: el eje centrado
+   sobre una grilla a todo el ancho es el gesto que delata una plantilla. */
 .section-head {
-  max-width: 640px;
-  margin: 0 auto clamp(1.8rem, 4vw, 3rem);
-  text-align: center;
+  max-width: 720px;
+  margin: 0 0 clamp(2rem, 4.5vw, 3.5rem);
+}
+
+.section-head h2 {
+  margin-bottom: 0.5em;
 }
 
 .section-head p {
+  max-width: 56ch;
   margin-bottom: 0;
+  font-size: 1.0625rem;
 }
 
 /* =============================================================
@@ -486,12 +498,15 @@ ul {
   font-size: 1rem;
 }
 
+/* Los titulares interiores son frases largas de SEO: a 64px en mayúsculas
+   ocupaban cuatro líneas y media pantalla. Los 64px quedan para el Inicio. */
 .page-hero h1 {
-  max-width: 24ch;
+  max-width: 26ch;
+  font-size: clamp(2rem, 3.6vw, 3rem);
 }
 
 .page-hero p {
-  max-width: 62ch;
+  max-width: 58ch;
   margin-bottom: 0;
   font-size: 1.125rem;
 }
@@ -504,7 +519,10 @@ ul {
   gap: 1.5rem;
 }
 
-.cta-band h2 {
+/* Título de placa, no de sección: un escalón bajo el h2 global. */
+.cta-band h2,
+.cta-plate h2 {
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
   margin-bottom: 0.4rem;
 }
 
@@ -611,25 +629,6 @@ ul {
   }
 }
 
-/* Relleno de la última fila: mismo fondo que una celda, sin contenido. Solo
-   una de las dos series se ve a la vez, según el número de columnas. */
-.bento__filler {
-  display: none;
-  background-color: var(--color-surface);
-}
-
-@media (min-width: 640px) and (max-width: 1023.98px) {
-  .bento__filler--2 {
-    display: block;
-  }
-}
-
-@media (min-width: 1024px) {
-  .bento__filler--3 {
-    display: block;
-  }
-}
-
 /* Placa de acento: alterna el fondo, sin bordes de color de plantilla */
 .bento__cell--accent {
   background-color: var(--color-surface);
@@ -658,10 +657,6 @@ ul {
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   padding: clamp(1.8rem, 4vw, 2.4rem);
-}
-
-.cta-plate h2 {
-  margin-bottom: 0.4rem;
 }
 
 .cta-plate p {

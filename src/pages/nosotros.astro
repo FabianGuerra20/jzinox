@@ -7,6 +7,11 @@
  */
 import Layout from "../layouts/Layout.astro";
 import { pageHero, history, mission, valuesSection, values, stats } from "../data/company.js";
+
+// Solo se publican las cifras confirmadas por el cliente. Las `pending` siguen
+// en `company.js` como recordatorio de lo que falta pedir, pero tres celdas
+// "Dato por confirmar" junto a un único número real dejaban el bloque 75 % vacío.
+const confirmedStats = stats.filter((stat) => !stat.pending);
 ---
 
 <Layout
@@ -36,12 +41,12 @@ import { pageHero, history, mission, valuesSection, values, stats } from "../dat
 				número es el VALOR de su etiqueta. El orden del DOM es etiqueta → valor
 				porque <dl> lo exige; la inversión visual la hace el CSS.
 			*/}
-			<dl class="bento history__stats">
+			<dl class:list={["bento", "history__stats", { "history__stats--single": confirmedStats.length === 1 }]}>
 				{
-					stats.map((stat) => (
-						<div class:list={["bento__cell", "history__stat", { "history__stat--pending": stat.pending }]}>
-							<dt>{stat.pending ? stat.hint : stat.label}</dt>
-							<dd>{stat.pending ? "Dato por confirmar" : stat.value}</dd>
+					confirmedStats.map((stat) => (
+						<div class="bento__cell history__stat">
+							<dt>{stat.label}</dt>
+							<dd>{stat.value}</dd>
 						</div>
 					))
 				}
@@ -74,14 +79,13 @@ import { pageHero, history, mission, valuesSection, values, stats } from "../dat
 	<section class="section section--alt" aria-labelledby="nosotros-valores">
 		<div class="container">
 			<div class="section-head">
-				<span class="eyebrow">{valuesSection.eyebrow}</span>
 				<h2 id="nosotros-valores">{valuesSection.title}</h2>
 			</div>
 
 			<div class="bento bento--4">
 				{
 					values.map((value) => (
-						<article class="bento__cell bento__cell--hover value-card">
+						<article class="bento__cell value-card">
 							<h3>{value.title}</h3>
 							<p>{value.description}</p>
 						</article>
@@ -92,7 +96,7 @@ import { pageHero, history, mission, valuesSection, values, stats } from "../dat
 	</section>
 
 	{/* --- NOSOTROS 5: cierre --- */}
-	<section class="section" aria-labelledby="nosotros-cierre">
+	<section class="section section--tight" aria-labelledby="nosotros-cierre">
 		<div class="container">
 			<div class="cta-plate">
 				<div class="cta-plate__text">
@@ -118,7 +122,6 @@ import { pageHero, history, mission, valuesSection, values, stats } from "../dat
 	}
 
 	.history__text p {
-		font-size: 0.98rem;
 		/* Con el contenedor de 1440px la columna de texto mide ~737px: sin tope,
 		   la línea se va a ~95 caracteres. 62ch es la medida de lectura del
 		   sistema (la misma de .page-hero p y del Inicio). */
@@ -175,26 +178,22 @@ import { pageHero, history, mission, valuesSection, values, stats } from "../dat
 		color: var(--color-text-muted);
 	}
 
-	/* Ranura de solicitud: el cliente solo confirmó una de las cuatro cifras.
-	   Tres tiles con "00" junto a un "20+" se leen como error; el borde punteado
-	   y la ausencia del rojo de acento dicen "falta este dato", no "el dato es
-	   cero". Misma convención que los placeholders de foto. */
-	.history__stat--pending {
-		border: 1px dashed var(--color-border);
-		background-color: transparent;
+	/* Una sola cifra confirmada: va grande y sola, no en una rejilla de dos. */
+	.history__stats.history__stats--single {
+		grid-template-columns: 1fr;
 	}
 
-	.history__stat--pending dd {
-		font-family: var(--font-body);
-		font-size: 0.82rem;
-		font-weight: 500;
-		font-style: italic;
-		letter-spacing: 0;
-		color: var(--color-text-muted);
+	.history__stats--single .history__stat {
+		padding: clamp(1.75rem, 4vw, 2.5rem);
+	}
+
+	.history__stats--single dd {
+		font-size: clamp(3rem, 8vw, 4.5rem);
+		line-height: 1;
 	}
 
 	.value-card p {
-		font-size: 0.92rem;
+		font-size: 1rem;
 		margin-bottom: 0;
 	}
 

@@ -3,7 +3,7 @@ Eres un desarrollador Front-End Senior, un experto en UI/UX y un especialista en
 
 ## 📐 Lee esto primero
 * **`DESIGN.md`** — el sistema de diseño implementado: tokens de color, tipografía, métrica, componentes, la interacción firma y las desviaciones deliberadas del mockup. **Es la fuente de verdad del diseño.** Si vas a tocar estilos, empieza ahí.
-* **`MEJORAS.md`** — backlog técnico y de SEO priorizado. Al 2026-09-22 quedan abiertos 2.4, 3.1, 3.2 y 5.1.
+* **`MEJORAS.md`** — backlog técnico y de SEO priorizado. Lo abierto hoy está en su §7 (revisiones de diseño del 2026-10-11).
 
 ## 🚀 Development
 When starting the dev server, use background mode:
@@ -53,7 +53,7 @@ Resumen operativo. **El detalle completo está en `DESIGN.md`.**
 
 4. **Bento Grid:** `gap: 1px` sobre fondo `--color-border`, nunca bordes por celda (sumarían 2px entre celdas contiguas).
 
-5. **Interacción firma:** la clase `.media-frame` desatura toda imagen y le devuelve color + `scale(1.05)` en hover. El recorte va en el marco y el zoom en la imagen, para que no haya reflow. Es la **única** animación expresiva en hover. Además hay coreografía de entrada (hero, revelado al scroll con CSS, `@view-transition`, Lenis): ver `DESIGN.md §12`. Todo se apaga con `prefers-reduced-motion`.
+5. **Interacción firma:** la clase `.media-frame` acerca la imagen con `scale(1.05)` en hover. **Las fotos van siempre a color** (desde 2026-10-11; antes entraban en gris). El recorte va en el marco y el zoom en la imagen, para que no haya reflow. Es la **única** animación expresiva en hover. Además hay coreografía de entrada (hero, revelado al scroll con CSS, `@view-transition`, Lenis): ver `DESIGN.md §12`. Todo se apaga con `prefers-reduced-motion`.
 
 ## 📝 Convención de contenido (ACTUALIZADO 2026-09-22)
 **El copy del cliente llegó.** Los localizadores numerados (`INICIO 1`, `NOSOTROS 3.2`…) ya NO existen: el sitio tiene texto real en las 9 páginas. La convención anterior queda archivada.
@@ -65,8 +65,9 @@ La convención vigente marca la **procedencia** de cada bloque en `src/data/`:
 
 Reglas que siguen vigentes:
 
-* **Las cifras NO se inventan.** Solo "20+ años" está confirmado. Las otras tres de `stats` llevan `pending: true` y se renderizan como ranura de solicitud, nunca como `00`. Un texto de relleno es un borrador; un número inventado es una afirmación falsa.
-* Los **precios de `catalog.js` son de maqueta**. `pricesArePlaceholder` controla el aviso visible en `/catalogo` y la omisión de `offers` en el JSON-LD. **No lo pongas en `false`** hasta tener la lista firmada.
+* `[CLIENTE]` — lista o instrucción directa del cliente (categorías, orden y nombres del catálogo). **No reordenar ni renombrar.**
+* **Las cifras NO se inventan.** Solo "20+ años" está confirmado. Las otras tres de `stats` llevan `pending: true` y **no se renderizan** (desde 2026-10-11; antes salían como ranura "Dato por confirmar"). Un texto de relleno es un borrador; un número inventado es una afirmación falsa.
+* **El sitio NO publica precios** (pedido del cliente, 2026-10-11). `catalog.js` ya no tiene `price` ni `unit`, y `pricesArePlaceholder` no existe. Cada producto lleva solo el botón «Cotizar». No reintroducir valores sin que el cliente lo pida.
 * Las **imágenes** son fotos reales del cliente en `public/img/` (WebP; originales en `fotos-originales/`, fuera de git) con `src`, `alt` y `position`. Donde falta foto queda un placeholder rotulado (`pending: true` + `slot` + `ratio`) que `MediaPlaceholder.astro` rotula.
 
 ## 🔍 SEO Técnico y Rendimiento (Regla de Oro)
@@ -127,3 +128,10 @@ Informe completo en `.impeccable/critique/2026-09-23T21-14-44Z__src-pages-index-
 **Pendiente y conocido:** mostrar la paleta nueva al cliente; fotos de Soldadura TIG, Diseño, Nosotros y Servicios (esas carpetas llegaron vacías); el favicon ya está alineado con la paleta nueva. La QA visual se hizo con Playwright + Edge headless sobre `dist/` (la extensión de Chrome sigue sin permiso para `localhost`).
 * **Favicon y og-image** en la paleta nueva (el monograma `JZ` aprobado no se redibujó). **La costura**: línea de soldadura animada en hero y encabezados, única excepción a «acento solo en acciones» (`DESIGN.md §12`). Auditoría Playwright en 5 anchos (360–1920): sin desbordes; áreas táctiles OK.
 * **Logotipo nuevo del cliente** (JZINOX origami metálico, `public/img/logo-jzinox.webp`) en header, footer y `og-image.png`; reemplaza al lockup tipográfico. Es la excepción visual del sistema (tiene volumen): ver `DESIGN.md §6`. El original está en `fotos-originales/`.
+
+### 2026-10-11 — Pedidos del cliente, dos revisiones de diseño y limpieza de saturación
+* **Decisión de stack reconfirmada:** no se suma Tailwind ni librería de componentes (chocan con radio cero, la junta de 1px y los tokens nativos).
+* **Pedidos del cliente:** en el Inicio la placa de JZINOX va justo bajo el hero y luego la de AL Mueblería (los servicios bajan); fuera las etiquetas «Marca principal» / «Marca aliada»; **catálogo sin precios**, solo botón «Cotizar»; catálogo re-segmentado en 6 categorías y 18 productos con los nombres del cliente (`catalog.js`, marcado `[CLIENTE]`). Solo 5 de 18 tienen foto.
+* **Dos revisiones en paralelo** (`impeccable critique`: 22/32 en Nielsen; `design-review`: C+ en diseño, C en "AI slop") y sus arreglos: fotos a color, escala tipográfica abierta (h2 44px, h3 22px, cuerpo de tarjeta 16px), encabezados a la izquierda, `--section-gap` 112px + `.section--tight`, hero del Inicio a la izquierda con velo direccional, catálogo en una sola sección clara con tarjetas sueltas, huecos de foto sin trama, cifras pendientes ocultas, eyebrows redundantes e iconos en cuadrito fuera de `/servicios`, pie de 4 columnas sin enlaces legales muertos, placas de marca en 2 columnas entre 1024 y 1279px. Detalle en `DESIGN.md` y `MEJORAS.md §7`.
+
+**Pendiente y conocido:** las fotos 1–3 de «Revestimientos» y las de otros 12 productos; descripción de «Porta Nova» y «Mesa bebidas CCU»; foto del hero (es la más débil del sitio); `/servicios` y `/nosotros` siguen sin una sola imagen; el icono del menú móvil no cambia a «X»; la nota «Sitio web en construcción» sigue en el pie. QA con Playwright + Edge sobre el preview (4 anchos, 6 páginas): sin desbordes.

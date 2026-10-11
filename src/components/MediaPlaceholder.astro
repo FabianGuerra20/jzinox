@@ -58,14 +58,8 @@ const cssRatio = ratio.replace(":", " / ");
     padding: 1rem;
     text-align: center;
     background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    /* Trama diagonal muy tenue: distingue el hueco de una superficie del sistema
-       sin competir con el contenido real que lo rodea. */
-    background-image: repeating-linear-gradient(
-      135deg,
-      transparent 0 9px,
-      color-mix(in srgb, var(--color-text) 4%, transparent) 9px 18px
-    );
+    /* Superficie lisa, sin trama ni borde propio: con diez huecos en una
+       página, las rayas diagonales pesaban más que las fotos reales de al lado. */
   }
 
   .media-ph__slot {
@@ -84,20 +78,16 @@ const cssRatio = ratio.replace(":", " / ");
     gap: 0.5rem;
   }
 
-  .media-ph__tag {
-    font-size: 0.62rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: #fff;
-    background-color: var(--color-ink);
-    padding: 0.2rem 0.5rem;
+  .media-ph__tag,
+  .media-ph__ratio {
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
   }
 
-  .media-ph__ratio {
-    font-size: 0.68rem;
-    letter-spacing: 0.06em;
-    color: var(--color-text-muted);
+  .media-ph__tag {
+    font-weight: 600;
+    text-transform: uppercase;
   }
 
   /* Huecos muy chicos: la etiqueta secundaria estorba más de lo que informa. */

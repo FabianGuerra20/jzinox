@@ -7,7 +7,6 @@
  * Jerarquía: h1 → h2 por sección → h3 por servicio y por etapa.
  */
 import Layout from "../layouts/Layout.astro";
-import ServiceIcon from "../components/ServiceIcon.astro";
 import { services, processSteps } from "../data/services.js";
 ---
 
@@ -31,7 +30,6 @@ import { services, processSteps } from "../data/services.js";
 	<section class="section section--alt" aria-labelledby="servicios-listado">
 		<div class="container">
 			<div class="section-head">
-				<span class="eyebrow">Qué hacemos</span>
 				<h2 id="servicios-listado">Qué hacemos</h2>
 				<p>Seis servicios que cubren el proyecto de punta a punta, sin subcontratar la parte difícil.</p>
 			</div>
@@ -39,10 +37,7 @@ import { services, processSteps } from "../data/services.js";
 			<div class="bento bento--3">
 				{
 					services.map((service) => (
-						<article class="bento__cell bento__cell--hover service-detail" id={service.slug}>
-							<div class="bento__icon service-detail__icon">
-								<ServiceIcon name={service.icon} />
-							</div>
+						<article class="bento__cell service-detail" id={service.slug}>
 							<h3 class="service-detail__title">{service.title}</h3>
 							<p>{service.summary}</p>
 							<ul class="check-list">
@@ -59,7 +54,6 @@ import { services, processSteps } from "../data/services.js";
 	<section class="section" aria-labelledby="servicios-proceso">
 		<div class="container">
 			<div class="section-head">
-				<span class="eyebrow">Cómo trabajamos</span>
 				<h2 id="servicios-proceso">Cómo trabajamos</h2>
 				<p>Cuatro etapas, y en cada una sabes qué viene después y cuánto demora.</p>
 			</div>
@@ -79,7 +73,7 @@ import { services, processSteps } from "../data/services.js";
 	</section>
 
 	{/* --- SERVICIOS 4: cierre --- */}
-	<section class="section section--alt cta-band" aria-labelledby="servicios-cierre">
+	<section class="section section--tight section--alt cta-band" aria-labelledby="servicios-cierre">
 		<div class="container cta-band__inner">
 			<div>
 				<h2 id="servicios-cierre">¿Listo para cotizar?</h2>
@@ -87,17 +81,13 @@ import { services, processSteps } from "../data/services.js";
 			</div>
 			<div class="cta-band__actions">
 				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
-				<a href="/catalogo" class="btn btn--ghost">Ver productos y precios</a>
+				<a href="/catalogo" class="btn btn--ghost">Ver productos</a>
 			</div>
 		</div>
 	</section>
 </Layout>
 
 <style>
-	.service-detail__icon {
-		margin-bottom: 1.1rem;
-	}
-
 	.steps {
 		list-style: none;
 		margin: 0;
@@ -130,7 +120,7 @@ import { services, processSteps } from "../data/services.js";
 	/* Mismo cuerpo pequeño que .check-list y .btn. El 0.92rem anterior era un
 	   valor suelto fuera de la escala. */
 	.steps__item p {
-		font-size: 0.875rem;
+		font-size: 1rem;
 		margin-bottom: 0;
 	}
 </style>

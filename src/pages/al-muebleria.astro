@@ -50,7 +50,7 @@ const featured = alMuebleriaCatalog;
 			<div class="bento bento--3">
 				{
 					services.items.map((service, i) => (
-						<article class="bento__cell bento__cell--hover al-service">
+						<article class="bento__cell al-service">
 							<span class="bento__index">{String(i + 1).padStart(2, "0")}</span>
 							<h3>{service.title}</h3>
 							<p>{service.summary}</p>
@@ -124,7 +124,7 @@ const featured = alMuebleriaCatalog;
 	</section>
 
 	{/* --- AL 4: cierre + vuelta al ecosistema JZ Inox --- */}
-	<section class="section section--alt" aria-labelledby="al-cierre">
+	<section class="section section--tight section--alt" aria-labelledby="al-cierre">
 		<div class="container">
 			<div class="cta-plate">
 				<div>
@@ -169,13 +169,9 @@ const featured = alMuebleriaCatalog;
 		margin-top: 1.6rem;
 	}
 
-	.al-service h3 {
-		font-size: 1.02rem;
-	}
-
 	.al-service p {
-		font-size: 0.92rem;
-		margin-bottom: 0;
+		font-size: 1rem;
+		margin-bottom: 0.9rem;
 	}
 
 	/* --- Piezas del mini-catálogo: imagen a sangre, texto en su propia caja --- */

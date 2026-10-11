@@ -22,7 +22,7 @@ import { site } from "../data/site.js";
 		</div>
 	</section>
 
-	<section class="section section--alt contact">
+	<section class="section section--tight section--alt contact">
 		<div class="container">
 			<div class="bento contact__grid">
 				<div class="bento__cell bento__cell--accent contact__info">
@@ -50,7 +50,7 @@ import { site } from "../data/site.js";
 						href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="btn btn--ghost contact__wa"
+						class="btn btn--whatsapp contact__wa"
 					>
 						Escríbenos por WhatsApp
 					</a>
@@ -427,6 +427,13 @@ import { site } from "../data/site.js";
 
 	.contact__wa {
 		margin-top: 1.8rem;
+	}
+
+	/* Titular de un panel de datos, no de una sección: con la escala global
+	   (44px) le ganaba al h1 de la página. */
+	.contact__info h2 {
+		font-size: 1.5rem;
+		line-height: 1.2;
 	}
 
 	.contact__form {

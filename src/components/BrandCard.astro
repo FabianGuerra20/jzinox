@@ -21,7 +21,6 @@ interface Props {
   brand: {
     slug: string;
     name: string;
-    eyebrow: string;
     lead: string;
     actions: Array<{ href: string; label: string; variant: string }>;
     featuredTitle: string;
@@ -49,7 +48,6 @@ const featuredId = `destacados-${brand.slug}`;
 <article class="bento brand-card" aria-labelledby={headingId}>
   {/* --- Bloque 1: identidad de la marca --- */}
   <div class="bento__cell brand-card__identity">
-    <p class="brand-card__eyebrow">{brand.eyebrow}</p>
     <h2 id={headingId} class="brand-card__name">{brand.name}</h2>
     <p class="brand-card__lead">{brand.lead}</p>
 
@@ -157,7 +155,19 @@ const featuredId = `destacados-${brand.slug}`;
       "featured";
   }
 
+  /* Entre 1024 y 1279px el 3/6/3 dejaba la columna de identidad en 223px:
+     el texto se iba a diez líneas y los botones partían en dos. Ahí la placa
+     va en dos columnas con los destacados debajo. */
   @media (min-width: 1024px) {
+    .brand-card {
+      grid-template-columns: 1fr 1fr;
+      grid-template-areas:
+        "identity media"
+        "featured featured";
+    }
+  }
+
+  @media (min-width: 1280px) {
     .brand-card {
       grid-template-columns: 3fr 6fr 3fr;
       grid-template-areas: "identity media featured";
@@ -171,18 +181,6 @@ const featuredId = `destacados-${brand.slug}`;
     flex-direction: column;
   }
 
-  /* Etiqueta de posición en el ecosistema. Va ARRIBA del nombre, como el
-     eyebrow del mockup. */
-  .brand-card__eyebrow {
-    font-size: 0.75rem;
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-    margin-bottom: 1rem;
-  }
-
   .brand-card__name {
     font-size: clamp(1.6rem, 3vw, 2rem);
     line-height: 1.2;
@@ -190,8 +188,8 @@ const featuredId = `destacados-${brand.slug}`;
   }
 
   .brand-card__lead {
-    font-size: 0.875rem;
-    line-height: 1.5;
+    font-size: 1rem;
+    line-height: 1.55;
     max-width: 40ch;
   }
 

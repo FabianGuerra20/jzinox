@@ -96,26 +96,26 @@ se ven.
 Hanken Grotesk es una grotesca geométrica de asta cerrada: en 800 tiene el peso de
 rotulación industrial que pide el hero.
 
-> `--font-mono` existe pero **no se carga desde Google Fonts**: aterriza en Consolas,
-> una cara de editor de código ajena al sistema. `servicios.astro` ya la abandonó.
-> Ver "Puntos abiertos".
-
 ### Escala
 
 | Rol | Tamaño | Interlínea | Tracking | Peso |
 |---|---|---|---|---|
 | `h1` (headline-xl) | 40px → **64px** | 1.1 | −0.02em | 800 |
-| headline-lg | 48px | 1.2 | −0.01em | 700 |
-| `h2` (headline-md) | 28px → **32px** | 1.2 | — | 700 |
-| `h3` (headline-sm) | 24px | 1.3 | — | 600 |
+| `h1` del hero del Inicio | 30px → **56px** | 1.06 | −0.02em | 800 |
+| `h1` de página interior (`.page-hero`) | 32px → **48px** | 1.1 | −0.02em | 800 |
+| `h2` de sección | 28px → **44px** | 1.12 | −0.015em | 700 |
+| `h2` de placa (`.cta-plate`, `.cta-band`, grupo del catálogo) | 24px → **32px** | 1.12 | — | 700 |
+| `h3` | 18px → **22px** | 1.25 | — | 600 |
 | body-lg | 18px | 1.6 | — | 400 |
 | body-md | 16px | 1.6 | — | 400 |
 | body-sm | 14px | 1.5 | — | 400 |
 | label-lg | 14px | 1 | 0.05em | 600 |
 | label-sm | 12px | 1 | — | 500 |
 
-Los `clamp()` aterrizan exactamente en los valores del mockup en cada extremo.
-El `h1` va siempre en `text-transform: uppercase`.
+El `h1` va siempre en `text-transform: uppercase`. **La escala se abrió el 2026-10-11**
+(el mockup dejaba el `h2` en 32px y el `h3` en 17px): contra un `h1` de 64px los títulos
+de sección no marcaban el cambio de bloque, y el `h3` medía casi lo mismo que su párrafo.
+El texto descriptivo de tarjeta va a **16px**; 14px queda para etiquetas y metadatos.
 
 ---
 
@@ -125,7 +125,7 @@ El `h1` va siempre en `text-transform: uppercase`.
 |---|---|
 | `--container-width` | `1440px` |
 | `--gutter` | `32px` |
-| `--section-gap` | `64px` |
+| `--section-gap` | `112px` (tope de escritorio; 56px en móvil). `.section--tight` baja a 72px para cierres y bandas CTA |
 | `--margin-mobile` | `20px` |
 | `--margin-desktop` | `64px` |
 | `--header-height` | `80px` |
@@ -138,8 +138,8 @@ El `h1` va siempre en `text-transform: uppercase`.
 | Ancho | Qué cambia |
 |---|---|
 | **640px** | Las grillas pasan a 2 columnas |
-| **1024px** | Layout de contenido completo (placas 3/6/3, bento de 3 y 4 columnas) |
-| **1280px** | La navegación pasa a horizontal |
+| **1024px** | Layout de contenido completo (bento de 3 y 4 columnas, pie de 4 columnas) |
+| **1280px** | La navegación pasa a horizontal y las placas de marca a 3/6/3 |
 
 **Por qué el nav rompe 256px más arriba que el contenido:** entre el logotipo (209px),
 los siete enlaces, el divisor de marca y el CTA, la barra necesita ~1220px de ancho
@@ -163,6 +163,19 @@ desalinearían al colapsar el layout. Con la junta, siempre miden 1px exacto.
 Modificadores: `--2` `--3` `--4` (columnas) · `__cell` `__cell--flush` (sin padding)
 `__cell--hover` (tinte + barra de acento) `__cell--accent` `__index` `__icon`.
 
+`__cell--hover` es **solo para celdas con un enlace dentro**: en una tarjeta que no lleva a
+ningún lado promete un clic que no existe.
+
+**El catálogo no es un bento.** Sus tarjetas van sueltas, con borde propio de 1px y aire
+entre ellas (`.catalog-grid`, `auto-fill` desde 340px): las categorías tienen 2, 3 o 6
+piezas y en un bento la fila incompleta dejaba celdas lisas que se leían como productos
+que faltan. Todo el listado vive en una sola sección clara.
+
+### Encabezado de sección
+`.section-head` va **alineado a la izquierda**, como el rótulo de un plano. El eje centrado
+sobre una grilla a todo el ancho es el gesto que delata una plantilla. El `.eyebrow` solo se
+usa cuando aporta un dato que el título no dice; nunca para repetirlo.
+
 ### Botones
 `.btn` + `--primary` (relleno de acento, naranja) · `--outline` (acento sin relleno) · `--ghost`
 (borde acero) · `--whatsapp` (**relleno verde**, texto blanco).
@@ -180,7 +193,9 @@ texto. **No revertir a texto verde sobre fondo claro: no existe un verde de What
 cumpla AA a 14 px sobre nuestras superficies.**
 
 ### Placa de marca (`BrandCard.astro`)
-Proporción **3/6/3** en escritorio, apilada en móvil:
+Proporción **3/6/3** desde 1280px; entre 1024 y 1279px dos columnas (identidad + galería)
+con los destacados debajo; apilada en móvil. Sin etiqueta de «marca principal / aliada»
+sobre el nombre (pedido del cliente, 2026-10-11):
 `[ Identidad + CTAs ] | [ Galería enmarcada ] | [ Productos destacados ]`
 
 El bloque central no es una imagen a sangre: es una imagen **enmarcada** sobre una mesa
@@ -246,28 +261,24 @@ esquinas redondeadas y su propia tipografía, y sería el único radio del sitio
 
 ---
 
-## 7. La firma: revelado de medios
-
-La única animación con carga expresiva del sistema. El resto de transiciones son
-funcionales (color, borde, fondo).
+## 7. La firma: medios enmarcados
 
 ```css
 .media-frame { overflow: hidden; }
-.media-frame img { filter: grayscale(1) contrast(1.04); transform: scale(1); }
+.media-frame img { transform: scale(1); }
 .media-frame:hover img,
-.media-frame:focus-within img { filter: grayscale(0); transform: scale(1.05); }
+.media-frame:focus-within img { transform: scale(1.05); }
 ```
 
-Toda imagen entra desaturada, como una plancha sin pulir, y recupera color y escala
-cuando el cursor la toca. **El zoom vive en la imagen y el recorte en el marco**, así
-que la escala nunca desborda ni provoca reflow: solo repinta.
+**Las fotos entran a color (desde 2026-10-11).** Antes entraban desaturadas y recuperaban
+el color en hover. Las dos revisiones de diseño de esa fecha coincidieron en que era la
+causa principal de que el sitio se viera barato: acero inoxidable fotografiado con celular
+y pasado a gris se lee como fotocopia, y nadie pasa el cursor por cada tarjeta. Queda el
+zoom del 5 %. **El zoom vive en la imagen y el recorte en el marco**, así que la escala
+nunca desborda ni provoca reflow. Bajo `prefers-reduced-motion` no hay zoom.
 
-Bajo `prefers-reduced-motion` el **color sigue apareciendo** —es información, no
-adorno— y desaparece el desplazamiento.
-
-Aplicado en: carrusel de las placas de marca, piezas de `/al-muebleria`.
-Un borde que rodee una imagen con esta clase debe ir en el **marco**, nunca en la
-imagen: si no, el zoom se lo lleva fuera del recorte.
+Aplicado en: carrusel de las placas de marca y tarjetas de `/catalogo`. Un borde que
+rodee una imagen con esta clase debe ir en el **marco**, nunca en la imagen.
 
 ---
 
@@ -302,32 +313,15 @@ Otras diferencias, sin impacto visual:
 
 ## 9. Convención de contenido
 
-Todo el texto visible es **placeholder localizable** hasta que llegue el copy del
-cliente. Cada ranura tiene un identificador numerado para que el cliente pueda decir
-exactamente qué va en cada una.
+Los localizadores numerados (`INICIO 1`, `PRODUCTO 4`…) ya no existen: el sitio tiene texto
+real. La convención vigente marca la procedencia en `src/data/` (`[PDF]`, `[CLIENTE]`,
+`[PROPUESTA]`) y está descrita en `CLAUDE.md`.
 
-| Patrón | Alcance |
-|---|---|
-| `INICIO n` | Secciones de la portada (1–4) |
-| `NOSOTROS n` | Secciones de /nosotros (1–5, con 3.1 y 3.2) |
-| `SERVICIOS n` · `PASO n` | Secciones y etapas de /servicios |
-| `PRODUCTOS n` · `CATÁLOGO n` · `CONTACTO n` | Secciones de esas páginas |
-| `VALOR n` · `DATO n` | Valores y cifras de /nosotros |
-| `SERVICIO n` | Servicios de JZ INOX (1–6) |
-| `PRODUCTO n` | Piezas del catálogo de JZ INOX (1–15) |
-| `CATEGORÍA n` | Categorías del catálogo (1–5) |
-| `AL n` · `SERVICIO AL n` · `PRODUCTO AL n` · `CATEGORÍA AL n` | Todo lo de AL Mueblería |
+**Sin precios.** Por pedido del cliente (2026-10-11) el catálogo no publica valores: cada
+tarjeta es foto, nombre, descripción opcional y un botón «Cotizar».
 
-**Un producto tiene UN número en todo el sitio.** Los destacados del Inicio son
-`PRODUCTO 1, 4, 5, 10` —no 1–4— porque son esas mismas piezas del catálogo.
-
-**El nombre real de cada ranura vive en un comentario** junto a cada entrada de los
-archivos de `src/data/` (`// ranura prevista: campana extractora mural`). Los `slug` e
-`id` técnicos también lo conservan. Sin eso se perdería qué iba en cada slot.
-
-**Queda con texto real** (es interfaz, no contenido a redactar): menú, botones, "Productos
-destacados", "Navegación", "Horario de Atención", "Datos de contacto", etiquetas del
-formulario, los datos de contacto, las `meta description` y la página `/gracias`.
+**Cifras.** Solo se renderizan las confirmadas (`pending: false`). Las pendientes siguen
+en `company.js` como recordatorio, pero no se muestran.
 
 ---
 
@@ -353,9 +347,11 @@ formulario, los datos de contacto, las `meta description` y la página `/gracias
 2. **Fotos que faltan.** Soldadura TIG y Diseño (servicios del Inicio, 4 huecos) y las
    páginas Nosotros y Servicios siguen sin fotos: las carpetas `Nosotros` y `Servicios`
    llegaron vacías. Los huecos rotulados dicen qué foto va.
-3. **Cinco etiquetas para la misma acción:** "Cotizar Proyecto", "Cotizar este ítem",
-   "Cotizar por WhatsApp", "Hablar con un Asesor", "Enviar consulta". Se unificaron las
-   del catálogo; el resto sigue abierto.
+3. **Etiquetas de acción:** quedan «Cotizar Proyecto» (formulario), «Escríbenos por
+   WhatsApp» (canal), «Cotizar» (tarjeta de producto) y «Enviar consulta» (envío). «Cotizar
+   por WhatsApp» en la galería de AL Mueblería sigue aparte.
+3b. **Pendientes de las revisiones del 2026-10-11** (ver `MEJORAS.md §7`): foto del hero,
+   `/servicios` y `/nosotros` sin imágenes, icono del menú móvil que no cambia a «X».
 4. ~~Favicon~~ — **resuelto el 2026-10-04**: mismo monograma `JZ` aprobado por el cliente
    (no se redibujó), recoloreado a hueso `#f0ebe3` sobre `#16120f`, más grande (~82 % del
    cuadro) y con 15,7:1. `og-image.png` rehecha en la paleta nueva; su fuente editable es
@@ -396,14 +392,12 @@ Al cargar, una línea de soldadura de 2px recorre el canto inferior del hero y d
 encabezado de página (`.hero::after`, `.page-hero::after`), de izquierda a derecha y con
 la punta al rojo blanco (`#ffe9c9`). Dura 1,6 s y no se repite. Es **la única excepción**
 a la regla 3 (acento solo en acciones y estados): sin movimiento queda como un borde
-inferior fijo de acento. Sin puntero (`hover: none`) las fotos de `.media-frame` entran
-a color, porque no existe el hover que se lo devolvería.
+inferior fijo de acento. Las fotos de `.media-frame` entran siempre a color (§7).
 
 ## 13. Fotos
 
 Las fotos reales del cliente (WebP, máx. 1600 px) viven en `public/img/`; los originales,
 fuera de git, en `fotos-originales/`. Cada imagen en `src/data/` lleva `src`, `alt` y
 `position` (un `object-position`), porque las fotos son de celular y se recortan a 4:3 o
-3:2. `pending: true` sigue mostrando el hueco rotulado. Las imágenes del catálogo y del
-carrusel de marca conservan la firma `.media-frame` (gris → color); la galería de AL
-Mueblería no, a propósito: ahí el acabado de la madera es el dato.
+3:2. `pending: true` sigue mostrando el hueco rotulado. Todas las fotos van a
+color (§7). Una foto no se repite en dos secciones: `taller-estanteria` es solo del hero.

@@ -15,9 +15,6 @@ export const brands = [
   {
     slug: "jzinox",
     name: "JZ INOX",
-    // Sitúa la marca en el ecosistema: el visitante entiende de entrada que una
-    // es la casa y la otra es aliada, sin tener que deducirlo del menú.
-    eyebrow: "Marca principal",
     // [PDF] Subtítulo de la página de inicio
     lead: "Soluciones en acero inoxidable diseñadas a la medida de tu negocio. Fabricamos mesones, equipamiento y mobiliario de alta durabilidad para restaurantes, comida rápida e industria alimentaria.",
     href: "/",
@@ -28,12 +25,13 @@ export const brands = [
     featuredTitle: "Productos destacados",
     featuredHref: "/catalogo",
     featuredLabel: "Ver todos los productos",
-    // [PROPUESTA] Los nombres salen de las ranuras previstas del catálogo.
+    // [CLIENTE] Nombres tomados de la lista de productos del 2026-10-11, uno
+    // por categoría. Las notas son [PROPUESTA].
     featured: [
-      { name: "Mesón de trabajo en acero inoxidable", note: "Cubierta lisa o con peto, patas regulables." },
-      { name: "Lavaplatos industrial de dos cubas", note: "Prelavado y enjuague en una sola pieza." },
-      { name: "Campana extractora mural", note: "Filtros desmontables para lavado." },
-      { name: "Estantería de acero inoxidable", note: "Bandejas regulables para bodega y frío." },
+      { name: "Campana", note: "A la medida de la línea de cocción." },
+      { name: "Mesón con repisa", note: "Mesón de trabajo en acero inoxidable." },
+      { name: "Soporte de pantalla KDS", note: "Con brazo hidráulico." },
+      { name: "Carro de bandejas de tocino", note: "Con guías para bandejas." },
     ],
     images: [
       { src: "/img/campana-central.webp", alt: "Campana de extracción en acero inoxidable colgada del cielo de una cocina industrial", position: "50% 40%" },
@@ -44,7 +42,6 @@ export const brands = [
   {
     slug: "al-muebleria",
     name: "AL MUEBLERÍA",
-    eyebrow: "Marca aliada",
     // [PDF] Primer párrafo de la descripción
     lead: "Nos dedicamos a dar vida a tus espacios mediante la fabricación de mobiliario a medida. Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo.",
     href: "/al-muebleria",
@@ -79,7 +76,7 @@ export const alMuebleria = brands[1];
  */
 export const alMuebleriaPage = {
   hero: {
-    eyebrow: "Marca aliada",
+    eyebrow: "AL Mueblería",
     // [PDF] "Muebles a Medida | Mueblistería y Ebanistería"
     title: "Muebles a medida",
     subtitle: "Mueblistería y ebanistería",

@@ -1,13 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import MediaPlaceholder from "../components/MediaPlaceholder.astro";
-import { catalog, catalogCategories, pricesArePlaceholder } from "../data/catalog.js";
+import { catalog, catalogCategories } from "../data/catalog.js";
 import { site } from "../data/site.js";
-
-const formatPrice = (price) =>
-	price > 0
-		? new Intl.NumberFormat("es-CL", { style: "currency", currency: "CLP", maximumFractionDigits: 0 }).format(price)
-		: "A cotizar";
 
 const slugify = (value) =>
 	value
@@ -20,13 +15,8 @@ const slugify = (value) =>
 /**
  * Datos estructurados del catálogo.
  *
- * Se emite `Product` pero NO `offers`: los precios de esta maqueta son valores
- * de ejemplo, y declararlos en `priceCurrency`/`price` sería afirmarle a Google
- * un precio que no existe —exactamente el error que evitamos al negarnos a
- * inventar las cifras de la empresa—. Google puede llegar a mostrar ese precio
- * en el resultado de búsqueda.
- *
- * Cuando `pricesArePlaceholder` pase a false, `offers` entra solo.
+ * Se emite `Product` sin `offers`: el sitio no publica precios (decisión del
+ * cliente), cada pieza se cotiza según medidas.
  */
 const catalogLd = JSON.stringify({
 	"@context": "https://schema.org",
@@ -42,22 +32,11 @@ const catalogLd = JSON.stringify({
 			description: item.description,
 			category: item.category,
 			brand: { "@type": "Brand", name: site.name },
-			...(pricesArePlaceholder || item.price <= 0
-				? {}
-				: {
-						offers: {
-							"@type": "Offer",
-							price: item.price,
-							priceCurrency: "CLP",
-							availability: "https://schema.org/InStock",
-						},
-					}),
 		},
 	})),
 });
 
 const groups = catalogCategories
-	.filter((category) => category !== "Todos")
 	.map((category) => ({
 		name: category,
 		id: slugify(category),
@@ -67,33 +46,19 @@ const groups = catalogCategories
 ---
 
 <Layout
-	title="Productos y precios"
-	description="Catálogo de mesones, lavaplatos, campanas y estructuras en acero inoxidable con valores referenciales para dimensionar tu proyecto."
+	title="Productos"
+	description="Campanas, revestimientos, mesones, carros, soportes y protectores en acero inoxidable fabricados a medida. Cotiza cada pieza según tus medidas."
 	jsonLd={catalogLd}
 >
 	<section class="section page-hero">
 		<div class="container">
-			<span class="eyebrow">Productos y precios</span>
+			<span class="eyebrow">Productos</span>
 			<h1>Todo lo que fabricamos en acero inoxidable</h1>
 			<p>
-				{catalog.length} piezas que hacemos habitualmente, con valores de referencia para dimensionar
-				tu proyecto. El precio final depende de las medidas, el espesor de la plancha y la
-				complejidad de la instalación. Si lo que necesitas no está en la lista, lo
-				fabricamos igual: mándanos el plano o las medidas.
+				{catalog.length} piezas que hacemos habitualmente, cada una a la medida de tu espacio. Si lo que
+				necesitas no está en la lista, lo fabricamos igual: mándanos el plano o las medidas.
 			</p>
 
-			{
-				/* El aviso va ARRIBA, no en la nota al pie: una lista de precios que el
-				   cliente puede confundir con la real es lo más riesgoso de esta maqueta.
-				   Se apaga solo, desde catalog.js, cuando los precios sean los definitivos. */
-				pricesArePlaceholder && (
-					<p class="price-warning" role="note">
-						<strong>Valores de demostración.</strong> Los precios de esta maqueta son
-						referencias de ejemplo, no la lista de precios de JZINOX. Se reemplazan por
-						los valores reales antes de publicar el sitio.
-					</p>
-				)
-			}
 
 			<nav class="catalog-nav" aria-label="Categorías del catálogo">
 				{groups.map((group) => (
@@ -103,19 +68,19 @@ const groups = catalogCategories
 		</div>
 	</section>
 
+	{/* Todo el listado vive en UNA sección clara. Antes cada categoría alternaba
+	    claro/oscuro: cinco cambios de tema para 18 tarjetas, y las fotos se
+	    juzgaban sobre fondos distintos. */}
+	<section class="section section--alt">
+		<div class="container catalog-groups">
 	{
-		groups.map((group, index) => (
-			<section
-				class:list={["section", { "section--alt": index % 2 === 0 }]}
-				id={group.id}
-				aria-labelledby={`${group.id}-title`}
-			>
-				<div class="container">
+		groups.map((group) => (
+			<section class="catalog-group" id={group.id} aria-labelledby={`${group.id}-title`}>
 					<h2 class="catalog-group-title" id={`${group.id}-title`}>{group.name}</h2>
 
-					<div class="bento bento--3 catalog-grid">
+					<div class="catalog-grid">
 						{group.items.map((item) => (
-							<article class="bento__cell bento__cell--flush bento__cell--hover catalog-card">
+							<article class="catalog-card">
 								{/* La foto va PRIMERO: en una lista de quince piezas de acero
 								    los nombres se parecen entre sí y el comprador elige por
 								    la imagen. El hueco rotulado ocupa su sitio con la misma
@@ -143,13 +108,8 @@ const groups = catalogCategories
 								</div>
 
 								<div class="catalog-card__body">
-								<span class="tag">{item.category}</span>
 								<h3 id={`${item.id}-name`}>{item.name}</h3>
-								<p>{item.description}</p>
-								<div class="catalog-card__price">
-									<strong>{formatPrice(item.price)}</strong>
-									{item.price > 0 && <span>/ {item.unit}</span>}
-								</div>
+								{item.description && <p>{item.description}</p>}
 								{/* El nombre visible se repite en 15 enlaces idénticos: se compone el
 								    nombre accesible con el h3 para que cada enlace se distinga (WCAG 2.4.4). */}
 								<a
@@ -158,35 +118,22 @@ const groups = catalogCategories
 									href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(`Hola JZINOX, me interesa cotizar: ${item.name}`)}`}
 									target="_blank"
 									rel="noopener noreferrer"
-									class="btn btn--ghost catalog-card__cta"
+									class="btn btn--outline catalog-card__cta"
 								>
-									Cotizar este ítem
+									Cotizar
 								</a>
 								</div>
 							</article>
 						))}
-						{/* Celdas de relleno: sin ellas, la fila incompleta deja ver el fondo
-						    de la junta como un bloque liso. Una serie por ancho de grilla
-						    (3 columnas en escritorio, 2 en tablet); el CSS oculta la que no toca. */}
-						{Array.from({ length: (3 - (group.items.length % 3)) % 3 }, () => (
-							<div class="bento__filler bento__filler--3" aria-hidden="true" />
-						))}
-						{Array.from({ length: group.items.length % 2 }, () => (
-							<div class="bento__filler bento__filler--2" aria-hidden="true" />
-						))}
 					</div>
-				</div>
 			</section>
 		))
 	}
+		</div>
+	</section>
 
-	<section class="section">
+	<section class="section section--tight">
 		<div class="container">
-			<p class="catalog-note">
-				* Precios en pesos chilenos (CLP), referenciales al {new Date().getFullYear()}. No
-				incluyen instalación en todos los casos ni traslados fuera de la {site.region}.
-			</p>
-
 			<div class="cta-plate">
 				<div>
 					<h2>¿No encuentras lo que buscas?</h2>
@@ -199,21 +146,6 @@ const groups = catalogCategories
 </Layout>
 
 <style>
-	/* Amarillo de advertencia sobre la base clara: el único uso de un color
-	   fuera de la paleta en todo el sitio, y es deliberado — su trabajo es
-	   interrumpir la lectura, no integrarse. Texto grafito sobre #fdf6e3 da
-	   14.8:1, muy por encima de AA. */
-	.price-warning {
-		margin-top: 1.5rem;
-		padding: 0.9rem 1.1rem;
-		border: 1px solid var(--color-warn);
-		border-left-width: 4px;
-		background-color: color-mix(in srgb, var(--color-warn) 14%, var(--color-bg));
-		color: var(--color-graphite);
-		font-size: 0.9rem;
-		max-width: 68ch;
-	}
-
 	.catalog-nav {
 		display: flex;
 		flex-wrap: wrap;
@@ -244,15 +176,33 @@ const groups = catalogCategories
 		color: var(--color-on-accent);
 	}
 
+	.catalog-groups {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(3rem, 6vw, 4.5rem);
+	}
+
 	.catalog-group-title {
-		margin-bottom: 1.8rem;
+		font-size: clamp(1.5rem, 2.4vw, 2rem);
+		margin-bottom: 1.5rem;
 		padding-bottom: 0.8rem;
 		border-bottom: 1px solid var(--color-border);
+	}
+
+	/* Tarjetas sueltas con aire entre ellas, no un bento a junta: las categorías
+	   tienen 2, 3 o 6 piezas y en un bento la fila incompleta dejaba celdas lisas
+	   que se leían como productos que faltan. Aquí la fila simplemente termina. */
+	.catalog-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+		gap: clamp(1rem, 2.4vw, var(--gutter));
 	}
 
 	.catalog-card {
 		display: flex;
 		flex-direction: column;
+		background-color: var(--color-bg);
+		border: 1px solid var(--color-border);
 	}
 
 	/* La celda va a sangre para que la foto toque los tres cantos de la
@@ -282,35 +232,20 @@ const groups = catalogCategories
 	}
 
 	.catalog-card h3 {
-		margin: 0.6rem 0 0;
-		font-size: 1.05rem;
+		margin: 0;
+		font-size: 1.125rem;
 	}
 
 	.catalog-card p {
-		font-size: 0.9rem;
-		flex-grow: 1;
-		margin-bottom: 0;
+		font-size: 1rem;
+		line-height: 1.5;
+		margin-bottom: 0.4rem;
 	}
 
-	.catalog-card__price {
-		display: flex;
-		align-items: baseline;
-		gap: 0.4rem;
-		font-family: var(--font-heading);
-		font-weight: 700;
-		color: var(--color-accent);
-		font-size: clamp(1.1rem, 2.4vw, 1.25rem);
-		margin: 0.4rem 0 0.6rem;
-	}
-
-	.catalog-card__price span {
-		font-family: var(--font-body);
-		font-weight: 400;
-		font-size: 0.8rem;
-		color: var(--color-text-muted);
-	}
-
+	/* `margin-top: auto` ancla el botón al pie aunque la tarjeta no tenga
+	   descripción: todos los botones de una fila quedan a la misma altura. */
 	.catalog-card__cta {
+		margin-top: auto;
 		font-size: 0.78rem;
 		padding: 0.55rem 1.1rem;
 	}
@@ -326,12 +261,5 @@ const groups = catalogCategories
 		color: var(--color-accent-dark);
 	}
 
-	.catalog-note {
-		font-size: 0.82rem;
-		color: var(--color-text-muted);
-		text-align: center;
-		max-width: 70ch;
-		margin: 0 auto 2.5rem;
-	}
 
 </style>
