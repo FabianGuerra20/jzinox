@@ -14,7 +14,6 @@
 // contiene la keyword del negocio y el diferenciador (20 años, resistencia),
 // así que sirve igual de bien como encabezado principal y para buscadores.
 export const pageHero = {
-  eyebrow: "Nosotros",
   // [PDF] Título de la sección
   title: "Más de 20 años garantizando calidad y resistencia en acero inoxidable",
   // [PDF] Primera frase de la presentación, como entrada
@@ -22,20 +21,18 @@ export const pageHero = {
 };
 
 export const history = {
-  eyebrow: "Nuestra historia",
   // [PROPUESTA] El PDF no titula este bloque; el H1 ya tomó su título
-  title: "Fabricación a medida, no catálogo estándar",
+  title: "Fabricamos a medida, pieza por pieza",
   // [PDF] Historia / Presentación, literal
   paragraphs: [
-    "En JZINOX llevamos más de dos décadas transformando el acero inoxidable en soluciones duraderas para la industria alimentaria, restaurantes y locales de comida rápida. Hemos fabricado y diseñado a grandes empresas de la industria alimentaria de la comida rápida.",
+    "En JZ INOX llevamos más de dos décadas transformando el acero inoxidable en soluciones duraderas para la industria alimentaria, restaurantes y locales de comida rápida. Hemos fabricado y diseñado a grandes empresas de la industria alimentaria de la comida rápida.",
     "Nos dedicamos a la fabricación a medida, sabemos que cada cocina y espacio de trabajo tiene necesidades únicas que los muebles estandarizados no pueden resolver.",
   ],
 };
 
 export const mission = {
-  eyebrow: "Misión y visión",
   // [PROPUESTA] El PDF no titula esta sección
-  title: "Lo que nos mueve",
+  title: "Misión y visión",
   items: [
     {
       title: "Nuestra misión",
@@ -47,15 +44,14 @@ export const mission = {
       title: "Nuestra visión",
       // [PROPUESTA] El PDF entrega la misión pero no la visión
       description:
-        "Ser el taller de referencia en estructuras de acero inoxidable de la Región Metropolitana: el que llaman cuando la pieza tiene que entrar exacta, aguantar el uso diario y durar más que el local donde se instala.",
+        "Ser el taller al que llaman cuando la pieza tiene que entrar exacta y aguantar el uso diario durante años.",
     },
   ],
 };
 
 export const valuesSection = {
-  eyebrow: "Por qué elegirnos",
   // [PDF] "¿Por qué elegir JZINOX? (Puntos clave)"
-  title: "¿Por qué elegir JZINOX?",
+  title: "¿Por qué elegir JZ INOX?",
 };
 
 // [PDF] Los cuatro puntos clave, literales
@@ -91,4 +87,16 @@ export const stats = [
   { value: null, label: "Dato por confirmar", pending: true, hint: "Proyectos entregados" },
   { value: null, label: "Dato por confirmar", pending: true, hint: "Clientes atendidos" },
   { value: null, label: "Dato por confirmar", pending: true, hint: "Garantía de fabricación" },
+];
+
+/**
+ * Los cuatro datos que identifican al taller. Van en el cartucho del hero del
+ * Inicio y bajo el numeral de /nosotros. Todos salen del documento del cliente;
+ * ninguno es una cifra nueva. "Taller propio" es [PROPUESTA]: confirmar.
+ */
+export const facts = [
+  { label: "Experiencia", value: "20+ años" },
+  { label: "Origen", value: "Manufactura nacional" },
+  { label: "Taller", value: "Propio, en Santiago" },
+  { label: "Fabricación", value: "100% a medida" },
 ];

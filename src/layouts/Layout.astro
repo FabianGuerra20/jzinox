@@ -47,12 +47,12 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.t
 			{jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
 		</Seo>
 
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700;800&family=Inter:wght@400;500;600&display=swap"
-			rel="stylesheet"
-		/>
+		{/* Las dos fuentes viven en public/fonts (ver global.css) y se precargan:
+		    sin la hoja de Google, que bloqueaba el primer pintado, y sin dos
+		    conexiones a terceros. `crossorigin` es obligatorio en un preload de
+		    fuente aunque sea del mismo origen. */}
+		<link rel="preload" href="/fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
 	</head>
 	<body>
 		<a href="#main-content" class="skip-link">Saltar al contenido</a>
@@ -66,6 +66,17 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.t
 		<FloatingContact />
 		<WeldingCursor />
 
+		{/* Visor ampliado de fotos: un solo <dialog> para toda la página. Lo abre
+		    cualquier enlace con `data-zoom` (ver el script de abajo). */}
+		<dialog class="lightbox" data-lightbox aria-label="Foto ampliada">
+			<button type="button" class="lightbox__close" data-lightbox-close aria-label="Cerrar la foto">
+				<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+					<path d="M5 5l14 14M19 5 5 19" />
+				</svg>
+			</button>
+			<img alt="" data-lenis-prevent />
+		</dialog>
+
 		<style>
 			main {
 				padding-top: var(--header-height);
@@ -78,32 +89,6 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.t
 			}
 		</style>
 
-		<script>
-			// Scroll con inercia (Lenis, ~3 KB). Es una mejora progresiva: sin JS, o
-			// con movimiento reducido, el navegador conserva su scroll nativo. Los
-			// dispositivos táctiles también quedan fuera (Lenis no los suaviza por
-			// defecto): el scroll con el dedo ya tiene su propia inercia.
-			import Lenis from "lenis";
-
-			const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
-			if (!calm.matches) {
-				const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-height")) || 80;
-				// 0.7 s y no más: el scroll es la acción más repetida del sitio, y con
-				// 1.1 s cada gesto de rueda y cada salto a ancla se sentía con lastre.
-				const lenis = new Lenis({
-					duration: 0.7,
-					easing: (t: number) => 1 - Math.pow(1 - t, 3),
-					anchors: { offset: -(header + 16) },
-					autoRaf: true,
-				});
-				// Un menú abierto no debe dejar la página deslizándose por detrás
-				document.querySelectorAll<HTMLInputElement>(".header__toggle-input").forEach((input) => {
-					input.addEventListener("change", () => (input.checked ? lenis.stop() : lenis.start()));
-				});
-				calm.addEventListener("change", (e) => e.matches && lenis.destroy());
-			}
-		</script>
-
 		{/* Revelado al entrar en pantalla (ver global.css). Va en línea y al final
 		    del body para que corra apenas existe el DOM, sin esperar al bundle. Si
 		    el navegador no tiene IntersectionObserver, todo se muestra de una vez. */}
@@ -114,56 +99,151 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.t
 					for (var i = 0; i < items.length; i++) items[i].classList.add("is-in");
 					return;
 				}
-				var observer = new IntersectionObserver(
-					function (entries) {
-						for (var i = 0; i < entries.length; i++) {
-							if (!entries[i].isIntersecting) continue;
-							entries[i].target.classList.add("is-in");
-							observer.unobserve(entries[i].target);
-						}
-					},
-					{ rootMargin: "0px 0px -10% 0px", threshold: 0.05 },
-				);
-				for (var j = 0; j < items.length; j++) observer.observe(items[j]);
+
+				// Lo que ya está en pantalla al cargar NO se anima: nace visible. Si
+				// esperara al observador, el primer bloque bajo cada encabezado
+				// tardaba medio segundo en aparecer estando ya a la vista.
+				var late = [];
+				var limit = window.innerHeight;
+				for (var k = 0; k < items.length; k++) {
+					var el = items[k];
+					if (el.getBoundingClientRect().top < limit) {
+						el.classList.add("is-in", "is-instant");
+					} else {
+						late.push(el);
+					}
+				}
+				requestAnimationFrame(function () {
+					requestAnimationFrame(function () {
+						var instant = document.querySelectorAll(".is-instant");
+						for (var n = 0; n < instant.length; n++) instant[n].classList.remove("is-instant");
+					});
+				});
+
+				var reveal = function (entries, self) {
+					for (var i = 0; i < entries.length; i++) {
+						if (!entries[i].isIntersecting) continue;
+						entries[i].target.classList.add("is-in");
+						self.unobserve(entries[i].target);
+					}
+				};
+				// Texto, fotos y juntas: empiezan apenas asoman. Los listados que se
+				// vienen a leer (`fade`) empiezan ANTES de entrar, para que al llegar
+				// con un deslizamiento rápido ya estén visibles.
+				var onEdge = new IntersectionObserver(reveal, { rootMargin: "0px 0px -4% 0px", threshold: 0 });
+				var ahead = new IntersectionObserver(reveal, { rootMargin: "0px 0px 20% 0px", threshold: 0 });
+				for (var j = 0; j < late.length; j++) {
+					(late[j].getAttribute("data-reveal") === "fade" ? ahead : onEdge).observe(late[j]);
+				}
 			})();
 		</script>
 
 		<script>
-			// Los toggles del sitio son checkboxes ocultos con un <label> encima,
-			// para que el menú funcione sin JavaScript. El script solo añade lo que
-			// el CSS no puede dar: teclado y estado accesible.
-			document.querySelectorAll(".js-toggle-label").forEach((label) => {
-				const forId = label.getAttribute("for");
-				const input = forId ? document.getElementById(forId) : null;
-				if (!(input instanceof HTMLInputElement)) return;
+			import Lenis from "lenis";
 
-				// `role="button"` promete un estado abierto/cerrado; sin esto el
-				// lector de pantalla anuncia un botón del que no sabe nada.
-				const sync = () => {
-					label.setAttribute("aria-expanded", String(input.checked));
-					label.setAttribute("aria-label", input.checked ? "Cerrar menú" : "Abrir menú");
+			// --- Scroll con inercia -------------------------------------------
+			// Mejora progresiva y solo con puntero fino. En táctil el dedo ya tiene
+			// su propia inercia y Lenis no la toca: cargarlo ahí solo dejaba un
+			// bucle de animación corriendo sin hacer nada. Con movimiento reducido
+			// tampoco se carga.
+			const calm = window.matchMedia("(prefers-reduced-motion: reduce)");
+			const fine = window.matchMedia("(hover: hover) and (pointer: fine)");
+			let lenis: Lenis | null = null;
+
+			if (!calm.matches && fine.matches) {
+				// 0.7 s y no más: el scroll es la acción más repetida del sitio.
+				// `anchors: true` sin desplazamiento propio: Lenis ya respeta el
+				// `scroll-padding-top` del CSS, y sumarle otro dejaba los saltos de
+				// ancla 112 px por debajo del encabezado.
+				lenis = new Lenis({
+					duration: 0.7,
+					easing: (t: number) => 1 - Math.pow(1 - t, 3),
+					anchors: true,
+					autoRaf: true,
+				});
+				calm.addEventListener("change", (e) => {
+					if (e.matches && lenis) {
+						lenis.destroy();
+						lenis = null;
+					}
+				});
+			}
+
+			// --- Menú móvil ----------------------------------------------------
+			// Es un checkbox oculto con un <label> encima, para que funcione sin
+			// JavaScript. Aquí se añade lo que el CSS no puede dar: teclado, estado
+			// accesible y cierre al navegar. TODO pasa por `setMenu`: cambiar
+			// `checked` por código no dispara el evento `change`, y cuando cada
+			// camino hacía lo suyo, cerrar con Escape dejaba la página sin scroll.
+			const input = document.getElementById("nav-toggle");
+			const label = document.querySelector<HTMLElement>(".js-toggle-label");
+
+			if (input instanceof HTMLInputElement && label) {
+				const setMenu = (open: boolean) => {
+					input.checked = open;
+					label.setAttribute("aria-expanded", String(open));
+					label.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+					if (lenis) open ? lenis.stop() : lenis.start();
 				};
 
-				input.addEventListener("change", sync);
+				input.addEventListener("change", () => setMenu(input.checked));
+
 				label.addEventListener("keydown", (event) => {
 					if (event.key === "Enter" || event.key === " ") {
 						event.preventDefault();
-						input.checked = !input.checked;
-						sync();
+						setMenu(!input.checked);
 					}
 				});
 
-				// Escape cierra el panel desde cualquier punto del documento
 				document.addEventListener("keydown", (event) => {
 					if (event.key === "Escape" && input.checked) {
-						input.checked = false;
-						sync();
+						setMenu(false);
 						label.focus();
 					}
 				});
 
-				sync();
-			});
+				// Tocar un enlace del panel lo cierra, también si es un ancla de la
+				// misma página.
+				document.querySelectorAll("#site-nav a").forEach((link) => {
+					link.addEventListener("click", () => setMenu(false));
+				});
+
+				// Al volver con "Atrás" el navegador restaura la página tal como
+				// quedó, con el menú abierto: aquí se cierra siempre.
+				window.addEventListener("pageshow", () => setMenu(false));
+
+				setMenu(false);
+			}
+
+			// --- Visor ampliado --------------------------------------------------
+			const dialog = document.querySelector("[data-lightbox]");
+
+			if (dialog instanceof HTMLDialogElement) {
+				const photo = dialog.querySelector("img");
+
+				document.addEventListener("click", (event) => {
+					const target = event.target instanceof Element ? event.target.closest("a[data-zoom]") : null;
+					if (!(target instanceof HTMLAnchorElement) || !photo) return;
+					// Con Ctrl, Cmd o botón central el visitante pide otra pestaña
+					if (event.ctrlKey || event.metaKey || event.shiftKey) return;
+					event.preventDefault();
+					photo.src = target.href;
+					photo.alt = target.dataset.alt || "";
+					dialog.showModal();
+					if (lenis) lenis.stop();
+				});
+
+				// Un clic sobre el fondo cae en el propio <dialog>; sobre la foto, no.
+				dialog.addEventListener("click", (event) => {
+					const target = event.target as Element;
+					if (target === dialog || target.closest("[data-lightbox-close]")) dialog.close();
+				});
+
+				dialog.addEventListener("close", () => {
+					if (photo) photo.removeAttribute("src");
+					if (lenis) lenis.start();
+				});
+			}
 		</script>
 	</body>
 </html>

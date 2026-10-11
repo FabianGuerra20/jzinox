@@ -1,27 +1,31 @@
 ---
 import { navItems, navCta, site } from "../data/site.js";
+import { srcset } from "../utils/img.js";
 
 const currentPath = Astro.url.pathname;
 
 // Normaliza el path para que "/servicios/" y "/servicios" marquen el mismo item.
-const isActive = (href) => {
-  const clean = (value) => (value !== "/" && value.endsWith("/") ? value.slice(0, -1) : value);
-  return clean(currentPath) === clean(href);
-};
+const clean = (value) => (value !== "/" && value.endsWith("/") ? value.slice(0, -1) : value);
+const isActive = (href) => clean(currentPath) === clean(href);
+
+// En /contacto el CTA "Cotizar proyecto" apuntaría a la página en la que ya
+// estás: ahí lleva directo al primer campo del formulario.
+const ctaHref = isActive(navCta.href) ? "#name" : navCta.href;
+const logo = "/img/logo-jzinox.webp";
 ---
 
 {/* Barra única fija: el logotipo manda a la izquierda y la navegación cierra a la derecha. */}
 <header class="header">
-  {/* Logotipo del cliente (2026-10-04): JZINOX en acero plegado, estilo origami.
-      Es un WebP con transparencia, recortado al borde de las letras: sin aire
-      propio, la altura la fija el CSS y el ancho sale de la proporción
-      (width/height en el HTML evitan el salto de layout). El metal gris da
-      más de 7:1 sobre la barra #16120f. Es la imagen candidata a LCP de la
-      barra, no la del hero, así que no lleva fetchpriority. */}
-  <a class="header__brand" href="/" aria-label={`${site.name} — ir al inicio`}>
+  {/* Logotipo del cliente (2026-10-04): acero plegado, estilo origami. WebP con
+      transparencia recortado al borde de las letras; la altura la fija el CSS y
+      el ancho sale de la proporción. Va con alt vacío dentro de un enlace con
+      aria-label, para que un lector de pantalla no lo lea dos veces. */}
+  <a class="header__brand" href="/" aria-label={`${site.name}, volver al inicio`}>
     <img
       class="header__logo"
-      src="/img/logo-jzinox.webp"
+      src={logo}
+      srcset={srcset(logo)}
+      sizes="180px"
       alt=""
       width="900"
       height="200"
@@ -29,9 +33,27 @@ const isActive = (href) => {
     />
   </a>
 
-  {/* Checkbox oculto: el menú móvil funciona sin JavaScript. Layout.astro solo
-      añade soporte de teclado sobre el <label>. */}
-  <input type="checkbox" id="nav-toggle" class="header__toggle-input" />
+  {/* Checkbox oculto: el menú móvil funciona sin JavaScript. Layout.astro añade
+      teclado, estado accesible y el cierre al navegar. `autocomplete="off"`
+      evita que el navegador lo restaure marcado al volver con "Atrás". */}
+  <input type="checkbox" id="nav-toggle" class="header__toggle-input" autocomplete="off" />
+
+  {/* El botón va ANTES del panel en el DOM: al abrir, el siguiente Tab entra a
+      los enlaces del menú y no al contenido de la página. El orden visual lo
+      pone `order` en el CSS. */}
+  <label
+    for="nav-toggle"
+    class="header__toggle js-toggle-label"
+    role="button"
+    tabindex="0"
+    aria-label="Abrir menú"
+    aria-expanded="false"
+    aria-controls="site-nav"
+  >
+    <span class="header__bar"></span>
+    <span class="header__bar"></span>
+    <span class="header__bar"></span>
+  </label>
 
   <nav id="site-nav" class="header__nav" aria-label="Navegación principal">
     <ul class="header__list">
@@ -56,28 +78,16 @@ const isActive = (href) => {
       }
     </ul>
 
-    {/* Solo se renderiza uno de los dos CTA: el otro va en display:none y por
-        tanto queda fuera del árbol de accesibilidad. */}
-    <a href={navCta.href} class="btn btn--primary header__cta header__cta--mobile">{navCta.label}</a>
+    {/* Solo se muestra uno de los dos CTA: el otro va en display:none y queda
+        fuera del árbol de accesibilidad. */}
+    <a href={ctaHref} class="btn btn--primary header__cta header__cta--mobile">{navCta.label}</a>
   </nav>
 
-  <div class="header__actions">
-    <a href={navCta.href} class="btn btn--primary header__cta header__cta--desktop">{navCta.label}</a>
+  <a href={ctaHref} class="btn btn--primary header__cta header__cta--desktop">{navCta.label}</a>
 
-    <label
-      for="nav-toggle"
-      class="header__toggle js-toggle-label"
-      role="button"
-      tabindex="0"
-      aria-label="Abrir menú"
-      aria-expanded="false"
-      aria-controls="site-nav"
-    >
-      <span class="header__bar"></span>
-      <span class="header__bar"></span>
-      <span class="header__bar"></span>
-    </label>
-  </div>
+  {/* Velo bajo el panel: oscurece la página y, al ser un <label> del mismo
+      checkbox, tocarlo cierra el menú sin JavaScript. */}
+  <label for="nav-toggle" class="header__scrim" aria-hidden="true"></label>
 </header>
 
 <style>
@@ -95,18 +105,15 @@ const isActive = (href) => {
     height: var(--header-height);
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: 1rem;
     padding: 0 var(--margin-mobile);
-    /* Acero al 90 % + desenfoque: la placa deja intuir lo que pasa debajo.
-       El 90 % sale del token, no de un rgba() copiado: si --color-steel cambia,
-       la barra cambia con él. La primera línea es el respaldo opaco para los
-       navegadores sin color-mix(). */
+    /* Acero al 90 % + desenfoque: la placa deja intuir lo que pasa debajo. La
+       primera línea es el respaldo opaco para navegadores sin color-mix(). */
     background-color: var(--color-steel);
     background-color: color-mix(in srgb, var(--color-steel) 90%, transparent);
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
-    border-bottom: 2px solid var(--color-steel-dark);
+    border-bottom: 1px solid var(--color-steel-dark);
   }
 
   /* Sin desenfoque, la translucidez ensuciaría el contraste: acero opaco. */
@@ -116,7 +123,7 @@ const isActive = (href) => {
     }
   }
 
-  /* El foco rojo global es ilegible sobre el acero (1.04:1): aquí va en blanco. */
+  /* El foco de acento es ilegible sobre el acero: aquí va en blanco. */
   .header :focus-visible {
     outline-color: #fff;
   }
@@ -127,10 +134,9 @@ const isActive = (href) => {
     align-items: center;
     min-height: var(--tap);
     flex-shrink: 0;
+    margin-right: auto;
   }
 
-  /* El nombre accesible lo da el aria-label del enlace, así que la imagen va
-     con alt vacío: un lector de pantalla no la lee dos veces. */
   .header__logo {
     display: block;
     height: 32px;
@@ -145,65 +151,78 @@ const isActive = (href) => {
   }
 
   .header__link {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: var(--tap);
     min-width: var(--tap);
     font-family: var(--font-body);
-    /* label-lg del mockup: 14px / 600 / 0.05em. */
     font-weight: 600;
     font-size: 0.875rem;
     letter-spacing: 0.05em;
     line-height: 1;
     white-space: nowrap;
-    /* 0.92 de blanco: sobre la barra sólida da 5.8:1 y, en el peor caso
-       (barra translúcida sobre página clara #f9f9f9), 4.6:1. Con 0.88 ese
-       peor caso caía a 4.36:1 y no llegaba al AA de texto pequeño. */
+    /* 0.92 de blanco: 5.8:1 sobre la barra sólida y 4.6:1 en el peor caso
+       (barra translúcida sobre página clara). */
     color: rgba(255, 255, 255, 0.92);
-    border-bottom: 2px solid transparent;
-    transition:
-      color 0.2s var(--ease-out),
-      background-color 0.2s var(--ease-out),
-      border-color 0.2s var(--ease-out);
+    transition: color 0.2s ease;
   }
 
-  .header__link:hover {
-    color: #fff;
-    background-color: color-mix(in srgb, var(--color-accent) 18%, transparent);
+  /* El estado se marca con una línea bajo el texto, no con un bloque de color
+     detrás: el rectángulo teñido se leía como un botón de plantilla. La línea
+     entra desde la izquierda y sale por la derecha, así que al recorrer el menú
+     parece pasar de un enlace al siguiente. Es un hover, se ve decenas de veces:
+     200 ms y solo `transform`. */
+  .header__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 8px;
+    height: 2px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 0.2s var(--ease-out);
   }
 
-  /* Desviación deliberada del mockup: el activo va en BLANCO, no en #c13d2f.
-     El rojo sobre el acero da 1.18:1 (ilegible). Conservamos el subrayado
-     rojo, que es el elemento reconocible del diseño. */
+  /* La página actual lleva la línea fija y en acento: es un estado. */
   .header__link--active {
     color: #fff;
-    border-bottom-color: var(--color-accent);
+  }
+
+  .header__link--active::after {
+    background-color: var(--color-accent);
+    transform: scaleX(1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .header__link:hover {
+      color: #fff;
+    }
+
+    .header__link:hover::after {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
   }
 
   /* --- Marca aliada --- */
   /* AL Mueblería no es una sección de JZ Inox: el divisor avisa de que el
      clic cambia de marca, no de página. */
   .header__link--ally {
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
   }
 
   /* --- CTA --- */
   .header__cta {
-    padding: 0.75rem 1.25rem;
     white-space: nowrap;
   }
 
   /* --- Botón hamburguesa --- */
-  .header__actions {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-shrink: 0;
-  }
-
   .header__toggle-input {
     display: none;
   }
@@ -217,6 +236,10 @@ const isActive = (href) => {
     width: var(--tap);
     height: var(--tap);
     cursor: pointer;
+    /* Va primero en el DOM (ver arriba) y último a la vista */
+    order: 3;
+    -webkit-user-select: none;
+    user-select: none;
   }
 
   .header__bar {
@@ -231,26 +254,30 @@ const isActive = (href) => {
 
   /* Menú abierto: las tres barras pasan a ser la X de cerrar. Las barras
      están a 7px una de otra (2px de alto + 5px de separación). */
-  .header__toggle-input:checked ~ .header__actions .header__bar:nth-child(1) {
+  .header__toggle-input:checked ~ .header__toggle .header__bar:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
   }
 
-  .header__toggle-input:checked ~ .header__actions .header__bar:nth-child(2) {
+  .header__toggle-input:checked ~ .header__toggle .header__bar:nth-child(2) {
     opacity: 0;
   }
 
-  .header__toggle-input:checked ~ .header__actions .header__bar:nth-child(3) {
+  .header__toggle-input:checked ~ .header__toggle .header__bar:nth-child(3) {
     transform: translateY(-7px) rotate(-45deg);
   }
 
+  .header__scrim {
+    display: none;
+  }
+
   /* =============================================================
-     Móvil y tablet (< 1024px): panel desplegable bajo la barra
+     Móvil y tablet (< 1280px): panel desplegable bajo la barra
      ============================================================= */
   @media (max-width: 1279.98px) {
     .header__nav {
       position: absolute;
-      /* La barra es border-box: 100% cae DENTRO del borde de 2px y lo taparía.
-         La altura completa deja el panel justo debajo de la junta. */
+      z-index: 2;
+      /* La altura completa de la barra deja el panel justo debajo de la junta. */
       top: var(--header-height);
       left: 0;
       right: 0;
@@ -261,6 +288,7 @@ const isActive = (href) => {
       border-bottom: 1px solid var(--color-steel-dark);
       max-height: calc(100dvh - var(--header-height));
       overflow-y: auto;
+      overscroll-behavior: contain;
       /* El panel se descubre con `clip-path`, no animando `max-height`: el
          recorte lo resuelve el compositor y no recalcula el layout en cada
          frame. Entra y sale por el mismo canto, el de la barra. */
@@ -280,10 +308,52 @@ const isActive = (href) => {
         visibility 0s;
     }
 
+    /* El velo cuelga de la barra (y no del viewport) porque el
+       `backdrop-filter` de la barra la convierte en bloque contenedor de
+       cualquier hijo `fixed`. */
+    .header__scrim {
+      display: block;
+      position: absolute;
+      z-index: 1;
+      top: var(--header-height);
+      left: 0;
+      right: 0;
+      height: 100dvh;
+      background-color: rgb(15 12 10 / 0.6);
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity 0.2s var(--ease-out),
+        visibility 0s linear 0.2s;
+    }
+
+    .header__toggle-input:checked ~ .header__scrim {
+      opacity: 1;
+      visibility: visible;
+      transition:
+        opacity 0.2s var(--ease-out),
+        visibility 0s;
+    }
+
     .header__link {
       justify-content: flex-start;
       padding: 0.75rem var(--margin-mobile);
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* En el panel los enlaces son renglones: la línea bajo el texto no aplica.
+       La página actual se marca con el acento en el propio texto (6.5:1). */
+    .header__link::after {
+      display: none;
+    }
+
+    .header__link--active {
+      color: var(--color-accent);
+    }
+
+    /* Sin hover en táctil, el toque necesita su propia respuesta */
+    .header__link:active {
+      background-color: color-mix(in srgb, var(--color-accent) 18%, transparent);
     }
 
     /* En vertical el divisor de marca cruza el ancho, no la altura. */
@@ -302,10 +372,11 @@ const isActive = (href) => {
   }
 
   /* =============================================================
-     Escritorio (>= 1024px): navegación en línea
+     Escritorio (>= 1280px): navegación en línea
      ============================================================= */
   @media (min-width: 1280px) {
     .header {
+      gap: clamp(1rem, 3vw, 3rem);
       padding: 0 var(--margin-desktop);
     }
 
@@ -318,7 +389,7 @@ const isActive = (href) => {
       display: flex;
       align-items: center;
       /* var(--gutter) es el objetivo; entre 1280 y ~1880px se comprime para
-         que los siete enlaces y el CTA no desborden la barra. */
+         que los enlaces y el CTA no desborden la barra. */
       gap: clamp(0.75rem, 1.7vw, var(--gutter));
     }
 
@@ -360,7 +431,7 @@ const isActive = (href) => {
   @media (prefers-reduced-motion: reduce) {
     .header__nav,
     .header__toggle-input:checked ~ .header__nav,
-    .header__link,
+    .header__link::after,
     .header__bar {
       transition: none;
     }

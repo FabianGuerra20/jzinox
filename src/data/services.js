@@ -17,9 +17,9 @@ export const services = [
     title: "Soldadura TIG, MIG y aluminio",
     icon: "tig",
     summary:
-      "Uniones limpias en acero inoxidable y aluminio, con el proceso elegido según la pieza: TIG donde el cordón queda a la vista, MIG donde manda el rendimiento.",
+      "Uniones limpias en acero inoxidable y aluminio: TIG donde el cordón queda a la vista, MIG en estructura y uso pesado.",
     details: [
-      "Soldadura TIG para terminación sanitaria a la vista",
+      "Soldadura TIG para terminaciones a la vista",
       "Soldadura MIG para estructura y uso intensivo",
       "Aluminio para piezas donde el peso importa",
     ],
@@ -30,7 +30,7 @@ export const services = [
     title: "Corte y plegado",
     icon: "shelf",
     summary:
-      "Corte y plegado de plancha a la medida exacta de tu proyecto, para que cada pieza llegue al montaje sin ajustes de última hora.",
+      "Plancha cortada y plegada a la medida exacta, para que cada pieza llegue al montaje sin ajustes de última hora.",
     details: [
       "Corte de plancha en distintos espesores",
       "Plegado a medida según plano o levantamiento",
@@ -56,9 +56,8 @@ export const services = [
     title: "Mesones y equipamiento",
     icon: "kitchen",
     summary:
-      "Mesones, mobiliario y equipamiento en acero inoxidable fabricados a medida para restaurantes, comida rápida e industria alimentaria.",
+      "Mesones de trabajo, lavado y despacho, y el mobiliario que tu cocina necesita, dimensionados a tu espacio.",
     details: [
-      "Mesones de trabajo, lavado y despacho",
       "Mobiliario de alta durabilidad para uso intensivo",
       "Estructuras dimensionadas al espacio real",
     ],
@@ -69,7 +68,7 @@ export const services = [
     title: "Campanas y extracción",
     icon: "hood",
     summary:
-      "Campanas y ductos de extracción en acero inoxidable, dimensionados al caudal que realmente necesita tu cocina.",
+      "Campanas y ductos de extracción en acero inoxidable, a la medida de tu línea de cocción.",
     details: [
       "Campanas murales y centrales",
       "Ductos, codos y terminales de descarga",
@@ -82,7 +81,7 @@ export const services = [
     title: "Reparación y mantención",
     icon: "tools",
     summary:
-      "Reparamos y reforzamos equipamiento que todavía tiene vida útil, porque reemplazar la línea completa rara vez es la primera respuesta correcta.",
+      "Reparamos y reforzamos el equipamiento que todavía tiene vida útil, antes de pensar en reemplazarlo.",
     details: [
       "Reparación de estructuras y cubiertas",
       "Refuerzo y nivelación de piezas existentes",
@@ -107,7 +106,7 @@ export const mainServices = [
     slug: "soldadura-tig-mig",
     title: "Soldadura TIG, MIG y aluminio",
     blurb:
-      "El proceso se elige según la pieza: TIG donde el cordón queda a la vista, MIG donde manda el rendimiento.",
+      "El proceso se elige según la pieza: TIG donde el cordón queda a la vista, MIG en estructura y uso pesado.",
     media: [
       { slot: "Cordón de soldadura TIG en detalle", ratio: "3:2" },
       { slot: "Soldador trabajando en el taller", ratio: "3:2" },
@@ -124,7 +123,7 @@ export const mainServices = [
   },
   {
     slug: "diseno-proyecto",
-    title: "Diseño",
+    title: "Diseño de proyecto",
     blurb:
       "Medimos el espacio real y diseñamos la solución completa antes de cortar la primera plancha.",
     media: [
@@ -148,10 +147,41 @@ export const processSteps = [
   },
   {
     title: "Fabricación",
-    description: "Cortamos, plegamos y soldamos en taller propio, con manufactura nacional.",
+    description: "Cortamos, plegamos y soldamos en nuestro taller de Santiago.",
   },
   {
     title: "Instalación",
     description: "Montamos en terreno, nivelamos y dejamos el equipamiento operativo.",
+  },
+];
+
+/**
+ * Preguntas frecuentes de /servicios.
+ *
+ * [PROPUESTA] Borrador nuestro del 2026-10-11. Cada respuesta usa SOLO datos
+ * que ya están en el sitio (documento del cliente o textos ya publicados):
+ * nada de plazos, garantías, cobertura ni costos, que el cliente no ha dado.
+ * Preguntas que quedaron fuera por eso: cuánto demora, si instalan fuera de
+ * Santiago, si la visita tiene costo, qué acero usan (304 o 430).
+ */
+export const faqs = [
+  {
+    question: "¿Qué necesito para pedir una cotización?",
+    answer:
+      "Las medidas de tu espacio o el plano que tengas. Si no tienes ninguno de los dos, una foto del lugar y una descripción de lo que necesitas bastan para empezar.",
+  },
+  {
+    question: "¿Fabrican piezas que no aparecen en la lista de productos?",
+    answer:
+      "Sí. La lista muestra lo que hacemos habitualmente, pero fabricamos a medida: mándanos el plano o las medidas de lo que necesitas.",
+  },
+  {
+    question: "¿Reparan equipamiento que ya tengo?",
+    answer:
+      "Sí. Además de fabricar, reparamos y reforzamos estructuras y cubiertas de acero inoxidable.",
+  },
+  {
+    question: "¿Trabajan solo acero inoxidable?",
+    answer: "Trabajamos acero inoxidable y también aluminio, con soldadura TIG y MIG.",
   },
 ];

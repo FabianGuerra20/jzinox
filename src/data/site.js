@@ -1,5 +1,6 @@
 export const site = {
-  name: "JZINOX",
+  // Grafía definida por el dueño el 2026-10-11: separado, "JZ INOX".
+  name: "JZ INOX",
   // El tagline cierra el <title> de la portada, así que lleva los términos por
   // los que el negocio compite: "mesones" y "acero inoxidable a medida" son los
   // que usan los competidores del rubro en Chile. Del PDF sale el foco en
@@ -12,7 +13,7 @@ export const site = {
   phoneDisplay: "+56 9 3188 9950",
   phoneHref: "+56931889950",
   whatsappNumber: "56931889950",
-  whatsappDefaultMessage: "Hola JZINOX, quisiera cotizar un proyecto.",
+  whatsappDefaultMessage: "Hola JZ INOX, quisiera cotizar un proyecto.",
 
   email: "ventas@jzinox.cl",
   street: "Av. Departamental 999, Galpón 11",
@@ -21,9 +22,15 @@ export const site = {
   city: "Santiago",
   region: "Región Metropolitana",
   country: "CL",
+  // Enlaces de búsqueda, sin mapa incrustado ni script. OJO: falta la comuna
+  // (ver TODO de arriba); mientras no esté, el buscador decide cuál
+  // "Departamental 999" mostrar. Reemplazar por el enlace exacto del taller.
+  mapsHref: "https://www.google.com/maps/search/?api=1&query=Av.+Departamental+999%2C+Galp%C3%B3n+11%2C+Santiago%2C+Chile",
+  wazeHref: "https://waze.com/ul?q=Av.%20Departamental%20999%2C%20Santiago%2C%20Chile&navigate=yes",
 
-  hours: "Lun-Vie 9:00-18:00 · Sáb 9:00-13:00",
-  hoursLines: ["Lunes a viernes, 9:00 - 18:00", "Sábado, 9:00 - 13:00"],
+  // Un solo formato de horario en todo el sitio: prosa, con "de… a…".
+  hours: "lunes a viernes de 9:00 a 18:00 y sábado de 9:00 a 13:00",
+  hoursLines: ["Lunes a viernes, de 9:00 a 18:00", "Sábado, de 9:00 a 13:00"],
   openingHours: [
     { days: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: "09:00", closes: "18:00" },
     { days: ["Saturday"], opens: "09:00", closes: "13:00" },
@@ -53,4 +60,4 @@ export const navItems = [
   { href: "/al-muebleria", label: "AL Mueblería", ally: true },
 ];
 
-export const navCta = { href: "/contacto", label: "Cotizar Proyecto" };
+export const navCta = { href: "/contacto", label: "Cotizar proyecto" };

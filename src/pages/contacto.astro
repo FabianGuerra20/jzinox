@@ -1,24 +1,21 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { services } from "../data/services.js";
+import WhatsAppIcon from "../components/WhatsAppIcon.astro";
 import { site } from "../data/site.js";
 ---
 
 <Layout
-	title="Contacto"
+	title="Cotiza tu proyecto en acero inoxidable"
 	description={`Cotiza tu proyecto de equipamiento gastronómico en acero inoxidable. ${site.street}, ${site.city}, ${site.region}.`}
 >
 	{/* Hero comprimido a propósito: en una página transaccional el titular
 	    no compite con el formulario por el primer pliegue. Mismo contenido,
 	    la mitad del aire vertical. */}
-	<section class="section page-hero page-hero--tight">
+	<section class="section page-hero page-hero--tight page-hero--split">
 		<div class="container">
-			<span class="eyebrow">Contacto</span>
-			<h1>Cuéntanos sobre tu proyecto</h1>
-			<p>
-				Escríbenos con las medidas de tu espacio o el plano que tengas. Te respondemos con
-				una cotización detallada, materiales y plazos de fabricación.
-			</p>
+			<h1>Cotiza tu proyecto en acero inoxidable</h1>
+			<p>Mándanos las medidas o el plano que tengas. Te respondemos con cotización, materiales y plazos.</p>
 		</div>
 	</section>
 
@@ -38,7 +35,13 @@ import { site } from "../data/site.js";
 						<dd><a href={`mailto:${site.email}`}>{site.email}</a></dd>
 
 						<dt>Taller</dt>
-						<dd>{site.street}<br />{site.city}, {site.region}</dd>
+						<dd>
+							{site.street}<br />{site.city}, {site.region}
+							<span class="contact__maps">
+								<a href={site.mapsHref} target="_blank" rel="noopener noreferrer">Abrir en Google Maps</a>
+								<a href={site.wazeHref} target="_blank" rel="noopener noreferrer">Abrir en Waze</a>
+							</span>
+						</dd>
 
 						<dt>Horario de atención</dt>
 						<dd>
@@ -52,6 +55,7 @@ import { site } from "../data/site.js";
 						rel="noopener noreferrer"
 						class="btn btn--whatsapp contact__wa"
 					>
+						<WhatsAppIcon size={18} />
 						Escríbenos por WhatsApp
 					</a>
 				</div>
@@ -78,16 +82,18 @@ import { site } from "../data/site.js";
 					<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
 
 					<div class="field">
-						<label for="name">Nombre completo</label>
+						<label for="name">Nombre</label>
 						<input
 							type="text"
 							id="name"
 							name="Nombre"
 							required
+							pattern=".*\S.*"
 							autocomplete="name"
-							placeholder="Tu nombre"
+							autocapitalize="words"
+							enterkeyhint="next"
 							aria-describedby="name-error"
-							data-error="Escribe tu nombre para saber cómo dirigirnos a ti."
+							data-error="Escribe tu nombre."
 						/>
 						<p class="field__error" id="name-error" hidden></p>
 					</div>
@@ -101,8 +107,9 @@ import { site } from "../data/site.js";
 								name="Teléfono"
 								required
 								autocomplete="tel"
+								enterkeyhint="next"
 								placeholder="+56 9 ..."
-								pattern="[0-9+\s()-]{8,}"
+								pattern="[0-9+\s\(\)\-]{8,}"
 								aria-describedby="phone-error"
 								data-error="Escribe un teléfono de contacto, por ejemplo +56 9 1234 5678."
 							/>
@@ -116,6 +123,7 @@ import { site } from "../data/site.js";
 								name="Correo"
 								required
 								autocomplete="email"
+								enterkeyhint="next"
 								placeholder="tucorreo@ejemplo.com"
 								aria-describedby="email-error"
 								data-error="Escribe un correo válido, con @ y dominio."
@@ -129,16 +137,20 @@ import { site } from "../data/site.js";
 					    el primer servicio de la lista, y la bandeja de entrada del
 					    taller quedaba con datos falsos. */}
 					<div class="field">
-						<label for="service">Servicio de interés</label>
+						<label for="service">¿Qué necesitas?</label>
 						<select
 							id="service"
 							name="Servicio"
 							required
 							aria-describedby="service-error"
-							data-error="Elige el servicio que te interesa para derivar tu consulta."
+							data-error="Elige una opción. Si no sabes cuál, marca «No lo sé todavía»."
 						>
-							<option value="">Selecciona un servicio</option>
+							<option value="">Selecciona una opción</option>
 							{services.map((service) => <option value={service.title}>{service.title}</option>)}
+							{/* Quien llega desde Productos o desde AL Mueblería no encontraba
+							    su caso entre los servicios y terminaba en "Otro". */}
+							<option value="Un producto de la lista">Un producto de la lista</option>
+							<option value="Muebles a medida (AL Mueblería)">Muebles a medida (AL Mueblería)</option>
 							<option value="No lo sé todavía">No lo sé todavía</option>
 							<option value="Otro">Otro</option>
 						</select>
@@ -146,15 +158,18 @@ import { site } from "../data/site.js";
 					</div>
 
 					<div class="field">
-						<label for="message">Cuéntanos tu proyecto</label>
+						<label for="message">Tu proyecto</label>
 						<textarea
 							id="message"
 							name="Mensaje"
 							rows="5"
 							required
-							placeholder="Describe tu proyecto, medidas y plazos estimados"
-							aria-describedby="message-error"
+							minlength="10"
+							aria-describedby="message-help message-error"
 							data-error="Cuéntanos brevemente qué necesitas, aunque sean dos líneas."></textarea>
+						{/* La instrucción va fija bajo el campo, no como placeholder, que
+						    desaparece justo cuando se empieza a escribir. */}
+						<p class="field__help" id="message-help">Qué pieza necesitas, medidas aproximadas y para cuándo.</p>
 						<p class="field__error" id="message-error" hidden></p>
 					</div>
 
@@ -169,12 +184,13 @@ import { site } from "../data/site.js";
 							id="plan"
 							name="Plano"
 							accept="image/*,.pdf,.dwg,.dxf"
-							aria-describedby="plan-help"
+							aria-describedby="plan-help plan-error"
+							data-max-mb="10"
 						/>
 						<p class="field__help" id="plan-help">
-							Imagen, PDF o plano CAD, hasta 10 MB. Si tienes varias fotos, mándalas por
-							WhatsApp y las juntamos con tu consulta.
+							Imagen, PDF o plano CAD (DWG o DXF), hasta 10 MB. ¿Varias fotos? Mándalas por WhatsApp.
 						</p>
+						<p class="field__error" id="plan-error" hidden></p>
 					</div>
 
 					{/* Aviso de maqueta. Nace oculto y solo el script lo revela cuando
@@ -182,31 +198,20 @@ import { site } from "../data/site.js";
 					    cliente. En el sitio publicado nunca aparece. */}
 					<p class="form__demo" data-demo-note hidden>
 						<strong>Maqueta de demostración.</strong> El envío se activa al publicar el sitio.
-						Para escribirnos ahora, usa el WhatsApp o el correo de la izquierda.
+						Para escribirnos ahora, usa el WhatsApp o el correo de esta página.
 					</p>
 
 					<button type="submit" class="btn btn--primary contact__submit" data-submit>
 						Enviar consulta
 					</button>
-					<p class="contact__legal">Te responderemos dentro del horario de atención.</p>
+					<p class="contact__legal">Te respondemos en horario de taller: {site.hours}.</p>
 
 					{/* Región de estado: anuncia a lectores de pantalla el resultado del
 					    envío y los errores de validación, que de otro modo solo existen
 					    visualmente junto a cada campo. */}
 					<p class="visually-hidden" role="status" aria-live="polite" data-form-status></p>
 
-					<div class="form__result form__result--ok" data-success hidden>
-						<strong>Listo.</strong> Recibimos tu consulta y te respondemos dentro del horario de
-						atención. Si es urgente, escríbenos por WhatsApp.
-					</div>
-
-					{/* Un taller que pierde una cotización por un error de formulario
-					    tiene que seguir siendo alcanzable: el error trae la salida. */}
-					<div class="form__result form__result--fail" data-failure hidden>
-						<strong>No pudimos enviar tu consulta.</strong> Escríbenos directo por
-						<a href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>
-						o llámanos al <a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a>.
-					</div>
+					<div class="form__result form__result--ok" data-success hidden></div>
 				</form>
 			</div>
 		</div>
@@ -230,7 +235,38 @@ import { site } from "../data/site.js";
 		const submit = form.querySelector("[data-submit]");
 		const status = form.querySelector("[data-form-status]");
 		const okBox = form.querySelector("[data-success]");
-		const failBox = form.querySelector("[data-failure]");
+		const fileInput = form.querySelector('input[type="file"]');
+		const nextField = form.querySelector('input[name="_next"]');
+
+		// La página de gracias vive en el mismo sitio desde el que se envía, sea
+		// el dominio definitivo o la dirección de pruebas: sin esto, FormSubmit
+		// redirigía siempre al dominio de `site.siteUrl`.
+		if (!isDemo && nextField instanceof HTMLInputElement) {
+			nextField.value = `${window.location.origin}/gracias`;
+		}
+
+		/**
+		 * El adjunto promete un tope y el servicio de envío lo aplica: si el
+		 * archivo se pasa, el rechazo llegaría desde una página ajena con el
+		 * formulario ya perdido. Se comprueba aquí, antes de enviar.
+		 */
+		const checkFile = () => {
+			if (!(fileInput instanceof HTMLInputElement)) return true;
+			const box = document.getElementById("plan-error");
+			const file = fileInput.files && fileInput.files[0];
+			const maxMb = Number(fileInput.dataset.maxMb) || 10;
+			const tooBig = Boolean(file) && file.size > maxMb * 1024 * 1024;
+			fileInput.setAttribute("aria-invalid", String(tooBig));
+			if (box instanceof HTMLElement) {
+				box.textContent = tooBig
+					? `El archivo pesa ${(file.size / 1024 / 1024).toFixed(1)} MB y el máximo es ${maxMb} MB. Elige uno más liviano o mándalo por WhatsApp.`
+					: "";
+				box.hidden = !tooBig;
+			}
+			return !tooBig;
+		};
+
+		if (fileInput instanceof HTMLInputElement) fileInput.addEventListener("change", checkFile);
 		const demoNote = form.querySelector("[data-demo-note]");
 		const fields = Array.from(form.querySelectorAll("[data-error]"));
 
@@ -266,6 +302,7 @@ import { site } from "../data/site.js";
 
 		form.addEventListener("submit", (event) => {
 			const invalid = fields.filter((field) => !check(field));
+			if (!checkFile() && fileInput instanceof HTMLInputElement) invalid.push(fileInput);
 
 			if (invalid.length > 0) {
 				event.preventDefault();
@@ -279,7 +316,7 @@ import { site } from "../data/site.js";
 				if (okBox instanceof HTMLElement) {
 					okBox.innerHTML =
 						"<strong>Formulario completo y válido.</strong> En el sitio publicado, " +
-						"esta consulta llegaría al correo de JZINOX. En la maqueta no se envía nada.";
+						"esta consulta llegaría al correo de JZ INOX. En la maqueta no se envía nada.";
 					okBox.hidden = false;
 				}
 				say("Formulario válido. Es una maqueta: no se envió nada.");
@@ -293,7 +330,6 @@ import { site } from "../data/site.js";
 				submit.disabled = true;
 				submit.textContent = "Enviando…";
 			}
-			if (failBox instanceof HTMLElement) failBox.hidden = true;
 			say("Enviando tu consulta.");
 		});
 	}
@@ -307,16 +343,18 @@ import { site } from "../data/site.js";
 	   porque el color solo no basta (WCAG 1.4.1). */
 	.field__error {
 		margin: 0.35rem 0 0;
-		font-size: 0.82rem;
+		font-size: 0.875rem;
 		line-height: 1.4;
 		color: var(--color-error);
 	}
 
+	/* El grosor extra va como sombra interior, no como borde: con `border-width`
+	   el campo crecía 2px al enfocarlo o marcarlo y empujaba todo el formulario. */
 	.field input[aria-invalid="true"],
 	.field select[aria-invalid="true"],
 	.field textarea[aria-invalid="true"] {
 		border-color: var(--color-error);
-		border-width: 2px;
+		box-shadow: inset 0 0 0 1px var(--color-error);
 	}
 
 	/* Aviso de maqueta: solo aparece en la carpeta entregada (protocolo file:),
@@ -325,7 +363,6 @@ import { site } from "../data/site.js";
 		margin: 0;
 		padding: 0.8rem 1rem;
 		border: 1px solid var(--color-warn);
-		border-left-width: 4px;
 		background-color: color-mix(in srgb, var(--color-warn) 14%, var(--color-bg));
 		color: var(--color-graphite);
 		font-size: 0.85rem;
@@ -335,27 +372,15 @@ import { site } from "../data/site.js";
 	.form__result {
 		margin: 0;
 		padding: 0.9rem 1.1rem;
-		font-size: 0.9rem;
+		font-size: 0.875rem;
 		line-height: 1.5;
-		border-left: 4px solid;
+		border: 1px solid;
 	}
 
 	.form__result--ok {
 		border-color: var(--color-ok);
 		background-color: color-mix(in srgb, var(--color-ok) 12%, var(--color-bg));
 		color: var(--color-graphite);
-	}
-
-	.form__result--fail {
-		border-color: var(--color-error);
-		background-color: color-mix(in srgb, var(--color-error) 12%, var(--color-bg));
-		color: var(--color-graphite);
-	}
-
-	.form__result a {
-		color: var(--color-accent-dark);
-		text-decoration: underline;
-		text-underline-offset: 0.2em;
 	}
 
 	/* Mientras envía: el botón dice qué está pasando y no se puede pulsar dos
@@ -380,14 +405,13 @@ import { site } from "../data/site.js";
 		margin: 1.5rem 0 0;
 	}
 
+	/* Misma etiqueta que el cartucho del hero y el índice de marca: 12px, Inter */
 	.contact__list dt {
-		font-family: var(--font-heading);
-		/* Peso explícito: de Hanken Grotesk solo se cargan 600/700/800, y el
-		   400 por defecto de <dt> caería en la tipografía de respaldo. */
-		font-weight: 600;
-		font-size: 0.78rem;
+		font-family: var(--font-body);
+		font-weight: 500;
+		font-size: 0.75rem;
 		text-transform: uppercase;
-		letter-spacing: 0.1em;
+		letter-spacing: 0.14em;
 		color: var(--color-text-muted);
 		margin-bottom: 0.2rem;
 	}
@@ -417,8 +441,31 @@ import { site } from "../data/site.js";
 		text-underline-offset: 0.25em;
 	}
 
-	.contact__list a:hover {
-		color: var(--color-accent);
+	@media (hover: hover) and (pointer: fine) {
+		.contact__list a:hover {
+			color: var(--color-accent);
+		}
+	}
+
+	.contact__list a:active {
+		opacity: 0.7;
+	}
+
+	.contact__maps {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0 1.25rem;
+	}
+
+	.contact__maps a {
+		font-size: 0.875rem;
+	}
+
+	/* El panel de datos es una columna: el botón de WhatsApp se apoya abajo
+	   en vez de dejar un tercio de la celda vacío. */
+	.contact__info {
+		display: flex;
+		flex-direction: column;
 	}
 
 	.contact__line {
@@ -426,7 +473,12 @@ import { site } from "../data/site.js";
 	}
 
 	.contact__wa {
-		margin-top: 1.8rem;
+		align-self: flex-start;
+		margin-top: auto;
+	}
+
+	.contact__list {
+		margin-bottom: 1.8rem;
 	}
 
 	/* Titular de un panel de datos, no de una sección: con la escala global
@@ -461,11 +513,11 @@ import { site } from "../data/site.js";
 	}
 
 	.field label {
-		font-family: var(--font-heading);
-		font-size: 0.78rem;
+		font-family: var(--font-body);
+		font-size: 0.75rem;
 		font-weight: 600;
 		text-transform: uppercase;
-		letter-spacing: 0.08em;
+		letter-spacing: 0.1em;
 		color: var(--color-text-muted);
 	}
 
@@ -516,8 +568,9 @@ import { site } from "../data/site.js";
 	}
 
 	.field__help {
+		max-width: 65ch;
 		margin: 0.35rem 0 0;
-		font-size: 0.82rem;
+		font-size: 0.875rem;
 		line-height: 1.4;
 		color: var(--color-text-muted);
 	}
@@ -527,7 +580,7 @@ import { site } from "../data/site.js";
 	   aparecería justo en el formulario. */
 	.field input[type="file"] {
 		padding: 0.55rem 0.85rem;
-		font-size: 0.9rem;
+		font-size: 0.875rem;
 		color: var(--color-text-muted);
 		cursor: pointer;
 	}
@@ -539,8 +592,8 @@ import { site } from "../data/site.js";
 		border-radius: var(--radius);
 		background-color: var(--color-surface);
 		color: var(--color-graphite);
-		font-family: var(--font-heading);
-		font-size: 0.78rem;
+		font-family: var(--font-body);
+		font-size: 0.75rem;
 		font-weight: 600;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
@@ -548,9 +601,11 @@ import { site } from "../data/site.js";
 		transition: background-color 0.15s ease, border-color 0.15s ease;
 	}
 
-	.field input[type="file"]::file-selector-button:hover {
-		background-color: var(--color-bg-alt);
-		border-color: var(--color-graphite);
+	@media (hover: hover) and (pointer: fine) {
+		.field input[type="file"]::file-selector-button:hover {
+			background-color: var(--color-bg-alt);
+			border-color: var(--color-graphite);
+		}
 	}
 
 	/* #9aa0a7 daba 2.6:1 sobre blanco: el texto de ayuda era ilegible y el color
@@ -574,7 +629,13 @@ import { site } from "../data/site.js";
 	.field select:focus,
 	.field textarea:focus {
 		border-color: var(--color-graphite);
-		border-width: 2px;
+		box-shadow: inset 0 0 0 1px var(--color-graphite);
+	}
+
+	/* En el formulario el aro de foco va en tinta, no en acento: el naranja
+	   quemado junto al rojo de error se leía como dos marcos del mismo color. */
+	.contact__form :focus-visible {
+		outline-color: var(--color-graphite);
 	}
 
 	/* El campo en error mantiene su rojo incluso enfocado: el aro de foco ya
@@ -584,6 +645,7 @@ import { site } from "../data/site.js";
 	.field select[aria-invalid="true"]:focus,
 	.field textarea[aria-invalid="true"]:focus {
 		border-color: var(--color-error);
+		box-shadow: inset 0 0 0 1px var(--color-error);
 	}
 
 	.contact__submit {
@@ -592,8 +654,7 @@ import { site } from "../data/site.js";
 
 	.contact__legal {
 		margin: 0;
-		font-size: 0.8rem;
+		font-size: 0.875rem;
 		color: var(--color-text-muted);
-		text-align: center;
 	}
 </style>

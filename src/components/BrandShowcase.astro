@@ -19,11 +19,12 @@ interface Props {
     slug: string;
     name: string;
     lead: string;
+    leadShort?: string;
     actions: Array<{ href: string; label: string; variant: string }>;
     featuredTitle: string;
     featuredHref: string;
     featuredLabel: string;
-    featured: Array<{ name: string; note: string }>;
+    featured: Array<{ name: string; note: string; href?: string }>;
     images: Array<{ src?: string; alt?: string; pending?: boolean; position?: string }>;
   };
   flip?: boolean;
@@ -34,14 +35,16 @@ interface Props {
 const { brand, flip = false, hideLead = false } = Astro.props as Props;
 
 const photos = brand.images.filter((image) => !image.pending && image.src).slice(0, 3);
+import { srcset } from "../utils/img.js";
+
 const headingId = `marca-${brand.slug}`;
 const indexId = `indice-${brand.slug}`;
 ---
 
-<article class:list={["brand", { "brand--flip": flip }]} aria-labelledby={headingId}>
+<article class:list={["brand", { "brand--flip": flip, "brand--bare": hideLead }]} aria-labelledby={headingId}>
   <div class="brand__head" data-reveal>
     <h2 id={headingId} class="brand__name">{brand.name}</h2>
-    {!hideLead && <p class="brand__lead">{brand.lead}</p>}
+    {!hideLead && <p class="brand__lead">{brand.leadShort ?? brand.lead}</p>}
 
     <div class="brand__actions">
       {
@@ -60,6 +63,8 @@ const indexId = `indice-${brand.slug}`;
         <figure class="brand__tile media-frame">
           <img
             src={image.src}
+            srcset={srcset(image.src)}
+            sizes="(min-width: 1024px) 36vw, 60vw"
             alt={image.alt}
             style={image.position ? `object-position: ${image.position}` : undefined}
             width="800"
@@ -75,14 +80,14 @@ const indexId = `indice-${brand.slug}`;
   <div class="brand__index">
     <div class="brand__index-head">
       <h3 id={indexId} class="brand__index-title">{brand.featuredTitle}</h3>
-      <a href={brand.featuredHref} class="brand__more">{brand.featuredLabel}</a>
+      <a href={brand.featuredHref} class="brand__more link-press">{brand.featuredLabel}</a>
     </div>
 
     <ul class="brand__list" aria-labelledby={indexId}>
       {
         brand.featured.map((item, i) => (
           <li data-reveal style={`--i: ${i}`}>
-            <a href={brand.featuredHref} class="brand__row">
+            <a href={item.href ?? brand.featuredHref} class="brand__row link-press">
               <strong>{item.name}</strong>
               <span>{item.note}</span>
               <svg class="brand__arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -131,7 +136,8 @@ const indexId = `indice-${brand.slug}`;
   /* El nombre de la marca es el titular más grande de la página después del
      h1: a 76px en mayúsculas ancla el bloque sin necesitar una caja alrededor. */
   .brand__name {
-    font-size: clamp(2.5rem, 5.6vw, 4.75rem);
+    /* Tope en 60px: el titular más grande de la página es el h1 del hero */
+    font-size: clamp(2.25rem, 4.4vw, 3.75rem);
     font-weight: 800;
     line-height: 0.95;
     letter-spacing: -0.03em;
@@ -148,7 +154,7 @@ const indexId = `indice-${brand.slug}`;
   .brand__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.75rem;
+    gap: 0.5rem 0.75rem;
     margin-top: 2rem;
   }
 
@@ -160,6 +166,34 @@ const indexId = `indice-${brand.slug}`;
     aspect-ratio: 4 / 3;
     background-color: var(--color-border);
     border: 1px solid var(--color-border);
+  }
+
+  /* Bloque sin párrafo (el de JZ INOX, bajo el hero): el nombre se apoya en
+     el canto superior del mosaico y los botones en el inferior. Con todo
+     anclado abajo quedaba un hueco negro de 318 x 533px encima del nombre. */
+  @media (min-width: 1024px) {
+    .brand--bare .brand__head {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-self: stretch;
+    }
+
+    .brand--bare .brand__name {
+      margin-bottom: 0;
+    }
+
+    .brand--bare .brand__actions {
+      margin-top: 2rem;
+    }
+  }
+
+  /* En teléfono el mosaico va cuadrado: a 4:3 las dos fotos chicas medían
+     139 x 130px. */
+  @media (max-width: 639.98px) {
+    .brand__mosaic {
+      aspect-ratio: 1 / 1;
+    }
   }
 
   .brand__mosaic--3 {
@@ -229,8 +263,10 @@ const indexId = `indice-${brand.slug}`;
     transition: color 0.2s ease;
   }
 
-  .brand__more:hover {
-    color: var(--color-accent-dark);
+  @media (hover: hover) and (pointer: fine) {
+    .brand__more:hover {
+      color: var(--color-accent-dark);
+    }
   }
 
   .brand__list {

@@ -41,11 +41,11 @@ al entrar en una sección clara sin una sola línea extra.
 | Token | Oscuro (base) | Claro (`.section--alt`) | Uso |
 |---|---|---|---|
 | `--color-page` | `#16120f` | — | Lienzo del documento |
-| `--color-bg` | `#1e1a16` | `#ffffff` | Tarjeta, celda del bento |
+| `--color-bg` | `#2a231d` | `#ffffff` | **Elevado**: tarjeta, celda, encabezado interior, banda de cierre |
 | `--color-bg-alt` | `#ebe5db` | — | Fondo de la sección clara |
-| `--color-surface` | `#261f1a` | `#f5f1ea` | Superficie hundida, hover, relleno de huecos |
-| `--color-surface-high` | `#201b17` | `#e6dfd3` | Sección de cierre |
-| `--color-border` | `#4a4137` | `#cdc4b6` | **Toda** junta de 1px |
+| `--color-surface` | `#332b24` | `#f5f1ea` | Hover de celda y superficie hundida sobre el elevado |
+| `--color-surface-high` | `#2a231d` | `#e6dfd3` | Alias del elevado |
+| `--color-border` | `#5e5245` | `#b5aa9a` | **Toda** junta de 1px |
 | `--color-steel` | `#16120f` | — | Barra del header |
 | `--color-ink` | `#3b342d` | `#16120f` | Etiquetas sólidas (`.tag`) |
 | `--color-footer` | `#0f0c0a` | — | Pie de página |
@@ -57,6 +57,24 @@ al entrar en una sección clara sin una sola línea extra.
 | `--color-error` | `#ff8a7a` | `#b3261e` | Errores. **El rojo ya no es acento** |
 | `--color-warn` | `#e2b04a` | `#8a5a00` | Aviso de maqueta |
 | `--color-ok` | `#7bd89a` | `#1f6b34` | Confirmación |
+
+### Tres tonos oscuros, no cinco (2026-10-11)
+
+Lienzo `#16120f`, elevado `#2a231d` y pie `#0f0c0a`. Antes había cinco oscuros que diferían
+entre 1,05 y 1,15: en pantalla se leían como una sola masa y los cambios de plano solo
+existían por la junta. El elevado da **1,20** contra el lienzo. La junta subió a `#5e5245`
+(2,46 sobre el lienzo, 2,04 sobre el elevado) y la clara a `#b5aa9a` (1,83 sobre hueso, 2,29
+sobre blanco; antes 1,38).
+
+| Sobre el elevado `#2a231d` | Ratio |
+|---|---|
+| Texto `#f0ebe3` | 13,1:1 |
+| Muted `#aa9f92` | 6,0:1 (5,4 sobre su hover `#332b24`) |
+| Acento `#ff6a1a` | 5,4:1 (4,9 sobre su hover) |
+| Error `#ff8a7a` | 6,8:1 |
+
+Auditoría automática del 2026-10-11 (texto contra su fondo real, 8 páginas × 4 anchos):
+**0 incumplimientos de AA**.
 
 ### Contrastes calculados (no asumidos)
 
@@ -400,19 +418,21 @@ Son las que resuelve el compositor sin recalcular layout. El menú móvil se des
 | Hero del Inicio | Cada palabra del titular sube desde su caja recortada (35 ms de escalón); la foto entra como un corte de guillotina de izquierda a derecha (0,8 s) y se asienta de `scale(1.1)`; el cartucho sube al final. Toda la secuencia cabe en ~1 s. Keyframes CSS, una sola vez |
 | Encabezados interiores | `rise-in` en cascada, 350 ms: se suma al fundido entre páginas, así que va corto |
 | Revelado al entrar en pantalla | `data-reveal` + clase `.is-in` que pone un `IntersectionObserver` en línea (`Layout.astro`). Se dispara UNA vez; no va atado al scroll |
-| La costura | Línea de soldadura de 2px en el canto del hero, de los encabezados y sobre el cierre del Inicio. 1 s |
+| ~~La costura~~ | **Eliminada el 2026-10-11.** La línea naranja que se trazaba bajo cada encabezado al cargar se leía como una barra de carga. No reintroducir |
 | Presión | `.btn:active { transform: scale(0.97) }`, 160 ms. Confirma el clic. **Sin transform en hover** |
 | Hover de medios y flechas | Zoom del 5 % en fotos (300 ms), flecha que avanza 4px (200 ms). Solo con `(hover: hover) and (pointer: fine)` |
-| Menú móvil | Panel por `clip-path` (280 ms), barras que giran a «X» (200 ms) |
+| Menú móvil | Panel por `clip-path` (280 ms), barras que giran a «X» (200 ms), velo de fondo (200 ms). Tocar el velo o un enlace lo cierra |
 | Entre páginas | `@view-transition { navigation: auto }` nativa; header y FAB con `view-transition-name` |
-| Scroll con inercia | **Lenis** (~3 KB, empaquetado), `duration: 0.7`. Sin movimiento reducido y sin táctil |
+| Scroll con inercia | **Lenis** (empaquetado, 5,8 KB transferidos), `duration: 0.7`, `anchors: true`. **Solo con puntero fino** y sin movimiento reducido: en táctil no se carga |
+| Menú del encabezado | Línea de 2px bajo el texto que entra por la izquierda y sale por la derecha (200 ms, `scaleX`). Sin bloque de color detrás |
+| Visor ampliado | `<dialog>` nativo, entra con `opacity` + `scale(0.97)` en 200 ms |
 
-### `data-reveal`: tres gestos
+### `data-reveal`: cuatro gestos
 | Atributo | Para | Gesto |
 |---|---|---|
 | `data-reveal` | Texto | Sube 18px y aparece, 700 ms |
 | `data-reveal="cut"` | Fotos | Sus hijos se descubren de izquierda a derecha, 1 s. El corte va en los HIJOS: recortar el propio elemento lo deja sin área visible y el observador nunca lo da por entrado |
-| `data-reveal="line"` | Juntas y costuras | Se trazan con `scaleX`, 1,1 s |
+| `data-reveal="line"` | Juntas (línea de tiempo de `/servicios`) | Se trazan con `scaleX`, 1,1 s |
 | `data-reveal="fade"` | Listados que se vienen a leer (tarjetas del catálogo) | Solo aparecen, 300 ms, sin desplazarse |
 
 `--i` escalona hermanos (70 ms). **Una regla que añada su propia `transition` a un elemento
@@ -444,3 +464,67 @@ fuera de git, en `fotos-originales/`. Cada imagen en `src/data/` lleva `src`, `a
 `position` (un `object-position`), porque las fotos son de celular y se recortan a 4:3 o
 3:2. `pending: true` sigue mostrando el hueco rotulado. Todas las fotos van a
 color (§7). Una foto no se repite en dos secciones: `taller-estanteria` es solo del hero.
+
+---
+
+## 14. Reglas añadidas el 2026-10-11 (revisión con cinco estudios)
+
+Salen de cuatro revisiones en paralelo (diseño, botones y medidas, textos, fluidez) y una
+comparación con unos 40 sitios del rubro. Detalle de hallazgos en `MEJORAS.md §8`.
+
+### Marcas de plantilla que se quitaron y no deben volver
+* **La costura** (línea que se traza al cargar): se leía como barra de carga.
+* **Antetítulos** (`.eyebrow`) sobre cada título. Quedan tres, porque dicen algo que el
+  título no dice: «Error 404», «Consulta enviada» y «AL Mueblería». Van en tinta apagada,
+  no en acento.
+* **Tarjetas numeradas 01–02–03.** La numeración solo existe en la línea de tiempo.
+* **Iconos en cuadrito, retícula de fondo, bloque de color en el hover del menú.**
+
+### Botones
+* Dos tamaños: base (44px) y `.btn--lg` (48px, hero y cierre del Inicio). `.btn--sm` baja la
+  letra a 12px para tarjetas y renglones, sin bajar de 44px de alto.
+* **Todo hover va dentro de `@media (hover: hover) and (pointer: fine)`.** En táctil `:hover`
+  queda pegado después de tocar. El toque responde con `:active`.
+* `-webkit-tap-highlight-color: transparent` en `html`; cada enlace táctil declara su
+  `:active` (`.link-press` para enlaces de texto).
+
+### WhatsApp
+**Todo lo que abre WhatsApp lo dice en el rótulo, lleva el glifo (`WhatsAppIcon.astro`) y va
+en verde (`.btn--whatsapp`).** Única excepción de color: el secundario del hero, que va en
+fantasma para no competir con el primario, pero con el glifo. Vocabulario:
+
+| Acción | Rótulo | Destino |
+|---|---|---|
+| Pedir cotización por formulario | Cotizar proyecto | `/contacto` |
+| Cotizar una pieza | Cotizar por WhatsApp | `wa.me` con el nombre de la pieza |
+| WhatsApp sin pieza | Escríbenos por WhatsApp | `wa.me` con mensaje genérico |
+| Ver la lista | Ver productos | `/catalogo` |
+| Volver | Volver al inicio | `/` |
+| Enviar formulario | Enviar consulta | — |
+
+Solo la primera palabra lleva mayúscula. La marca se escribe **JZ INOX** (separado).
+
+### Cierre de página: una sola banda
+`.cta-band`: título y texto a la izquierda, acciones a la derecha, a todo el ancho y sin caja.
+Alterna con la sección de encima: `section--alt` tras una oscura, `cta-band--dark` tras una
+clara. La `.cta-plate` (caja con borde dentro de una sección) ya no existe. El cierre del
+Inicio es la versión grande, en claro. El pie no lleva botón de cotizar.
+
+### Productos y galería
+* `.pcard` (tarjeta con foto) y `.prow` (renglón sin foto), compartidos por `/catalogo` y la
+  galería de `/al-muebleria`. **Una pieza sin foto es un renglón, no una caja vacía.** El
+  orden del cliente se respeta: cada categoría se pinta en tandas consecutivas.
+* La barra de categorías (`.catalog-bar`) es fija bajo el encabezado y de una sola fila.
+* **Visor ampliado:** un `<dialog>` por página (en `Layout.astro`); lo abre cualquier
+  `<a data-zoom href="foto">`. Sin JavaScript el enlace abre la imagen.
+* **Sin carrusel.** Esconde fotos tras un clic que casi nadie da.
+
+### Fuentes e imágenes
+* Hanken Grotesk e Inter se sirven desde `public/fonts` (mismos archivos variables de Google,
+  subconjunto latino) y se precargan. No hay peticiones a terceros.
+* Cada foto de `public/img` tiene variantes `-w800` (y `-w1200` el hero, `-w360`/`-w540` el
+  logo). `src/utils/img.js` arma el `srcset` desde `src/data/img-manifest.json`. Al agregar
+  una foto hay que generar su variante y su entrada en el manifiesto.
+
+### Impresión
+Hay un bloque `@media print` en `global.css`: sin él, el revelado dejaba la página en blanco.

@@ -1,5 +1,5 @@
 /* =============================================================
-   JZINOX — Sistema de diseño "Acero en sombra"
+   JZ INOX — Sistema de diseño "Acero en sombra"
    -------------------------------------------------------------
    Paleta C cálida (aprobada 2026-10-04): negro con base marrón,
    como el acero con luz de fragua, y el naranja de la chispa de
@@ -26,36 +26,63 @@
      1280px → la navegación pasa a horizontal
    ============================================================= */
 
+/* =============================================================
+   Fuentes alojadas en el propio sitio (public/fonts)
+   -------------------------------------------------------------
+   Son los mismos archivos variables que servía Google Fonts
+   (subconjunto latino, que cubre el español). Alojarlos aquí
+   quita dos conexiones a terceros y la hoja de estilos que
+   bloqueaba el primer pintado. Layout.astro los precarga.
+   ============================================================= */
+@font-face {
+  font-family: "Hanken Grotesk";
+  font-style: normal;
+  font-weight: 600 800;
+  font-display: swap;
+  src: url("/fonts/hanken-grotesk-latin.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+}
+
 :root {
   /* Controles nativos y barras de scroll en oscuro, como el lienzo */
   color-scheme: dark;
 
-  /* --- Superficies (tema oscuro, el de base) --- */
+  /* --- Superficies (tema oscuro, el de base) ---
+     Tres tonos, no cinco (2026-10-11): lienzo, elevado y pie. Antes había
+     cinco oscuros que diferían 1,05–1,15 entre sí y en pantalla se leían como
+     una sola masa. El elevado da 1,20 contra el lienzo. */
   --color-page: #16120f; /* lienzo del documento */
-  --color-bg: #1e1a16; /* tarjeta, celda del bento */
+  --color-bg: #2a231d; /* ELEVADO: tarjeta, celda, encabezado interior, cierre */
   --color-bg-alt: #ebe5db; /* sección alterna: CLARA, ver .section--alt */
-  --color-surface: #261f1a; /* superficie hundida, hover de celda */
-  --color-surface-hover: #2e2620;
-  --color-surface-high: #201b17; /* sección de cierre */
-  --color-surface-highest: #332b24;
-  --color-surface-dim: #4a4137; /* puntos inactivos del carrusel */
+  --color-surface: #332b24; /* hover de celda y superficie hundida sobre el elevado */
+  --color-surface-hover: #3b322a;
+  --color-surface-high: #2a231d; /* alias del elevado */
+  --color-surface-highest: #3b322a;
+  --color-surface-dim: #5e5245;
 
   /* --- Estructura --- */
-  --color-border: #4a4137; /* TODA junta de 1px (≈1.9:1 sobre el lienzo) */
+  --color-border: #5e5245; /* TODA junta de 1px: 2,46 sobre el lienzo, 2,04 sobre el elevado */
   --color-steel: #16120f; /* barra del header */
   --color-steel-medium: #8a7f72;
-  --color-steel-dark: #4a4137; /* borde inferior del header */
-  --color-steel-light: #4a4137;
+  --color-steel-dark: #5e5245; /* borde inferior del header y de los campos */
+  --color-steel-light: #5e5245;
   --color-ink: #3b342d; /* etiquetas sólidas (.tag) */
   --color-footer: #0f0c0a; /* pie de página: más hondo que el lienzo */
 
   /* --- Texto --- */
   --color-text: #f0ebe3;
   --color-graphite: #f0ebe3;
-  --color-text-muted: #aa9f92; /* 7.2:1 sobre el lienzo, 6.6:1 sobre tarjeta */
+  --color-text-muted: #aa9f92; /* 7,2 sobre el lienzo · 6,0 sobre el elevado · 5,4 sobre su hover */
 
   /* --- Acento: la chispa --- */
-  --color-accent: #ff6a1a; /* 6.5:1 sobre el lienzo */
+  --color-accent: #ff6a1a; /* 6,5 sobre el lienzo · 5,4 sobre el elevado · 4,9 sobre su hover */
   --color-accent-dark: #ff8a45; /* hover: SUBE de luminosidad sobre fondo oscuro */
   --color-accent-light: #ffb38a; /* acento sobre superficies muy oscuras o fotos */
   --color-on-accent: #16120f; /* texto sobre relleno de acento: 6.5:1 */
@@ -114,8 +141,11 @@
   --color-surface: #f5f1ea;
   --color-surface-hover: #efe9df;
   --color-surface-high: #e6dfd3;
-  --color-surface-dim: #cdc4b6;
-  --color-border: #cdc4b6;
+  --color-surface-dim: #b5aa9a;
+  /* La junta clara era más débil que la oscura (1,38 sobre hueso). Con este
+     tono da 1,83 sobre hueso y 2,29 sobre blanco. */
+  --color-border: #b5aa9a;
+  --color-steel-dark: #4a4137; /* borde de campos sobre blanco: 9,6:1 */
   --color-ink: #16120f;
   --color-text: #16120f;
   --color-graphite: #16120f;
@@ -147,6 +177,20 @@ html {
   scroll-behavior: smooth;
   /* El header fijo mide 80px: sin esto, cada ancla queda tapada por él */
   scroll-padding-top: calc(var(--header-height) + 1rem);
+  /* El resaltado celeste o gris que el navegador pinta al tocar compite con la
+     respuesta propia de cada control (`:active`). Se apaga aquí y cada enlace
+     táctil declara la suya. */
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Menú móvil abierto: la página no se desliza por detrás. Va en CSS para que
+   funcione sin JavaScript y en táctil, donde Lenis no se carga. */
+@media (max-width: 1279.98px) {
+  html:has(.header__toggle-input:checked) {
+    overflow: hidden;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -204,7 +248,7 @@ h3 {
 }
 
 h4 {
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.3;
   font-weight: 600;
 }
@@ -343,7 +387,9 @@ ol[role="list"] {
   padding: clamp(2.5rem, 5vw, 4.5rem) 0;
 }
 
-/* Etiqueta de plano: versalitas, nunca un titulillo de marketing */
+/* Etiqueta de plano: versalitas, nunca un titulillo de marketing. Va en tinta
+   apagada, no en acento: no es una acción ni un estado. Solo se usa donde dice
+   algo que el título no dice (404, gracias, AL Mueblería). */
 .eyebrow {
   display: inline-block;
   font-family: var(--font-body);
@@ -352,7 +398,7 @@ ol[role="list"] {
   letter-spacing: 0.16em;
   font-size: 0.75rem;
   line-height: 1;
-  color: var(--color-accent);
+  color: var(--color-text-muted);
   margin-bottom: 0.9rem;
 }
 
@@ -377,6 +423,9 @@ ol[role="list"] {
 /* =============================================================
    Controles
    ============================================================= */
+/* Dos tamaños declarados, no tres medidas sueltas: base (44px) y grande
+   (48px, hero y cierre del Inicio). `.btn--sm` baja la letra para tarjetas y
+   renglones, pero conserva los 44px de alto táctil. */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -388,10 +437,15 @@ ol[role="list"] {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-size: 0.875rem;
-  line-height: 1;
-  padding: 0.9rem 1.5rem;
+  line-height: 1.15;
+  padding: 0 1.5rem;
   border: 1px solid transparent;
   cursor: pointer;
+  /* Un botón no se selecciona ni espera el doble toque */
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
   /* Sin transform en el HOVER: en un sistema de radio cero, un botón que
      levita rompe la lectura de placa apoyada. El cambio es de color. Al
      PRESIONAR sí cede un 3 %: es la confirmación de que el clic se oyó. */
@@ -400,6 +454,16 @@ ol[role="list"] {
     border-color 0.2s ease,
     color 0.2s ease,
     transform 0.16s var(--ease-out);
+}
+
+.btn--lg {
+  min-height: 48px;
+  padding: 0 1.75rem;
+}
+
+.btn--sm {
+  font-size: 0.75rem;
+  padding: 0 1rem;
 }
 
 .btn:active {
@@ -418,31 +482,16 @@ ol[role="list"] {
   color: var(--color-on-accent);
 }
 
-.btn--primary:hover {
+.btn--primary:active {
   background-color: var(--color-accent-dark);
   border-color: var(--color-accent-dark);
 }
 
-.btn--primary:active {
-  background-color: var(--color-accent-dark);
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.22);
-}
-
-.btn--primary:hover,
-.btn--primary:active {
-  color: var(--color-on-accent);
-}
-
-/* Acción secundaria: mismo rojo corporativo, sin el peso del relleno */
+/* Acción secundaria: mismo acento, sin el peso del relleno */
 .btn--outline {
   background-color: transparent;
   border-color: var(--color-accent);
   color: var(--color-accent);
-}
-
-.btn--outline:hover {
-  background-color: var(--color-accent);
-  color: var(--color-on-accent);
 }
 
 .btn--outline:active {
@@ -457,31 +506,56 @@ ol[role="list"] {
   background-color: transparent;
 }
 
-.btn--ghost:hover {
+.btn--ghost:active {
   border-color: var(--color-accent);
-  color: var(--color-accent);
-  background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  background-color: color-mix(in srgb, var(--color-accent) 22%, transparent);
 }
 
-
-
-/* Acción de WhatsApp: verde del canal, no el rojo de JZINOX.
-   Era un botón fantasma con texto #128c3d, que daba 3.54:1 sobre la sección
-   de cierre (#e8e8e8) y 4.34:1 incluso sobre blanco puro: bajo AA en los dos
-   casos, en un botón de conversión de 14px. Con el verde como relleno y el
-   texto en blanco el par llega a 5.45:1, el borde contra el fondo claro da
-   4.45:1 (sobre el 3:1 que pide WCAG 1.4.11 para el límite de un control) y,
-   de paso, queda igual al botón verde del FAB. */
+/* Todo lo que abre WhatsApp va en el verde del canal y con su glifo delante.
+   El verde de marca (#25d366) no sirve como fondo de texto: con blanco da
+   1,7:1. Este oscurecido da 5,45:1. */
 .btn--whatsapp {
   background-color: var(--color-whatsapp-ink);
   border-color: var(--color-whatsapp-ink);
   color: #fff;
 }
 
-.btn--whatsapp:hover {
+.btn--whatsapp:active {
   background-color: var(--color-whatsapp-ink-dark);
   border-color: var(--color-whatsapp-ink-dark);
-  color: #fff;
+}
+
+/* Los hover van SOLO con puntero fino. En táctil `:hover` se dispara al tocar
+   y queda pegado: un botón de contorno seguía relleno, como si estuviera
+   seleccionado, después de haber saltado a otra sección. */
+@media (hover: hover) and (pointer: fine) {
+  .btn--primary:hover {
+    background-color: var(--color-accent-dark);
+    border-color: var(--color-accent-dark);
+    color: var(--color-on-accent);
+  }
+
+  .btn--outline:hover {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+
+  .btn--ghost:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  }
+
+  .btn--whatsapp:hover {
+    background-color: var(--color-whatsapp-ink-dark);
+    border-color: var(--color-whatsapp-ink-dark);
+    color: #fff;
+  }
+}
+
+/* Enlace de texto con flecha o subrayado: respuesta al toque sin hover */
+.link-press:active {
+  opacity: 0.7;
 }
 
 .tag {
@@ -529,7 +603,9 @@ ol[role="list"] {
 }
 
 .page-hero p {
-  max-width: 58ch;
+  /* `ch` mide el ancho del "0", más ancho que la letra media de Inter: 50ch
+     son unos 62 caracteres reales. */
+  max-width: 50ch;
   margin-bottom: 0;
   font-size: 1.125rem;
 }
@@ -560,6 +636,21 @@ ol[role="list"] {
   }
 }
 
+/* =============================================================
+   Cierre de página: una sola banda
+   -------------------------------------------------------------
+   Título y texto a la izquierda, acciones a la derecha, a todo el
+   ancho y sin caja. Antes había tres cierres distintos (titular
+   gigante, placa con borde, banda) para la misma función. La banda
+   alterna con la sección que tiene encima: clara tras una oscura
+   (`section--alt`), elevada tras una clara (`cta-band--dark`).
+   ============================================================= */
+.cta-band--dark {
+  background-color: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
 .cta-band__inner {
   display: flex;
   flex-wrap: wrap;
@@ -568,9 +659,12 @@ ol[role="list"] {
   gap: 1.5rem;
 }
 
-/* Título de placa, no de sección: un escalón bajo el h2 global. */
-.cta-band h2,
-.cta-plate h2 {
+.cta-band__text {
+  max-width: 60ch;
+}
+
+/* Título de banda, no de sección: un escalón bajo el h2 global. */
+.cta-band h2 {
   font-size: clamp(1.5rem, 2.4vw, 2rem);
   margin-bottom: 0.4rem;
 }
@@ -582,10 +676,295 @@ ol[role="list"] {
 .cta-band__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
-/* Lista de viñetas con marca roja, usada en servicios */
+/* =============================================================
+   Renglones (lista de despiece)
+   -------------------------------------------------------------
+   Un renglón por ítem, tres columnas en escritorio (nombre | qué
+   es | qué incluye). La junta de 1px va ARRIBA de cada renglón y
+   una más cierra la lista: son líneas de tabla, no cajas. Lo usan
+   /servicios y /al-muebleria.
+   ============================================================= */
+.ledger {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ledger__row {
+  display: grid;
+  gap: 0.75rem;
+  padding: clamp(1.5rem, 3.4vw, 2.25rem) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.ledger__row h3 {
+  font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  margin: 0;
+}
+
+.ledger__row p {
+  max-width: 52ch;
+  margin: 0;
+}
+
+@media (min-width: 1024px) {
+  .ledger__row {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 4fr);
+    gap: var(--gutter);
+    align-items: start;
+  }
+}
+
+/* =============================================================
+   Piezas: tarjeta con foto y renglón sin foto
+   -------------------------------------------------------------
+   Compartido por /catalogo y la galería de /al-muebleria.
+   Una pieza CON foto es una tarjeta (foto 4:3 que se amplía al
+   tocarla, nombre, descripción, botón). Una pieza SIN foto es un
+   renglón compacto: mostrar una caja vacía por cada foto que
+   falta hacía que los huecos pesaran más que los productos.
+   ============================================================= */
+.pgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: clamp(1rem, 2.4vw, var(--gutter));
+}
+
+.pcard {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+
+.pcard__media {
+  display: block;
+  cursor: zoom-in;
+}
+
+.pcard__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Las fotos del cliente son de celular, casi todas verticales: sin
+     aspect-ratio + cover, una tarjeta mediría el doble que sus vecinas. */
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.pcard__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+  flex-grow: 1;
+  padding: clamp(1.1rem, 2.6vw, 1.4rem);
+}
+
+.pcard__kind {
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.pcard h3 {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.pcard p {
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 0.4rem;
+}
+
+/* `margin-top: auto` ancla el botón al pie aunque la tarjeta no tenga
+   descripción: todos los botones de una fila quedan a la misma altura. */
+.pcard .btn {
+  margin-top: auto;
+}
+
+/* La tarjeta entera responde al cursor: el borde toma la tinta. La transición
+   repite la del revelado (`data-reveal="fade"`): si solo listara
+   `border-color`, al llegar `.is-in` pisaría el fundido. */
+@media (hover: hover) and (pointer: fine) {
+  .pcard.is-in {
+    transition:
+      opacity 0.3s ease,
+      border-color 0.2s ease;
+  }
+
+  .pcard:hover {
+    border-color: var(--color-text);
+  }
+}
+
+.prows {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.prow {
+  display: grid;
+  gap: 0.35rem 1.5rem;
+  align-items: center;
+  padding: 1rem 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.prow h3 {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.prow p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.prow .btn {
+  justify-self: start;
+  margin-top: 0.4rem;
+}
+
+@media (min-width: 768px) {
+  .prow {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) auto;
+  }
+
+  .prow .btn {
+    justify-self: end;
+    margin-top: 0;
+  }
+}
+
+/* =============================================================
+   Visor ampliado
+   -------------------------------------------------------------
+   Las fotos son verticales y el marco de la tarjeta es 4:3: se
+   veía entre el 34 % y el 62 % de cada una. Tocar la foto la abre
+   completa en un <dialog> nativo, que ya trae Escape, foco
+   atrapado y fondo. Sin JavaScript el enlace abre la imagen sola.
+   ============================================================= */
+.lightbox {
+  max-width: min(94vw, 1200px);
+  max-height: 92dvh;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-page);
+  color: var(--color-text);
+  overflow: hidden;
+}
+
+.lightbox::backdrop {
+  background-color: rgb(15 12 10 / 0.88);
+}
+
+.lightbox img {
+  display: block;
+  max-width: min(94vw, 1200px);
+  max-height: calc(92dvh - 2px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--tap);
+  height: var(--tap);
+  border: 0;
+  border-left: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-page);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+@keyframes lightbox-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lightbox[open] {
+    animation: lightbox-in 0.2s var(--ease-out);
+  }
+}
+
+/* =============================================================
+   Preguntas frecuentes: <details> nativo, sin JavaScript
+   ============================================================= */
+.faq {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq__item {
+  border-top: 1px solid var(--color-border);
+}
+
+.faq__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: var(--tap);
+  padding: 1rem 0;
+  font-family: var(--font-heading);
+  font-size: clamp(1.125rem, 1.5vw, 1.375rem);
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--color-text);
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq__item summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Marca de abrir/cerrar: un + que pierde el trazo vertical al abrir */
+.faq__item summary::after {
+  content: "";
+  flex: none;
+  width: 14px;
+  height: 14px;
+  background:
+    linear-gradient(currentColor, currentColor) center / 100% 2px no-repeat,
+    linear-gradient(currentColor, currentColor) center / 2px 100% no-repeat;
+}
+
+.faq__item[open] summary::after {
+  background: linear-gradient(currentColor, currentColor) center / 100% 2px no-repeat;
+}
+
+.faq__item p {
+  max-width: 62ch;
+  margin: 0;
+  padding: 0 0 1.25rem;
+  font-size: 1.0625rem;
+}
+
+/* Lista de viñetas, usada en los renglones de servicios */
 .check-list {
   display: flex;
   flex-direction: column;
@@ -606,7 +985,8 @@ ol[role="list"] {
   top: 0.62em;
   width: 8px;
   height: 2px;
-  background-color: var(--color-accent);
+  /* Tinta apagada, no acento: una viñeta no es una acción */
+  background-color: var(--color-text-muted);
 }
 
 /* =============================================================
@@ -679,17 +1059,6 @@ ol[role="list"] {
   }
 }
 
-/* Índice tipo lista de despiece de un plano (01, 02, 03...) */
-.bento__index {
-  display: block;
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  color: var(--color-steel);
-  margin-bottom: 0.9rem;
-}
-
 /* Columnas responsivas de las placas */
 @media (min-width: 640px) {
   .bento--2,
@@ -714,52 +1083,19 @@ ol[role="list"] {
   background-color: var(--color-surface);
 }
 
-/* Tile de ícono, compartido por todas las placas */
-.bento__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 46px;
-  height: 46px;
-  border: 1px solid var(--color-border);
-  background-color: var(--color-surface);
-  color: var(--color-accent);
-}
-
-/* Bloque de cierre de página. El acento vive en el botón, no en un borde
-   lateral de color: la placa se define por su geometría, como el resto. */
-.cta-plate {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  padding: clamp(1.8rem, 4vw, 2.4rem);
-}
-
-.cta-plate p {
-  margin: 0;
-}
-
 /* =============================================================
    MOVIMIENTO
    -------------------------------------------------------------
-   Tres capas, de menor a mayor costo, todas desactivadas con
-   `prefers-reduced-motion`:
+   Capas, todas reducidas con `prefers-reduced-motion`:
 
-     1. Entrada del hero      — keyframes CSS, 0 JS.
-     2. Revelado al scroll    — CSS scroll-driven animations
-                                (`animation-timeline: view()`), 0 JS.
-                                Donde el navegador no las soporta
-                                (Firefox) el contenido simplemente
-                                está visible: nada depende de ellas.
-     3. Transición de página  — `@view-transition` nativa, 0 JS.
+     1. Entrada del hero       keyframes CSS (index.astro).
+     2. Encabezados interiores `rise-in` en cascada.
+     3. Revelado en pantalla   `data-reveal` + IntersectionObserver.
+     4. Entre páginas          `@view-transition` nativa.
 
-   El scroll con inercia (Lenis) vive en Layout.astro.
-   La firma `.media-frame` sigue siendo la única animación con
-   carga expresiva en hover; esto es coreografía de entrada.
+   El scroll con inercia (Lenis) vive en Layout.astro y solo se
+   carga con puntero fino. Solo se animan `transform`, `opacity`
+   y `clip-path`. Detalle en DESIGN.md §12.
    ============================================================= */
 
 /* --- Transición entre páginas (cross-document) --- */
@@ -802,13 +1138,10 @@ ol[role="list"] {
   }
 
   .page-hero .container > :nth-child(2) {
-    animation-delay: 0.04s;
+    animation-delay: 0.05s;
   }
-  .page-hero .container > :nth-child(3) {
-    animation-delay: 0.08s;
-  }
-  .page-hero .container > :nth-child(n + 4) {
-    animation-delay: 0.12s;
+  .page-hero .container > :nth-child(n + 3) {
+    animation-delay: 0.1s;
   }
 }
 
@@ -825,7 +1158,7 @@ ol[role="list"] {
      data-reveal          texto: sube 18px y aparece
      data-reveal="cut"    fotos: sus hijos se descubren como un
                           corte de guillotina, de izquierda a derecha
-     data-reveal="line"   juntas y costuras: se trazan
+     data-reveal="line"   juntas: se trazan
      data-reveal="fade"   listados funcionales: solo aparecen
 
    `--i` escalona hermanos (70 ms por paso).
@@ -896,6 +1229,31 @@ html.js [data-reveal].is-in {
   transform: none;
 }
 
+/* Lo que ya estaba en pantalla al cargar nace visible, sin animar (la clase
+   la pone y la quita el script de Layout.astro). */
+html.js [data-reveal].is-instant,
+html.js [data-reveal="cut"].is-instant > * {
+  transition: none;
+}
+
+/* Un destino de ancla no puede estar desplazado: llegaría 18px corrido */
+html.js [data-reveal]:target {
+  transform: none;
+}
+
+/* En una columna los hermanos van uno debajo de otro, no lado a lado: el
+   escalonado solo añadiría espera. Y el texto entra más rápido. */
+@media (max-width: 639.98px) {
+  html.js [data-reveal] {
+    transition-duration: 0.45s;
+    transition-delay: 0s;
+  }
+
+  html.js [data-reveal="fade"] {
+    transition-duration: 0.3s;
+  }
+}
+
 /* Movimiento reducido: sin desplazamiento ni corte, solo un fundido corto. */
 @media (prefers-reduced-motion: reduce) {
   html.js [data-reveal],
@@ -936,50 +1294,63 @@ html.lenis body {
 }
 
 /* =============================================================
-   FIRMA DE ENTRADA — La costura
+   Impresión
    -------------------------------------------------------------
-   Al cargar, una línea de soldadura recorre el canto inferior del
-   hero y de cada encabezado de página, de izquierda a derecha, con
-   la punta incandescente al frente. Es el cordón TIG hecho
-   interfaz: dice qué hace la empresa sin una sola palabra.
-
-   Es la ÚNICA excepción a "el acento solo en acciones y estados":
-   dura 1 s, mide 2px y no se repite. Sin movimiento (o sin
-   soporte) queda como una línea fija de acento, que es un borde
-   inferior más. Se apaga con `prefers-reduced-motion`.
+   Sin esto, imprimir o guardar como PDF dejaba casi todo en
+   blanco: el revelado no corre al paginar y el texto claro caía
+   sobre papel blanco.
    ============================================================= */
-.hero,
-.page-hero {
-  position: relative;
-}
-
-.hero::after,
-.page-hero::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  z-index: 2;
-  width: 100%;
-  height: 2px;
-  pointer-events: none;
-  /* La punta (últimos 8 %) es el metal al rojo blanco */
-  background: linear-gradient(90deg, var(--color-accent) 0, var(--color-accent) 92%, #ffe9c9 100%);
-  transform-origin: left center;
-}
-
-@keyframes seam-run {
-  from {
-    transform: scaleX(0);
+@media print {
+  :root,
+  .section--alt,
+  .theme-light {
+    --color-page: #fff;
+    --color-bg: #fff;
+    --color-bg-alt: #fff;
+    --color-surface: #fff;
+    --color-text: #16120f;
+    --color-graphite: #16120f;
+    --color-text-muted: #554b40;
+    --color-border: #b5aa9a;
+    --color-accent: #a33a04;
   }
-  to {
-    transform: scaleX(1);
-  }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  .hero::after,
-  .page-hero::after {
-    animation: seam-run 1s var(--ease-out) both;
+  html.js [data-reveal],
+  html.js [data-reveal="cut"] > * {
+    opacity: 1 !important;
+    transform: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  .header {
+    position: static;
+    background: #fff;
+    border-bottom: 1px solid #b5aa9a;
+  }
+
+  .header__nav,
+  .header__toggle,
+  .header__cta,
+  .header__scrim,
+  .fab,
+  #tig-sparks,
+  .catalog-bar,
+  .skip-link {
+    display: none !important;
+  }
+
+  main {
+    padding-top: 0 !important;
+  }
+
+  .pcard,
+  .prow,
+  .ledger__row {
+    break-inside: avoid;
   }
 }

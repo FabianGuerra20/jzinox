@@ -1,16 +1,40 @@
 ---
+/**
+ * Productos (URL /catalogo).
+ *
+ * Las categorías, su orden y los nombres son del cliente. Cada categoría se
+ * pinta en el orden dado, agrupando en tandas: las piezas con foto van como
+ * tarjetas y las que no la tienen como renglones, sin caja vacía. El orden
+ * dentro de la categoría no cambia.
+ */
 import Layout from "../layouts/Layout.astro";
-import MediaPlaceholder from "../components/MediaPlaceholder.astro";
+import WhatsAppIcon from "../components/WhatsAppIcon.astro";
 import { catalog, catalogCategories } from "../data/catalog.js";
 import { site } from "../data/site.js";
+import { srcset } from "../utils/img.js";
 
 const slugify = (value) =>
 	value
 		.toLowerCase()
 		.normalize("NFD")
-		.replace(/[\u0300-\u036f]/g, "")
+		.replace(/[̀-ͯ]/g, "")
 		.replace(/[^a-z0-9]+/g, "-")
 		.replace(/(^-|-$)/g, "");
+
+const hasPhoto = (item) => Boolean(item.image && !item.image.pending && item.image.src);
+
+/** Parte la lista en tandas consecutivas de "con foto" / "sin foto". */
+const toRuns = (items) =>
+	items.reduce((runs, item) => {
+		const kind = hasPhoto(item) ? "cards" : "rows";
+		const last = runs[runs.length - 1];
+		if (last && last.kind === kind) last.items.push(item);
+		else runs.push({ kind, items: [item] });
+		return runs;
+	}, []);
+
+const quoteHref = (item) =>
+	`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(`Hola ${site.name}, me interesa cotizar: ${item.name}`)}`;
 
 /**
  * Datos estructurados del catálogo.
@@ -21,7 +45,7 @@ const slugify = (value) =>
 const catalogLd = JSON.stringify({
 	"@context": "https://schema.org",
 	"@type": "ItemList",
-	name: `Catálogo de ${site.name}`,
+	name: `Productos de ${site.name}`,
 	numberOfItems: catalog.length,
 	itemListElement: catalog.map((item, i) => ({
 		"@type": "ListItem",
@@ -37,245 +61,210 @@ const catalogLd = JSON.stringify({
 });
 
 const groups = catalogCategories
-	.map((category) => ({
-		name: category,
-		id: slugify(category),
-		items: catalog.filter((item) => item.category === category),
-	}))
-	.filter((group) => group.items.length > 0);
+	.map((category) => {
+		const items = catalog.filter((item) => item.category === category);
+		return { name: category, id: slugify(category), count: items.length, runs: toRuns(items) };
+	})
+	.filter((group) => group.count > 0);
 ---
 
 <Layout
-	title="Productos"
+	title="Campanas, mesones y carros en acero inoxidable"
 	description="Campanas, revestimientos, mesones, carros, soportes y protectores en acero inoxidable fabricados a medida. Cotiza cada pieza según tus medidas."
 	jsonLd={catalogLd}
 >
 	<section class="section page-hero page-hero--split">
 		<div class="container">
-			<span class="eyebrow">Productos</span>
-			<h1>Todo lo que fabricamos en acero inoxidable</h1>
-			<p>
-				{catalog.length} piezas que hacemos habitualmente, cada una a la medida de tu espacio. Si lo que
-				necesitas no está en la lista, lo fabricamos igual: mándanos el plano o las medidas.
-			</p>
-
-
-			<nav class="catalog-nav" aria-label="Categorías del catálogo">
-				{groups.map((group) => (
-					<a href={`#${group.id}`}>{group.name}</a>
-				))}
-			</nav>
+			<h1>Productos en acero inoxidable a medida</h1>
+			<p>{catalog.length} piezas que hacemos habitualmente, cada una a la medida de tu espacio.</p>
 		</div>
 	</section>
 
-	{/* Todo el listado vive en UNA sección clara. Antes cada categoría alternaba
-	    claro/oscuro: cinco cambios de tema para 18 tarjetas, y las fotos se
-	    juzgaban sobre fondos distintos. */}
-	<section class="section section--alt">
+	{/* Categorías: barra propia, fija bajo el encabezado. Antes vivía dentro del
+	    hero y a media página no había forma de saltar de categoría; en teléfono
+	    el listado mide varias pantallas. Una sola fila que se desliza. */}
+	<nav class="catalog-bar theme-light" aria-label="Categorías de productos">
+		<div class="container catalog-bar__inner">
+			{groups.map((group) => (
+				<a href={`#${group.id}`}>{group.name}</a>
+			))}
+		</div>
+	</nav>
+
+	{/* Todo el listado vive en UNA sección clara: las fotos se juzgan sobre el
+	    mismo fondo. */}
+	<section class="section section--alt catalog">
 		<div class="container catalog-groups">
-	{
-		groups.map((group) => (
-			<section class="catalog-group" id={group.id} aria-labelledby={`${group.id}-title`}>
-					<h2 class="catalog-group-title" id={`${group.id}-title`} data-reveal>{group.name}</h2>
+			{
+				groups.map((group) => (
+					<section class="catalog-group" id={group.id} aria-labelledby={`${group.id}-title`}>
+						<h2 class="catalog-group-title" id={`${group.id}-title`}>{group.name}</h2>
 
-					<div class="catalog-grid">
-						{group.items.map((item, i) => (
-							<article class="catalog-card" data-reveal="fade" style={`--i: ${i % 3}`}>
-								{/* La foto va PRIMERO: en una lista de quince piezas de acero
-								    los nombres se parecen entre sí y el comprador elige por
-								    la imagen. El hueco rotulado ocupa su sitio con la misma
-								    proporción que tendrá la foto final, así que reemplazarla
-								    no mueve el layout. */}
-								<div
-									class:list={[
-										"catalog-card__media",
-										{ "media-frame": !item.image?.pending },
-									]}
-								>
-									{item.image?.pending ? (
-										<MediaPlaceholder slot={item.image.slot} ratio={item.image.ratio} />
-									) : (
-										<img
-											src={item.image.src}
-											alt={item.image.alt}
-											style={item.image.position ? `object-position: ${item.image.position}` : undefined}
-											width="600"
-											height="450"
-											loading="lazy"
-											decoding="async"
-										/>
-									)}
-								</div>
+						{group.runs.map((run) =>
+							run.kind === "cards" ? (
+								<div class="pgrid catalog-run">
+									{run.items.map((item, i) => (
+										<article class="pcard" data-reveal="fade" style={`--i: ${i % 3}`}>
+											{/* La foto es 4:3 en la tarjeta y casi todas son verticales:
+											    tocarla la abre completa en el visor. Sin JavaScript,
+											    el enlace abre la imagen sola. */}
+											<a
+												class="pcard__media media-frame"
+												href={item.image.src}
+												data-zoom
+												data-alt={item.image.alt}
+												aria-label={`Ampliar la foto de ${item.name}`}
+											>
+												<img
+													src={item.image.src}
+													srcset={srcset(item.image.src)}
+													sizes="(min-width: 1100px) 420px, (min-width: 740px) 46vw, 92vw"
+													alt={item.image.alt}
+													style={item.image.position ? `object-position: ${item.image.position}` : undefined}
+													width="800"
+													height="600"
+													loading="lazy"
+													decoding="async"
+												/>
+											</a>
 
-								<div class="catalog-card__body">
-								<h3 id={`${item.id}-name`}>{item.name}</h3>
-								{item.description && <p>{item.description}</p>}
-								{/* El nombre visible se repite en 15 enlaces idénticos: se compone el
-								    nombre accesible con el h3 para que cada enlace se distinga (WCAG 2.4.4). */}
-								<a
-									id={`${item.id}-cta`}
-									aria-labelledby={`${item.id}-cta ${item.id}-name`}
-									href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(`Hola JZINOX, me interesa cotizar: ${item.name}`)}`}
-									target="_blank"
-									rel="noopener noreferrer"
-									class="btn btn--outline catalog-card__cta"
-								>
-									Cotizar
-								</a>
+											<div class="pcard__body">
+												<h3 id={`${item.id}-name`}>{item.name}</h3>
+												{item.description && <p>{item.description}</p>}
+												{/* El rótulo se repite en las 18 piezas: el nombre accesible
+												    se compone con el del producto (WCAG 2.4.4). */}
+												<a
+													id={`${item.id}-cta`}
+													aria-labelledby={`${item.id}-cta ${item.id}-name`}
+													href={quoteHref(item)}
+													target="_blank"
+													rel="noopener noreferrer"
+													class="btn btn--whatsapp btn--sm"
+												>
+													<WhatsAppIcon size={16} />
+													Cotizar por WhatsApp
+												</a>
+											</div>
+										</article>
+									))}
 								</div>
-							</article>
-						))}
-					</div>
-			</section>
-		))
-	}
+							) : (
+								<ul class="prows catalog-run">
+									{run.items.map((item) => (
+										<li class="prow" data-reveal="fade">
+											<h3 id={`${item.id}-name`}>{item.name}</h3>
+											<p>{item.description}</p>
+											<a
+												id={`${item.id}-cta`}
+												aria-labelledby={`${item.id}-cta ${item.id}-name`}
+												href={quoteHref(item)}
+												target="_blank"
+												rel="noopener noreferrer"
+												class="btn btn--whatsapp btn--sm"
+											>
+												<WhatsAppIcon size={16} />
+												Cotizar por WhatsApp
+											</a>
+										</li>
+									))}
+								</ul>
+							),
+						)}
+					</section>
+				))
+			}
 		</div>
 	</section>
 
-	<section class="section section--tight">
-		<div class="container">
-			<div class="cta-plate" data-reveal>
-				<div>
-					<h2>¿No encuentras lo que buscas?</h2>
-					<p>Fabricamos a medida según tus planos o el levantamiento en terreno.</p>
-				</div>
-				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+	<section class="section section--tight cta-band cta-band--dark" aria-labelledby="catalogo-cierre">
+		<div class="container cta-band__inner" data-reveal>
+			<div class="cta-band__text">
+				<h2 id="catalogo-cierre">¿No encuentras lo que buscas?</h2>
+				<p>Lo fabricamos a medida, con tu plano o tus medidas.</p>
+			</div>
+			<div class="cta-band__actions">
+				<a href="/contacto" class="btn btn--primary">Cotizar proyecto</a>
 			</div>
 		</div>
 	</section>
 </Layout>
 
 <style>
-	.catalog-nav {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-		margin-top: clamp(1.5rem, 3vw, 2.5rem);
+	/* --- Barra de categorías --- */
+	.catalog-bar {
+		position: sticky;
+		top: var(--header-height);
+		z-index: 40;
+		background-color: var(--color-bg-alt);
+		border-bottom: 1px solid var(--color-border);
 	}
 
-	.catalog-nav a {
+	.catalog-bar__inner {
+		display: flex;
+		gap: 0.25rem 1.5rem;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scrollbar-width: none;
+		white-space: nowrap;
+	}
+
+	.catalog-bar__inner::-webkit-scrollbar {
+		display: none;
+	}
+
+	.catalog-bar a {
 		display: inline-flex;
 		align-items: center;
-		min-height: var(--tap);
-		font-family: var(--font-body);
-		font-size: 0.78rem;
-		text-transform: uppercase;
-		letter-spacing: 0.06em;
-		font-weight: 500;
-		color: var(--color-graphite);
-		background-color: var(--color-surface);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius);
-		padding: 0.4rem 0.95rem;
-		transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+		flex: none;
+		min-height: 48px;
+		font-family: var(--font-heading);
+		font-size: 0.875rem;
+		font-weight: 600;
+		color: var(--color-text);
+		touch-action: manipulation;
+		transition: color 0.15s ease;
 	}
 
-	.catalog-nav a:hover {
-		background-color: var(--color-accent);
-		border-color: var(--color-accent);
-		color: var(--color-on-accent);
+	.catalog-bar a:active {
+		color: var(--color-accent);
 	}
 
+	@media (hover: hover) and (pointer: fine) {
+		.catalog-bar a:hover {
+			color: var(--color-accent);
+		}
+	}
+
+	/* --- Listado --- */
 	.catalog-groups {
 		display: flex;
 		flex-direction: column;
 		gap: clamp(3rem, 6vw, 4.5rem);
 	}
 
+	/* El salto de ancla tiene que dejar libre el encabezado (80px) Y la barra
+	   de categorías (49px). */
+	.catalog-group {
+		scroll-margin-top: 3.5rem;
+	}
+
 	.catalog-group-title {
 		font-size: clamp(1.5rem, 2.4vw, 2rem);
-		margin-bottom: 1.5rem;
-		padding-bottom: 0.8rem;
-		border-bottom: 1px solid var(--color-border);
+		margin-bottom: 1.25rem;
 	}
 
-	/* Tarjetas sueltas con aire entre ellas, no un bento a junta: las categorías
-	   tienen 2, 3 o 6 piezas y en un bento la fila incompleta dejaba celdas lisas
-	   que se leían como productos que faltan. Aquí la fila simplemente termina. */
-	.catalog-grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
-		gap: clamp(1rem, 2.4vw, var(--gutter));
+	.catalog-run + .catalog-run {
+		margin-top: clamp(1rem, 2.4vw, var(--gutter));
 	}
 
-	.catalog-card {
-		display: flex;
-		flex-direction: column;
-		background-color: var(--color-bg);
-		border: 1px solid var(--color-border);
+	/* Un renglón sin descripción no deja su columna vacía a la vista */
+	.prow p:empty {
+		display: none;
 	}
 
-	/* La tarjeta entera responde al cursor: el borde toma la tinta. La
-	   transición repite la del revelado (`data-reveal="fade"`): si solo listara
-	   `border-color`, al llegar `.is-in` pisaría el fundido y la tarjeta
-	   aparecería de golpe. */
-	@media (hover: hover) and (pointer: fine) {
-		.catalog-card.is-in {
-			transition:
-				opacity 0.3s ease,
-				border-color 0.2s ease;
-		}
-
-		.catalog-card:hover {
-			border-color: var(--color-text);
+	@media (min-width: 768px) {
+		.prow p:empty {
+			display: block;
 		}
 	}
-
-	/* La celda va a sangre para que la foto toque los tres cantos de la
-	   tarjeta; el aire vuelve en el cuerpo, con la misma medida que
-	   `.bento__cell` para no romper el ritmo del resto del sitio. */
-	.catalog-card__media {
-		overflow: hidden;
-	}
-
-	.catalog-card__media img {
-		display: block;
-		width: 100%;
-		height: auto;
-		/* Las fotos del cliente son de celular, casi todas verticales: sin
-		   aspect-ratio + cover, una sola tarjeta mediría el doble que sus vecinas. */
-		aspect-ratio: 4 / 3;
-		object-fit: cover;
-	}
-
-	.catalog-card__body {
-		display: flex;
-		flex-direction: column;
-		gap: 0.6rem;
-		align-items: flex-start;
-		flex-grow: 1;
-		padding: clamp(1.25rem, 3vw, 1.6rem);
-	}
-
-	.catalog-card h3 {
-		margin: 0;
-		font-size: 1.125rem;
-	}
-
-	.catalog-card p {
-		font-size: 1rem;
-		line-height: 1.5;
-		margin-bottom: 0.4rem;
-	}
-
-	/* `margin-top: auto` ancla el botón al pie aunque la tarjeta no tenga
-	   descripción: todos los botones de una fila quedan a la misma altura. */
-	.catalog-card__cta {
-		margin-top: auto;
-		font-size: 0.78rem;
-		padding: 0.55rem 1.1rem;
-	}
-
-	/* Al pasar el cursor se apilan dos tintes: la celda va a --color-surface
-	   (#f3f3f3) y encima .btn--ghost:hover añade rgba(193,61,47,.06), dando
-	   #f0e8e7. El texto de acento sobre ese fondo mide 4.38:1 a 12.5px, bajo el
-	   mínimo AA. Con --color-accent-dark vuelve a 5.36:1.
-	   Solo :hover: en foco de teclado el botón NO recibe el lavado del ghost
-	   (queda --color-graphite sobre #f3f3f3) y el anillo global de :focus-visible
-	   ya marca el estado, así que ahí no hay nada que corregir. */
-	.catalog-card__cta:hover {
-		color: var(--color-accent-dark);
-	}
-
-
 </style>

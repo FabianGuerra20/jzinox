@@ -17,6 +17,9 @@ export const brands = [
     name: "JZ INOX",
     // [PDF] Subtítulo de la página de inicio
     lead: "Soluciones en acero inoxidable diseñadas a la medida de tu negocio. Fabricamos mesones, equipamiento y mobiliario de alta durabilidad para restaurantes, comida rápida e industria alimentaria.",
+    // [PDF, recortado] Segunda oración del mismo párrafo, sin cambiar palabras.
+    // Es la que se muestra: la primera no informa nada que no diga el titular.
+    leadShort: "Fabricamos mesones, equipamiento y mobiliario de alta durabilidad para restaurantes, comida rápida e industria alimentaria.",
     href: "/",
     actions: [
       { href: "/catalogo", label: "Ver productos", variant: "primary" },
@@ -28,10 +31,10 @@ export const brands = [
     // [CLIENTE] Nombres tomados de la lista de productos del 2026-10-11, uno
     // por categoría. Las notas son [PROPUESTA].
     featured: [
-      { name: "Campana", note: "A la medida de la línea de cocción." },
-      { name: "Mesón con repisa", note: "Mesón de trabajo en acero inoxidable." },
-      { name: "Soporte de pantalla KDS", note: "Con brazo hidráulico." },
-      { name: "Carro de bandejas de tocino", note: "Con guías para bandejas." },
+      { name: "Campana", note: "A la medida de la línea de cocción.", href: "/catalogo#extraccion" },
+      { name: "Mesón con repisa", note: "Mesón de trabajo a medida.", href: "/catalogo#mesones" },
+      { name: "Soporte de pantalla KDS", note: "Con brazo hidráulico.", href: "/catalogo#soportes-y-presentadores" },
+      { name: "Carro de bandejas de tocino", note: "Con guías para las bandejas.", href: "/catalogo#carros" },
     ],
     images: [
       { src: "/img/campana-central.webp", alt: "Campana de extracción en acero inoxidable colgada del cielo de una cocina industrial", position: "50% 40%" },
@@ -41,23 +44,25 @@ export const brands = [
   },
   {
     slug: "al-muebleria",
-    name: "AL MUEBLERÍA",
+    name: "AL Mueblería",
     // [PDF] Primer párrafo de la descripción
     lead: "Nos dedicamos a dar vida a tus espacios mediante la fabricación de mobiliario a medida. Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo.",
+    // [PDF, recortado] Segunda oración, literal.
+    leadShort: "Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo.",
     href: "/al-muebleria",
     actions: [
-      { href: "/al-muebleria", label: "Ver la marca", variant: "primary" },
-      { href: "/al-muebleria#servicios", label: "Ver servicios", variant: "outline" },
+      { href: "/al-muebleria", label: "Conocer AL Mueblería", variant: "primary" },
+      { href: "/al-muebleria#servicios", label: "Ver servicios de mueblería", variant: "outline" },
     ],
     featuredTitle: "Lo que fabricamos",
-    featuredHref: "/al-muebleria",
-    featuredLabel: "Ver la marca completa",
+    featuredHref: "/al-muebleria#al-catalogo",
+    featuredLabel: "Ver proyectos",
     // [PDF] Salen de los bullets de servicios del documento
     featured: [
-      { name: "Cocinas empotradas y clósets", note: "Línea plana, medida al rincón exacto." },
-      { name: "Mostradores y recepción", note: "Locales comerciales y patios de comida." },
-      { name: "Estaciones de trabajo", note: "Mobiliario para personal de empresas." },
-      { name: "Piezas en estilo industrial", note: "Madera combinada con estructura metálica." },
+      { name: "Cocinas empotradas y clósets", note: "Línea plana, medida al rincón exacto.", href: "/al-muebleria#al-catalogo" },
+      { name: "Mostradores y recepción", note: "Locales comerciales y patios de comida.", href: "/al-muebleria#al-catalogo" },
+      { name: "Estaciones de trabajo", note: "Mobiliario para personal de empresas.", href: "/al-muebleria#servicios" },
+      { name: "Piezas en estilo industrial", note: "Madera combinada con estructura metálica.", href: "/al-muebleria#servicios" },
     ],
     images: [
       { src: "/img/al-cocina-barra.webp", alt: "Cocina de línea plana en gris grafito con barra de cuarzo, fabricada por AL Mueblería", position: "50% 55%" },
@@ -81,14 +86,18 @@ export const alMuebleriaPage = {
     title: "Muebles a medida",
     subtitle: "Mueblistería y ebanistería",
     // [PDF] Primer párrafo, literal
-    lead: "Nos dedicamos a dar vida a tus espacios mediante la fabricación de mobiliario a medida. Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo, como patios de comida, locales y áreas de personal.",
+    // [PDF, recortado] Se muestra desde la segunda oración, literal. La primera
+    // ("Nos dedicamos a dar vida a tus espacios mediante la fabricación de
+    // mobiliario a medida.") repite el titular.
+    lead: "Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo, como patios de comida, locales y áreas de personal.",
   },
   services: {
-    eyebrow: "Nuestros servicios",
     // [PROPUESTA] El PDF titula la sección solo como "Nuestros Servicios"
-    title: "Tres formas de trabajar contigo",
+    title: "Muebles para tu casa y para tu negocio",
     // [PDF] Segundo párrafo de la descripción
-    lead: "¿Tienes un proyecto en mente? Te acompañamos en cada etapa de la fabricación y te hacemos parte activa del proceso para asegurar que el resultado final supere todas tus expectativas.",
+    // [PDF, recortado] Oración central del párrafo, literal. La pregunta inicial
+    // ya es el título del cierre de la página.
+    lead: "Te acompañamos en cada etapa de la fabricación y te hacemos parte activa del proceso.",
     // [PDF] Los tres servicios con sus bullets, literales
     items: [
       {
@@ -123,10 +132,9 @@ export const alMuebleriaPage = {
     ],
   },
   catalog: {
-    eyebrow: "Galería",
     // [PROPUESTA] El PDF deja la galería vacía
-    title: "Proyectos entregados",
-    lead: "Una muestra de lo que hemos fabricado. Cada pieza sale del mismo proceso: medición en terreno, diseño aprobado y fabricación a medida.",
+    title: "Proyectos",
+    lead: "Una muestra de lo que hemos fabricado, cada pieza a medida.",
   },
   cta: {
     // [PDF] "¿Tienes un proyecto en mente? Cotiza con nosotros."
@@ -170,20 +178,20 @@ export const alMuebleriaCatalog = [
     name: "Mostrador de recepción",
     category: "Comercial",
     description:
-      "Mostrador para recepción de edificio, dimensionado para uso intensivo y con frente de imagen corporativa.",
+      "Mostrador para la recepción de un edificio, hecho para uso diario intensivo.",
     image: { src: "/img/al-recepcion.webp", alt: "Mostrador de recepción de un edificio con casilleros para correspondencia al fondo", position: "50% 50%" },
   },
   {
     id: "closet-madera",
-    name: "Closet de piso a cielo",
+    name: "Clóset de piso a cielo",
     category: "Domiciliario",
     description:
-      "Closet con puertas altas, cajoneras y barras de colgado, en melamina símil madera.",
-    image: { src: "/img/al-closet-madera.webp", alt: "Closet de piso a cielo con puertas abiertas, cajoneras y barras de colgado", position: "50% 50%" },
+      "Clóset con puertas altas, cajoneras y barras de colgado, en melamina símil madera.",
+    image: { src: "/img/al-closet-madera.webp", alt: "Clóset de piso a cielo con puertas abiertas, cajoneras y barras de colgado", position: "50% 50%" },
   },
   {
     id: "cocina-azul",
-    name: "Cocina en azul",
+    name: "Cocina azul con cubierta clara",
     category: "Domiciliario",
     description:
       "Muebles altos y bajos en color a elección, con cubierta de cuarzo y espacio para cocina y campana.",

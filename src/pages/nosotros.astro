@@ -9,23 +9,27 @@
  * visión como dos columnas de texto, y los cuatro puntos clave como renglones.
  */
 import Layout from "../layouts/Layout.astro";
-import { pageHero, history, mission, valuesSection, values, stats } from "../data/company.js";
+import { pageHero, history, mission, valuesSection, values, stats, facts } from "../data/company.js";
 
 // Solo se publican las cifras confirmadas por el cliente. Las `pending` siguen
 // en `company.js` como recordatorio de lo que falta pedir.
 const confirmedStats = stats.filter((stat) => !stat.pending);
+
+// Bajo el numeral van los otros datos confirmados del taller (el primero de
+// `facts` ya es la cifra de años).
+const otherFacts = facts.slice(1);
 ---
 
 <Layout
-	title="Nosotros"
-	description="Más de 20 años fabricando estructuras en acero inoxidable 100% a medida en Santiago. Manufactura nacional para restaurantes, comida rápida e industria alimentaria."
+	title="Taller de acero inoxidable a medida en Santiago"
+	description="Taller de acero inoxidable en Santiago con más de 20 años de oficio. Conoce cómo trabajamos y por qué fabricamos cada pieza a medida."
 >
 	{/* --- Encabezado --- */}
 	<section class="section page-hero page-hero--split" aria-labelledby="nosotros-titulo">
 		<div class="container">
-			<span class="eyebrow">{pageHero.eyebrow}</span>
+			{/* Sin entradilla: la que había era, palabra por palabra, la primera
+			    frase de la historia que empieza justo debajo. */}
 			<h1 id="nosotros-titulo">{pageHero.title}</h1>
-			<p>{pageHero.lead}</p>
 		</div>
 	</section>
 
@@ -46,10 +50,17 @@ const confirmedStats = stats.filter((stat) => !stat.pending);
 						</div>
 					))
 				}
+				{
+					otherFacts.map((fact) => (
+						<div class="history__fact">
+							<dt>{fact.label}</dt>
+							<dd>{fact.value}</dd>
+						</div>
+					))
+				}
 			</dl>
 
 			<div class="history__text" data-reveal style="--i: 1">
-				<span class="eyebrow">{history.eyebrow}</span>
 				<h2 id="nosotros-historia">{history.title}</h2>
 				{history.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
 			</div>
@@ -60,7 +71,6 @@ const confirmedStats = stats.filter((stat) => !stat.pending);
 	<section class="section" aria-labelledby="nosotros-mision">
 		<div class="container">
 			<div class="section-head" data-reveal>
-				<span class="eyebrow">{mission.eyebrow}</span>
 				<h2 id="nosotros-mision">{mission.title}</h2>
 			</div>
 
@@ -98,14 +108,14 @@ const confirmedStats = stats.filter((stat) => !stat.pending);
 	</section>
 
 	{/* --- Cierre --- */}
-	<section class="section section--tight" aria-labelledby="nosotros-cierre">
-		<div class="container">
-			<div class="cta-plate" data-reveal>
-				<div class="cta-plate__text">
-					<h2 id="nosotros-cierre">¿Tienes un proyecto en mente?</h2>
-					<p>Medimos tu espacio, te mostramos la propuesta y recién ahí fabricamos.</p>
-				</div>
-				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+	<section class="section section--tight cta-band cta-band--dark" aria-labelledby="nosotros-cierre">
+		<div class="container cta-band__inner" data-reveal>
+			<div class="cta-band__text">
+				<h2 id="nosotros-cierre">¿Necesitas una pieza a medida?</h2>
+				<p>Cuéntanos qué necesitas y te respondemos con medidas, materiales y plazos.</p>
+			</div>
+			<div class="cta-band__actions">
+				<a href="/contacto" class="btn btn--primary">Cotizar proyecto</a>
 			</div>
 		</div>
 	</section>
@@ -132,7 +142,7 @@ const confirmedStats = stats.filter((stat) => !stat.pending);
 
 	.history__stats {
 		display: grid;
-		gap: 2rem;
+		gap: 0;
 		/* <dl> llega con margen de agente de usuario */
 		margin: 0;
 	}
@@ -165,6 +175,35 @@ const confirmedStats = stats.filter((stat) => !stat.pending);
 		text-transform: uppercase;
 		letter-spacing: 0.14em;
 		color: var(--color-text-muted);
+	}
+
+	/* Los otros datos confirmados, como renglones bajo el numeral: llenan la
+	   columna con información y no con aire. */
+	.history__fact {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 1rem;
+		padding: 0.9rem 0;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.history__fact dt {
+		font-size: 0.75rem;
+		font-weight: 500;
+		line-height: 1.3;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+	}
+
+	.history__fact dd {
+		margin: 0;
+		font-family: var(--font-heading);
+		font-size: 1.125rem;
+		font-weight: 600;
+		text-align: right;
+		color: var(--color-text);
 	}
 
 	.history__text p {
@@ -254,9 +293,4 @@ const confirmedStats = stats.filter((stat) => !stat.pending);
 		margin: 0;
 	}
 
-	/* La placa de cierre es flex: sin tope, el párrafo se estira a lo ancho de
-	   los 1.312px útiles del contenedor. */
-	.cta-plate__text {
-		max-width: 62ch;
-	}
 </style>

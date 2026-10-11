@@ -1,38 +1,33 @@
 ---
 import { navItems, site } from "../data/site.js";
+import { srcset } from "../utils/img.js";
 
 const year = new Date().getFullYear();
-
+const logo = "/img/logo-jzinox.webp";
 ---
 
+{/* Tres columnas: marca y contacto, navegación, y taller (horario y cómo
+    llegar). El botón "Cotizar proyecto" que había aquí se quitó: en la última
+    pantalla de cada página coincidía con el del cierre y el de la barra. */}
 <footer class="footer">
   <div class="container footer__grid">
-    <!-- Columna 1 — Marca y contacto -->
     <div class="footer__col">
-      <a href="/" class="footer__brand" aria-label={`${site.name} — ir al inicio`}>
-        <img src="/img/logo-jzinox.webp" alt="" width="900" height="200" loading="lazy" decoding="async" />
+      <a href="/" class="footer__brand" aria-label={`${site.name}, volver al inicio`}>
+        <img src={logo} srcset={srcset(logo)} sizes="160px" alt="" width="900" height="200" loading="lazy" decoding="async" />
       </a>
-      <address class="footer__address">
-        {site.street},<br />
-        {site.city}, {site.region}, Chile
-      </address>
       <ul class="footer__contact">
-        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
-        <li><a href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a></li>
+        <li><a class="link-press" href={`mailto:${site.email}`}>{site.email}</a></li>
+        <li><a class="link-press" href={`tel:${site.phoneHref}`}>{site.phoneDisplay}</a></li>
       </ul>
     </div>
 
-    <!-- Columna 2 — Navegación -->
     <nav class="footer__col" aria-labelledby="footer-nav-title">
       <h2 class="footer__title" id="footer-nav-title">Navegación</h2>
-      <ul>
+      <ul class="footer__nav">
         {
           navItems.map((item) => (
             <li>
-              <a
-                href={item.href}
-                class:list={["footer__link", item.ally && "footer__link--ally"]}
-              >
+              <a href={item.href} class:list={["footer__link", "link-press", item.ally && "footer__link--ally"]}>
                 {item.label}
               </a>
             </li>
@@ -41,26 +36,25 @@ const year = new Date().getFullYear();
       </ul>
     </nav>
 
-    <!-- Columna 3 — Horario -->
-    <section class="footer__col" aria-labelledby="footer-hours-title">
-      <h2 class="footer__title" id="footer-hours-title">Horario de Atención</h2>
+    <section class="footer__col" aria-labelledby="footer-shop-title">
+      <h2 class="footer__title" id="footer-shop-title">Taller</h2>
+      <address class="footer__address">
+        {site.street}<br />
+        {site.city}, {site.region}
+      </address>
       <ul class="footer__hours">
         {site.hoursLines.map((line) => <li>{line}</li>)}
       </ul>
+      <ul class="footer__maps">
+        <li><a class="link-press" href={site.mapsHref} target="_blank" rel="noopener noreferrer">Abrir en Google Maps</a></li>
+        <li><a class="link-press" href={site.wazeHref} target="_blank" rel="noopener noreferrer">Abrir en Waze</a></li>
+      </ul>
     </section>
 
-    <!-- Columna 4 — CTA, apoyado al margen derecho -->
-    <div class="footer__col footer__col--cta">
-      <a href="/contacto" class="btn btn--primary footer__cta">Cotizar Proyecto</a>
-    </div>
-
-    <!-- Barra inferior — ocupa las cuatro columnas -->
     <div class="footer__bottom">
       <p class="footer__copy">
         &copy; {year} {site.name}. Todos los derechos reservados.
       </p>
-
-      <p class="footer__note">Sitio web en construcción — contenido de referencia.</p>
     </div>
   </div>
 </footer>
@@ -69,43 +63,23 @@ const year = new Date().getFullYear();
   .footer {
     background-color: var(--color-footer);
     border-top: 1px solid var(--color-border);
-    /* Los 64px laterales del mockup ya los aporta .container (20px móvil,
-       64px desde 1024px), así que aquí solo va el ritmo vertical. */
-    padding-block: 4rem;
+    padding-block: 2.5rem;
   }
 
-  /* --- Rejilla: una columna en móvil, cuatro desde 768px --- */
   .footer__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--gutter);
+    gap: 2rem var(--gutter);
   }
 
   @media (min-width: 768px) {
+    .footer {
+      padding-block: 4rem;
+    }
+
     .footer__grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: 1.4fr 1fr 1.2fr;
     }
-  }
-
-  /* Cuatro columnas reales. Antes el horario ocupaba dos y la cuarta quedaba
-     vacía: un tercio del pie era aire muerto a la derecha. */
-  @media (min-width: 1024px) {
-    .footer__grid {
-      grid-template-columns: 1.5fr 1fr 1.2fr auto;
-    }
-
-    .footer__col--cta {
-      justify-self: end;
-    }
-  }
-
-  /* --- Columna 1: marca y contacto --- */
-  .footer__address {
-    font-style: normal;
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-    line-height: 1.7;
-    margin-bottom: 0.5rem;
   }
 
   /* --- Títulos de columna --- */
@@ -114,60 +88,79 @@ const year = new Date().getFullYear();
   .footer__title {
     font-family: var(--font-body);
     font-size: 0.75rem;
-    font-weight: 700;
+    font-weight: 600;
     line-height: 1.2;
     text-transform: uppercase;
     letter-spacing: 0.14em;
-    color: var(--color-graphite);
+    color: var(--color-text-muted);
     margin-bottom: 0.6rem;
   }
 
-  .footer__col ul {
-    display: flex;
-    flex-direction: column;
-  }
-
+  .footer__address,
   .footer__hours li {
+    font-style: normal;
     font-size: 0.875rem;
+    line-height: 1.7;
     color: var(--color-text-muted);
-    padding: 0.3rem 0;
   }
 
-  /* Cada enlace del pie es un objetivo táctil real de 44px. Antes medían
-     ~23px de alto, la mitad del mínimo, y son 10 enlaces seguidos. */
-  .footer__col a,
-  .footer__contact a,
-  .footer__legal a {
+  .footer__hours {
+    margin-top: 0.5rem;
+  }
+
+  /* En teléfono la navegación va a dos columnas: seis enlaces de 44px apilados
+     eran casi 300px de un pie que medía más de una pantalla. */
+  .footer__nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (min-width: 768px) {
+    .footer__nav {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .footer__maps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1.5rem;
+    margin-top: 0.25rem;
+  }
+
+  /* Cada enlace del pie es un objetivo táctil real de 44px. */
+  .footer__col a {
     display: flex;
     align-items: center;
     min-height: var(--tap);
     font-size: 0.875rem;
-    /* #59413d sobre #eeeeee da 8:1. No usar --color-steel-medium: no llega
-       a AA en textos de este tamaño. */
     color: var(--color-text-muted);
     transition: color 0.15s ease;
   }
 
-  .footer__col a:hover,
-  .footer__contact a:hover,
-  .footer__legal a:hover {
-    color: var(--color-accent);
+  .footer__maps a {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .footer__col a:hover {
+      color: var(--color-accent);
+    }
   }
 
   /* AL Mueblería no es una sección de JZ Inox sino la marca aliada: peso extra
-     y aire encima para que se lea como un salto de marca, no de página. */
+     para que se lea como un salto de marca, no de página. */
   .footer__link--ally {
     font-weight: 700;
-    margin-top: 0.5rem;
   }
 
-  /* Hay que calificar con `.footer__col` para superar a `.footer__col a`, que
-     es más específico que las clases sueltas de abajo: sin esto la marca se
-     estira a todo el ancho y el texto del botón queda gris sobre el rojo. */
   .footer__col a.footer__brand {
     display: inline-flex;
     width: fit-content;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.4rem;
   }
 
   .footer__brand img {
@@ -176,33 +169,22 @@ const year = new Date().getFullYear();
     width: auto;
   }
 
-  .footer__col a.footer__cta,
-  .footer__col a.footer__cta:hover {
-    display: inline-flex;
-    justify-content: center;
-    width: fit-content;
-    font-size: 0.875rem;
-    color: var(--color-on-accent);
-  }
-
   /* --- Barra inferior --- */
+  /* El padding inferior extra deja libre el botón flotante de WhatsApp, que
+     en teléfono quedaba pegado al texto legal. */
   .footer__bottom {
     grid-column: 1 / -1;
-    margin-top: 3rem;
-    padding-top: 2rem;
+    margin-top: 0.5rem;
+    padding-top: 1.25rem;
+    padding-bottom: 3.5rem;
     border-top: 1px solid var(--color-border);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.75rem 1.5rem;
   }
 
   @media (min-width: 768px) {
     .footer__bottom {
-      flex-direction: row;
-      align-items: center;
-      flex-wrap: wrap;
+      margin-top: 1.5rem;
+      padding-top: 2rem;
+      padding-bottom: 0;
     }
   }
 
@@ -212,24 +194,8 @@ const year = new Date().getFullYear();
     color: var(--color-text-muted);
   }
 
-  .footer__note {
-    font-style: italic;
-  }
-
-  .footer__legal ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 1.5rem;
-  }
-
-  .footer__legal a {
-    font-size: 0.75rem;
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .footer__col a,
-    .footer__contact a,
-    .footer__legal a {
+    .footer__col a {
       transition: none;
     }
   }

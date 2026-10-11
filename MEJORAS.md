@@ -443,9 +443,46 @@ terminar**. Ninguna encontró incumplimientos de contraste AA ni desbordes.
 2. **`/servicios` y `/nosotros` siguen sin fotos.** Ya no son muros de tarjetas (renglones, línea de tiempo, numeral «20+»), pero una foto real por página las cerraría.
 3. ~~Menú móvil: el icono no cambia a «X»~~ — hecho (segunda tanda del 2026-10-11).
 4. **Superficies oscuras casi iguales** (lienzo vs tarjeta 1,08:1): las secciones oscuras contiguas se leen como una sola masa. Requiere recalcular contrastes.
-5. **Nota «Sitio web en construcción»** en el pie: quitarla al publicar de verdad.
+5. ~~Nota «Sitio web en construcción» en el pie~~ — quitada el 2026-10-11, junto con la línea «marca aliada» de `/al-muebleria`.
 6. **Puntos del carrusel:** área táctil de 24×44px (cumple WCAG 2.5.8, no los 44px propios en horizontal).
 7. Páginas legales (aviso de privacidad, términos): no existen; sus enlaces se quitaron del pie.
 8. ~~`ServiceIcon.astro` sin uso~~ — eliminado, junto con `BrandCard.astro`.
 9. **Rendimiento del movimiento sin medir en un equipo real.** Los arreglos (cursor de chispas sin repintar por frame, menú por `clip-path`) salen de leer el código; falta una grabación del panel Performance en un teléfono de gama media.
 10. `.bento__icon` y `.check-list` en `global.css`: revisar si el primero sigue en uso.
+
+---
+
+## 8. Revisión con cinco estudios (2026-10-11, tercera tanda)
+
+| Estudio | Con qué | Resultado |
+|---|---|---|
+| Diseño visual | `impeccable critique` | 22/32. El Inicio ya es propio; las interiores no |
+| Botones, medidas, 5 anchos | `design-review` | B. Dos errores funcionales |
+| Textos | `impeccable clarify` | Bien escritos; fallaban títulos de pestaña, repeticiones y promesas |
+| Fluidez en escritorio y teléfono | `mobile-native` + 2 | Tres fallos de mecánica |
+| Competidores e inspiración | ~40 sitios | JZ INOX gana en redacción; pierde en prueba concreta |
+
+### Hecho
+Todo lo listado en `CLAUDE.md` (registro del 2026-10-11) y `DESIGN.md §14`.
+
+### Abierto: depende del cliente
+1. **Clientes y obras con nombre.** Es la brecha de credibilidad más grande frente al rubro (Italinox, Maquinox, ICE Group los nombran). «Mesa bebidas CCU» sugiere que hay al menos uno nombrable.
+2. **Ficha técnica por producto:** calidad de acero (304/430/316), espesor, soldadura, terminación. Metric, Inoxamedida y Comercial Moya la publican.
+3. **Plazo y garantía** declarados.
+4. **Sección de trabajos de acero**, con fotos de instalaciones. Hoy solo AL Mueblería la tiene.
+5. **Fotos:** 13 de 18 productos sin foto (incluidas las «fotos 1, 2 y 3» de revestimientos), foto horizontal de obra terminada para el hero, fotos para `/servicios` y `/nosotros`. `columna-inox` es vertical en una celda apaisada del mosaico y se lee como fragmento.
+6. **Datos:** comuna del taller; qué son «Porta Nova» y «Mesa bebidas CCU»; teléfono o correo propios de AL Mueblería; si «Mueblistería» es la palabra que quieren.
+7. **Promesas nuestras por confirmar:** taller propio, visita a terreno, instalación, mantención programada, fabricación de ductos, materiales de la galería de AL (cuarzo, melamina).
+8. **Textos del cliente con errata** (no se tocaron): «fabricado y diseñado a grandes empresas» (falta «para»), coma entre oraciones en la historia, «una imagen… de alta resistencia».
+9. **Mantención como bloque propio** y **«Para quién trabajamos»**: ideas de la comparación web que no se pueden redactar sin datos del cliente.
+
+### Abierto: trabajo propio
+1. **Probar un envío real del formulario** y la pantalla intermedia de FormSubmit; que el cliente active el correo.
+2. **Probar en un teléfono real y en Safari/iOS.** Todo lo táctil se midió emulado.
+3. **La entrada del hero no espera a la foto:** con red lenta el recuadro se abre vacío y la foto llega después.
+4. **Respaldo tipográfico calibrado** (`size-adjust`) para que el cambio de fuente no mueva el texto. Las fuentes ya van precargadas, lo que lo reduce.
+5. **Escala de letra:** quedan valores sueltos en archivos que no se tocaron en esta tanda.
+6. `/gracias` y 404 siguen centradas; el resto del sitio va a la izquierda.
+7. `/productos` redirige con `<meta refresh>`, no con un 301 real: configurarlo en el hosting.
+8. `MediaPlaceholder.astro` quedó sin uso.
+9. `WeldingCursor`: los 90 nodos llevan `will-change` permanente.

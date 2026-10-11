@@ -10,21 +10,20 @@
  * tiempo que se traza al entrar en pantalla.
  */
 import Layout from "../layouts/Layout.astro";
-import { services, processSteps } from "../data/services.js";
+import { services, processSteps, faqs } from "../data/services.js";
 ---
 
 <Layout
-	title="Servicios"
+	title="Soldadura TIG, corte y plegado en acero inoxidable"
 	description="Soldadura TIG, MIG y aluminio, corte y plegado, diseño y fabricación a medida en acero inoxidable. Taller propio con más de 20 años de oficio."
 >
 	{/* --- Encabezado --- */}
 	<section class="section page-hero page-hero--split" aria-labelledby="servicios-titulo">
 		<div class="container">
-			<span class="eyebrow">Servicios</span>
 			<h1 id="servicios-titulo">Soldadura, corte, plegado y diseño en acero inoxidable</h1>
 			<p>
 				Hacemos el proyecto completo en taller propio: medimos tu espacio, diseñamos la
-				solución, cortamos y plegamos la plancha, soldamos y la instalamos.
+				solución, cortamos y plegamos la plancha, soldamos e instalamos.
 			</p>
 		</div>
 	</section>
@@ -34,7 +33,7 @@ import { services, processSteps } from "../data/services.js";
 		<div class="container">
 			<div class="section-head" data-reveal>
 				<h2 id="servicios-listado">Qué hacemos</h2>
-				<p>Seis servicios que cubren el proyecto de punta a punta, sin subcontratar la parte difícil.</p>
+				<p>Lo que hacemos, de la medición a la instalación.</p>
 			</div>
 
 			<div class="ledger">
@@ -58,7 +57,7 @@ import { services, processSteps } from "../data/services.js";
 		<div class="container">
 			<div class="section-head" data-reveal>
 				<h2 id="servicios-proceso">Cómo trabajamos</h2>
-				<p>Cuatro etapas, y en cada una sabes qué viene después y cuánto demora.</p>
+				<p>Cómo avanza tu proyecto, de la primera visita a la instalación.</p>
 			</div>
 
 			<div class="timeline">
@@ -78,15 +77,35 @@ import { services, processSteps } from "../data/services.js";
 		</div>
 	</section>
 
+	{/* --- Preguntas frecuentes: <details> nativo, sin JavaScript --- */}
+	<section class="section section--alt" aria-labelledby="servicios-preguntas">
+		<div class="container faq-layout">
+			<div data-reveal>
+				<h2 id="servicios-preguntas">Preguntas frecuentes</h2>
+			</div>
+
+			<div class="faq" data-reveal>
+				{
+					faqs.map((faq) => (
+						<details class="faq__item">
+							<summary>{faq.question}</summary>
+							<p>{faq.answer}</p>
+						</details>
+					))
+				}
+			</div>
+		</div>
+	</section>
+
 	{/* --- Cierre --- */}
-	<section class="section section--tight section--alt cta-band" aria-labelledby="servicios-cierre">
+	<section class="section section--tight cta-band cta-band--dark" aria-labelledby="servicios-cierre">
 		<div class="container cta-band__inner" data-reveal>
-			<div>
-				<h2 id="servicios-cierre">¿Listo para cotizar?</h2>
+			<div class="cta-band__text">
+				<h2 id="servicios-cierre">¿Cotizamos tu proyecto?</h2>
 				<p>Cuéntanos qué necesitas y te respondemos con medidas, materiales y plazos.</p>
 			</div>
 			<div class="cta-band__actions">
-				<a href="/contacto" class="btn btn--primary">Cotizar Proyecto</a>
+				<a href="/contacto" class="btn btn--primary">Cotizar proyecto</a>
 				<a href="/catalogo" class="btn btn--ghost">Ver productos</a>
 			</div>
 		</div>
@@ -94,45 +113,19 @@ import { services, processSteps } from "../data/services.js";
 </Layout>
 
 <style>
-	/* =========================================================
-	   Lista de despiece
-	   ---------------------------------------------------------
-	   Un renglón por servicio, tres columnas en escritorio. La
-	   junta de 1px va ARRIBA de cada renglón y una más cierra la
-	   lista: son líneas de tabla, no cajas.
-	   ========================================================= */
-	.ledger {
-		border-bottom: 1px solid var(--color-border);
-	}
-
-	.ledger__row {
+	/* Preguntas: título a la izquierda, lista a la derecha */
+	.faq-layout {
 		display: grid;
-		gap: 0.75rem;
-		padding: clamp(1.5rem, 3.4vw, 2.25rem) 0;
-		border-top: 1px solid var(--color-border);
+		gap: clamp(1.5rem, 4vw, 3rem);
 	}
 
-	.ledger__row h3 {
-		font-size: clamp(1.375rem, 2.2vw, 1.75rem);
-		line-height: 1.15;
-		letter-spacing: -0.01em;
-		font-weight: 700;
+	.faq-layout h2 {
 		margin: 0;
-	}
-
-	.ledger__row p {
-		max-width: 52ch;
-		margin: 0;
-	}
-
-	.ledger__row .check-list li {
-		font-size: 0.9375rem;
 	}
 
 	@media (min-width: 1024px) {
-		.ledger__row {
-			grid-template-columns: minmax(0, 4fr) minmax(0, 5fr) minmax(0, 4fr);
-			gap: var(--gutter);
+		.faq-layout {
+			grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
 			align-items: start;
 		}
 	}

@@ -1,0 +1,203 @@
+{
+ "/img/al-closet-escritorio.webp": {
+  "w": 1200,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/al-closet-escritorio-w800.webp",
+    "w": 800,
+    "kb": 44.3
+   }
+  ]
+ },
+ "/img/al-closet-madera.webp": {
+  "w": 1200,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/al-closet-madera-w800.webp",
+    "w": 800,
+    "kb": 51.0
+   }
+  ]
+ },
+ "/img/al-cocina-azul.webp": {
+  "w": 740,
+  "h": 1600,
+  "variants": []
+ },
+ "/img/al-cocina-barra.webp": {
+  "w": 1200,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/al-cocina-barra-w800.webp",
+    "w": 800,
+    "kb": 62.9
+   }
+  ]
+ },
+ "/img/al-cocina-clara.webp": {
+  "w": 1600,
+  "h": 1200,
+  "variants": [
+   {
+    "src": "/img/al-cocina-clara-w800.webp",
+    "w": 800,
+    "kb": 30.0
+   }
+  ]
+ },
+ "/img/al-cocina-vanitorio.webp": {
+  "w": 1200,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/al-cocina-vanitorio-w800.webp",
+    "w": 800,
+    "kb": 29.3
+   }
+  ]
+ },
+ "/img/al-despensa-extraible.webp": {
+  "w": 1200,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/al-despensa-extraible-w800.webp",
+    "w": 800,
+    "kb": 56.5
+   }
+  ]
+ },
+ "/img/al-estanteria-cajones.webp": {
+  "w": 1200,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/al-estanteria-cajones-w800.webp",
+    "w": 800,
+    "kb": 52.3
+   }
+  ]
+ },
+ "/img/al-recepcion.webp": {
+  "w": 1600,
+  "h": 740,
+  "variants": [
+   {
+    "src": "/img/al-recepcion-w800.webp",
+    "w": 800,
+    "kb": 29.0
+   }
+  ]
+ },
+ "/img/campana-central.webp": {
+  "w": 1600,
+  "h": 1200,
+  "variants": [
+   {
+    "src": "/img/campana-central-w800.webp",
+    "w": 800,
+    "kb": 20.7
+   }
+  ]
+ },
+ "/img/campana-filtros.webp": {
+  "w": 1200,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/campana-filtros-w800.webp",
+    "w": 800,
+    "kb": 80.4
+   }
+  ]
+ },
+ "/img/campana-mural-freidoras.webp": {
+  "w": 1200,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/campana-mural-freidoras-w800.webp",
+    "w": 800,
+    "kb": 43.3
+   }
+  ]
+ },
+ "/img/columna-inox.webp": {
+  "w": 904,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/columna-inox-w800.webp",
+    "w": 800,
+    "kb": 52.3
+   }
+  ]
+ },
+ "/img/logo-jzinox.webp": {
+  "w": 900,
+  "h": 200,
+  "variants": [
+   {
+    "src": "/img/logo-jzinox-w360.webp",
+    "w": 360,
+    "kb": 11.9
+   },
+   {
+    "src": "/img/logo-jzinox-w540.webp",
+    "w": 540,
+    "kb": 20.1
+   }
+  ]
+ },
+ "/img/mesa-pizza.webp": {
+  "w": 720,
+  "h": 1600,
+  "variants": []
+ },
+ "/img/piezas-cortadas.webp": {
+  "w": 1600,
+  "h": 1200,
+  "variants": [
+   {
+    "src": "/img/piezas-cortadas-w800.webp",
+    "w": 800,
+    "kb": 41.3
+   }
+  ]
+ },
+ "/img/protector-jabon.webp": {
+  "w": 899,
+  "h": 1599,
+  "variants": [
+   {
+    "src": "/img/protector-jabon-w800.webp",
+    "w": 800,
+    "kb": 46.6
+   }
+  ]
+ },
+ "/img/soporte-kds.webp": {
+  "w": 720,
+  "h": 1600,
+  "variants": []
+ },
+ "/img/taller-estanteria.webp": {
+  "w": 1600,
+  "h": 1189,
+  "variants": [
+   {
+    "src": "/img/taller-estanteria-w800.webp",
+    "w": 800,
+    "kb": 44.4
+   },
+   {
+    "src": "/img/taller-estanteria-w1200.webp",
+    "w": 1200,
+    "kb": 73.3
+   }
+  ]
+ }
+}

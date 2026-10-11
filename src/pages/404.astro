@@ -23,16 +23,15 @@ import { site } from "../data/site.js";
 			<span class="eyebrow">Error 404</span>
 			<h1 id="notfound-titulo">Esta página no existe</h1>
 			<p>
-				El enlace puede estar roto o la página cambió de dirección. Lo que buscas está en
-				alguno de estos tres lugares.
+				El enlace puede estar roto o la página cambió de dirección. Prueba por aquí:
 			</p>
 
 			{/* Rutas reales, no un único "volver al inicio" que obliga a empezar
 			    de nuevo la búsqueda. */}
 			<nav class="notfound__actions" aria-label="Dónde seguir">
-				<a href="/" class="btn btn--primary">Ir al inicio</a>
-				<a href="/catalogo" class="btn btn--outline">Ver los productos</a>
-				<a href="/contacto" class="btn btn--outline">Contactarnos</a>
+				<a href="/" class="btn btn--primary">Volver al inicio</a>
+				<a href="/catalogo" class="btn btn--outline">Ver productos</a>
+				<a href="/contacto" class="btn btn--outline">Cotizar proyecto</a>
 			</nav>
 
 			<p class="notfound__help">
@@ -90,7 +89,7 @@ import { site } from "../data/site.js";
 		margin-top: 2rem;
 	}
 
-	.notfound__help {
+	.notfound .notfound__help {
 		margin-top: 2rem;
 		font-size: 0.95rem;
 		color: var(--color-text-muted);
