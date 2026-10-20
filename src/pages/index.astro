@@ -1,9 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import BrandShowcase from "../components/BrandShowcase.astro";
+import ClientLogos from "../components/ClientLogos.astro";
 import WhatsAppIcon from "../components/WhatsAppIcon.astro";
 import { brands } from "../data/brands.js";
-import { facts } from "../data/company.js";
+import { facts, clients } from "../data/company.js";
 import { srcset } from "../utils/img.js";
 import { mainServices } from "../data/services.js";
 import { site } from "../data/site.js";
@@ -86,11 +87,23 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 
 	{
 		brands.map((brand, i) => (
-			<section class:list={["section", "brand-section", { "section--alt": i % 2 === 1 }]}>
-				<div class="container">
-					<BrandShowcase brand={brand} flip={i % 2 === 1} />
-				</div>
-			</section>
+			<>
+				<section class:list={["section", "brand-section", { "section--alt": i % 2 === 1 }]}>
+					<div class="container">
+						<BrandShowcase brand={brand} flip={i % 2 === 1} />
+					</div>
+				</section>
+				{i === 0 && (
+					<section class="section--tight clients-band" aria-labelledby="clientes">
+						<div class="container">
+							<h2 id="clientes" data-reveal>{clients.bandTitle}</h2>
+							<div data-reveal="fade">
+								<ClientLogos />
+							</div>
+						</div>
+					</section>
+				)}
+			</>
 		))
 	}
 
@@ -372,6 +385,16 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 
 	.brand-section {
 		border-bottom: 1px solid var(--color-border);
+	}
+
+	.clients-band {
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.clients-band h2 {
+		max-width: 24ch;
+		margin: 0 0 clamp(1.5rem, 3vw, 2rem);
+		font-size: clamp(1.5rem, 2.4vw, 2rem);
 	}
 
 	.services__grid {

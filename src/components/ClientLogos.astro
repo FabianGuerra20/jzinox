@@ -1,0 +1,78 @@
+---
+import { clients } from "../data/company.js";
+
+const logoBox = (ratio: number) => {
+  const height = Math.min(3 / Math.sqrt(ratio), 2.6);
+  return `--logo-w: ${(height * ratio).toFixed(2)}em; --logo-h: ${height.toFixed(2)}em`;
+};
+---
+
+<ul class="clients" role="list">
+  {
+    clients.list.map((client) => (
+      <li class="clients__cell">
+        {client.logo ? (
+          <span
+            class="clients__logo"
+            role="img"
+            aria-label={client.name}
+            style={`--logo: url("${client.logo}"); ${logoBox(client.ratio)}`}
+          />
+        ) : (
+          <span class="clients__name">{client.name}</span>
+        )}
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  .clients {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--color-border);
+    border-left: 1px solid var(--color-border);
+  }
+
+  .clients__cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 6.5rem;
+    padding: 1rem 0.75rem;
+    border-right: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    font-size: clamp(0.875rem, 1.05vw, 1rem);
+  }
+
+  .clients__logo {
+    display: block;
+    width: var(--logo-w);
+    max-width: 100%;
+    height: var(--logo-h);
+    background-color: var(--color-text-muted);
+    -webkit-mask: var(--logo) center / contain no-repeat;
+    mask: var(--logo) center / contain no-repeat;
+  }
+
+  .clients__name {
+    font-family: var(--font-heading);
+    font-size: 1.05em;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    text-align: center;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 1100px) {
+    .clients {
+      grid-template-columns: repeat(9, minmax(0, 1fr));
+    }
+
+    .clients__cell {
+      min-height: 7.5rem;
+    }
+  }
+</style>

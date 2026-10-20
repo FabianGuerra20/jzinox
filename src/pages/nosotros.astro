@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { pageHero, history, mission, valuesSection, values, facts } from "../data/company.js";
+import ClientLogos from "../components/ClientLogos.astro";
+import { pageHero, history, mission, valuesSection, values, facts, clients, recentProjects } from "../data/company.js";
 
 const otherFacts = facts.slice(1);
 ---
@@ -40,6 +41,38 @@ const otherFacts = facts.slice(1);
 					))
 				}
 			</dl>
+		</div>
+	</section>
+
+	<section class="section section--alt" aria-labelledby="nosotros-clientes">
+		<div class="container">
+			<div class="section-head" data-reveal>
+				<h2 id="nosotros-clientes">{clients.title}</h2>
+				<p>{clients.paragraph}</p>
+			</div>
+
+			<div data-reveal="fade">
+				<ClientLogos />
+			</div>
+		</div>
+	</section>
+
+	<section class="section" aria-labelledby="nosotros-proyectos">
+		<div class="container">
+			<div class="section-head" data-reveal>
+				<h2 id="nosotros-proyectos">{recentProjects.title}</h2>
+			</div>
+
+			<div class="rows">
+				{
+					recentProjects.items.map((project) => (
+						<article class="rows__row" data-reveal>
+							<h3>{project.client}</h3>
+							<p>{project.work}</p>
+						</article>
+					))
+				}
+			</div>
 		</div>
 	</section>
 

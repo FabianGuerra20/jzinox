@@ -5,11 +5,11 @@ export const services = [
     title: "Soldadura TIG, MIG y aluminio",
     icon: "tig",
     summary:
-      "Uniones limpias en acero inoxidable y aluminio: TIG donde el cordón queda a la vista, MIG en estructura y uso pesado.",
+      "Dentro de nuestros servicios contamos con equipamiento para procedimientos de soldadura TIG para acero inoxidable y MIG para acero carbono.",
     details: [
-      "Soldadura TIG para terminaciones a la vista",
-      "Soldadura MIG para estructura y uso intensivo",
-      "Aluminio para piezas donde el peso importa",
+      "Soldadura TIG para acero inoxidable",
+      "Soldadura MIG para acero carbono",
+      "Trabajos en aluminio",
     ],
   },
   {
@@ -31,7 +31,7 @@ export const services = [
     title: "Diseño de proyecto",
     icon: "counter",
     summary:
-      "Tomamos las medidas reales de tu espacio y diseñamos la solución completa antes de cortar la primera plancha.",
+      "Si necesitas una solución, podemos diseñar lo que tienes en mente, realizamos proyectos a medida de tus espacios y necesidades.",
     details: [
       "Levantamiento y medición en terreno",
       "Propuesta adaptada al flujo de trabajo del local",
@@ -44,7 +44,7 @@ export const services = [
     title: "Mesones y equipamiento",
     icon: "kitchen",
     summary:
-      "Mesones de trabajo, lavado y despacho, y el mobiliario que tu cocina necesita, dimensionados a tu espacio.",
+      "Fabricamos todo tipo de mesones de producción, de acuerdo a las necesidades de tu empresa, de diversas medidas y características.",
     details: [
       "Mobiliario de alta durabilidad para uso intensivo",
       "Estructuras dimensionadas al espacio real",
@@ -84,7 +84,7 @@ export const mainServices = [
     slug: "soldadura-tig-mig",
     title: "Soldadura TIG, MIG y aluminio",
     blurb:
-      "El proceso se elige según la pieza: TIG donde el cordón queda a la vista, MIG en estructura y uso pesado.",
+      "Contamos con equipamiento para soldadura TIG en acero inoxidable y MIG en acero carbono. También trabajamos aluminio.",
     media: [
       { slot: "Cordón de soldadura TIG en detalle", ratio: "3:2" },
       { slot: "Soldador trabajando en el taller", ratio: "3:2" },
@@ -150,6 +150,6 @@ export const faqs = [
   },
   {
     question: "¿Trabajan solo acero inoxidable?",
-    answer: "Trabajamos acero inoxidable y también aluminio, con soldadura TIG y MIG.",
+    answer: "No. Soldamos con TIG el acero inoxidable y con MIG el acero carbono, y también trabajamos aluminio.",
   },
 ];

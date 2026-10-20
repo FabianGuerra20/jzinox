@@ -61,7 +61,22 @@ export const values = [
     description:
       "Te acompañamos desde el diseño inicial hasta la fabricación, reparación y mantención. Contamos con ingeniería, maquinaria y servicio.",
   },
+  {
+    title: "Trabajos garantizados",
+    description:
+      "Nuestra empresa garantiza un trabajo de calidad, los cuales son fabricados por maestros calificados con amplia experiencia en el rubro, usamos materiales de primera calidad y cada proceso es supervisado, además todos los trabajos son garantizados.",
+  },
 ];
+
+export const recentProjects = {
+  title: "Proyectos recientes",
+  // [PDF]
+  items: [
+    { client: "KFC y Wendy's", work: "Fabricación de implementación de cocina en sus restaurantes." },
+    { client: "Factory Nine", work: "Fabricación de repisas." },
+    { client: "Pizzería Sbarro", work: "Exhibidores de alimentos para ser usados en vitrinas." },
+  ],
+};
 
 // [PDF]
 // [PROPUESTA]
@@ -71,3 +86,22 @@ export const facts = [
   { label: "Taller", value: "Departamental 999, San Miguel", href: site.mapsHref },
   { label: "Fabricación", value: "100% a medida" },
 ];
+
+export const clients = {
+  title: "Nuestros clientes",
+  bandTitle: "Han confiado en nosotros",
+  // [PDF]
+  paragraph:
+    "Durante nuestros años de trayectoria, nuestros principales clientes son del rubro gastronómico: hemos prestado servicio a empresas como KFC, Wendy's, China Wok, Burger King, Doggis, Johnny Rockets y Factory Nine. Además, hemos ampliado nuestro rubro realizando trabajos para el área de la salud, como Hospital Salvador y Uno Salud Dental.",
+  list: [
+    { name: "KFC", logo: "/img/clientes/kfc.svg", ratio: 1.3 },
+    { name: "Wendy's", logo: "/img/clientes/wendys.svg", ratio: 2.34 },
+    { name: "China Wok", logo: "/img/clientes/china-wok.svg", ratio: 1.25 },
+    { name: "Burger King" },
+    { name: "Doggis" },
+    { name: "Johnny Rockets" },
+    { name: "Factory Nine", logo: "/img/clientes/factory-nine.png", ratio: 10.6 },
+    { name: "Hospital Salvador", logo: "/img/clientes/hospital-salvador.png", ratio: 3.84 },
+    { name: "Uno Salud Dental" },
+  ],
+};

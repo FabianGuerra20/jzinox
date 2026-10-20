@@ -561,3 +561,10 @@ está en este documento.
 
 ### Impresión
 Hay un bloque `@media print` en `global.css`: sin él, el revelado dejaba la página en blanco.
+
+### Clientes y proyectos (2026-10-20)
+
+Del PDF `PAGINA WEB` del cliente. La franja `ClientLogos` va en el Inicio, después del bloque de JZ INOX ("Han confiado en nosotros"), y en Nosotros bajo "Nuestros clientes", junto al párrafo del PDF. Los logos son siluetas de un solo tono: el archivo se usa como máscara CSS y el color sale de `--color-text-muted`, así que siguen al tema de la sección y no compiten con el acento. Cada logo se escala por su proporción para que todos pesen lo mismo a la vista. Cuando una marca no tiene un logo que funcione como silueta (Burger King, Doggis y Johnny Rockets quedan como bloque sólido; Uno Salud Dental, en negativo y con esquinas redondeadas), va su nombre escrito en la tipografía de títulos. No se redibujan logos. Los archivos están en `public/img/clientes/`, bajados de Wikimedia Commons o del sitio oficial de cada marca.
+
+Proyectos recientes es una sección en renglones (no hay fotos) y la garantía es un renglón más en "¿Por qué elegir JZ INOX?". Soldadura: TIG para inoxidable, MIG para acero carbono, y aluminio (del primer PDF).
+

@@ -146,6 +146,7 @@ Reglas:
 * 13 de 18 productos sin foto; falta una foto horizontal de obra terminada para el hero.
 * No se ha probado en un teléfono real ni en Safari.
 * Falta mostrarle al cliente la paleta, que se aparta del mockup aprobado.
+* Logos de clientes publicados por uso nominativo: falta que el cliente confirme que puede mostrarlos. Factory Nine se presenta hoy como pastelería: confirmar que es el mismo cliente.
 * El resto, en `MEJORAS.md §8`.
 
 ## 10. Registro
@@ -156,5 +157,6 @@ Reglas:
 | 2026-09-23 | Crítica de diseño: `/productos` se fusiona en `/catalogo`, arreglos de contacto y contraste. |
 | 2026-10-04 | Paleta cálida, movimiento, fotos reales, favicon y logotipo nuevo del cliente. |
 | 2026-10-11 | Nosotros fundido en el encabezado, Instagram en pie y Contacto, botón flotante de WhatsApp rehecho, revisión de equilibrio de columnas. Pedidos del cliente (orden del Inicio, sin precios, 6 categorías y 18 productos). Rediseño de distribución y movimiento. Revisión con cinco estudios y sus arreglos. Marca "JZ INOX". Comuna San Miguel y enlace a Maps. Código sin comentarios. |
+| 2026-10-20 | Contenido del PDF `PAGINA WEB`: clientes con logos (Inicio y Nosotros), proyectos recientes, garantía y textos de soldadura, diseño y mesones. |
 
 El detalle de cada fecha está en `MEJORAS.md` y en el historial de git.
