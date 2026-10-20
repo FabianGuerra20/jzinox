@@ -2,7 +2,7 @@
 import { clients } from "../data/company.js";
 
 const logoBox = (ratio: number) => {
-  const height = Math.min(3 / Math.sqrt(ratio), 2.6);
+  const height = Math.min(3.3 / Math.sqrt(ratio), 3.4);
   return `--logo-w: ${(height * ratio).toFixed(2)}em; --logo-h: ${height.toFixed(2)}em`;
 };
 ---
