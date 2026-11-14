@@ -24,7 +24,8 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 
 <Layout
 	flush
-	description="Mesones, campanas y equipamiento en acero inoxidable a medida para restaurantes y comida rápida. Taller en Santiago con más de 20 años de oficio."
+	title="Acero inoxidable a medida y soldadura en Santiago"
+	description="Taller de acero inoxidable y soldadura en San Miguel, Santiago. Mesones, campanas y equipamiento a medida, reparación y mantención. Más de 20 años de oficio."
 >
 	<section class="hero">
 		<div class="hero__main">
@@ -139,7 +140,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 						<li class="services__item" data-reveal style={`--i: ${i}`}>
 							<h3>{service.title}</h3>
 							<p>{service.blurb}</p>
-							<a href={`/servicios#${service.slug}`} class="services__link link-press" aria-label={`Ver el detalle de ${service.title}`}>
+							<a href={service.href ?? `/servicios#${service.slug}`} class="arrow-link link-press" aria-label={`Ver el detalle de ${service.title}`}>
 								Ver el detalle
 								<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
 									<path d="M5 12h14M13 6l6 6-6 6" />
@@ -459,32 +460,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		margin-bottom: 1rem;
 	}
 
-	.services__link {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.5rem;
-		min-height: var(--tap);
-		font-family: var(--font-heading);
-		font-weight: 600;
-		font-size: 0.9375rem;
-		color: var(--color-accent);
-		transition: color 0.2s ease;
-	}
-
-	.services__link svg {
-		transition: transform 0.2s var(--ease-out);
-	}
-
-	@media (hover: hover) and (pointer: fine) {
-		.services__link:hover {
-			color: var(--color-accent-dark);
-		}
-
-		.services__link:hover svg {
-			transform: translateX(4px);
-		}
-	}
-
 	.closing {
 		padding: clamp(3.5rem, 8vw, 6.5rem) 0;
 	}
@@ -524,15 +499,5 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 
 	.closing__actions .btn {
 		font-size: 1rem;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.services__link svg {
-			transition: none;
-		}
-
-		.services__link:hover svg {
-			transform: none;
-		}
 	}
 </style>

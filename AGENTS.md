@@ -26,7 +26,7 @@ Consult these guides before working on related tasks:
 ## 🏢 Arquitectura de Marcas y Navegación
 * **JZ Inox (Marca Principal):** Domina la estructura global del sitio. Navegación real: **Inicio, Nosotros, Servicios, Productos, Catálogo, Contacto**.
 * **AL Mueblería (Aliado Estratégico):** Vista interna exclusiva en `/al-muebleria`. Funciona como *landing page* resumida dentro del ecosistema de JZ Inox: presentación, servicios propios y mini-catálogo. En el menú va tras un divisor, porque el clic cambia de marca, no de sección.
-* **Soldadura TIG** ya NO es una página propia: se dio de baja en el commit `eb50818` y hoy es uno de los servicios dentro de `/servicios`.
+* **Soldadura** vuelve a tener página propia desde el 2026-11-14: `/soldadura-santiago`, fuera del menú y pendiente de aprobación del cliente (la vista «Soldadura TIG» anterior se dio de baja en el commit `eb50818`). Detalle en `CLAUDE.md §3` y `MEJORAS.md §9`.
 
 ## 🛠 Arquitectura y Stack
 * **Framework:** Astro 7 (SSG). Sin framework de UI: cero JavaScript externo, los scripts se inlinean.

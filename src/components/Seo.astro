@@ -1,49 +1,129 @@
 ---
 import { site } from "../data/site.js";
+import { services } from "../data/services.js";
 
 interface Props {
   title: string;
   description: string;
+  breadcrumb?: string;
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props as Props;
-
-const canonicalUrl = new URL(Astro.url.pathname, site.siteUrl).toString();
-const ogImageUrl = new URL(site.ogImage, site.siteUrl).toString();
+const { title, description, breadcrumb, noindex = false } = Astro.props as Props;
 
 const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
-const isBusinessPage = path === "/" || path === "/contacto";
+const canonicalUrl = `${site.siteUrl}${path === "/" ? "/" : path}`;
+const ogImageUrl = `${site.siteUrl}${site.ogImage}`;
 
-const businessLd = {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "@id": `${site.siteUrl}/#negocio`,
+const businessId = `${site.siteUrl}/#negocio`;
+const websiteId = `${site.siteUrl}/#sitio`;
+const isBusinessPage = ["/", "/contacto", "/soldadura-santiago"].includes(path);
+
+const business = {
+  "@type": "LocalBusiness",
+  "@id": businessId,
   name: site.name,
-  alternateName: `${site.name} — ${site.tagline}`,
+  alternateName: "JZINOX",
+  slogan: site.tagline,
   description: site.description,
-  image: ogImageUrl,
-  url: site.siteUrl,
+  url: `${site.siteUrl}/`,
+  logo: `${site.siteUrl}${site.logo}`,
+  image: [ogImageUrl, `${site.siteUrl}/img/taller-estanteria.webp`, `${site.siteUrl}/img/campana-central.webp`],
   telephone: `+${site.whatsappNumber}`,
   email: site.email,
   priceRange: "$$",
   address: {
     "@type": "PostalAddress",
     streetAddress: site.street,
-    addressLocality: site.city,
+    addressLocality: site.commune,
     addressRegion: site.region,
     addressCountry: site.country,
   },
-  areaServed: site.region,
+  hasMap: site.mapsHref,
+  sameAs: [site.instagramHref],
+  areaServed: [
+    { "@type": "City", name: "Santiago" },
+    { "@type": "AdministrativeArea", name: site.region },
+  ],
+  knowsAbout: [
+    "Soldadura TIG",
+    "Soldadura MIG",
+    "Soldadura de aluminio",
+    "Soldadura de acero inoxidable",
+    "Fabricación en acero inoxidable a medida",
+    "Corte y plegado de plancha",
+    "Equipamiento gastronómico",
+  ],
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "Ventas y cotizaciones",
+    telephone: `+${site.whatsappNumber}`,
+    email: site.email,
+    availableLanguage: "es",
+    areaServed: "CL",
+  },
   openingHoursSpecification: site.openingHours.map((slot) => ({
     "@type": "OpeningHoursSpecification",
     dayOfWeek: slot.days,
     opens: slot.opens,
     closes: slot.closes,
   })),
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: `Servicios de ${site.name}`,
+    itemListElement: services.map((service) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name: service.title,
+        description: service.summary,
+        url: `${site.siteUrl}${service.href ?? `/servicios#${service.slug}`}`,
+      },
+    })),
+  },
 };
+
+const graph = [
+  {
+    "@type": "WebSite",
+    "@id": websiteId,
+    url: `${site.siteUrl}/`,
+    name: site.name,
+    description: site.description,
+    inLanguage: "es-CL",
+    publisher: { "@id": businessId },
+  },
+  {
+    "@type": "WebPage",
+    "@id": `${canonicalUrl}#pagina`,
+    url: canonicalUrl,
+    name: title,
+    description,
+    inLanguage: "es-CL",
+    isPartOf: { "@id": websiteId },
+    about: { "@id": businessId },
+    ...(breadcrumb ? { breadcrumb: { "@id": `${canonicalUrl}#migas` } } : {}),
+  },
+  isBusinessPage ? business : { "@type": "LocalBusiness", "@id": businessId, name: site.name, url: `${site.siteUrl}/` },
+  ...(breadcrumb
+    ? [
+        {
+          "@type": "BreadcrumbList",
+          "@id": `${canonicalUrl}#migas`,
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Inicio", item: `${site.siteUrl}/` },
+            { "@type": "ListItem", position: 2, name: breadcrumb, item: canonicalUrl },
+          ],
+        },
+      ]
+    : []),
+];
+
+const baseLd = JSON.stringify({ "@context": "https://schema.org", "@graph": graph });
 ---
 
 <link rel="canonical" href={canonicalUrl} />
+<meta name="robots" content={noindex ? "noindex, follow" : "index, follow, max-image-preview:large, max-snippet:-1"} />
 
 <meta property="og:site_name" content={site.name} />
 <meta property="og:title" content={title} />
@@ -51,6 +131,9 @@ const businessLd = {
 <meta property="og:type" content="website" />
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={`${site.name}: ${site.tagline}`} />
 <meta property="og:locale" content="es_CL" />
 
 <meta name="twitter:card" content="summary_large_image" />
@@ -58,6 +141,6 @@ const businessLd = {
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImageUrl} />
 
-{isBusinessPage && <script type="application/ld+json" set:html={JSON.stringify(businessLd)} />}
+{!noindex && <script type="application/ld+json" set:html={baseLd} />}
 
 <slot />

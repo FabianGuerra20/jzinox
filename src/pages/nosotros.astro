@@ -8,7 +8,8 @@ const otherFacts = facts.slice(1);
 
 <Layout
 	title="Taller de acero inoxidable a medida en Santiago"
-	description="Taller de acero inoxidable en Santiago con más de 20 años de oficio. Conoce cómo trabajamos y por qué fabricamos cada pieza a medida."
+	description="Taller de acero inoxidable en San Miguel, Santiago, con más de 20 años de oficio. Conoce a nuestros clientes y por qué fabricamos cada pieza a medida."
+	breadcrumb="Nosotros"
 >
 	<section class="section page-hero about" aria-labelledby="nosotros-titulo">
 		<div class="container about__grid">
@@ -216,35 +217,5 @@ const otherFacts = facts.slice(1);
 		.about__facts {
 			grid-column: 1 / -1;
 		}
-	}
-
-	.rows {
-		border-bottom: 1px solid var(--color-border);
-	}
-
-	.rows__row {
-		display: grid;
-		gap: 0.5rem;
-		padding: clamp(1.25rem, 2.6vw, 1.75rem) 0;
-		border-top: 1px solid var(--color-border);
-	}
-
-	@media (min-width: 768px) {
-		.rows__row {
-			grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-			gap: var(--gutter);
-			align-items: baseline;
-		}
-	}
-
-	.rows__row h3 {
-		font-size: clamp(1.25rem, 1.8vw, 1.5rem);
-		margin: 0;
-	}
-
-	.rows__row p {
-		max-width: 68ch;
-		font-size: 1.0625rem;
-		margin: 0;
 	}
 </style>

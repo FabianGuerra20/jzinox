@@ -15,6 +15,7 @@ export const site = {
   instagramHref: "https://www.instagram.com/jzinox_chile/",
   street: "Av. Departamental 999, Galpón 11",
   city: "San Miguel, Santiago",
+  commune: "San Miguel",
   region: "Región Metropolitana",
   country: "CL",
   mapsHref: "https://maps.app.goo.gl/PqZwo9yp7u6cGVfD7",
@@ -28,8 +29,9 @@ export const site = {
   ],
 
   formsubmitEndpoint: "https://formsubmit.co/ventas@jzinox.cl",
-  siteUrl: "https://jzinox.cl",
+  siteUrl: import.meta.env.SITE.replace(/\/+$/, ""),
   ogImage: "/og-image.png",
+  logo: "/favicon-512.png",
 };
 
 export const navItems = [
@@ -39,6 +41,14 @@ export const navItems = [
   { href: "/catalogo", label: "Productos" },
   { href: "/contacto", label: "Contacto" },
   { href: "/al-muebleria", label: "AL Mueblería", ally: true },
+];
+
+export const footerServices = [
+  { href: "/soldadura-santiago", label: "Soldadura en Santiago" },
+  { href: "/servicios#corte-plegado", label: "Corte y plegado" },
+  { href: "/servicios#diseno-proyecto", label: "Diseño de proyecto" },
+  { href: "/servicios#campanas-extraccion", label: "Campanas y extracción" },
+  { href: "/servicios#reparacion-mantencion", label: "Reparación y mantención" },
 ];
 
 export const navCta = { href: "/contacto", label: "Cotizar proyecto" };

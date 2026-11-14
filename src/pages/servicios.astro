@@ -3,13 +3,17 @@ import Layout from "../layouts/Layout.astro";
 import WhatsAppIcon from "../components/WhatsAppIcon.astro";
 import { services, processSteps, faqs } from "../data/services.js";
 import { site } from "../data/site.js";
+import { faqSchema } from "../utils/schema.js";
 
 const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`;
+const faqLd = JSON.stringify(faqSchema(faqs));
 ---
 
 <Layout
-	title="Soldadura TIG, corte y plegado en acero inoxidable"
-	description="Soldadura TIG, MIG y aluminio, corte y plegado, diseño y fabricación a medida en acero inoxidable. Taller propio con más de 20 años de oficio."
+	title="Corte, plegado, diseño y soldadura en acero inoxidable"
+	description="Corte y plegado, diseño de proyecto, soldadura TIG y MIG, campanas, mesones y reparación en acero inoxidable. Taller en San Miguel, Santiago, con más de 20 años."
+	breadcrumb="Servicios"
+	jsonLd={faqLd}
 >
 	<section class="section page-hero page-hero--split" aria-labelledby="servicios-titulo">
 		<div class="container">
@@ -33,7 +37,19 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 					services.map((service) => (
 						<article class="ledger__row" id={service.slug} data-reveal>
 							<h3>{service.title}</h3>
-							<p>{service.summary}</p>
+							{service.href ? (
+								<div class="ledger__body">
+									<p>{service.summary}</p>
+									<a href={service.href} class="arrow-link link-press">
+										{service.linkLabel}
+										<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+											<path d="M5 12h14M13 6l6 6-6 6" />
+										</svg>
+									</a>
+								</div>
+							) : (
+								<p>{service.summary}</p>
+							)}
 							<ul class="check-list">
 								{service.details.map((detail) => <li>{detail}</li>)}
 							</ul>
@@ -107,28 +123,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 </Layout>
 
 <style>
-	.faq-layout {
-		display: grid;
-		gap: clamp(1.5rem, 4vw, 3rem);
-	}
-
-	.faq-layout__head h2 {
-		margin-bottom: 0.75rem;
-	}
-
-	.faq-layout__head p {
-		max-width: 34ch;
-		font-size: 1.0625rem;
-		margin-bottom: 1.5rem;
-	}
-
-	@media (min-width: 1024px) {
-		.faq-layout {
-			grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-			align-items: start;
-		}
-	}
-
 	.timeline {
 		position: relative;
 	}

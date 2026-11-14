@@ -486,3 +486,45 @@ Todo lo listado en `CLAUDE.md` (registro del 2026-10-11) y `DESIGN.md §14`.
 7. `/productos` redirige con `<meta refresh>`, no con un 301 real: configurarlo en el hosting.
 8. `MediaPlaceholder.astro` quedó sin uso.
 9. `WeldingCursor`: los 90 nodos llevan `will-change` permanente.
+
+---
+
+## 9. SEO para «soldadura santiago» (2026-11-14)
+
+### Qué se encontró
+1. **El canónico, el sitemap, `og:url` y el retorno del formulario apuntaban a `jzinox.cl`, que no resuelve.** Google recibía como dirección oficial un dominio muerto y quien enviaba el formulario terminaba en una página de error.
+2. **Ninguna página competía por «soldadura»:** la palabra solo aparecía como un renglón de `/servicios`, y ningún título decía «Santiago».
+3. `/servicios` y `/servicios/` respondían las dos con 200, y `/productos` redirigía con `<meta refresh>`.
+4. Datos estructurados solo en Inicio y Contacto, sin migas, sin preguntas frecuentes ni servicios.
+
+### Qué muestra la competencia (revisión de 8 sitios que posicionan)
+* La búsqueda la dominan micrositios de **soldador a domicilio para rejas y portones**. Nadie habla de acero inoxidable para cocinas, industria alimentaria ni aluminio: ese nicho está libre.
+* Casi ninguno publica dirección; son servicios a domicilio. Un taller físico en San Miguel es ventaja para el mapa de Google.
+* Los que mejor posicionan tienen entre 900 y 5.400 palabras, preguntas frecuentes y datos estructurados de negocio local. Las páginas de TIG e inoxidable de la competencia son delgadas (unas 300 palabras).
+* No se pudo ver la página de resultados real de Google Chile ni su mapa: hay que revisarlo a mano desde Santiago.
+
+### Hecho
+* Landing `/soldadura-santiago` (unas 800 palabras, 9 preguntas, `Service` + `FAQPage`), enlazada desde Inicio, `/servicios` y el pie de todas las páginas.
+* Dominio canónico desde una sola fuente, `robots.txt` generado, sitemap con fecha, URLs sin barra final, 301 reales y caché larga para estáticos en `vercel.json`.
+* `LocalBusiness` con comuna, mapa, Instagram, horario, área y catálogo de servicios; `WebSite`, `WebPage` y migas en todas las páginas; `FAQPage` en `/servicios`.
+* Títulos y descripciones con «Santiago» y «San Miguel»; `lang="es-CL"`.
+
+### Abierto: lo que de verdad decide el primer lugar (fuera del código)
+Pasos, valores y textos listos para copiar en `SEO-LOCAL.md`.
+1. **Ficha de Google Business Profile** con la dirección del taller, categorías de soldadura y acero inoxidable, fotos y horario. Para una búsqueda local el mapa va arriba de los resultados y sale de la ficha, no del sitio.
+2. **Reseñas** de clientes en esa ficha, pedidas de a poco y respondidas.
+3. **Conectar `jzinox.cl`** en Vercel y dejar `jzinox.vercel.app` redirigiendo.
+4. **Search Console:** verificar el dominio, enviar `sitemap-index.xml` y pedir la indexación de `/soldadura-santiago`.
+5. **Enlaces entrantes:** directorios chilenos del rubro, perfil de Instagram con el enlace al sitio, proveedores y clientes que puedan enlazar.
+6. **Mismo nombre, dirección y teléfono** en la ficha, el sitio, Instagram y los directorios.
+
+### Abierto: preguntas al cliente que mejorarían la landing
+Son las que más se buscan y hoy no se pueden responder sin inventar:
+1. ¿Sueldan en terreno o a domicilio, o solo en el taller? ¿En qué comunas?
+2. ¿Hacen trabajos para particulares (rejas, portones, estructuras) o solo para empresas?
+3. ¿Qué calidades de acero trabajan (304, 316, 430) y hasta qué espesor?
+4. ¿Qué piezas de aluminio sueldan?
+5. ¿Cuánto dura la garantía y qué cubre? ¿Emiten factura?
+6. ¿Atienden urgencias? ¿En cuánto tiempo responden una cotización?
+7. Fotos de un cordón TIG de cerca y del soldador trabajando.
+8. ¿Aprueba que la soldadura vuelva a tener página propia?

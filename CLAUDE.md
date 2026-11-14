@@ -56,7 +56,7 @@ Todo cambio que se vea en pantalla (layout, tipografía, color, espaciado, boton
 * **Navegación:** Inicio, Nosotros, Servicios, Productos, Contacto y, tras un divisor, AL Mueblería.
 * **Productos** vive en `/catalogo`. `/productos` redirige ahí. El menú dice "Productos" porque en el rubro "catálogo" suele significar un PDF.
 * **AL Mueblería** es una landing interna en `/al-muebleria`.
-* **Soldadura TIG** es un servicio dentro de `/servicios`, no una página.
+* **Soldadura** tiene landing propia en `/soldadura-santiago` (2026-11-14), pensada para la búsqueda «soldadura santiago». **No va en el menú**: se llega desde el Inicio, `/servicios` y el pie. Revierte la baja de la vista «Soldadura TIG» que pidió el cliente al inicio: falta que la apruebe. Su contenido vive en `src/data/welding.js`.
 * **Orden del Inicio** (pedido del cliente): hero, bloque de JZ INOX, bloque de AL Mueblería, servicios, cierre.
 
 ## 4. Stack
@@ -131,6 +131,11 @@ Reglas:
 2. Un solo `<h1>` por página y encabezados sin saltos de nivel.
 3. `<Seo/>` está en `Layout.astro`: las páginas solo pasan `title` y `description`. El título lleva palabra clave.
 4. `alt` descriptivo siempre. `loading="lazy"` bajo el primer scroll; `fetchpriority="high"` solo en la imagen principal.
+5. **El dominio sale de un solo lugar:** `astro.config.mjs` toma `SITE_URL`, o el dominio de producción de Vercel, y **comprueba al compilar que resuelva**; si no resuelve, usa `jzinox.vercel.app`. Canónico, sitemap, `robots.txt` (`src/pages/robots.txt.js`), datos estructurados y el retorno del formulario salen de ahí. No escribir el dominio a mano.
+6. **URLs sin barra final** (`trailingSlash: 'never'` + `vercel.json`). Los redirects reales (301) viven en `vercel.json`.
+7. **Datos estructurados:** `Seo.astro` emite `WebSite`, `WebPage`, `BreadcrumbList` y el negocio (`LocalBusiness` completo en Inicio, Contacto y Soldadura). Cada página pasa `breadcrumb` y, si tiene, su `jsonLd` (`FAQPage`, `Service`, `ItemList`). No se declaran reseñas, coordenadas ni datos que no existan.
+8. La etiqueta de verificación de Search Console sale de la variable `GOOGLE_SITE_VERIFICATION`; sin ella no se emite.
+9. Cada página nueva lleva `title` (hasta ~60 caracteres con la marca) y `description` (hasta ~160) propios, con la comuna o «Santiago» cuando la búsqueda es local.
 
 ## 8. Accesibilidad
 
@@ -141,7 +146,9 @@ Reglas:
 
 ## 9. Pendiente conocido
 
-* El dominio `jzinox.cl` todavía no resuelve; el sitio vive en `jzinox.vercel.app`.
+* El dominio `jzinox.cl` todavía no resuelve; el sitio vive en `jzinox.vercel.app`. Al conectarlo en Vercel el canónico cambia solo en el siguiente deploy (ver §7.5).
+* Posicionamiento local: falta la ficha de Google Business, Search Console y reseñas. Pasos y textos listos en `SEO-LOCAL.md`; el porqué, en `MEJORAS.md §9`.
+* El proyecto de Vercel de este sitio no está en la cuenta de Vercel conectada a Claude: el dominio se conecta a mano.
 * El formulario envía a FormSubmit: la primera consulta dispara un correo de activación a `ventas@jzinox.cl` que el cliente debe confirmar. No se ha probado un envío real.
 * 13 de 18 productos sin foto; falta una foto horizontal de obra terminada para el hero.
 * No se ha probado en un teléfono real ni en Safari.
@@ -158,5 +165,6 @@ Reglas:
 | 2026-10-04 | Paleta cálida, movimiento, fotos reales, favicon y logotipo nuevo del cliente. |
 | 2026-10-11 | Nosotros fundido en el encabezado, Instagram en pie y Contacto, botón flotante de WhatsApp rehecho, revisión de equilibrio de columnas. Pedidos del cliente (orden del Inicio, sin precios, 6 categorías y 18 productos). Rediseño de distribución y movimiento. Revisión con cinco estudios y sus arreglos. Marca "JZ INOX". Comuna San Miguel y enlace a Maps. Código sin comentarios. |
 | 2026-10-20 | Contenido del PDF `PAGINA WEB`: clientes con logos (Inicio y Nosotros), proyectos recientes, garantía y textos de soldadura, diseño y mesones. |
+| 2026-11-14 | SEO para «soldadura santiago»: landing `/soldadura-santiago`, dominio canónico corregido, datos estructurados, URLs sin barra final, `vercel.json`, columna de servicios en el pie. |
 
 El detalle de cada fecha está en `MEJORAS.md` y en el historial de git.

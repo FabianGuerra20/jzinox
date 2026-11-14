@@ -13,14 +13,16 @@ interface Props {
   flush?: boolean;
   noindex?: boolean;
   jsonLd?: string;
+  breadcrumb?: string;
 }
 
-const { title, description = site.description, flush = false, noindex = false, jsonLd } = Astro.props;
+const { title, description = site.description, flush = false, noindex = false, jsonLd, breadcrumb } = Astro.props;
 const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.tagline}`;
+const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es-CL">
 	<head>
 		<meta charset="utf-8" />
 		<script is:inline>
@@ -33,9 +35,9 @@ const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.t
 		<meta name="theme-color" content="#16120f" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
-		{noindex && <meta name="robots" content="noindex, follow" />}
+		{googleVerification && <meta name="google-site-verification" content={googleVerification} />}
 		<title>{pageTitle}</title>
-		<Seo title={pageTitle} description={description}>
+		<Seo title={pageTitle} description={description} breadcrumb={breadcrumb} noindex={noindex}>
 			{jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
 		</Seo>
 

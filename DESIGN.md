@@ -568,3 +568,6 @@ Del PDF `PAGINA WEB` del cliente. La franja `ClientLogos` va en el Inicio, despu
 
 Proyectos recientes es una sección en renglones (no hay fotos) y la garantía es un renglón más en "¿Por qué elegir JZ INOX?". Soldadura: TIG para inoxidable, MIG para acero carbono, y aluminio (del primer PDF).
 
+### Landing de soldadura (2026-11-14)
+
+`/soldadura-santiago` no trae componentes nuevos: encabezado partido con los dos botones bajo el titular, procesos en `.ledger`, un bloque de foto fija más renglones (el mismo esquema que «Lo que hacemos en taller» del Inicio), la franja de clientes, los datos del taller en celdas a junta y las preguntas en `.faq-layout`. Por eso `.rows`, `.faq-layout` y el enlace con flecha (`.arrow-link`, antes `.services__link`) pasaron a `global.css`. El pie ganó una columna «Servicios»: 2 columnas desde 768px y 4 desde 1024px. La foto es `columna-inox`, la única donde se ven la careta y los cables de soldar; falta una foto real de un cordón o del soldador trabajando.

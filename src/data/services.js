@@ -3,6 +3,8 @@ export const services = [
     slug: "soldadura-tig-mig",
     // [PDF]
     title: "Soldadura TIG, MIG y aluminio",
+    href: "/soldadura-santiago",
+    linkLabel: "Ver soldadura en Santiago",
     icon: "tig",
     summary:
       "Dentro de nuestros servicios contamos con equipamiento para procedimientos de soldadura TIG para acero inoxidable y MIG para acero carbono.",
@@ -82,6 +84,7 @@ export const services = [
 export const mainServices = [
   {
     slug: "soldadura-tig-mig",
+    href: "/soldadura-santiago",
     title: "Soldadura TIG, MIG y aluminio",
     blurb:
       "Contamos con equipamiento para soldadura TIG en acero inoxidable y MIG en acero carbono. También trabajamos aluminio.",

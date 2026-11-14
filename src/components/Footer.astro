@@ -1,5 +1,5 @@
 ---
-import { navItems, site } from "../data/site.js";
+import { navItems, footerServices, site } from "../data/site.js";
 import InstagramIcon from "./InstagramIcon.astro";
 import { srcset } from "../utils/img.js";
 
@@ -33,6 +33,21 @@ const logo = "/img/logo-jzinox.webp";
           navItems.map((item) => (
             <li>
               <a href={item.href} class:list={["footer__link", "link-press", item.ally && "footer__link--ally"]}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav class="footer__col" aria-labelledby="footer-services-title">
+      <h2 class="footer__title" id="footer-services-title">Servicios</h2>
+      <ul class="footer__nav">
+        {
+          footerServices.map((item) => (
+            <li>
+              <a href={item.href} class="footer__link link-press">
                 {item.label}
               </a>
             </li>
@@ -83,7 +98,13 @@ const logo = "/img/logo-jzinox.webp";
     }
 
     .footer__grid {
-      grid-template-columns: 1.4fr 1fr 1.2fr;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .footer__grid {
+      grid-template-columns: 1.3fr 0.9fr 1.1fr 1.2fr;
     }
   }
 
