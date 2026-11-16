@@ -154,7 +154,7 @@ Reglas:
 * Rama `muestra/pedidos-y-mejoras` (16 nov): pedidos del cliente y mejoras de muestra **sin fusionar ni publicar**; falta que Fabián la revise. Detalle en `MEJORAS.md §10`.
 * Las fotos verticales de celular se recortan a 4:3 en las tarjetas del catálogo. Pedirle al cliente fotos horizontales (1600×1200) con la pieza al centro; la foto completa se ve al tocarla.
 * No se ha probado en un teléfono real ni en Safari.
-* Falta mostrarle al cliente la paleta, que se aparta del mockup aprobado.
+* Paleta: Fabián quiere salir del negro con naranjo o rojo (16 nov). Las opciones para el cliente están en `propuestas/selector-paletas.html` (se genera con `node scripts/generar-selector.mjs` después de `npm run build`); van sin nombre, como Opción 1 a 4. Falta mostrárselo.
 * Logos de clientes publicados por uso nominativo: falta que el cliente confirme que puede mostrarlos. Factory Nine se presenta hoy como pastelería: confirmar que es el mismo cliente.
 * El resto, en `MEJORAS.md §8`.
 

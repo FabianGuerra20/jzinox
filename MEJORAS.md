@@ -565,7 +565,7 @@ Pendiente de decisión del equipo (cambian `DESIGN.md`):
 
 Pendiente del cliente:
 - Probar un envío real del formulario (FormSubmit pide activar el correo).
-- Paleta: elegir en `propuestas/selector-paletas.html` (cinco paletas, modo oscuro y claro). La "un solo naranja" necesita un token nuevo `--color-accent-ink` antes de publicarse.
+- Paleta: elegir en `propuestas/selector-paletas.html`. **Lo que Fabián busca con el cambio de paleta es salir del negro con naranjo o rojo** (dicho el 16 nov). Por eso el selector trae la actual, solo para comparar, y cuatro opciones sin nombre que no usan esa combinación: gris azulado con turquesa, azul noche con azul de arco, grafito con amarillo de señal y azul petróleo con verde lima. Cada una en modo oscuro y claro, con contraste AA y con el color de acción apartado de la base (el generador lo mide). El archivo trae las siete páginas del sitio navegables.
 - Por dónde quiere recibir las cotizaciones: si es WhatsApp, el botón principal debería ser ese.
 - Qué define el precio, en cuánto responde y si la visita tiene costo, para una línea de condiciones en el catálogo.
 - 10 de 18 productos sin foto.
