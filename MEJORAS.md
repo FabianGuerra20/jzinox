@@ -565,7 +565,10 @@ Pendiente de decisión del equipo (cambian `DESIGN.md`):
 
 Pendiente del cliente:
 - Probar un envío real del formulario (FormSubmit pide activar el correo).
-- Paleta: elegir en `propuestas/selector-paletas.html`. **Lo que Fabián busca con el cambio de paleta es salir del negro con naranjo o rojo** (dicho el 16 nov). Por eso el selector trae la actual, solo para comparar, y cuatro opciones sin nombre que no usan esa combinación: gris azulado con turquesa, azul noche con azul de arco, grafito con amarillo de señal y azul petróleo con verde lima. Cada una en modo oscuro y claro, con contraste AA y con el color de acción apartado de la base (el generador lo mide). El archivo trae las siete páginas del sitio navegables.
+- Diseño: elegir en `propuestas/elegir-diseno.html`, que funciona igual que el selector de los sitios de pymes. **Lo que Fabián busca con el cambio de paleta es salir del negro con naranjo o rojo** (dicho el 16 nov). Por eso las paletas son la actual, solo para comparar, y cuatro opciones sin nombre que no usan esa combinación: gris azulado con turquesa, azul noche con azul de arco, grafito con amarillo de señal y azul petróleo con verde lima. Cada una en modo oscuro y claro, con contraste AA y con el color de acción apartado de la base (el generador lo mide).
+  - Perillas: 4 propuestas completas, colores, modo, 4 letras (Hanken e Inter, que son las de hoy; Overpass; Sofia Sans Condensed; Host Grotesk con Atkinson), 3 portadas (texto y foto, foto de fondo, título grande), 2 listados del catálogo (tarjetas, renglones), 4 estilos (plano, blando, recorte, editorial) y 3 esquinas (rectas, suaves, redondas).
+  - En modo claro, las secciones alternas van blancas sobre el fondo gris. La primera versión las invertía a oscuro, y quien elegía Claro veía Productos y Contacto en oscuro.
+  - Lo que el cliente elija hay que llevarlo después al sitio real (`global.css` y las páginas). El selector solo sobreescribe estilos, no cambia el sitio.
 - Por dónde quiere recibir las cotizaciones: si es WhatsApp, el botón principal debería ser ese.
 - Qué define el precio, en cuánto responde y si la visita tiene costo, para una línea de condiciones en el catálogo.
 - 10 de 18 productos sin foto.
