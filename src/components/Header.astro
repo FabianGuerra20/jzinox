@@ -6,6 +6,7 @@ const currentPath = Astro.url.pathname;
 
 const clean = (value) => (value !== "/" && value.endsWith("/") ? value.slice(0, -1) : value);
 const isActive = (href) => clean(currentPath) === clean(href);
+const quietCta = ["/", "/soldadura-santiago", "/al-muebleria"].includes(clean(currentPath));
 
 const ctaHref = isActive(navCta.href) ? "#name" : navCta.href;
 const logo = "/img/logo-jzinox.webp";
@@ -67,7 +68,7 @@ const logo = "/img/logo-jzinox.webp";
     <a href={ctaHref} class="btn btn--primary header__cta header__cta--mobile">{navCta.label}</a>
   </nav>
 
-  <a href={ctaHref} class="btn btn--primary header__cta header__cta--desktop">{navCta.label}</a>
+  <a href={ctaHref} class:list={["btn", quietCta ? "btn--outline" : "btn--primary", "header__cta", "header__cta--desktop"]}>{navCta.label}</a>
 
   <label for="nav-toggle" class="header__scrim" aria-hidden="true"></label>
 </header>
@@ -263,7 +264,7 @@ const logo = "/img/logo-jzinox.webp";
       left: 0;
       right: 0;
       height: 100dvh;
-      background-color: rgb(15 12 10 / 0.6);
+      background-color: rgb(15 12 10 / 0.85);
       opacity: 0;
       visibility: hidden;
       transition:

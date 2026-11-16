@@ -455,11 +455,21 @@ import { site } from "../data/site.js";
 
 	.field label {
 		font-family: var(--font-body);
-		font-size: 0.75rem;
+		font-size: 0.875rem;
 		font-weight: 600;
 		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		color: var(--color-text-muted);
+		letter-spacing: 0.06em;
+		color: var(--color-text);
+	}
+
+	@media (max-width: 1023.98px) {
+		.contact__form {
+			order: -1;
+		}
+	}
+
+	:global(body:has(.contact) .fab) {
+		display: none;
 	}
 
 	.field input,

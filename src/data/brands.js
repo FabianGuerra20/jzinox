@@ -10,8 +10,8 @@ export const brands = [
     blurb: "Llevamos más de 20 años trabajando el acero inoxidable en nuestro taller de San Miguel. Diseñamos, cortamos, plegamos y soldamos cada pieza a la medida de tu cocina: campanas, mesones, carros, revestimientos y soportes. Y cuando lo que ya tienes instalado necesita arreglo, también lo reparamos y lo mantenemos.",
     href: "/",
     actions: [
-      { href: "/catalogo", label: "Ver productos", variant: "primary" },
-      { href: "/servicios", label: "Ver servicios", variant: "outline" },
+      { href: "/catalogo", label: "Ver productos", variant: "outline" },
+      { href: "/servicios", label: "Ver servicios", variant: "ghost" },
     ],
     featuredTitle: "Productos destacados",
     featuredHref: "/catalogo",
@@ -41,8 +41,8 @@ export const brands = [
     blurb: "Desarrollamos proyectos en línea plana, piezas de estilo industrial combinadas con estructuras metálicas, y soluciones para el sector comercial y corporativo.",
     href: "/al-muebleria",
     actions: [
-      { href: "/al-muebleria", label: "Conocer AL Mueblería", variant: "primary" },
-      { href: "/al-muebleria#servicios", label: "Ver servicios de mueblería", variant: "outline" },
+      { href: "/al-muebleria", label: "Conocer AL Mueblería", variant: "outline" },
+      { href: "/al-muebleria#servicios", label: "Ver servicios de mueblería", variant: "ghost" },
     ],
     featuredTitle: "Lo que fabricamos",
     featuredHref: "/al-muebleria#al-catalogo",
