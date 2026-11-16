@@ -164,6 +164,12 @@ const listados = [
   { id: "renglones", etiqueta: "Renglones", nota: "Un producto por fila, con la foto al lado." },
 ];
 
+const inicios = [
+  { id: "marcas", etiqueta: "Marcas primero", nota: "Como hoy: JZ INOX, los clientes, AL Mueblería y al final los servicios." },
+  { id: "clientes", etiqueta: "Clientes primero", nota: "Bajo la portada van los logos de KFC, Burger King y los demás; después las marcas y los servicios." },
+  { id: "servicios", etiqueta: "Servicios primero", nota: "Bajo la portada va lo que se hace en el taller; después los clientes y las marcas." },
+];
+
 const estilos = [
   { id: "plano", etiqueta: "Plano", nota: "Líneas finas y sin sombras, como hoy." },
   { id: "blando", etiqueta: "Blando", nota: "Sin bordes; las tarjetas flotan con una sombra suave." },
@@ -178,10 +184,10 @@ const esquinas = [
 ];
 
 const propuestas = [
-  { id: "p1", etiqueta: "Propuesta 1", nota: "La más cercana a hoy: misma forma, otro color.", diseno: { paleta: "opcion-1", luz: "oscuro", letras: "hanken", portada: "dividida", listado: "tarjetas", estilo: "plano", esquinas: "rectas" } },
-  { id: "p2", etiqueta: "Propuesta 2", nota: "Clara y limpia, con la foto de fondo en la portada.", diseno: { paleta: "opcion-2", luz: "claro", letras: "overpass", portada: "foto", listado: "tarjetas", estilo: "blando", esquinas: "suaves" } },
-  { id: "p3", etiqueta: "Propuesta 3", nota: "Industrial y fuerte: rotulado, amarillo de señal y bordes duros.", diseno: { paleta: "opcion-3", luz: "oscuro", letras: "condensada", portada: "palabras", listado: "renglones", estilo: "recorte", esquinas: "rectas" } },
-  { id: "p4", etiqueta: "Propuesta 4", nota: "Clara y moderna, sin cajas y con cantos redondeados.", diseno: { paleta: "opcion-4", luz: "claro", letras: "tecnica", portada: "dividida", listado: "tarjetas", estilo: "editorial", esquinas: "redondas" } },
+  { id: "p1", etiqueta: "Propuesta 1", nota: "La más cercana a hoy: misma forma, otro color.", diseno: { paleta: "opcion-1", luz: "oscuro", letras: "hanken", portada: "dividida", listado: "tarjetas", inicio: "marcas", estilo: "plano", esquinas: "rectas" } },
+  { id: "p2", etiqueta: "Propuesta 2", nota: "Clara y limpia, con la foto de fondo en la portada.", diseno: { paleta: "opcion-2", luz: "claro", letras: "overpass", portada: "foto", listado: "tarjetas", inicio: "clientes", estilo: "blando", esquinas: "suaves" } },
+  { id: "p3", etiqueta: "Propuesta 3", nota: "Industrial y fuerte: rotulado, amarillo de señal y bordes duros.", diseno: { paleta: "opcion-3", luz: "oscuro", letras: "condensada", portada: "palabras", listado: "renglones", inicio: "servicios", estilo: "recorte", esquinas: "rectas" } },
+  { id: "p4", etiqueta: "Propuesta 4", nota: "Clara y moderna, sin cajas y con cantos redondeados.", diseno: { paleta: "opcion-4", luz: "claro", letras: "tecnica", portada: "dividida", listado: "tarjetas", inicio: "clientes", estilo: "editorial", esquinas: "redondas" } },
 ];
 
 const grupos = [
@@ -190,14 +196,15 @@ const grupos = [
   { id: "luz", etiqueta: "Modo", intro: "La misma paleta con fondo oscuro o con fondo claro." },
   { id: "letras", etiqueta: "Letras", intro: "La letra de los títulos y la del texto." },
   { id: "portada", etiqueta: "Portada", intro: "Cómo se ve lo primero del Inicio." },
+  { id: "inicio", etiqueta: "Organización", intro: "Qué va primero en el Inicio, debajo de la portada." },
   { id: "listado", etiqueta: "Listado", intro: "Cómo se muestran los productos en Productos." },
   { id: "estilo", etiqueta: "Estilo", intro: "El trato de las tarjetas y los botones." },
   { id: "esquinas", etiqueta: "Esquinas", intro: "Qué tan redondos son los cantos." },
   { id: "resumen", etiqueta: "Enviar", intro: "Esto es lo que elegiste. Mándalo por WhatsApp y lo dejo así en el sitio." },
 ];
 
-const opcionesDe = { paleta: paletas, luz: luces, letras, portada: portadas, listado: listados, estilo: estilos, esquinas, propuesta: propuestas };
-const paginaDe = { portada: "/", listado: "/catalogo" };
+const opcionesDe = { paleta: paletas, luz: luces, letras, portada: portadas, listado: listados, inicio: inicios, estilo: estilos, esquinas, propuesta: propuestas };
+const paginaDe = { portada: "/", listado: "/catalogo", inicio: "/" };
 
 const cssFuentes = [
   ["Overpass", "overpass-latin-wght-normal.woff2", "100 900"],
@@ -254,6 +261,16 @@ html[data-estilo="editorial"] .pcard__body{padding-inline:0}
 html[data-estilo="editorial"] .pgrid{gap:clamp(1.75rem,3.6vw,3rem)}
 html[data-estilo="editorial"][data-listado="renglones"] .pcard__body{padding-inline:1.5rem}
 
+html:is([data-inicio="clientes"],[data-inicio="servicios"]) main:has(>.clients-band){display:flex;flex-direction:column}
+html:is([data-inicio="clientes"],[data-inicio="servicios"]) main>.closing{order:9}
+html[data-inicio="clientes"] main>.clients-band{order:1}
+html[data-inicio="clientes"] main>.brand-section{order:2}
+html[data-inicio="clientes"] main>.services{order:3}
+html[data-inicio="servicios"] main>.services{order:1}
+html[data-inicio="servicios"] main>.clients-band{order:2}
+html[data-inicio="servicios"] main>.brand-section{order:3}
+html[data-inicio="servicios"] main>.closing{border-top:1px solid var(--color-border)}
+
 html[data-esquinas="suaves"]{--radius:6px;--r-caja:10px;--r-boton:6px}
 html[data-esquinas="redondas"]{--radius:12px;--r-caja:20px;--r-boton:999px}
 html:is([data-esquinas="suaves"],[data-esquinas="redondas"]) :is(.pcard,.bento__cell,.hero__figure,.lightbox img){border-radius:var(--r-caja);overflow:hidden}
@@ -300,6 +317,11 @@ const croquis = {
     rectas: '<rect x="1" y="1" width="62" height="34" class="c-hoja"/><rect x="12" y="7" width="40" height="13" class="c-caja"/><rect x="12" y="24" width="20" height="7" class="c-boton"/>',
     suaves: '<rect x="1" y="1" width="62" height="34" class="c-hoja"/><rect x="12" y="7" width="40" height="13" rx="3" class="c-caja"/><rect x="12" y="24" width="20" height="7" rx="2" class="c-boton"/>',
     redondas: '<rect x="1" y="1" width="62" height="34" class="c-hoja"/><rect x="12" y="7" width="40" height="13" rx="6" class="c-caja"/><rect x="12" y="24" width="20" height="7" rx="3.5" class="c-boton"/>',
+  },
+  inicio: {
+    marcas: '<rect x="1" y="1" width="62" height="34" class="c-hoja"/><rect x="6" y="5" width="20" height="9" class="c-foto"/><path d="M30 8h24M30 12h16"/><path d="M6 19h8M18 19h8M30 19h8M42 19h8" class="c-grueso"/><path d="M6 26h30M6 31h22"/>',
+    clientes: '<rect x="1" y="1" width="62" height="34" class="c-hoja"/><path d="M6 8h8M18 8h8M30 8h8M42 8h8" class="c-grueso"/><rect x="6" y="14" width="20" height="9" class="c-foto"/><path d="M30 17h24M30 21h16"/><path d="M6 28h30M6 32h22"/>',
+    servicios: '<rect x="1" y="1" width="62" height="34" class="c-hoja"/><path d="M6 7h30M6 12h22"/><path d="M6 19h8M18 19h8M30 19h8M42 19h8" class="c-grueso"/><rect x="6" y="24" width="20" height="8" class="c-foto"/><path d="M30 27h24M30 31h16"/>',
   },
   luz: {
     oscuro: '<rect x="1" y="1" width="62" height="34" class="c-noche"/><path d="M8 12h26M8 18h18" class="c-grueso c-claro"/><rect x="8" y="24" width="16" height="6" class="c-boton"/>',
@@ -357,7 +379,7 @@ ${cssDiseno}
 .sp__fila{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
 .sp__opcion{flex:none;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:6px 14px 6px 8px;border:1px solid #9aa0a8;background:#fff;text-align:left;transition:border-color .15s ease,background-color .15s ease}
 .sp__opcion[aria-pressed="true"]{border:2px solid #16181c;padding:5px 13px 5px 7px;background:#fff;box-shadow:inset 0 0 0 1px #16181c}
-.sp__opcion[aria-pressed="true"] .sp__nombre::after{content:" ✓";font-weight:700}
+.sp__opcion[aria-pressed="true"] .sp__nombre::after{content:"";display:inline-block;width:14px;height:14px;margin-left:6px;vertical-align:-2px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2316181c' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 8.5 3.2 3.2L13 5'/%3E%3C/svg%3E") center/contain no-repeat}
 @media (hover:hover) and (pointer:fine){.sp__opcion:hover{border-color:#16181c}.sp__pestana:hover{background:#e9ebee}}
 .sp__opcion:active{transform:scale(.98)}
 @media (prefers-reduced-motion:reduce){.sp__opcion:active{transform:none}}
@@ -408,7 +430,7 @@ ${plantillas}
   const datos = ${JSON.stringify(datosPanel)};
   const raiz = document.documentElement;
   const panel = document.querySelector(".sp");
-  const perillas = ["paleta", "luz", "letras", "portada", "listado", "estilo", "esquinas"];
+  const perillas = ["paleta", "luz", "letras", "portada", "listado", "inicio", "estilo", "esquinas"];
   const limpia = (ruta) => (ruta.length > 1 && ruta.endsWith("/") ? ruta.slice(0, -1) : ruta);
   const nombre = (grupo, id) => (datos.opciones[grupo].find((o) => o.id === id) || {}).etiqueta || id;
   const opcion = (grupo, id) => datos.opciones[grupo].find((o) => o.id === id);
@@ -481,6 +503,10 @@ ${plantillas}
       const destino = datos.paginaDe[grupo];
       if (destino && pagina !== destino) abrir(destino);
       else if (grupo === "portada") window.scrollTo(0, 0);
+      if (grupo === "inicio") {
+        const portada = document.querySelector("main > .hero");
+        window.scrollTo(0, portada ? Math.max(0, portada.offsetHeight - 140) : 0);
+      }
     }
     pintar();
   };

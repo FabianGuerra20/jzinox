@@ -28,6 +28,7 @@ const huella = () => {
     letras: css("main h1", "fontFamily"),
     portada: css(".hero__main", "gridTemplateColumns") + css(".hero__figure", "position") + css(".hero__figure", "aspectRatio"),
     listado: css(".pcard", "display") + css(".pgrid", "gridTemplateColumns").split(" ").length,
+    inicio: css("main > .services", "order") + css("main > .clients-band", "order"),
     estilo: css(".pcard", "boxShadow") + css(".pcard", "borderTopWidth") + css(".pcard", "backgroundColor"),
     esquinas: css("main .btn", "borderTopLeftRadius") + css(".pcard", "borderTopLeftRadius"),
   };

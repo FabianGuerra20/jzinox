@@ -573,3 +573,25 @@ Pendiente del cliente:
 - Qué define el precio, en cuánto responde y si la visita tiene costo, para una línea de condiciones en el catálogo.
 - 10 de 18 productos sin foto.
 
+
+---
+
+## 11. Revisión de estructura y textos (16 nov 2026, tarde)
+
+Pedido de Fabián: que el sitio no parezca hecho con IA y más opciones de organización. Informe con fuentes en el vault: `Informes/Estructura y textos de los sitios de pymes.md`.
+
+### Hecho
+- **Pestaña "Organización" en el selector** (`scripts/generar-selector.mjs`, perilla `inicio`): qué va bajo la portada del Inicio. `marcas` (como hoy), `clientes` (logos, marcas, servicios) o `servicios` (servicios, logos, marcas). Se hace con `order` sobre los hijos de `main`, solo en el Inicio. Cada propuesta trae una distinta. Va antes de "Listado" a propósito: la prueba mide "Estilo" sobre el catálogo.
+- El visto de la opción elegida en el panel era un signo de teclado; ahora es un trazo SVG.
+- `scripts/probar-selector.mjs` mide también la perilla `inicio` (60 clics, todo responde).
+
+### Abierto: proponer al cliente (son sus textos, no se cambian solos)
+- **Clientes primero** en el Inicio: los logos de KFC, Burger King y Wendy's son la mejor prueba y hoy quedan a media página.
+- **"Misión y visión" por capacidades con números:** espesores de plancha, medidas máximas, plazos habituales, si instalan fuera de Santiago. El comprador industrial descarta por vaguedad.
+- **Cotizar desde cada servicio**, no solo desde Contacto.
+- **Tres textos del PDF que suenan a plantilla:** "transformamos el acero inoxidable en soluciones duraderas", "que supere con creces la mueblería importada" y la tarjeta "Trabajos garantizados" (una sola frase de 45 palabras). Propuesta: decir qué se garantiza y por cuánto tiempo.
+
+### Abierto: trabajo propio
+- Quitar las etiquetas chicas en mayúsculas sobre los títulos ("PRODUCTOS DESTACADOS", "LO QUE FABRICAMOS"): es la señal de plantilla más reconocible que queda.
+- Las cinco tarjetas iguales de "¿Por qué elegir JZ INOX?" en Nosotros: pasarlas a una lista con el dato que respalda cada una.
+- La letra del texto en la opción "actual" es Inter; las otras tres opciones de letras la reemplazan.
