@@ -92,6 +92,11 @@
    }
   ]
  },
+ "/img/campana-asador.webp": {
+  "w": 512,
+  "h": 512,
+  "variants": []
+ },
  "/img/campana-central.webp": {
   "w": 1600,
   "h": 1200,
@@ -125,6 +130,16 @@
    }
   ]
  },
+ "/img/carro-tocino-frente.webp": {
+  "w": 738,
+  "h": 1600,
+  "variants": []
+ },
+ "/img/carro-tocino-lado.webp": {
+  "w": 738,
+  "h": 1600,
+  "variants": []
+ },
  "/img/columna-inox.webp": {
   "w": 904,
   "h": 1600,
@@ -157,6 +172,38 @@
   "h": 1600,
   "variants": []
  },
+ "/img/meson-rejillas.webp": {
+  "w": 1600,
+  "h": 1200,
+  "variants": [
+   {
+    "src": "/img/meson-rejillas-w800.webp",
+    "w": 800,
+    "kb": 38.1
+   },
+   {
+    "src": "/img/meson-rejillas-w1200.webp",
+    "w": 1200,
+    "kb": 70.2
+   }
+  ]
+ },
+ "/img/meson-repisa.webp": {
+  "w": 899,
+  "h": 1599,
+  "variants": [
+   {
+    "src": "/img/meson-repisa-w800.webp",
+    "w": 800,
+    "kb": 33.1
+   }
+  ]
+ },
+ "/img/meson-repisas-equipos.webp": {
+  "w": 738,
+  "h": 1600,
+  "variants": []
+ },
  "/img/piezas-cortadas.webp": {
   "w": 1600,
   "h": 1200,
@@ -176,6 +223,28 @@
     "src": "/img/protector-jabon-w800.webp",
     "w": 800,
     "kb": 46.6
+   }
+  ]
+ },
+ "/img/soporte-kds-brazo.webp": {
+  "w": 1600,
+  "h": 2133,
+  "variants": [
+   {
+    "src": "/img/soporte-kds-brazo-w800.webp",
+    "w": 800,
+    "kb": 39.5
+   }
+  ]
+ },
+ "/img/soporte-kds-cocina.webp": {
+  "w": 1600,
+  "h": 2133,
+  "variants": [
+   {
+    "src": "/img/soporte-kds-cocina-w800.webp",
+    "w": 800,
+    "kb": 31.9
    }
   ]
  },

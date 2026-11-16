@@ -13,28 +13,28 @@ export const catalog = [
     name: "Extensión de campana",
     category: "Revestimientos",
     description: "Prolonga la campana hasta el cielo o el muro.",
-    image: { pending: true, slot: "Extensión de campana: fotos 1 y 2 del cliente" },
+    image: { src: "/img/campana-central.webp", alt: "Extensión de acero inoxidable que prolonga la campana hasta el cielo de la cocina", position: "50% 40%" },
   },
   {
     id: "lateral-separador",
     name: "Lateral separador de estaciones",
     category: "Revestimientos",
     description: "Panel que separa dos estaciones de trabajo contiguas.",
-    image: { pending: true, slot: "Lateral separador de estaciones: foto 3 del cliente" },
+    image: { src: "/img/campana-filtros.webp", alt: "Lateral separador de estaciones en acero inoxidable, con ganchos, junto a la línea de cocción", position: "50% 50%" },
   },
   {
     id: "campana",
     name: "Campana",
     category: "Extracción",
     description: "De extracción, a la medida de tu línea de cocción.",
-    image: { src: "/img/campana-central.webp", alt: "Campana de extracción en acero inoxidable colgada del cielo de una cocina industrial", position: "50% 40%" },
+    image: { src: "/img/campana-asador.webp", alt: "Campana de acero inoxidable sobre una parrilla encendida", position: "50% 30%" },
   },
   {
     id: "filtros-campana",
     name: "Filtros de campana",
     category: "Extracción",
     description: "Desmontables, para lavarlos.",
-    image: { src: "/img/campana-filtros.webp", alt: "Interior de una campana de acero inoxidable con su línea de filtros", position: "50% 50%" },
+    image: { pending: true, slot: "Filtros de campana" },
   },
   {
     id: "porta-extintor",
@@ -69,6 +69,10 @@ export const catalog = [
     category: "Soportes y presentadores",
     description: "Para la pantalla de pedidos de cocina (KDS).",
     image: { src: "/img/soporte-kds.webp", alt: "Soporte de acero inoxidable colgado del cielo sosteniendo una pantalla KDS sobre la línea de cocina", position: "50% 40%" },
+    gallery: [
+      { src: "/img/soporte-kds-cocina.webp", alt: "Dos soportes de pantalla KDS colgados del cielo de una cocina", position: "50% 55%" },
+      { src: "/img/soporte-kds-brazo.webp", alt: "Brazo hidráulico del soporte con dos pantallas KDS montadas", position: "50% 40%" },
+    ],
   },
   {
     id: "perchero",
@@ -82,7 +86,10 @@ export const catalog = [
     name: "Carro de bandejas de tocino",
     category: "Carros",
     description: "Con guías para las bandejas.",
-    image: { pending: true, slot: "Carro de bandejas de tocino" },
+    image: { src: "/img/carro-tocino-frente.webp", alt: "Carro de acero inoxidable con guías para bandejas de tocino, visto de frente", position: "50% 45%" },
+    gallery: [
+      { src: "/img/carro-tocino-lado.webp", alt: "Carro de bandejas de tocino en acero inoxidable, visto de lado", position: "50% 45%" },
+    ],
   },
   {
     id: "carro-bidones-aceite",
@@ -94,7 +101,10 @@ export const catalog = [
     id: "meson-repisa",
     name: "Mesón con repisa",
     category: "Mesones",
-    image: { pending: true, slot: "Mesón con repisa" },
+    image: { src: "/img/meson-repisa.webp", alt: "Mesón de acero inoxidable con baranda y repisa inferior", position: "50% 55%" },
+    gallery: [
+      { src: "/img/meson-repisas-equipos.webp", alt: "Mesón de acero inoxidable con repisas y divisiones, con equipos de cocina encima", position: "50% 60%" },
+    ],
   },
   {
     id: "meson-puertas",

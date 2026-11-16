@@ -15,6 +15,8 @@ const slugify = (value) =>
 
 const hasPhoto = (item) => Boolean(item.image && !item.image.pending && item.image.src);
 
+const photosOf = (item) => [item.image, ...(item.gallery ?? [])];
+
 const toRuns = (items) =>
 	items.reduce((runs, item) => {
 		const kind = hasPhoto(item) ? "cards" : "rows";
@@ -89,25 +91,42 @@ const groups = catalogCategories
 								<div class="pgrid catalog-run">
 									{run.items.map((item, i) => (
 										<article class="pcard" data-reveal="fade" style={`--i: ${i % 3}`}>
-											<a
-												class="pcard__media media-frame"
-												href={item.image.src}
-												data-zoom
-												data-alt={item.image.alt}
-												aria-label={`Ampliar la foto de ${item.name}`}
-											>
-												<img
-													src={item.image.src}
-													srcset={srcset(item.image.src)}
-													sizes="(min-width: 1100px) 420px, (min-width: 740px) 46vw, 92vw"
-													alt={item.image.alt}
-													style={item.image.position ? `object-position: ${item.image.position}` : undefined}
-													width="800"
-													height="600"
-													loading="lazy"
-													decoding="async"
-												/>
-											</a>
+											<div class="pcard__gallery" data-gallery={photosOf(item).length > 1 ? "" : undefined}>
+												<div class="pcard__track">
+													{photosOf(item).map((photo, n, all) => (
+														<a
+															class="pcard__media media-frame"
+															href={photo.src}
+															data-zoom
+															data-alt={photo.alt}
+															aria-label={all.length > 1 ? `Ampliar la foto ${n + 1} de ${all.length} de ${item.name}` : `Ampliar la foto de ${item.name}`}
+														>
+															<img
+																src={photo.src}
+																srcset={srcset(photo.src)}
+																sizes="(min-width: 1100px) 420px, (min-width: 740px) 46vw, 92vw"
+																alt={photo.alt}
+																style={photo.position ? `object-position: ${photo.position}` : undefined}
+																width="800"
+																height="600"
+																loading="lazy"
+																decoding="async"
+															/>
+														</a>
+													))}
+												</div>
+												{photosOf(item).length > 1 && (
+													<div class="pcard__nav">
+														<button type="button" class="pcard__step" data-step="-1" aria-label={`Foto anterior de ${item.name}`}>
+															<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M10 3 5 8l5 5" /></svg>
+														</button>
+														<span class="pcard__count" data-count>1 / {photosOf(item).length}</span>
+														<button type="button" class="pcard__step" data-step="1" aria-label={`Foto siguiente de ${item.name}`}>
+															<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m6 3 5 5-5 5" /></svg>
+														</button>
+													</div>
+												)}
+											</div>
 
 											<div class="pcard__body">
 												<h3 id={`${item.id}-name`}>{item.name}</h3>
@@ -167,6 +186,24 @@ const groups = catalogCategories
 		</div>
 	</section>
 </Layout>
+
+<script>
+	document.querySelectorAll("[data-gallery]").forEach((gallery) => {
+		const track = gallery.querySelector(".pcard__track");
+		const count = gallery.querySelector("[data-count]");
+		const total = track.children.length;
+		const current = () => Math.round(track.scrollLeft / track.clientWidth);
+		gallery.querySelectorAll("[data-step]").forEach((button) => {
+			button.addEventListener("click", () => {
+				const next = (current() + Number(button.dataset.step) + total) % total;
+				track.scrollTo({ left: next * track.clientWidth, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+			});
+		});
+		track.addEventListener("scroll", () => {
+			count.textContent = `${current() + 1} / ${total}`;
+		}, { passive: true });
+	});
+</script>
 
 <style>
 	.catalog-bar {
@@ -230,6 +267,77 @@ const groups = catalogCategories
 
 	.catalog-run + .catalog-run {
 		margin-top: clamp(1rem, 2.4vw, var(--gutter));
+	}
+
+	.pcard__gallery {
+		position: relative;
+	}
+
+	.pcard__track {
+		display: flex;
+		overflow-x: auto;
+		overscroll-behavior-x: contain;
+		scroll-snap-type: x mandatory;
+		scrollbar-width: none;
+	}
+
+	.pcard__track::-webkit-scrollbar {
+		display: none;
+	}
+
+	.pcard__track > .pcard__media {
+		flex: 0 0 100%;
+		scroll-snap-align: start;
+	}
+
+	.pcard__nav {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		background-color: var(--color-bg);
+		border-top: 1px solid var(--color-border);
+		border-left: 1px solid var(--color-border);
+	}
+
+	.pcard__step {
+		display: grid;
+		place-items: center;
+		width: var(--tap);
+		height: var(--tap);
+		padding: 0;
+		border: 0;
+		background: none;
+		color: var(--color-text);
+		cursor: pointer;
+		touch-action: manipulation;
+	}
+
+	.pcard__step svg {
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.6;
+	}
+
+	.pcard__step:active {
+		color: var(--color-accent);
+	}
+
+	.pcard__count {
+		min-width: 3.25rem;
+		font-family: var(--font-heading);
+		font-size: 0.875rem;
+		font-weight: 600;
+		font-variant-numeric: tabular-nums;
+		text-align: center;
+		color: var(--color-text);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.pcard__step:hover {
+			color: var(--color-accent);
+		}
 	}
 
 	.prow p:empty {
