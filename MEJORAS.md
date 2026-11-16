@@ -528,3 +528,45 @@ Son las que más se buscan y hoy no se pueden responder sin inventar:
 6. ¿Atienden urgencias? ¿En cuánto tiempo responden una cotización?
 7. Fotos de un cordón TIG de cerca y del soldador trabajando.
 8. ¿Aprueba que la soldadura vuelva a tener página propia?
+
+## 10. Pedidos del cliente y crítica del 16 nov 2026 (rama `muestra/pedidos-y-mejoras`)
+
+### 10.1 Pedidos del cliente (seis audios del 11 nov, transcritos el 16 nov)
+
+| Pedido | Estado |
+|---|---|
+| La foto que estaba en Campana es en realidad la extensión: va en Revestimientos → Extensión de campana | Hecho |
+| La foto que estaba en Filtros de campana es el lateral separador de estaciones | Hecho; Filtros queda sin foto |
+| En Campana va la foto de la campana sobre la parrilla | Hecho; el original mide 512 px, pedir uno mejor |
+| Poder poner más de dos fotos por producto y deslizarlas | Hecho: galería con deslizamiento y flechas, sin avance automático |
+| Con qué dimensiones se suben las fotos, porque salen recortadas | Respuesta: las tarjetas son horizontales 4:3 (1600×1200 ideal); las verticales se recortan y se ven completas al tocarlas |
+| Fotos de carros de bandejas de tocino | Hecho (2 fotos) |
+| Fotos de mesones con repisas y con puertas | Mesón con repisa: hecho (2 fotos). Mesón con puertas: ninguna de las tres fotos muestra puertas; confirmar con el cliente |
+| Falta la mesa de bebidas CCU | Sigue pendiente del cliente |
+| Otra foto para los presentadores de pizza, con la pizza puesta | Pendiente: aún no está en la carpeta |
+| Cambiar las imágenes del Inicio por una de mejor calidad | Hero cambiado a la foto del mesón con rejillas; confirmar que era esa |
+
+Material nuevo sin usar, por confirmar a qué producto corresponde: dos repisas de muro (carpeta Catálogo), un carro bajo (carpeta carros), aplastador de basura, revestimiento de lava mopa, tres fotos más del soporte KDS y dos videos de plegado para Servicios.
+
+El documento "Textos Página Web" que vino con el material trae los mismos textos de Inicio, Nosotros y AL Mueblería que ya están marcados `[PDF]`; las secciones Servicios, Catálogo, Botón flotante y Contacto vienen vacías.
+
+### 10.2 Crítica de diseño (26/36)
+
+Hecha contra el informe del vault `Informes/Color y corrientes de diseño web.md`. El acento naranja se usa solo en acciones y estados (cumple la regla 3), pero se diluye: en `/catalogo` hay 18 botones verdes de WhatsApp contra 2 naranjas, en las secciones claras el acento baja a ladrillo y se confunde con el rojo de error, y había rellenos de acento en botones que solo navegan.
+
+Aplicado como muestra: botón del encabezado en contorno donde la portada ya trae el mismo llamado; botones de navegación sin relleno; Cotizar proyecto como principal en AL Mueblería; listas y renglones a 16 px; etiquetas del formulario a 14 px; en celular el formulario de Contacto antes que los datos y sin botón flotante; bandas de cierre sin revelado al hacer scroll; flotante sin sombra; velo del menú más opaco; aviso de más categorías en la barra del catálogo.
+
+Pendiente de decisión del equipo (cambian `DESIGN.md`):
+- Pares de botones de igual peso (formulario y WhatsApp): dejar WhatsApp como botón fantasma con glifo, o un solo color de acción.
+- `.btn--sm` a 14 px: hoy el botón que convierte en el catálogo es la letra más chica de la página.
+- Acortar los revelados (0,7 a 1,4 s hoy) a 0,4 a 0,6 s y quitar el revelado de los títulos de sección.
+- Quitar Lenis.
+- `.catalog-groups { max-width: 65rem }` para que las tandas de una o dos tarjetas no dejen un tercio de la fila vacío.
+
+Pendiente del cliente:
+- Probar un envío real del formulario (FormSubmit pide activar el correo).
+- Paleta: elegir en `propuestas/selector-paletas.html` (cinco paletas, modo oscuro y claro). La "un solo naranja" necesita un token nuevo `--color-accent-ink` antes de publicarse.
+- Por dónde quiere recibir las cotizaciones: si es WhatsApp, el botón principal debería ser ese.
+- Qué define el precio, en cuánto responde y si la visita tiene costo, para una línea de condiciones en el catálogo.
+- 10 de 18 productos sin foto.
+

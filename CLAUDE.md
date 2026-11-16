@@ -150,7 +150,9 @@ Reglas:
 * Posicionamiento local: falta la ficha de Google Business, Search Console y reseñas. Pasos y textos listos en `SEO-LOCAL.md`; el porqué, en `MEJORAS.md §9`.
 * El proyecto de Vercel de este sitio no está en la cuenta de Vercel conectada a Claude: el dominio se conecta a mano.
 * El formulario envía a FormSubmit: la primera consulta dispara un correo de activación a `ventas@jzinox.cl` que el cliente debe confirmar. No se ha probado un envío real.
-* 13 de 18 productos sin foto; falta una foto horizontal de obra terminada para el hero.
+* 10 de 18 productos sin foto (Filtros de campana quedó sin foto el 16 nov: la que tenía era del lateral separador). El hero usa desde el 16 nov la foto del mesón con rejillas que subió el cliente: es de buena resolución pero tiene desorden alrededor; sigue faltando una foto horizontal de obra terminada.
+* Rama `muestra/pedidos-y-mejoras` (16 nov): pedidos del cliente y mejoras de muestra **sin fusionar ni publicar**; falta que Fabián la revise. Detalle en `MEJORAS.md §10`.
+* Las fotos verticales de celular se recortan a 4:3 en las tarjetas del catálogo. Pedirle al cliente fotos horizontales (1600×1200) con la pieza al centro; la foto completa se ve al tocarla.
 * No se ha probado en un teléfono real ni en Safari.
 * Falta mostrarle al cliente la paleta, que se aparta del mockup aprobado.
 * Logos de clientes publicados por uso nominativo: falta que el cliente confirme que puede mostrarlos. Factory Nine se presenta hoy como pastelería: confirmar que es el mismo cliente.
@@ -166,5 +168,6 @@ Reglas:
 | 2026-10-11 | Nosotros fundido en el encabezado, Instagram en pie y Contacto, botón flotante de WhatsApp rehecho, revisión de equilibrio de columnas. Pedidos del cliente (orden del Inicio, sin precios, 6 categorías y 18 productos). Rediseño de distribución y movimiento. Revisión con cinco estudios y sus arreglos. Marca "JZ INOX". Comuna San Miguel y enlace a Maps. Código sin comentarios. |
 | 2026-10-20 | Contenido del PDF `PAGINA WEB`: clientes con logos (Inicio y Nosotros), proyectos recientes, garantía y textos de soldadura, diseño y mesones. |
 | 2026-11-14 | SEO para «soldadura santiago»: landing `/soldadura-santiago`, dominio canónico corregido, datos estructurados, URLs sin barra final, `vercel.json`, columna de servicios en el pie. |
+| 2026-11-16 | En la rama `muestra/pedidos-y-mejoras`: pedidos del cliente por audio (fotos reubicadas, galería de varias fotos por producto, fotos nuevas, hero), mejoras de muestra de la crítica de diseño y `scripts/generar-selector.mjs`, que arma `propuestas/selector-paletas.html` para que el cliente elija paleta y modo. |
 
 El detalle de cada fecha está en `MEJORAS.md` y en el historial de git.
