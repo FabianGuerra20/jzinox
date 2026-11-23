@@ -24,6 +24,8 @@
 > flotante. Encabezados de página sobre el lienzo, sin junta. Cabecera opaca y un solo botón de cotizar (contorno) en todas
 > las páginas. En el catálogo, desde 1100px una tarjeta sola se pone al lado de sus renglones. Chispas solo sobre cabecera y
 > en todo el sitio en azul de arco (gama clara sobre el lienzo, brillante sobre cabecera y pie).
+> La barra de categorías del catálogo usa botones con `--radius` y `--shadow-sm`, la cantidad de productos y marca en azul
+> la categoría visible.
 > **Esto reemplaza** la regla de radio cero, la paleta cálida de §2 y la junta de 1px en las tarjetas; donde el resto
 > del documento diga lo contrario, manda esta nota.
 
