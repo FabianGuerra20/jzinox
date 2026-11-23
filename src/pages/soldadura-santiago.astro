@@ -92,7 +92,7 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 
 	<section class="section" aria-labelledby="soldadura-trabajos">
 		<div class="container weld-jobs">
-			<figure class="weld-jobs__photo media-frame photo-fill" style={photoFill(weldingJobs.photo.src)} data-reveal="cut">
+			<figure class="weld-jobs__photo media-frame photo-fill" style={photoFill(weldingJobs.photo.src)} data-reveal>
 				<img
 					src={weldingJobs.photo.src}
 					srcset={srcset(weldingJobs.photo.src)}
@@ -206,7 +206,7 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 		</div>
 	</section>
 
-	<section class="section section--tight cta-band cta-band--dark" aria-labelledby="soldadura-cierre">
+	<section class="section section--tight cta-band" aria-labelledby="soldadura-cierre">
 		<div class="container cta-band__inner">
 			<div class="cta-band__text">
 				<h2 id="soldadura-cierre">{weldingCta.title}</h2>
@@ -239,7 +239,7 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 	.weld-jobs__photo {
 		margin: 0;
 		aspect-ratio: 4 / 3;
-		border: 1px solid var(--color-border);
+		border-radius: var(--radius-card);
 	}
 
 	.weld-jobs__photo img {

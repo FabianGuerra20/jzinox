@@ -18,10 +18,10 @@ import { site } from "../data/site.js";
 		</div>
 	</section>
 
-	<section class="section section--tight section--alt contact">
+	<section class="section section--tight contact">
 		<div class="container">
-			<div class="bento contact__grid">
-				<div class="bento__cell bento__cell--accent contact__info">
+			<div class="contact__grid">
+				<div class="contact__info">
 					<h2>Datos de contacto</h2>
 
 					<dl class="contact__list">
@@ -66,7 +66,7 @@ import { site } from "../data/site.js";
 				</div>
 
 				<form
-					class="bento__cell contact__form"
+					class="card contact__form"
 					action={site.formsubmitEndpoint}
 					method="POST"
 					enctype="multipart/form-data"
@@ -310,6 +310,7 @@ import { site } from "../data/site.js";
 		margin: 0;
 		padding: 0.8rem 1rem;
 		border: 1px solid var(--color-warn);
+		border-radius: var(--radius);
 		background-color: color-mix(in srgb, var(--color-warn) 14%, var(--color-bg));
 		color: var(--color-graphite);
 		font-size: 0.85rem;
@@ -322,6 +323,7 @@ import { site } from "../data/site.js";
 		font-size: 0.875rem;
 		line-height: 1.5;
 		border: 1px solid;
+		border-radius: var(--radius);
 	}
 
 	.form__result--ok {
@@ -335,13 +337,22 @@ import { site } from "../data/site.js";
 		cursor: progress;
 	}
 
+	.contact__grid {
+		display: grid;
+		gap: clamp(2rem, 5vw, 4rem);
+		align-items: start;
+	}
+
 	@media (min-width: 1024px) {
 		.contact__grid {
 			grid-template-columns: 1fr 1.15fr;
 		}
 	}
 
-	.contact__info,
+	.contact__info {
+		padding-top: clamp(0.5rem, 2vw, 1.5rem);
+	}
+
 	.contact__form {
 		padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1.2rem, 3.5vw, 2rem);
 	}
@@ -477,7 +488,7 @@ import { site } from "../data/site.js";
 	.field textarea {
 		width: 100%;
 		min-height: var(--tap);
-		background-color: var(--color-bg);
+		background-color: #ffffff;
 		border: 1px solid var(--color-steel-dark);
 		border-radius: var(--radius);
 		color: var(--color-graphite);
@@ -489,7 +500,7 @@ import { site } from "../data/site.js";
 	.field select {
 		appearance: none;
 		-webkit-appearance: none;
-		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%235f5e5e' stroke-width='1.6'/%3E%3C/svg%3E");
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%234c5468' stroke-width='1.6'/%3E%3C/svg%3E");
 		background-repeat: no-repeat;
 		background-position: right 0.85rem center;
 		padding-right: 2.4rem;
@@ -546,18 +557,20 @@ import { site } from "../data/site.js";
 
 	.field input::placeholder,
 	.field textarea::placeholder {
-		color: var(--color-text-muted);
+		color: color-mix(in srgb, var(--color-text-muted) 80%, #ffffff);
 	}
 
 	.field input:focus,
 	.field select:focus,
 	.field textarea:focus {
-		border-color: var(--color-graphite);
-		box-shadow: inset 0 0 0 1px var(--color-graphite);
+		border-color: var(--color-accent);
+		box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 22%, transparent);
 	}
 
-	.contact__form :focus-visible {
-		outline-color: var(--color-graphite);
+	.field input:focus-visible,
+	.field select:focus-visible,
+	.field textarea:focus-visible {
+		outline: none;
 	}
 
 	.field input[aria-invalid="true"]:focus,

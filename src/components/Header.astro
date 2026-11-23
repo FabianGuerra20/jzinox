@@ -6,7 +6,6 @@ const currentPath = Astro.url.pathname;
 
 const clean = (value) => (value !== "/" && value.endsWith("/") ? value.slice(0, -1) : value);
 const isActive = (href) => clean(currentPath) === clean(href);
-const quietCta = ["/", "/soldadura-santiago", "/al-muebleria"].includes(clean(currentPath));
 
 const ctaHref = isActive(navCta.href) ? "#name" : navCta.href;
 const logo = "/img/logo-jzinox.webp";
@@ -68,7 +67,7 @@ const logo = "/img/logo-jzinox.webp";
     <a href={ctaHref} class="btn btn--primary header__cta header__cta--mobile">{navCta.label}</a>
   </nav>
 
-  <a href={ctaHref} class:list={["btn", quietCta ? "btn--outline" : "btn--primary", "header__cta", "header__cta--desktop"]}>{navCta.label}</a>
+  <a href={ctaHref} class="btn btn--outline header__cta header__cta--desktop">{navCta.label}</a>
 
   <label for="nav-toggle" class="header__scrim" aria-hidden="true"></label>
 </header>
@@ -86,16 +85,7 @@ const logo = "/img/logo-jzinox.webp";
     gap: 1rem;
     padding: 0 var(--margin-mobile);
     background-color: var(--color-steel);
-    background-color: color-mix(in srgb, var(--color-steel) 90%, transparent);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--color-steel-dark);
-  }
-
-  @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
-    .header {
-      background-color: var(--color-steel);
-    }
   }
 
   .header :focus-visible {
@@ -244,8 +234,8 @@ const logo = "/img/logo-jzinox.webp";
       clip-path: inset(0 0 100% 0);
       visibility: hidden;
       transition:
-        clip-path 0.28s var(--ease-out),
-        visibility 0s linear 0.28s;
+        clip-path 0.2s var(--ease-out),
+        visibility 0s linear 0.2s;
     }
 
     .header__toggle-input:checked ~ .header__nav {

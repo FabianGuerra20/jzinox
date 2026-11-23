@@ -1,4 +1,5 @@
 import manifest from "../data/img-manifest.json";
+import blur from "../data/img-blur.json";
 
 export function srcset(src) {
   const entry = manifest[src];
@@ -7,7 +8,5 @@ export function srcset(src) {
 }
 
 export function photoFill(src) {
-  const entry = manifest[src];
-  const smallest = entry?.variants.length ? entry.variants[0].src : src;
-  return `--photo: url("${smallest}")`;
+  return `--photo: url("${blur[src]}")`;
 }

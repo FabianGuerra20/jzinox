@@ -23,7 +23,6 @@ export default defineConfig({
 	integrations: [
 		sitemap({
 			filter: (page) => !/\/(gracias|404|productos)\/?$/.test(page),
-			lastmod: new Date(),
 		}),
 	],
 });

@@ -14,10 +14,11 @@ interface Props {
   noindex?: boolean;
   jsonLd?: string;
   breadcrumb?: string;
+  brand?: string;
 }
 
-const { title, description = site.description, flush = false, noindex = false, jsonLd, breadcrumb } = Astro.props;
-const pageTitle = title ? `${title} | ${site.name}` : `${site.name} — ${site.tagline}`;
+const { title, description = site.description, flush = false, noindex = false, jsonLd, breadcrumb, brand = site.name } = Astro.props;
+const pageTitle = title ? `${title} | ${brand}` : `${site.name} — ${site.tagline}`;
 const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
 ---
 
@@ -147,6 +148,7 @@ const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
 					input.checked = open;
 					label.setAttribute("aria-expanded", String(open));
 					label.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+					document.querySelectorAll("main, .footer, .fab").forEach((element) => element.toggleAttribute("inert", open));
 					if (lenis) open ? lenis.stop() : lenis.start();
 				};
 
@@ -197,7 +199,6 @@ const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
 				});
 
 				dialog.addEventListener("close", () => {
-					if (photo) photo.removeAttribute("src");
 					if (lenis) lenis.start();
 				});
 			}

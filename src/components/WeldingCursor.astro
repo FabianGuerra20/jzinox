@@ -20,9 +20,8 @@
     width: 2px;
     height: 11px;
     border-radius: 40%;
-    background-color: rgb(var(--c, 255, 168, 56));
+    background-color: rgb(var(--c, 150, 192, 255));
     opacity: 0;
-    will-change: transform, opacity;
   }
 
   #tig-sparks :global(.spark)::after {
@@ -35,8 +34,8 @@
     transform: translate(-50%, -50%);
     background: radial-gradient(
       closest-side,
-      rgba(var(--c, 255, 168, 56), calc(0.7 * var(--a, 1))) 0%,
-      rgba(var(--c, 255, 168, 56), calc(0.25 * var(--a, 1))) 55%,
+      rgba(var(--c, 150, 192, 255), calc(0.7 * var(--a, 1))) 0%,
+      rgba(var(--c, 150, 192, 255), calc(0.25 * var(--a, 1))) 55%,
       transparent 100%
     );
   }
@@ -63,14 +62,14 @@
     const MAX_DT = 0.05;
     const MAX_DRAG_SPEED = 1400;
     const HEAT_STEPS = 8;
-    const SPARK_OFF = "form, dialog";
+    const SPARK_ON = ".header, .footer";
 
     const HEAT = [
-      { t: 0.0, c: [255, 253, 244], glow: 13 },
-      { t: 0.18, c: [255, 236, 160], glow: 11 },
-      { t: 0.45, c: [255, 168, 56], glow: 8 },
-      { t: 0.75, c: [216, 80, 63], glow: 4 },
-      { t: 1.0, c: [124, 33, 22], glow: 0 },
+      { t: 0.0, c: [255, 255, 255], glow: 13 },
+      { t: 0.18, c: [214, 230, 255], glow: 11 },
+      { t: 0.45, c: [150, 192, 255], glow: 8 },
+      { t: 0.75, c: [110, 168, 255], glow: 4 },
+      { t: 1.0, c: [31, 85, 201], glow: 0 },
     ];
 
     function heatAt(t) {
@@ -99,7 +98,7 @@
       const el = document.createElement("span");
       el.className = "spark";
       frag.appendChild(el);
-      pool.push({ el, alive: false, x: 0, y: 0, vx: 0, vy: 0, age: 0, life: 1, scale: 1, stage: -1 });
+      pool.push({ el, alive: false, x: 0, y: 0, vx: 0, vy: 0, age: 0, life: 1, scale: 1, stage: -1, top: 0, bottom: 0 });
     }
     layer.appendChild(frag);
 
@@ -110,7 +109,7 @@
     let lastY = null;
     let lastMoveTime = 0;
 
-    function emit(x, y, dragVx, dragVy) {
+    function emit(x, y, dragVx, dragVy, surface) {
       const p = pool[cursor];
       cursor = (cursor + 1) % POOL_SIZE;
 
@@ -126,6 +125,8 @@
       p.life = (heavy ? 0.62 : 0.34) + Math.random() * 0.38;
       p.scale = heavy ? 1.15 + Math.random() * 0.5 : 0.55 + Math.random() * 0.5;
       p.stage = -1;
+      p.top = surface.top;
+      p.bottom = surface.bottom;
       p.alive = true;
     }
 
@@ -141,7 +142,7 @@
         if (!p.alive) continue;
 
         p.age += dt;
-        if (p.age >= p.life) {
+        if (p.age >= p.life || p.y > p.bottom - 10 || p.y < p.top + 10) {
           p.alive = false;
           p.el.style.opacity = "0";
           continue;
@@ -187,7 +188,8 @@
     }
 
     function onPointerMove(event) {
-      if (!(event.target instanceof Element) || event.target.closest(SPARK_OFF)) {
+      const surface = event.target instanceof Element ? event.target.closest(SPARK_ON) : null;
+      if (!surface) {
         lastX = null;
         return;
       }
@@ -223,7 +225,7 @@
         const k = i / steps;
         const burst = 1 + Math.floor(Math.random() * 2);
         for (let n = 0; n < burst; n++) {
-          emit(lastX + dx * k, lastY + dy * k, dragVx, dragVy);
+          emit(lastX + dx * k, lastY + dy * k, dragVx, dragVy, surface.getBoundingClientRect());
         }
       }
 

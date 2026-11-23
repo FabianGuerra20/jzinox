@@ -24,8 +24,8 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 
 <Layout
 	flush
-	title="Acero inoxidable a medida y soldadura en Santiago"
-	description="Taller de acero inoxidable y soldadura en San Miguel, Santiago. Mesones, campanas y equipamiento a medida, reparación y mantención. Más de 20 años de oficio."
+	title="Fabricación en acero inoxidable en Santiago"
+	description="Taller de acero inoxidable en San Miguel, Santiago. Fabricamos mesones, campanas y equipamiento a medida para restaurantes y comida rápida. Cotiza por WhatsApp."
 >
 	<section class="hero">
 		<div class="hero__main">
@@ -117,7 +117,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 
 				{
 					servicePhoto && (
-						<figure class="services__photo media-frame photo-fill" style={photoFill(servicePhoto.src)} data-reveal="cut">
+						<figure class="services__photo media-frame photo-fill" style={photoFill(servicePhoto.src)} data-reveal>
 							<img
 								src={servicePhoto.src}
 								srcset={srcset(servicePhoto.src)}
@@ -335,7 +335,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 
 	@keyframes hero-settle {
 		from {
-			transform: scale(1.1);
+			transform: scale(1.04);
 		}
 		to {
 			transform: none;
@@ -373,7 +373,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		}
 
 		.hero__figure img {
-			animation: hero-settle 1.4s var(--ease-out) both;
+			animation: hero-settle 1s var(--ease-out) both;
 		}
 
 		.hero__cell > * {
@@ -408,7 +408,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	.services__photo {
 		margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
 		aspect-ratio: 4 / 3;
-		border: 1px solid var(--color-border);
+		border-radius: var(--radius-card);
 	}
 
 	@media (min-width: 1024px) {

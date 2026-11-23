@@ -37,13 +37,8 @@ const catalogLd = JSON.stringify({
 	itemListElement: catalog.map((item, i) => ({
 		"@type": "ListItem",
 		position: i + 1,
-		item: {
-			"@type": "Product",
-			name: item.name,
-			description: item.description,
-			category: item.category,
-			brand: { "@type": "Brand", name: site.name },
-		},
+		name: item.name,
+		url: `${site.siteUrl}/catalogo#${slugify(item.category)}`,
 	})),
 });
 
@@ -56,8 +51,8 @@ const groups = catalogCategories
 ---
 
 <Layout
-	title="Campanas, mesones y carros en acero inoxidable"
-	description="Campanas, revestimientos, mesones, carros, soportes y protectores en acero inoxidable fabricados a medida. Cotiza cada pieza según tus medidas."
+	title="Mesones y campanas de acero inoxidable a medida"
+	description="Mesones, campanas, carros, soportes y protectores de acero inoxidable a medida para cocinas profesionales. Taller en San Miguel, Santiago. Cotiza por WhatsApp."
 	jsonLd={catalogLd}
 	breadcrumb="Productos"
 >
@@ -79,7 +74,7 @@ const groups = catalogCategories
 		</div>
 	</nav>
 
-	<section class="section section--alt catalog">
+	<section class="section catalog">
 		<div class="container catalog-groups">
 			{
 				groups.map((group) => (
@@ -105,7 +100,7 @@ const groups = catalogCategories
 															<img
 																src={photo.src}
 																srcset={srcset(photo.src)}
-																sizes="(min-width: 1100px) 420px, (min-width: 740px) 46vw, 92vw"
+																sizes="(min-width: 1100px) 640px, (min-width: 740px) 46vw, 92vw"
 																alt={photo.alt}
 																width="800"
 																height="600"
@@ -174,7 +169,7 @@ const groups = catalogCategories
 		</div>
 	</section>
 
-	<section class="section section--tight cta-band cta-band--dark" aria-labelledby="catalogo-cierre">
+	<section class="section section--tight section--alt cta-band" aria-labelledby="catalogo-cierre">
 		<div class="container cta-band__inner">
 			<div class="cta-band__text">
 				<h2 id="catalogo-cierre">¿No encuentras lo que buscas?</h2>
@@ -195,8 +190,11 @@ const groups = catalogCategories
 		const current = () => Math.round(track.scrollLeft / track.clientWidth);
 		gallery.querySelectorAll("[data-step]").forEach((button) => {
 			button.addEventListener("click", () => {
-				const next = (current() + Number(button.dataset.step) + total) % total;
-				track.scrollTo({ left: next * track.clientWidth, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+				const step = Number(button.dataset.step);
+				const next = (current() + step + total) % total;
+				const wraps = Math.abs(next - current()) > 1;
+				const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+				track.scrollTo({ left: next * track.clientWidth, behavior: reduced || wraps ? "auto" : "smooth" });
 			});
 		});
 		track.addEventListener("scroll", () => {
@@ -275,6 +273,28 @@ const groups = catalogCategories
 		margin-top: clamp(1rem, 2.4vw, var(--gutter));
 	}
 
+	@media (min-width: 1100px) {
+		.catalog-group {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			column-gap: clamp(1rem, 2.4vw, var(--gutter));
+			align-items: start;
+		}
+
+		.catalog-group > * {
+			grid-column: 1 / -1;
+		}
+
+		.catalog-group > .pgrid:has(> .pcard:only-child) {
+			grid-column: 1;
+		}
+
+		.catalog-group > .pgrid:has(> .pcard:only-child) + .prows {
+			grid-column: 2;
+			margin-top: 0;
+		}
+	}
+
 	.pcard__gallery {
 		position: relative;
 	}
@@ -298,13 +318,13 @@ const groups = catalogCategories
 
 	.pcard__nav {
 		position: absolute;
-		right: 0;
-		bottom: 0;
+		right: 10px;
+		bottom: 10px;
 		display: flex;
 		align-items: center;
-		background-color: var(--color-bg);
-		border-top: 1px solid var(--color-border);
-		border-left: 1px solid var(--color-border);
+		background-color: color-mix(in srgb, var(--color-bg) 92%, transparent);
+		border-radius: var(--radius);
+		box-shadow: var(--shadow-sm);
 	}
 
 	.pcard__step {
@@ -324,6 +344,11 @@ const groups = catalogCategories
 		fill: none;
 		stroke: currentColor;
 		stroke-width: 1.6;
+		transition: transform 0.12s var(--ease-out);
+	}
+
+	.pcard__step:active svg {
+		transform: scale(0.9);
 	}
 
 	.pcard__step:active {

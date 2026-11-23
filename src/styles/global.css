@@ -124,6 +124,10 @@ html {
   html:has(.header__toggle-input:checked) {
     overflow: hidden;
   }
+
+  html:has(.header__toggle-input:checked) .fab {
+    visibility: hidden;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -211,6 +215,7 @@ a {
   letter-spacing: 0.05em;
   font-size: 0.875rem;
   padding: 0.7rem 1.2rem;
+  border-radius: var(--radius);
 }
 
 .skip-link:focus-visible {
@@ -259,32 +264,12 @@ ol[role="list"] {
   inset: -40px;
   z-index: -1;
   background: var(--photo) center / cover no-repeat;
-  filter: blur(28px) saturate(0.85);
-  opacity: 0.75;
+  filter: blur(22px);
+  transform: scale(1.15);
 }
 
 .media-frame img {
   width: 100%;
-  transform: scale(1);
-  transition: transform 0.3s var(--ease-out);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .media-frame:hover img,
-  .media-frame:focus-within img {
-    transform: scale(1.05);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .media-frame img {
-    transition: none;
-  }
-
-  .media-frame:hover img,
-  .media-frame:focus-within img {
-    transform: none;
-  }
 }
 
 .container {
@@ -481,8 +466,6 @@ ol[role="list"] {
 .page-hero {
   padding-top: clamp(2.75rem, 7vw, 5.5rem);
   padding-bottom: clamp(2.25rem, 5vw, 4rem);
-  border-bottom: 1px solid var(--color-border);
-  background-color: var(--color-bg);
 }
 
 .page-hero--tight {
@@ -536,12 +519,6 @@ ol[role="list"] {
     line-height: 1.35;
     color: var(--color-text);
   }
-}
-
-.cta-band--dark {
-  background-color: var(--color-bg);
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
 }
 
 .cta-band__inner {
@@ -744,17 +721,6 @@ ol[role="list"] {
   margin-top: auto;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .pcard.is-in {
-    transition:
-      opacity 0.3s ease,
-      border-color 0.2s ease;
-  }
-
-  .pcard:hover {
-    border-color: var(--color-text);
-  }
-}
 
 .prows {
   border-bottom: 1px solid var(--color-border);
@@ -799,21 +765,57 @@ ol[role="list"] {
   max-width: min(94vw, 1200px);
   max-height: 92dvh;
   padding: 0;
-  border: 1px solid var(--color-border);
+  border: 0;
   border-radius: var(--radius-card);
   background-color: var(--color-page);
   color: var(--color-text);
+  box-shadow: var(--shadow-card);
   overflow: hidden;
+  opacity: 0;
+  transform: scale(0.97);
+  transition:
+    opacity 0.15s var(--ease-out),
+    transform 0.15s var(--ease-out),
+    overlay 0.15s allow-discrete,
+    display 0.15s allow-discrete;
+}
+
+.lightbox[open] {
+  opacity: 1;
+  transform: none;
+  transition-duration: 0.2s;
+}
+
+@starting-style {
+  .lightbox[open] {
+    opacity: 0;
+    transform: scale(0.97);
+  }
 }
 
 .lightbox::backdrop {
   background-color: rgb(13 16 24 / 0.88);
+  opacity: 0;
+  transition:
+    opacity 0.2s var(--ease-out),
+    overlay 0.2s allow-discrete,
+    display 0.2s allow-discrete;
+}
+
+.lightbox[open]::backdrop {
+  opacity: 1;
+}
+
+@starting-style {
+  .lightbox[open]::backdrop {
+    opacity: 0;
+  }
 }
 
 .lightbox img {
   display: block;
   max-width: min(94vw, 1200px);
-  max-height: calc(92dvh - 2px);
+  max-height: 92dvh;
   width: auto;
   height: auto;
   object-fit: contain;
@@ -821,35 +823,30 @@ ol[role="list"] {
 
 .lightbox__close {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 8px;
+  right: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   width: var(--tap);
   height: var(--tap);
   border: 0;
-  border-left: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  background-color: var(--color-page);
+  border-radius: var(--radius);
+  background-color: color-mix(in srgb, var(--color-bg) 92%, transparent);
   color: var(--color-text);
+  box-shadow: var(--shadow-sm);
   cursor: pointer;
+  transition: transform 0.16s var(--ease-out);
 }
 
-@keyframes lightbox-in {
-  from {
-    opacity: 0;
-    transform: scale(0.97);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+.lightbox__close:active {
+  transform: scale(0.97);
 }
 
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: reduce) {
+  .lightbox,
   .lightbox[open] {
-    animation: lightbox-in 0.2s var(--ease-out);
+    transform: none;
   }
 }
 
@@ -947,27 +944,12 @@ ol[role="list"] {
   background-color: var(--color-text-muted);
 }
 
-.bento {
-  display: grid;
-  gap: 1px;
-  background-color: var(--color-border);
-  border: 1px solid var(--color-border);
-}
-
-.bento > * {
-  background-color: var(--color-bg);
-}
-
-.bento__cell {
+.card {
   min-width: 0;
   padding: clamp(1.5rem, 3.6vw, 2rem);
+  background-color: var(--color-bg);
   border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
-  overflow: hidden;
-}
-
-.bento__cell--accent {
-  background-color: var(--color-surface);
 }
 
 @view-transition {
@@ -1021,41 +1003,10 @@ html.js [data-reveal] {
   transition-delay: calc(var(--i, 0) * 70ms);
 }
 
-html.js [data-reveal="cut"] {
-  opacity: 1;
-  transform: none;
-  transition:
-    background-color 0.4s ease,
-    border-color 0.4s ease;
-}
-
-html.js [data-reveal="cut"]:not(.is-in) {
-  background-color: transparent;
-  border-color: transparent;
-}
-
-html.js [data-reveal="cut"] > * {
-  clip-path: inset(0 100% 0 0);
-  transition:
-    clip-path 1s var(--ease-in-out),
-    transform 0.3s var(--ease-out);
-}
-
-html.js [data-reveal="cut"] > :nth-child(2) {
-  transition-delay: 0.07s, 0s;
-}
-
-html.js [data-reveal="cut"] > :nth-child(3) {
-  transition-delay: 0.14s, 0s;
-}
-
-html.js [data-reveal="cut"].is-in > * {
-  clip-path: inset(0 0 0 0);
-}
-
 html.js [data-reveal="fade"] {
   transform: none;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s var(--ease-out);
+  transition-delay: calc(var(--i, 0) * 50ms);
 }
 
 html.js [data-reveal="line"] {
@@ -1070,8 +1021,7 @@ html.js [data-reveal].is-in {
   transform: none;
 }
 
-html.js [data-reveal].is-instant,
-html.js [data-reveal="cut"].is-instant > * {
+html.js [data-reveal].is-instant {
   transition: none;
 }
 
@@ -1092,17 +1042,11 @@ html.js [data-reveal]:target {
 
 @media (prefers-reduced-motion: reduce) {
   html.js [data-reveal],
-  html.js [data-reveal="cut"],
   html.js [data-reveal="line"] {
     opacity: 0;
     transform: none;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s var(--ease-out);
     transition-delay: 0s;
-  }
-
-  html.js [data-reveal="cut"] > * {
-    clip-path: none;
-    transition: none;
   }
 
   html.js [data-reveal].is-in {
@@ -1146,8 +1090,7 @@ html.lenis body {
     --shadow-card: none;
   }
 
-  html.js [data-reveal],
-  html.js [data-reveal="cut"] > * {
+  html.js [data-reveal] {
     opacity: 1 !important;
     transform: none !important;
     clip-path: none !important;
@@ -1186,6 +1129,8 @@ html.lenis body {
   }
 }
 
-p {
+p,
+li,
+dd {
   text-wrap: pretty;
 }

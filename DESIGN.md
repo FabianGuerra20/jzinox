@@ -15,6 +15,15 @@
 > con columnas de 520px como mínimo (dos por fila en escritorio) y título de tarjeta a 1.375rem.
 > **Fotos enteras (23 nov):** ninguna foto se recorta: `.photo-fill` las muestra completas y centradas sobre una copia
 > desenfocada; tarjetas de producto en marco 1:1.
+> **Auditoría del 23 nov (impeccable + seo-audit + improve-animations):** el estilo blando se lleva a todo el sitio, no solo
+> a las tarjetas. Tarjetas blancas sobre el lienzo gris (`.pcard`, `.card`); `.bento` se eliminó (el contacto es texto + una
+> `.card` con el formulario). Fotos sueltas y mosaicos con `--radius-card`, sin junta de 1px (mosaico con `gap: 8px`). El
+> fondo desenfocado sale de una miniatura de 24px en base64 (`src/data/img-blur.json`, se regenera con
+> `node scripts/generar-desenfoque.mjs` al sumar fotos). Sin zoom al pasar el mouse sobre fotos y sin el revelado «cut»
+> (todo usa el revelado por defecto). Visor con entrada y salida, controles de galería y cierre del visor en píldora
+> flotante. Encabezados de página sobre el lienzo, sin junta. Cabecera opaca y un solo botón de cotizar (contorno) en todas
+> las páginas. En el catálogo, desde 1100px una tarjeta sola se pone al lado de sus renglones. Chispas solo sobre cabecera y
+> pie, en azul de arco, y mueren al borde de la superficie.
 > **Esto reemplaza** la regla de radio cero, la paleta cálida de §2 y la junta de 1px en las tarjetas; donde el resto
 > del documento diga lo contrario, manda esta nota.
 
@@ -464,10 +473,10 @@ animación avanzaba y retrocedía con la rueda, se sentía pegajosa y aplicaba e
 Partículas DOM movidas con `translate3d`. El color del halo es un degradado, y cambiarlo
 obliga a repintar: por eso el ciclo térmico va en **8 escalones** y no se escribe en cada
 frame (eran hasta 90 repintados por frame). Por frame solo cambian `transform` y `opacity`.
-No existe con táctil ni con movimiento reducido. **Corre en todo el sitio salvo sobre el
-formulario y el visor de fotos** (`SPARK_OFF`), donde el visitante escribe o mira un
-detalle. Durante unas horas del 2026-10-11 estuvo limitado a los encabezados por la
-revisión de animaciones; el dueño lo quiso de vuelta en todo el sitio.
+No existe con táctil ni con movimiento reducido. **Desde el 2026-11-23 corre solo sobre la
+cabecera y el pie** (`SPARK_ON`), las únicas superficies oscuras que quedan: la chispa es luz y
+sobre el fondo claro el halo naranja se leía como mancha. Antes corría en todo el sitio salvo
+el formulario y el visor (el 2026-10-11 el dueño lo había querido en todo el sitio, cuando era oscuro).
 
 ### Lo que NO se anima
 El enlace de salto al contenido (lo activa el teclado) y nada con `box-shadow`, `top`,
