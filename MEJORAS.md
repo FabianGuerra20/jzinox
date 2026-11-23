@@ -371,7 +371,7 @@ Astro + CSS nativo. Lo que hace que hoy se vea poco pulido es:
   Si se añade movimiento de scroll, actualizar `DESIGN.md §7`.
 
 ### 6.2 Paleta: tres propuestas
-Maqueta visual en **`propuestas/paletas.html`** (abrir en el navegador). Las tres conservan
+Maqueta visual en **`propuestas/archivo/paletas-octubre.html`** (abrir en el navegador). Las tres conservan
 radio cero, junta de 1px y acento solo en acciones y estados. Idea común: el color del
 oficio, el acero soldado con TIG vira de paja dorado a azul violáceo con el calor.
 Contrastes calculados.
@@ -383,7 +383,7 @@ Contrastes calculados.
 | **C · Acero frío + chispa** | Gris azulado casi negro | Naranja `#ff6a1a` | Puede leerse agresivo si se abusa |
 
 * El rojo `#c13d2f` pasa a ser **solo error** en las tres.
-* **Elegida (2026-10-04): C, con fondo más cálido** (en `paletas.html` como "C cálida").
+* **Elegida (2026-10-04): C, con fondo más cálido** (en `paletas-octubre.html` como "C cálida").
   Fondo `#16120f`, tarjeta `#201b17`, sección clara `#ebe5db`, texto `#f0ebe3`, muted
   `#aa9f92`, acento `#ff6a1a` (sobre claro `#a33a04`), error `#ff8a7a`, junta `#3b342d`,
   borde de campo `#7a6f62`. Todo el texto pasa AA (mínimo 5,3:1). **Falta la aprobación

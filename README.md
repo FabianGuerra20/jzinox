@@ -46,7 +46,7 @@ una foto nueva: optimizarla a WebP de hasta 1600 px en `public/img/` y referenci
 - `CLAUDE.md` — contexto, reglas y registro de trabajo.
 - `DESIGN.md` — el sistema de diseño (paleta, tipografía, componentes, movimiento).
 - `MEJORAS.md` — backlog técnico y de SEO.
-- `propuestas/paletas.html` — maqueta de las paletas evaluadas.
+- `propuestas/archivo/paletas-octubre.html` — maqueta de las paletas evaluadas.
 
 ## Reglas que no se rompen
 

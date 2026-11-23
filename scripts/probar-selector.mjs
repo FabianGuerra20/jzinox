@@ -25,10 +25,11 @@ const huella = () => {
   return {
     paleta: css("body", "backgroundColor") + css(".btn--primary", "backgroundColor"),
     luz: css("body", "backgroundColor"),
-    letras: css("main h1", "fontFamily"),
-    portada: css(".hero__main", "gridTemplateColumns") + css(".hero__figure", "position") + css(".hero__figure", "aspectRatio"),
-    listado: css(".pcard", "display") + css(".pgrid", "gridTemplateColumns").split(" ").length,
-    inicio: css("main > .services", "order") + css("main > .clients-band", "order"),
+    titulos: css("main h1", "fontFamily"),
+    texto: css("main p", "fontFamily"),
+    portada: css(".hero__main", "gridTemplateColumns") + css(".hero__figure", "position") + css(".hero__figure", "aspectRatio") + css(".hero__figure", "order"),
+    listado: css(".pcard", "display") + css(".pgrid", "gridTemplateColumns").split(" ").length + css(".pcard__body", "paddingTop"),
+    inicio: ["main > .brand-section:not(.section--alt)", "main > .clients-band", "main > .brand-section.section--alt", "main > .services"].map((q) => css(q, "order")).join("-"),
     estilo: css(".pcard", "boxShadow") + css(".pcard", "borderTopWidth") + css(".pcard", "backgroundColor"),
     esquinas: css("main .btn", "borderTopLeftRadius") + css(".pcard", "borderTopLeftRadius"),
   };
@@ -117,7 +118,7 @@ for (const [dispositivo, ancho, alto] of [["escritorio", 1440, 900], ["celular",
 
   await pagina.locator('.sp__pestana[data-ir="resumen"]').click();
   const enviar = decodeURIComponent((await pagina.locator("#sp-enviar").getAttribute("href")).split("text=")[1] ?? "");
-  for (const g of ["Colores", "Modo", "Letras", "Portada", "Listado", "Estilo", "Esquinas"]) if (!enviar.includes(`- ${g}:`)) problemas.push(`${dispositivo}: el mensaje de WhatsApp no trae ${g}`);
+  for (const g of ["Colores", "Modo", "Títulos", "Texto", "Portada", "Organización", "Listado", "Estilo", "Esquinas"]) if (!enviar.includes(`- ${g}:`)) problemas.push(`${dispositivo}: el mensaje de WhatsApp no trae ${g}`);
   await pagina.screenshot({ path: path.join(capturas, `jz-${dispositivo}-enviar.png`) });
 
   await pagina.locator("#sp-plegar").click();

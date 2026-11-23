@@ -27,7 +27,7 @@ cámbialo en `global.css` y actualiza aquí.
 
 ## 2. Color — paleta "Acero en sombra" (C cálida)
 
-Elegida el 2026-10-04 sobre tres propuestas (`propuestas/paletas.html`). La idea: el color
+Elegida el 2026-10-04 sobre tres propuestas (`propuestas/archivo/paletas-octubre.html`). La idea: el color
 del oficio. Un negro con base marrón, como el acero con luz de fragua, y el naranja de
 la chispa de soldadura. **El sitio es oscuro por defecto y alterna secciones claras.**
 
