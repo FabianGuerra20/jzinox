@@ -46,7 +46,6 @@ export const weldingJobs = {
   photo: {
     src: "/img/columna-inox.webp",
     alt: "Columna de acero inoxidable recién instalada en un local, con la careta de soldar y los cables en el piso",
-    position: "50% 60%",
   },
   items: [
     {

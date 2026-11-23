@@ -12,7 +12,7 @@ import {
 	weldingCta,
 } from "../data/welding.js";
 import { site } from "../data/site.js";
-import { srcset } from "../utils/img.js";
+import { photoFill, srcset } from "../utils/img.js";
 import { faqSchema } from "../utils/schema.js";
 
 const description =
@@ -92,7 +92,7 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 
 	<section class="section" aria-labelledby="soldadura-trabajos">
 		<div class="container weld-jobs">
-			<figure class="weld-jobs__photo media-frame" data-reveal="cut">
+			<figure class="weld-jobs__photo media-frame photo-fill" style={photoFill(weldingJobs.photo.src)} data-reveal="cut">
 				<img
 					src={weldingJobs.photo.src}
 					srcset={srcset(weldingJobs.photo.src)}
@@ -102,7 +102,6 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 					height="1600"
 					loading="lazy"
 					decoding="async"
-					style={`object-position: ${weldingJobs.photo.position}`}
 				/>
 			</figure>
 
@@ -246,7 +245,7 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 	.weld-jobs__photo img {
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
 	}
 
 	.weld-jobs__body h2 {

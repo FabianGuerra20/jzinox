@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import WhatsAppIcon from "../components/WhatsAppIcon.astro";
 import { catalog, catalogCategories } from "../data/catalog.js";
 import { site } from "../data/site.js";
-import { srcset } from "../utils/img.js";
+import { photoFill, srcset } from "../utils/img.js";
 
 const slugify = (value) =>
 	value
@@ -95,7 +95,8 @@ const groups = catalogCategories
 												<div class="pcard__track">
 													{photosOf(item).map((photo, n, all) => (
 														<a
-															class="pcard__media media-frame"
+															class="pcard__media media-frame photo-fill"
+																										style={photoFill(photo.src)}
 															href={photo.src}
 															data-zoom
 															data-alt={photo.alt}
@@ -106,7 +107,6 @@ const groups = catalogCategories
 																srcset={srcset(photo.src)}
 																sizes="(min-width: 1100px) 420px, (min-width: 740px) 46vw, 92vw"
 																alt={photo.alt}
-																style={photo.position ? `object-position: ${photo.position}` : undefined}
 																width="800"
 																height="600"
 																loading="lazy"

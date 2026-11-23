@@ -99,7 +99,7 @@ export const mainServices = [
     blurb:
       "Plancha cortada y plegada a la medida exacta del proyecto, para que el montaje no dependa de ajustes a última hora.",
     media: [
-      { src: "/img/piezas-cortadas.webp", alt: "Piezas de acero inoxidable cortadas y plegadas, listas para armado", position: "50% 50%", ratio: "3:2" },
+      { src: "/img/piezas-cortadas.webp", alt: "Piezas de acero inoxidable cortadas y plegadas, listas para armado", ratio: "3:2" },
     ],
   },
   {

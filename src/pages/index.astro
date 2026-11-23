@@ -5,7 +5,7 @@ import ClientLogos from "../components/ClientLogos.astro";
 import WhatsAppIcon from "../components/WhatsAppIcon.astro";
 import { brands } from "../data/brands.js";
 import { facts, clients } from "../data/company.js";
-import { srcset } from "../utils/img.js";
+import { photoFill, srcset } from "../utils/img.js";
 import { mainServices } from "../data/services.js";
 import { site } from "../data/site.js";
 
@@ -51,7 +51,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 				</div>
 			</div>
 
-			<figure class="hero__figure">
+			<figure class="hero__figure photo-fill" style={photoFill(heroImage.src)}>
 				<img
 					src={heroImage.src}
 					srcset={srcset(heroImage.src)}
@@ -117,7 +117,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 
 				{
 					servicePhoto && (
-						<figure class="services__photo media-frame" data-reveal="cut">
+						<figure class="services__photo media-frame photo-fill" style={photoFill(servicePhoto.src)} data-reveal="cut">
 							<img
 								src={servicePhoto.src}
 								srcset={srcset(servicePhoto.src)}
@@ -127,7 +127,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 								height="675"
 								loading="lazy"
 								decoding="async"
-								style={servicePhoto.position ? `object-position: ${servicePhoto.position}` : undefined}
 							/>
 						</figure>
 					)
@@ -207,8 +206,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		inset: 0;
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
-		object-position: 32% 50%;
+		object-fit: contain;
 	}
 
 	@media (min-width: 960px) {
@@ -422,7 +420,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	.services__photo img {
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: contain;
 	}
 
 	@media (min-width: 1024px) {

@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import WhatsAppIcon from "../components/WhatsAppIcon.astro";
 import { alMuebleriaPage, alMuebleriaCatalog, alMuebleria } from "../data/brands.js";
 import { site } from "../data/site.js";
-import { srcset } from "../utils/img.js";
+import { photoFill, srcset } from "../utils/img.js";
 
 const { hero, services, catalog, cta } = alMuebleriaPage;
 
@@ -34,13 +34,12 @@ const quoteHref = (item) =>
 
 			{
 				heroPhoto && (
-					<figure class="al-hero__photo">
+					<figure class="al-hero__photo photo-fill" style={photoFill(heroPhoto.src)}>
 						<img
 							src={heroPhoto.src}
 							srcset={srcset(heroPhoto.src)}
 							sizes="(min-width: 1024px) 40vw, 92vw"
 							alt={heroPhoto.alt}
-							style={heroPhoto.position ? `object-position: ${heroPhoto.position}` : undefined}
 							width="800"
 							height="600"
 							decoding="async"
@@ -86,7 +85,8 @@ const quoteHref = (item) =>
 					alMuebleriaCatalog.map((item, i) => (
 						<article class="pcard" data-reveal="fade" style={`--i: ${i % 3}`}>
 							<a
-								class="pcard__media media-frame"
+								class="pcard__media media-frame photo-fill"
+								style={photoFill(item.image.src)}
 								href={item.image.src}
 								data-zoom
 								data-alt={item.image.alt}
@@ -97,7 +97,6 @@ const quoteHref = (item) =>
 									srcset={srcset(item.image.src)}
 									sizes="(min-width: 1100px) 420px, (min-width: 640px) 46vw, 46vw"
 									alt={item.image.alt}
-									style={item.image.position ? `object-position: ${item.image.position}` : undefined}
 									width="800"
 									height="600"
 									loading="lazy"
@@ -165,7 +164,7 @@ const quoteHref = (item) =>
 		width: 100%;
 		height: auto;
 		aspect-ratio: 4 / 3;
-		object-fit: cover;
+		object-fit: contain;
 	}
 
 	.al-hero__subtitle {

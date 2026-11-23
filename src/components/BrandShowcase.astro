@@ -11,7 +11,7 @@ interface Props {
     featuredHref: string;
     featuredLabel: string;
     featured: Array<{ name: string; note: string; href?: string }>;
-    images: Array<{ src?: string; alt?: string; pending?: boolean; position?: string }>;
+    images: Array<{ src?: string; alt?: string; pending?: boolean}>;
   };
   flip?: boolean;
 }
@@ -19,7 +19,7 @@ interface Props {
 const { brand, flip = false } = Astro.props as Props;
 
 const photos = brand.images.filter((image) => !image.pending && image.src).slice(0, 3);
-import { srcset } from "../utils/img.js";
+import { photoFill, srcset } from "../utils/img.js";
 
 const headingId = `marca-${brand.slug}`;
 const indexId = `indice-${brand.slug}`;
@@ -45,13 +45,12 @@ const indexId = `indice-${brand.slug}`;
   <div class:list={["brand__mosaic", `brand__mosaic--${photos.length}`]} data-reveal="cut">
     {
       photos.map((image) => (
-        <figure class="brand__tile media-frame">
+        <figure class="brand__tile media-frame photo-fill" style={photoFill(image.src)}>
           <img
             src={image.src}
             srcset={srcset(image.src)}
             sizes="(min-width: 1024px) 36vw, 60vw"
             alt={image.alt}
-            style={image.position ? `object-position: ${image.position}` : undefined}
             width="800"
             height="600"
             loading="lazy"
@@ -198,7 +197,7 @@ const indexId = `indice-${brand.slug}`;
   .brand__tile img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   .brand__index {

@@ -13,6 +13,8 @@
 > flotan con `--shadow-card`; los botones llevan `--shadow-sm`. Esquinas **Suaves**: `--radius: 6px` (botones, botón
 > flotante) y `--radius-card: 10px` (tarjetas, celdas, foto de portada, visor). Listado **Tarjetas grandes**: `.pgrid`
 > con columnas de 520px como mínimo (dos por fila en escritorio) y título de tarjeta a 1.375rem.
+> **Fotos enteras (23 nov):** ninguna foto se recorta: `.photo-fill` las muestra completas y centradas sobre una copia
+> desenfocada; tarjetas de producto en marco 1:1.
 > **Esto reemplaza** la regla de radio cero, la paleta cálida de §2 y la junta de 1px en las tarjetas; donde el resto
 > del documento diga lo contrario, manda esta nota.
 

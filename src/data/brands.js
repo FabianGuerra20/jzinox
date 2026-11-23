@@ -25,9 +25,9 @@ export const brands = [
       { name: "Carro de bandejas de tocino", note: "Con guías para las bandejas.", href: "/catalogo#carros" },
     ],
     images: [
-      { src: "/img/campana-central.webp", alt: "Campana de extracción en acero inoxidable colgada del cielo de una cocina industrial", position: "50% 40%" },
-      { src: "/img/columna-inox.webp", alt: "Columna de acero inoxidable pulido fabricada a medida", position: "50% 35%" },
-      { src: "/img/campana-mural-freidoras.webp", alt: "Campana de acero inoxidable sobre una línea de freidoras en una cocina de comida rápida", position: "50% 45%" },
+      { src: "/img/campana-central.webp", alt: "Campana de extracción en acero inoxidable colgada del cielo de una cocina industrial" },
+      { src: "/img/columna-inox.webp", alt: "Columna de acero inoxidable pulido fabricada a medida" },
+      { src: "/img/campana-mural-freidoras.webp", alt: "Campana de acero inoxidable sobre una línea de freidoras en una cocina de comida rápida" },
     ],
   },
   {
@@ -55,9 +55,9 @@ export const brands = [
       { name: "Piezas en estilo industrial", note: "Madera combinada con estructura metálica.", href: "/al-muebleria#servicios" },
     ],
     images: [
-      { src: "/img/al-cocina-barra.webp", alt: "Cocina de línea plana en gris grafito con barra de cuarzo, fabricada por AL Mueblería", position: "50% 55%" },
-      { src: "/img/al-estanteria-cajones.webp", alt: "Mueble de bodega con cajones abatibles y estantes, en línea plana gris", position: "50% 40%" },
-      { src: "/img/al-cocina-vanitorio.webp", alt: "Mueble de cocina con puertas de vidrio ahumado y cubierta de cuarzo", position: "50% 55%" },
+      { src: "/img/al-cocina-barra.webp", alt: "Cocina de línea plana en gris grafito con barra de cuarzo, fabricada por AL Mueblería" },
+      { src: "/img/al-estanteria-cajones.webp", alt: "Mueble de bodega con cajones abatibles y estantes, en línea plana gris" },
+      { src: "/img/al-cocina-vanitorio.webp", alt: "Mueble de cocina con puertas de vidrio ahumado y cubierta de cuarzo" },
     ],
   },
 ];
@@ -135,7 +135,7 @@ export const alMuebleriaCatalog = [
     category: "Domiciliario",
     description:
       "Torre de clóset, repisas y escritorio con cajones en un solo frente de melamina símil madera.",
-    image: { src: "/img/al-closet-escritorio.webp", alt: "Clóset con escritorio integrado y cajones abiertos, en melamina símil madera", position: "50% 55%" },
+    image: { src: "/img/al-closet-escritorio.webp", alt: "Clóset con escritorio integrado y cajones abiertos, en melamina símil madera" },
   },
   {
     id: "cocina-empotrada",
@@ -143,7 +143,7 @@ export const alMuebleriaCatalog = [
     category: "Domiciliario",
     description:
       "Cocina completa en línea plana grafito, con barra de cuarzo y cada rincón del espacio aprovechado.",
-    image: { src: "/img/al-cocina-barra.webp", alt: "Cocina empotrada en línea plana grafito con barra de cuarzo y piso decorativo", position: "50% 55%" },
+    image: { src: "/img/al-cocina-barra.webp", alt: "Cocina empotrada en línea plana grafito con barra de cuarzo y piso decorativo" },
   },
   {
     id: "despensa-extraible",
@@ -151,7 +151,7 @@ export const alMuebleriaCatalog = [
     category: "Domiciliario",
     description:
       "Columna con cajones de riel oculto y cierre suave, para tener todo a la vista sin agacharse.",
-    image: { src: "/img/al-despensa-extraible.webp", alt: "Despensa de cocina con cajones extraíbles de cierre suave y puerta abierta", position: "50% 55%" },
+    image: { src: "/img/al-despensa-extraible.webp", alt: "Despensa de cocina con cajones extraíbles de cierre suave y puerta abierta" },
   },
   {
     id: "recepcion-comercial",
@@ -159,7 +159,7 @@ export const alMuebleriaCatalog = [
     category: "Comercial",
     description:
       "Mostrador para la recepción de un edificio, hecho para uso diario intensivo.",
-    image: { src: "/img/al-recepcion.webp", alt: "Mostrador de recepción de un edificio con casilleros para correspondencia al fondo", position: "50% 50%" },
+    image: { src: "/img/al-recepcion.webp", alt: "Mostrador de recepción de un edificio con casilleros para correspondencia al fondo" },
   },
   {
     id: "closet-madera",
@@ -167,7 +167,7 @@ export const alMuebleriaCatalog = [
     category: "Domiciliario",
     description:
       "Clóset con puertas altas, cajoneras y barras de colgado, en melamina símil madera.",
-    image: { src: "/img/al-closet-madera.webp", alt: "Clóset de piso a cielo con puertas abiertas, cajoneras y barras de colgado", position: "50% 50%" },
+    image: { src: "/img/al-closet-madera.webp", alt: "Clóset de piso a cielo con puertas abiertas, cajoneras y barras de colgado" },
   },
   {
     id: "cocina-azul",
@@ -175,7 +175,7 @@ export const alMuebleriaCatalog = [
     category: "Domiciliario",
     description:
       "Muebles altos y bajos en color a elección, con cubierta de cuarzo y espacio para cocina y campana.",
-    image: { src: "/img/al-cocina-azul.webp", alt: "Cocina con muebles azules y cubierta clara, cocina a gas de acero inoxidable", position: "50% 60%" },
+    image: { src: "/img/al-cocina-azul.webp", alt: "Cocina con muebles azules y cubierta clara, cocina a gas de acero inoxidable" },
   },
   {
     id: "cocina-clara",
@@ -183,7 +183,7 @@ export const alMuebleriaCatalog = [
     category: "Domiciliario",
     description:
       "Cocina en L con muebles claros, cubierta oscura y mueble en isla para preparar y servir.",
-    image: { src: "/img/al-cocina-clara.webp", alt: "Cocina en L con muebles de madera clara, cubierta oscura e isla central", position: "50% 55%" },
+    image: { src: "/img/al-cocina-clara.webp", alt: "Cocina en L con muebles de madera clara, cubierta oscura e isla central" },
   },
   {
     id: "estanteria-cajones",
@@ -191,6 +191,6 @@ export const alMuebleriaCatalog = [
     category: "Comercial",
     description:
       "Estantes y cajones abatibles sobre base cerrada, pensado para el orden de insumos en un local.",
-    image: { src: "/img/al-estanteria-cajones.webp", alt: "Mueble de bodega con cajones abatibles y estantes sobre base de puertas, en línea plana gris", position: "50% 40%" },
+    image: { src: "/img/al-estanteria-cajones.webp", alt: "Mueble de bodega con cajones abatibles y estantes sobre base de puertas, en línea plana gris" },
   },
 ];

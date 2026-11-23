@@ -13,21 +13,21 @@ export const catalog = [
     name: "Extensión de campana",
     category: "Revestimientos",
     description: "Prolonga la campana hasta el cielo o el muro.",
-    image: { src: "/img/campana-central.webp", alt: "Extensión de acero inoxidable que prolonga la campana hasta el cielo de la cocina", position: "50% 40%" },
+    image: { src: "/img/campana-central.webp", alt: "Extensión de acero inoxidable que prolonga la campana hasta el cielo de la cocina" },
   },
   {
     id: "lateral-separador",
     name: "Lateral separador de estaciones",
     category: "Revestimientos",
     description: "Panel que separa dos estaciones de trabajo contiguas.",
-    image: { src: "/img/campana-filtros.webp", alt: "Lateral separador de estaciones en acero inoxidable, con ganchos, junto a la línea de cocción", position: "50% 50%" },
+    image: { src: "/img/campana-filtros.webp", alt: "Lateral separador de estaciones en acero inoxidable, con ganchos, junto a la línea de cocción" },
   },
   {
     id: "campana",
     name: "Campana",
     category: "Extracción",
     description: "De extracción, a la medida de tu línea de cocción.",
-    image: { src: "/img/campana-asador.webp", alt: "Campana de acero inoxidable sobre una parrilla encendida", position: "50% 30%" },
+    image: { src: "/img/campana-asador.webp", alt: "Campana de acero inoxidable sobre una parrilla encendida" },
   },
   {
     id: "filtros-campana",
@@ -61,17 +61,17 @@ export const catalog = [
     name: "Presentadores de pizza",
     category: "Soportes y presentadores",
     description: "Base redonda sobre pedestal.",
-    image: { src: "/img/mesa-pizza.webp", alt: "Presentador redondo de acero inoxidable con pedestal central", position: "50% 55%" },
+    image: { src: "/img/mesa-pizza.webp", alt: "Presentador redondo de acero inoxidable con pedestal central" },
   },
   {
     id: "soporte-pantalla-kds",
     name: "Soporte de pantalla KDS con brazo hidráulico",
     category: "Soportes y presentadores",
     description: "Para la pantalla de pedidos de cocina (KDS).",
-    image: { src: "/img/soporte-kds.webp", alt: "Soporte de acero inoxidable colgado del cielo sosteniendo una pantalla KDS sobre la línea de cocina", position: "50% 40%" },
+    image: { src: "/img/soporte-kds.webp", alt: "Soporte de acero inoxidable colgado del cielo sosteniendo una pantalla KDS sobre la línea de cocina" },
     gallery: [
-      { src: "/img/soporte-kds-cocina.webp", alt: "Dos soportes de pantalla KDS colgados del cielo de una cocina", position: "50% 55%" },
-      { src: "/img/soporte-kds-brazo.webp", alt: "Brazo hidráulico del soporte con dos pantallas KDS montadas", position: "50% 40%" },
+      { src: "/img/soporte-kds-cocina.webp", alt: "Dos soportes de pantalla KDS colgados del cielo de una cocina" },
+      { src: "/img/soporte-kds-brazo.webp", alt: "Brazo hidráulico del soporte con dos pantallas KDS montadas" },
     ],
   },
   {
@@ -86,9 +86,9 @@ export const catalog = [
     name: "Carro de bandejas de tocino",
     category: "Carros",
     description: "Con guías para las bandejas.",
-    image: { src: "/img/carro-tocino-frente.webp", alt: "Carro de acero inoxidable con guías para bandejas de tocino, visto de frente", position: "50% 45%" },
+    image: { src: "/img/carro-tocino-frente.webp", alt: "Carro de acero inoxidable con guías para bandejas de tocino, visto de frente" },
     gallery: [
-      { src: "/img/carro-tocino-lado.webp", alt: "Carro de bandejas de tocino en acero inoxidable, visto de lado", position: "50% 45%" },
+      { src: "/img/carro-tocino-lado.webp", alt: "Carro de bandejas de tocino en acero inoxidable, visto de lado" },
     ],
   },
   {
@@ -101,9 +101,9 @@ export const catalog = [
     id: "meson-repisa",
     name: "Mesón con repisa",
     category: "Mesones",
-    image: { src: "/img/meson-repisa.webp", alt: "Mesón de acero inoxidable con baranda y repisa inferior", position: "50% 55%" },
+    image: { src: "/img/meson-repisa.webp", alt: "Mesón de acero inoxidable con baranda y repisa inferior" },
     gallery: [
-      { src: "/img/meson-repisas-equipos.webp", alt: "Mesón de acero inoxidable con repisas y divisiones, con equipos de cocina encima", position: "50% 60%" },
+      { src: "/img/meson-repisas-equipos.webp", alt: "Mesón de acero inoxidable con repisas y divisiones, con equipos de cocina encima" },
     ],
   },
   {
@@ -123,7 +123,7 @@ export const catalog = [
     name: "Protector de jabón",
     category: "Protectores",
     description: "Cubierta para el dispensador de jabón.",
-    image: { src: "/img/protector-jabon.webp", alt: "Protector de acero inoxidable para dispensador de jabón sobre un lavamanos blanco y muro negro", position: "50% 30%" },
+    image: { src: "/img/protector-jabon.webp", alt: "Protector de acero inoxidable para dispensador de jabón sobre un lavamanos blanco y muro negro" },
   },
   {
     id: "protector-aromatizante",
