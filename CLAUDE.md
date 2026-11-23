@@ -110,7 +110,7 @@ Resumen. El detalle está en `DESIGN.md`.
 * Todo se reduce con `prefers-reduced-motion`.
 
 ### No reintroducir
-El zoom de fotos al pasar el mouse, el revelado «cut», la junta de 1px alrededor de fotos o tarjetas, `.bento`, las chispas sobre fondo claro, la línea naranja que se trazaba bajo los encabezados, los antetítulos sobre cada título, las tarjetas numeradas 01–02–03, los iconos en cuadrito, el carrusel, las fotos en gris y el bloque de color en el hover del menú.
+El zoom de fotos al pasar el mouse, el revelado «cut», la junta de 1px alrededor de fotos o tarjetas, `.bento`, las chispas naranjas, la línea naranja que se trazaba bajo los encabezados, los antetítulos sobre cada título, las tarjetas numeradas 01–02–03, los iconos en cuadrito, el carrusel, las fotos en gris y el bloque de color en el hover del menú.
 
 ## 6. Contenido
 

@@ -23,7 +23,7 @@
 > (todo usa el revelado por defecto). Visor con entrada y salida, controles de galería y cierre del visor en píldora
 > flotante. Encabezados de página sobre el lienzo, sin junta. Cabecera opaca y un solo botón de cotizar (contorno) en todas
 > las páginas. En el catálogo, desde 1100px una tarjeta sola se pone al lado de sus renglones. Chispas solo sobre cabecera y
-> pie, en azul de arco, y mueren al borde de la superficie.
+> en todo el sitio en azul de arco (gama clara sobre el lienzo, brillante sobre cabecera y pie).
 > **Esto reemplaza** la regla de radio cero, la paleta cálida de §2 y la junta de 1px en las tarjetas; donde el resto
 > del documento diga lo contrario, manda esta nota.
 
@@ -473,10 +473,11 @@ animación avanzaba y retrocedía con la rueda, se sentía pegajosa y aplicaba e
 Partículas DOM movidas con `translate3d`. El color del halo es un degradado, y cambiarlo
 obliga a repintar: por eso el ciclo térmico va en **8 escalones** y no se escribe en cada
 frame (eran hasta 90 repintados por frame). Por frame solo cambian `transform` y `opacity`.
-No existe con táctil ni con movimiento reducido. **Desde el 2026-11-23 corre solo sobre la
-cabecera y el pie** (`SPARK_ON`), las únicas superficies oscuras que quedan: la chispa es luz y
-sobre el fondo claro el halo naranja se leía como mancha. Antes corría en todo el sitio salvo
-el formulario y el visor (el 2026-10-11 el dueño lo había querido en todo el sitio, cuando era oscuro).
+No existe con táctil ni con movimiento reducido. Corre en todo el sitio salvo sobre el formulario y
+el visor (`SPARK_OFF`). **Desde el 2026-11-23 es azul de arco**, con dos gamas: sobre la cabecera y el
+pie (`DARK_SURFACE`) parte en blanco y se enfría a azul; sobre el fondo claro parte en `#6ea8ff` y baja
+a `#1f55c9` y casi negro, porque el blanco y el amarillo no se ven en claro y el naranja se leía como
+mancha. Las chispas nacidas en la cabecera o el pie mueren al salir de esa superficie.
 
 ### Lo que NO se anima
 El enlace de salto al contenido (lo activa el teclado) y nada con `box-shadow`, `top`,

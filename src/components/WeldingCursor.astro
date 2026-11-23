@@ -62,9 +62,10 @@
     const MAX_DT = 0.05;
     const MAX_DRAG_SPEED = 1400;
     const HEAT_STEPS = 8;
-    const SPARK_ON = ".header, .footer";
+    const SPARK_OFF = "form, dialog";
+    const DARK_SURFACE = ".header, .footer";
 
-    const HEAT = [
+    const HEAT_ON_DARK = [
       { t: 0.0, c: [255, 255, 255], glow: 13 },
       { t: 0.18, c: [214, 230, 255], glow: 11 },
       { t: 0.45, c: [150, 192, 255], glow: 8 },
@@ -72,13 +73,21 @@
       { t: 1.0, c: [31, 85, 201], glow: 0 },
     ];
 
-    function heatAt(t) {
-      let a = HEAT[0];
-      let b = HEAT[HEAT.length - 1];
-      for (let i = 0; i < HEAT.length - 1; i++) {
-        if (t >= HEAT[i].t && t <= HEAT[i + 1].t) {
-          a = HEAT[i];
-          b = HEAT[i + 1];
+    const HEAT_ON_LIGHT = [
+      { t: 0.0, c: [110, 168, 255], glow: 9 },
+      { t: 0.25, c: [58, 120, 230], glow: 7 },
+      { t: 0.55, c: [31, 85, 201], glow: 5 },
+      { t: 0.8, c: [23, 63, 153], glow: 2 },
+      { t: 1.0, c: [19, 23, 34], glow: 0 },
+    ];
+
+    function heatAt(t, heat) {
+      let a = heat[0];
+      let b = heat[heat.length - 1];
+      for (let i = 0; i < heat.length - 1; i++) {
+        if (t >= heat[i].t && t <= heat[i + 1].t) {
+          a = heat[i];
+          b = heat[i + 1];
           break;
         }
       }
@@ -98,7 +107,7 @@
       const el = document.createElement("span");
       el.className = "spark";
       frag.appendChild(el);
-      pool.push({ el, alive: false, x: 0, y: 0, vx: 0, vy: 0, age: 0, life: 1, scale: 1, stage: -1, top: 0, bottom: 0 });
+      pool.push({ el, alive: false, x: 0, y: 0, vx: 0, vy: 0, age: 0, life: 1, scale: 1, stage: -1, top: 0, bottom: 0, heat: HEAT_ON_LIGHT });
     }
     layer.appendChild(frag);
 
@@ -127,6 +136,7 @@
       p.stage = -1;
       p.top = surface.top;
       p.bottom = surface.bottom;
+      p.heat = surface.heat;
       p.alive = true;
     }
 
@@ -159,7 +169,7 @@
         const stage = Math.min(Math.floor(t * HEAT_STEPS), HEAT_STEPS - 1);
         if (stage !== p.stage) {
           p.stage = stage;
-          const heat = heatAt((stage + 0.5) / HEAT_STEPS);
+          const heat = heatAt((stage + 0.5) / HEAT_STEPS, p.heat);
           p.el.style.setProperty("--c", heat.r + "," + heat.g + "," + heat.b);
           p.el.style.setProperty("--a", (heat.glow / 13).toFixed(2));
         }
@@ -188,11 +198,17 @@
     }
 
     function onPointerMove(event) {
-      const surface = event.target instanceof Element ? event.target.closest(SPARK_ON) : null;
-      if (!surface) {
+      if (!(event.target instanceof Element) || event.target.closest(SPARK_OFF)) {
         lastX = null;
         return;
       }
+      const dark = event.target.closest(DARK_SURFACE);
+      const bounds = dark ? dark.getBoundingClientRect() : null;
+      const surface = {
+        top: bounds ? bounds.top : -Infinity,
+        bottom: bounds ? bounds.bottom : Infinity,
+        heat: dark ? HEAT_ON_DARK : HEAT_ON_LIGHT,
+      };
 
       const x = event.clientX;
       const y = event.clientY;
@@ -225,7 +241,7 @@
         const k = i / steps;
         const burst = 1 + Math.floor(Math.random() * 2);
         for (let n = 0; n < burst; n++) {
-          emit(lastX + dx * k, lastY + dy * k, dragVx, dragVy, surface.getBoundingClientRect());
+          emit(lastX + dx * k, lastY + dy * k, dragVx, dragVy, surface);
         }
       }
 
