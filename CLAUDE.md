@@ -72,15 +72,16 @@ Todo cambio que se vea en pantalla (layout, tipografía, color, espaciado, boton
 
 Resumen. El detalle está en `DESIGN.md`.
 
-### Tres reglas inviolables
-1. **Radio cero.** Ni un `border-radius`.
-2. **La junta es de 1px** y siempre `var(--color-border)`.
+### Reglas (elección del cliente del 23 nov 2026)
+1. **Esquinas suaves.** Solo `var(--radius)` (6px: botones) y `var(--radius-card)` (10px: tarjetas, celdas, portada, visor). Nada de radios sueltos.
+2. **Estilo blando:** las tarjetas no llevan borde; flotan con `var(--shadow-card)`. La junta de 1px `var(--color-border)` queda para renglones, bandas y divisores.
 3. **El acento solo en acciones y estados.** El error va en `--color-error`.
 
-### Paleta
-* Oscuro por defecto, en tres tonos: lienzo `#16120f`, elevado `#2a231d`, pie `#0f0c0a`. Texto `#f0ebe3`, apagado `#aa9f92`, junta `#5e5245`.
-* Secciones claras (`.section--alt`): hueso `#ebe5db`, texto `#16120f`, junta `#b5aa9a`.
-* Acento: naranja `#ff6a1a` (en claro, `#a33a04`).
+### Paleta «Azul arco», modo claro
+* Lienzo `#eceef3`, elevado `#ffffff`, superficie `#f3f5f9`. Texto `#131722`, apagado `#4c5468`, junta `#aab0c0`.
+* Secciones alternas (`.section--alt`): fondo blanco, tarjetas en `#eceef3`.
+* Cabecera y pie siguen oscuros (bloque `.header, .footer` en `global.css`): `#131722`, pie `#0d1018`, texto `#eef0f5`, acción `#6ea8ff`.
+* Acción: azul `#1f55c9` (hover `#173f99`).
 * Los componentes solo usan `var(--color-*)`; el tema lo decide la sección.
 
 ### Tipografía
@@ -90,7 +91,7 @@ Resumen. El detalle está en `DESIGN.md`.
 ### Composición
 * Encabezados alineados a la izquierda.
 * **En un bloque de dos columnas, las dos pesan lo mismo:** misma altura visual a cada lado. Si un lado queda corto, se sube su tamaño, se reparte el contenido o se saca una pieza a una fila propia.
-* **Las listas van en renglones** separados por la junta, no en tarjetas.
+* **Las listas van en renglones** separados por la junta, no en tarjetas. Excepción: el catálogo, en tarjetas grandes (dos por fila en escritorio).
 * Una pieza sin foto es un renglón, no una caja vacía.
 * Un solo tipo de cierre de página: la banda `.cta-band`, con los botones del mismo alto que el texto.
 * Bento (`gap: 1px` sobre fondo de junta) solo donde hay celdas contiguas de verdad.
@@ -154,7 +155,7 @@ Reglas:
 * Rama `muestra/pedidos-y-mejoras` (16 nov): pedidos del cliente y mejoras de muestra **sin fusionar ni publicar**; falta que Fabián la revise. Detalle en `MEJORAS.md §10`.
 * Las fotos verticales de celular se recortan a 4:3 en las tarjetas del catálogo. Pedirle al cliente fotos horizontales (1600×1200) con la pieza al centro; la foto completa se ve al tocarla.
 * No se ha probado en un teléfono real ni en Safari.
-* Diseño: Fabián quiere salir del negro con naranjo o rojo (16 nov). El cliente elige en `propuestas/elegir-diseno.html`, el mismo selector de la plantilla de pymes, ahora con todo en un solo archivo (17 nov): 4 propuestas completas y, por separado y combinables, 28 paletas (las del archivo del 12 nov, las de octubre, 6 nuevas y 8 con color en la base, sin grises; cada una en modo oscuro y claro, con contraste AA validado), 12 letras de títulos × 9 de texto, 4 portadas, 8 órdenes del Inicio, 3 listados, 4 estilos y 3 esquinas, más una página de ficha técnica que se rellena con la elección. Las siete páginas son navegables y la elección se envía por WhatsApp. Las paletas extra están en `scripts/paletas.mjs`; las fuentes (OFL) en `propuestas/fuentes/`. Se genera con `npm run build && node scripts/generar-selector.mjs` y se prueba con `node scripts/probar-selector.mjs` (hace clic en cada opción, en escritorio y celular). La maqueta de octubre quedó en `propuestas/archivo/`. Falta mostrárselo.
+* Diseño: **elegido y aplicado el 23 nov** en la rama `diseno/eleccion-cliente` (sale de `muestra/pedidos-y-mejoras`): Azul arco claro, Hanken + Inter, Texto y foto, Tarjetas grandes, orden de hoy, Blando, Suaves. Falta revisarlo en un teléfono real y publicarlo. Antes: Fabián quería salir del negro con naranjo o rojo (16 nov). El cliente elige en `propuestas/elegir-diseno.html`, el mismo selector de la plantilla de pymes, ahora con todo en un solo archivo (17 nov): 4 propuestas completas y, por separado y combinables, 28 paletas (las del archivo del 12 nov, las de octubre, 6 nuevas y 8 con color en la base, sin grises; cada una en modo oscuro y claro, con contraste AA validado), 12 letras de títulos × 9 de texto, 4 portadas, 8 órdenes del Inicio, 3 listados, 4 estilos y 3 esquinas, más una página de ficha técnica que se rellena con la elección. Las siete páginas son navegables y la elección se envía por WhatsApp. Las paletas extra están en `scripts/paletas.mjs`; las fuentes (OFL) en `propuestas/fuentes/`. Se genera con `npm run build && node scripts/generar-selector.mjs` y se prueba con `node scripts/probar-selector.mjs` (hace clic en cada opción, en escritorio y celular). La maqueta de octubre quedó en `propuestas/archivo/`. Falta mostrárselo.
 * Logos de clientes publicados por uso nominativo: falta que el cliente confirme que puede mostrarlos. Factory Nine se presenta hoy como pastelería: confirmar que es el mismo cliente.
 * El resto, en `MEJORAS.md §8`.
 
@@ -169,5 +170,6 @@ Reglas:
 | 2026-10-20 | Contenido del PDF `PAGINA WEB`: clientes con logos (Inicio y Nosotros), proyectos recientes, garantía y textos de soldadura, diseño y mesones. |
 | 2026-11-14 | SEO para «soldadura santiago»: landing `/soldadura-santiago`, dominio canónico corregido, datos estructurados, URLs sin barra final, `vercel.json`, columna de servicios en el pie. |
 | 2026-11-16 | En la rama `muestra/pedidos-y-mejoras`: pedidos del cliente por audio (fotos reubicadas, galería de varias fotos por producto, fotos nuevas, hero), mejoras de muestra de la crítica de diseño y `scripts/generar-selector.mjs`, que arma `propuestas/selector-paletas.html` para que el cliente elija paleta y modo. |
+| 2026-11-23 | Rama `diseno/eleccion-cliente`: se aplica el diseño que eligió el cliente en el selector (Azul arco claro, estilo blando, esquinas suaves, tarjetas grandes). |
 
 El detalle de cada fecha está en `MEJORAS.md` y en el historial de git.

@@ -5,6 +5,17 @@
 > Implementado el 2026-09-02; **paleta reemplazada el 2026-10-04** por la C cálida
 > (ver §2 y §8). Fuente de verdad del código: `src/styles/global.css`.
 
+> **2026-11-23 — Elección del cliente en el selector (`propuestas/elegir-diseno.html`), ya aplicada en el código:**
+> paleta **Azul arco** en **modo claro** (lienzo `#eceef3`, elevado `#ffffff`, superficie `#f3f5f9`,
+> junta `#aab0c0`, texto `#131722`, apagado `#4c5468`, acción `#1f55c9` / `#173f99`); la cabecera y el pie siguen
+> oscuros (`#131722`, pie `#0d1018`, acción `#6ea8ff`). Letras Hanken Grotesk + Inter y portada «Texto y foto»
+> sin cambios; el Inicio mantiene su orden. Estilo **Blando**: las tarjetas (`.pcard`, `.bento__cell`) pierden el borde y
+> flotan con `--shadow-card`; los botones llevan `--shadow-sm`. Esquinas **Suaves**: `--radius: 6px` (botones, botón
+> flotante) y `--radius-card: 10px` (tarjetas, celdas, foto de portada, visor). Listado **Tarjetas grandes**: `.pgrid`
+> con columnas de 520px como mínimo (dos por fila en escritorio) y título de tarjeta a 1.375rem.
+> **Esto reemplaza** la regla de radio cero, la paleta cálida de §2 y la junta de 1px en las tarjetas; donde el resto
+> del documento diga lo contrario, manda esta nota.
+
 Este documento describe el sistema tal como está construido. Si cambias un token,
 cámbialo en `global.css` y actualiza aquí.
 
