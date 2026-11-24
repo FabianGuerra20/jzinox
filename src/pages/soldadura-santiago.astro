@@ -57,6 +57,9 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 		<div class="container">
 			<h1 id="soldadura-titulo">{weldingHero.title}</h1>
 			<p>{weldingHero.lead}</p>
+			<figure class="weld-hero__photo media-frame photo-fill" style={photoFill("/img/barandas-acceso.webp")}>
+				<img src="/img/barandas-acceso.webp" srcset={srcset("/img/barandas-acceso.webp")} sizes="(min-width: 1024px) 60vw, 92vw" alt="Barandas de acero inoxidable soldadas en la entrada de un local" width="1152" height="648" fetchpriority="high" decoding="async" />
+			</figure>
 			<div class="weld-hero__actions">
 				<a href="/contacto" class="btn btn--primary btn--lg">Cotizar proyecto</a>
 				<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp btn--lg">
@@ -150,10 +153,10 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 				<p>{weldingLocation.lead}</p>
 			</div>
 
-			<dl class="weld-facts" data-reveal>
+			<dl class="fact-card weld-facts" data-reveal>
 				{
 					weldingLocation.facts.map((fact) => (
-						<div class="weld-facts__cell">
+						<div>
 							<dt>{fact.label}</dt>
 							<dd>
 								{fact.href ? (
@@ -207,7 +210,8 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 	</section>
 
 	<section class="section section--tight cta-band" aria-labelledby="soldadura-cierre">
-		<div class="container cta-band__inner">
+		<div class="container">
+			<div class="cta-band__inner" data-reveal>
 			<div class="cta-band__text">
 				<h2 id="soldadura-cierre">{weldingCta.title}</h2>
 				<p>{weldingCta.lead}</p>
@@ -220,10 +224,32 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 				</a>
 			</div>
 		</div>
+		</div>
 	</section>
 </Layout>
 
 <style>
+	.weld-hero__photo {
+		grid-column: 1 / -1;
+		order: 3;
+		margin: clamp(0.5rem, 2vw, 1rem) 0 0;
+		aspect-ratio: 16 / 9;
+		border-radius: var(--radius-card);
+		box-shadow: var(--shadow-card);
+	}
+
+	@media (min-width: 1024px) {
+		.weld-hero__photo {
+			aspect-ratio: 21 / 8;
+		}
+	}
+
+	.weld-hero__photo img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+
 	.weld-hero__actions {
 		display: flex;
 		flex-wrap: wrap;
@@ -238,7 +264,7 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 
 	.weld-jobs__photo {
 		margin: 0;
-		aspect-ratio: 4 / 3;
+		aspect-ratio: 4 / 5;
 		border-radius: var(--radius-card);
 	}
 
@@ -293,40 +319,6 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 		}
 	}
 
-	.weld-facts {
-		display: grid;
-		gap: 1px;
-		margin: 0;
-		background-color: var(--color-border);
-		border-block: 1px solid var(--color-border);
-	}
-
-	.weld-facts__cell {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		padding: 1.25rem 0;
-		background-color: var(--color-page);
-	}
-
-	.weld-facts dt {
-		font-size: 0.75rem;
-		font-weight: 500;
-		line-height: 1.3;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-		color: var(--color-text-muted);
-	}
-
-	.weld-facts dd {
-		margin: 0;
-		font-family: var(--font-heading);
-		font-size: clamp(1.125rem, 1.6vw, 1.375rem);
-		font-weight: 600;
-		line-height: 1.3;
-		color: var(--color-text);
-	}
-
 	.weld-facts__line {
 		display: block;
 	}
@@ -343,16 +335,6 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 	@media (hover: hover) and (pointer: fine) {
 		.weld-facts__link:hover {
 			color: var(--color-accent);
-		}
-	}
-
-	@media (min-width: 768px) {
-		.weld-facts {
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-		}
-
-		.weld-facts__cell:not(:first-child) {
-			padding-left: var(--gutter);
 		}
 	}
 

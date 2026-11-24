@@ -51,6 +51,10 @@ export const services = [
       "Mobiliario de alta durabilidad para uso intensivo",
       "Estructuras dimensionadas al espacio real",
     ],
+    media: [
+      { src: "/img/meson-repisa.webp", alt: "Mesón de acero inoxidable con baranda y repisa inferior" },
+      { src: "/img/meson-repisas-equipos.webp", alt: "Mesón de acero inoxidable con repisas y divisiones, con equipos de cocina encima" },
+    ],
   },
   {
     slug: "campanas-extraccion",
@@ -63,6 +67,10 @@ export const services = [
       "Campanas murales y centrales",
       "Ductos, codos y terminales de descarga",
       "Filtros desmontables para lavado",
+    ],
+    media: [
+      { src: "/img/campana-mural-freidoras.webp", alt: "Campana de acero inoxidable sobre una línea de freidoras en una cocina de comida rápida" },
+      { src: "/img/campana-asador.webp", alt: "Campana de acero inoxidable sobre una parrilla encendida" },
     ],
   },
   {

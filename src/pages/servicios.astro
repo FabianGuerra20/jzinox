@@ -8,7 +8,7 @@ import { faqSchema } from "../utils/schema.js";
 
 const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`;
 const faqLd = JSON.stringify(faqSchema(faqs));
-const mediaOf = (slug) => mainServices.find((service) => service.slug === slug)?.media;
+const mediaOf = (service) => service.media ?? mainServices.find((main) => main.slug === service.slug)?.media;
 ---
 
 <Layout
@@ -55,9 +55,9 @@ const mediaOf = (slug) => mainServices.find((service) => service.slug === slug)?
 							<ul class="check-list">
 								{service.details.map((detail) => <li>{detail}</li>)}
 							</ul>
-							{mediaOf(service.slug) && (
+							{mediaOf(service) && (
 								<div class="ledger__media">
-									<MediaPair media={mediaOf(service.slug)} sizes="(min-width: 1024px) 30vw, 46vw" />
+									<MediaPair media={mediaOf(service)} sizes="(min-width: 1024px) 20vw, 46vw" />
 								</div>
 							)}
 						</article>
@@ -80,7 +80,7 @@ const mediaOf = (slug) => mainServices.find((service) => service.slug === slug)?
 					{
 						processSteps.map((step, i) => (
 							<li class="timeline__step" data-reveal style={`--i: ${i}`}>
-								<span class="timeline__num">{String(i + 1).padStart(2, "0")}</span>
+								<span class="timeline__num">Paso {i + 1}</span>
 								<h3>{step.title}</h3>
 								<p>{step.description}</p>
 							</li>
@@ -116,15 +116,20 @@ const mediaOf = (slug) => mainServices.find((service) => service.slug === slug)?
 	</section>
 
 	<section class="section section--tight cta-band" aria-labelledby="servicios-cierre">
-		<div class="container cta-band__inner">
+		<div class="container">
+			<div class="cta-band__inner" data-reveal>
 			<div class="cta-band__text">
 				<h2 id="servicios-cierre">¿Cotizamos tu proyecto?</h2>
 				<p>Cuéntanos qué necesitas y te respondemos con medidas, materiales y plazos.</p>
 			</div>
 			<div class="cta-band__actions">
 				<a href="/contacto" class="btn btn--primary">Cotizar proyecto</a>
-				<a href="/catalogo" class="btn btn--ghost">Ver productos</a>
+				<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp">
+					<WhatsAppIcon size={18} />
+					Hablar con un asesor
+				</a>
 			</div>
+		</div>
 		</div>
 	</section>
 </Layout>
@@ -135,8 +140,38 @@ const mediaOf = (slug) => mainServices.find((service) => service.slug === slug)?
 	}
 
 	@media (min-width: 1024px) {
+		.ledger__row {
+			grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+			grid-template-areas:
+				"title body"
+				"title list";
+			column-gap: var(--gutter);
+		}
+
+		.ledger__row:has(.ledger__media) {
+			grid-template-areas:
+				"media title"
+				"media body"
+				"media list";
+			grid-template-rows: auto auto 1fr;
+		}
+
+		.ledger__row h3 {
+			grid-area: title;
+		}
+
+		.ledger__row > p,
+		.ledger__body {
+			grid-area: body;
+		}
+
+		.ledger__row .check-list {
+			grid-area: list;
+		}
+
 		.ledger__media {
-			grid-column: 2 / -1;
+			grid-area: media;
+			margin-top: 0;
 		}
 	}
 
@@ -145,56 +180,78 @@ const mediaOf = (slug) => mainServices.find((service) => service.slug === slug)?
 	}
 
 	.timeline__line {
-		display: block;
-		height: 1px;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 5px;
+		width: 1px;
 		background-color: var(--color-text-muted);
-		transform-origin: left center;
+		transform-origin: top center;
 	}
 
 	.timeline__steps {
 		display: grid;
-		gap: 2rem var(--gutter);
+		gap: 2rem;
 		margin: 0;
 		padding: 0;
 	}
 
-	@media (min-width: 640px) {
-		.timeline__steps {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
-	}
-
-	@media (min-width: 1024px) {
-		.timeline__steps {
-			grid-template-columns: repeat(4, minmax(0, 1fr));
-		}
-	}
-
 	.timeline__step {
 		position: relative;
-		padding-top: 1.75rem;
+		padding-left: 2rem;
 	}
 
 	.timeline__step::before {
 		content: "";
 		position: absolute;
-		top: 0;
+		top: 0.15rem;
 		left: 0;
-		width: 1px;
-		height: 1rem;
-		background-color: var(--color-text-muted);
+		width: 11px;
+		height: 11px;
+		border-radius: 50%;
+		background-color: var(--color-page);
+		box-shadow: inset 0 0 0 2px var(--color-accent);
+	}
+
+	@media (min-width: 1024px) {
+		.timeline__line {
+			top: 5px;
+			bottom: auto;
+			left: 0;
+			right: 0;
+			width: auto;
+			height: 1px;
+			transform-origin: left center;
+		}
+
+		.timeline__steps {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: var(--gutter);
+		}
+
+		.timeline__step {
+			padding: 2rem 0 0;
+		}
+	}
+
+	@media (max-width: 1023.98px) {
+		:global(html.js) .timeline__line[data-reveal="line"] {
+			transform-origin: top center;
+		}
+
+		:global(html.js) .timeline__line[data-reveal="line"]:not(.is-in) {
+			transform: scaleY(0);
+		}
 	}
 
 	.timeline__num {
 		display: block;
-		font-family: var(--font-heading);
-		font-variant-numeric: tabular-nums;
-		font-weight: 800;
-		font-size: clamp(2.25rem, 4vw, 3.25rem);
-		line-height: 1;
-		letter-spacing: -0.02em;
-		color: var(--color-text);
-		margin-bottom: 0.9rem;
+		margin-bottom: 0.5rem;
+		font-size: 0.875rem;
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
 	}
 
 	.timeline__step h3 {
