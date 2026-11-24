@@ -22,7 +22,6 @@ const quoteHref = (item) =>
 	<section class="section page-hero al-hero">
 		<div class="container al-hero__grid">
 			<div class="al-hero__copy">
-				<span class="eyebrow">{hero.eyebrow}</span>
 				<h1>{hero.title}</h1>
 				<p class="al-hero__subtitle">{hero.subtitle}</p>
 				<p>{hero.lead}</p>
@@ -85,7 +84,7 @@ const quoteHref = (item) =>
 			<div class="pgrid al-gallery">
 				{
 					alMuebleriaCatalog.map((item, i) => (
-						<article class="pcard" data-reveal="fade" style={`--i: ${i % 3}`}>
+						<article class="pcard" data-reveal style={`--i: ${i % 3}`}>
 							<a
 								class="pcard__media media-frame photo-fill"
 								style={photoFill(item.image.src)}
@@ -130,7 +129,8 @@ const quoteHref = (item) =>
 	</section>
 
 	<section class="section section--tight section--alt cta-band" aria-labelledby="al-cierre">
-		<div class="container cta-band__inner">
+		<div class="container">
+			<div class="cta-band__inner" data-reveal>
 			<div class="cta-band__text">
 				<h2 id="al-cierre">{cta.title}</h2>
 				<p>{cta.lead}</p>
@@ -139,6 +139,7 @@ const quoteHref = (item) =>
 				<a href="/contacto" class="btn btn--primary">Cotizar proyecto</a>
 				<a href={`tel:${site.phoneHref}`} class="btn btn--ghost">Llamar al {site.phoneDisplay}</a>
 			</div>
+		</div>
 		</div>
 	</section>
 </Layout>
@@ -167,6 +168,24 @@ const quoteHref = (item) =>
 		height: auto;
 		aspect-ratio: 4 / 3;
 		object-fit: contain;
+	}
+
+	@media (min-width: 1024px) {
+		.al-hero__photo img {
+			aspect-ratio: 4 / 5;
+		}
+	}
+
+	@media (min-width: 640px) {
+		.al-gallery {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (min-width: 1100px) {
+		.al-gallery {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
 	}
 
 	.al-hero__subtitle {

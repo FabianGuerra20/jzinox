@@ -72,7 +72,6 @@ export const alMuebleria = brands[1];
 // [PDF]
 export const alMuebleriaPage = {
   hero: {
-    eyebrow: "AL Mueblería",
     // [PDF]
     title: "Muebles a medida",
     subtitle: "Mueblistería y ebanistería",

@@ -88,13 +88,14 @@ const groups = catalogCategories
 							run.kind === "cards" ? (
 								<div class="pgrid catalog-run">
 									{run.items.map((item, i) => (
-										<article class="pcard" data-reveal="fade" style={`--i: ${i % 3}`}>
+										<article class="pcard" data-reveal style={`--i: ${i % 2}`}>
 											<div class="pcard__gallery" data-gallery={photosOf(item).length > 1 ? "" : undefined}>
+												{item.note && <span class="pcard__flag">{item.note}</span>}
 												<div class="pcard__track">
 													{photosOf(item).map((photo, n, all) => (
 														<a
 															class="pcard__media media-frame photo-fill"
-																										style={photoFill(photo.src)}
+															style={photoFill(photo.src)}
 															href={photo.src}
 															data-zoom
 															data-alt={photo.alt}
@@ -129,7 +130,6 @@ const groups = catalogCategories
 											<div class="pcard__body">
 												<h3 id={`${item.id}-name`}>{item.name}</h3>
 												{item.description && <p>{item.description}</p>}
-												{item.note && <p class="pcard__note">{item.note}</p>}
 												<a
 													id={`${item.id}-cta`}
 													aria-labelledby={`${item.id}-cta ${item.id}-name`}
@@ -174,7 +174,8 @@ const groups = catalogCategories
 	</section>
 
 	<section class="section section--tight section--alt cta-band" aria-labelledby="catalogo-cierre">
-		<div class="container cta-band__inner">
+		<div class="container">
+			<div class="cta-band__inner" data-reveal>
 			<div class="cta-band__text">
 				<h2 id="catalogo-cierre">¿No encuentras lo que buscas?</h2>
 				<p>Lo fabricamos a medida, con tu plano o tus medidas.</p>
@@ -182,6 +183,7 @@ const groups = catalogCategories
 			<div class="cta-band__actions">
 				<a href="/contacto" class="btn btn--primary">Cotizar proyecto</a>
 			</div>
+		</div>
 		</div>
 	</section>
 </Layout>
@@ -200,7 +202,7 @@ const groups = catalogCategories
 				if (id === current) {
 					link.setAttribute("aria-current", "location");
 					const offset = link.getBoundingClientRect().left - bar.getBoundingClientRect().left;
-					bar.scrollTo({ left: bar.scrollLeft + offset - (bar.clientWidth - link.offsetWidth) / 2, behavior: "auto" });
+					bar.scrollTo({ left: bar.scrollLeft + offset - (bar.clientWidth - link.offsetWidth) / 2, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
 				} else {
 					link.removeAttribute("aria-current");
 				}
@@ -264,10 +266,9 @@ const groups = catalogCategories
 		display: none;
 	}
 
-	@media (max-width: 639.98px) {
-		.catalog-bar__inner {
-			mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
-		}
+	.catalog-bar__inner {
+		-webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
+		mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
 	}
 
 	.catalog-bar__link {
@@ -399,7 +400,7 @@ const groups = catalogCategories
 
 	.pcard__nav {
 		position: absolute;
-		right: 10px;
+		left: 10px;
 		bottom: 10px;
 		display: flex;
 		align-items: center;
@@ -421,9 +422,65 @@ const groups = catalogCategories
 		touch-action: manipulation;
 	}
 
-	.pcard__note {
-		font-size: 0.875rem;
+	.pcard__flag {
+		position: absolute;
+		top: 10px;
+		left: 10px;
+		z-index: 1;
+		padding: 0.3rem 0.55rem;
+		border-radius: var(--radius);
+		background-color: color-mix(in srgb, var(--color-bg) 92%, transparent);
+		box-shadow: var(--shadow-sm);
+		font-size: 0.75rem;
+		font-weight: 500;
 		color: var(--color-text-muted);
+		pointer-events: none;
+	}
+
+	@media (min-width: 700px) {
+		.catalog .pgrid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.catalog .pgrid > .pcard:last-child:nth-child(odd) {
+			grid-column: 1 / -1;
+			flex-direction: row;
+		}
+
+		.catalog .pgrid > .pcard:last-child:nth-child(odd) .pcard__gallery {
+			flex: 0 0 50%;
+			min-width: 0;
+		}
+	}
+
+	@media (min-width: 1100px) {
+		.catalog .pgrid:has(> .pcard:only-child) {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.catalog .pgrid > .pcard:only-child {
+			flex-direction: column;
+		}
+
+		.catalog .pgrid > .pcard:only-child .pcard__gallery {
+			flex: none;
+		}
+	}
+
+	@media (min-width: 1100px) {
+		.catalog-group > .pgrid:has(> .pcard:only-child) + .prows .prow {
+			grid-template-columns: minmax(0, 1fr) auto;
+		}
+
+		.catalog-group > .pgrid:has(> .pcard:only-child) + .prows .prow p {
+			grid-column: 1;
+			grid-row: 2;
+		}
+
+		.catalog-group > .pgrid:has(> .pcard:only-child) + .prows .prow .btn {
+			grid-column: 2;
+			grid-row: 1 / span 2;
+		}
 	}
 
 	.pcard__step svg {
