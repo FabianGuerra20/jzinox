@@ -88,9 +88,10 @@ export const mainServices = [
     title: "Soldadura TIG, MIG y aluminio",
     blurb:
       "Contamos con equipamiento para soldadura TIG en acero inoxidable y MIG en acero carbono. También trabajamos aluminio.",
+    // [PROPUESTA]
     media: [
-      { slot: "Cordón de soldadura TIG en detalle", ratio: "3:2" },
-      { slot: "Soldador trabajando en el taller", ratio: "3:2" },
+      { src: "/img/columna-inox.webp", alt: "Columna de acero inoxidable pulido, soldada en el taller" },
+      { src: "/img/barandas-acceso.webp", alt: "Barandas de acero inoxidable soldadas en la entrada de un local" },
     ],
   },
   {
@@ -99,7 +100,8 @@ export const mainServices = [
     blurb:
       "Plancha cortada y plegada a la medida exacta del proyecto, para que el montaje no dependa de ajustes a última hora.",
     media: [
-      { src: "/img/piezas-cortadas.webp", alt: "Piezas de acero inoxidable cortadas y plegadas, listas para armado", ratio: "3:2" },
+      { video: "/video/plegado-1.mp4", poster: "/video/plegado-1.webp", alt: "Video: plegadora doblando una plancha larga de acero inoxidable" },
+      { video: "/video/plegado-2.mp4", poster: "/video/plegado-2.webp", alt: "Video: plegadora doblando una pieza chica de acero inoxidable" },
     ],
   },
   {
@@ -107,9 +109,10 @@ export const mainServices = [
     title: "Diseño de proyecto",
     blurb:
       "Medimos el espacio real y diseñamos la solución completa antes de cortar la primera plancha.",
+    // [PROPUESTA]
     media: [
-      { slot: "Plano de proyecto sobre el mesón", ratio: "3:2" },
-      { slot: "Medición en terreno", ratio: "3:2" },
+      { src: "/img/taller-estanteria.webp", alt: "Estantería de acero inoxidable con repisas blancas, terminada en el taller" },
+      { src: "/img/porta-impresora.webp", alt: "Bandeja de acero inoxidable atornillada al muro, diseñada a la medida del espacio" },
     ],
   },
 ];

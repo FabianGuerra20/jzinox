@@ -79,19 +79,9 @@ const otherFacts = facts.slice(1);
 
 	<section class="section section--alt" aria-labelledby="nosotros-mision">
 		<div class="container">
-			<div class="section-head" data-reveal>
+			<div class="mission" data-reveal>
 				<h2 id="nosotros-mision">{mission.title}</h2>
-			</div>
-
-			<div class="rows">
-				{
-					mission.items.map((item) => (
-						<article class="rows__row" data-reveal>
-							<h3>{item.title}</h3>
-							<p>{item.description}</p>
-						</article>
-					))
-				}
+				<p>{mission.description}</p>
 			</div>
 		</div>
 	</section>
@@ -129,6 +119,29 @@ const otherFacts = facts.slice(1);
 </Layout>
 
 <style>
+	.mission {
+		display: grid;
+		gap: 1rem clamp(2rem, 6vw, 5rem);
+	}
+
+	.mission h2 {
+		margin: 0;
+	}
+
+	.mission p {
+		max-width: 60ch;
+		margin: 0;
+		font-size: clamp(1.125rem, 1.6vw, 1.3125rem);
+		line-height: 1.55;
+	}
+
+	@media (min-width: 1024px) {
+		.mission {
+			grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+			align-items: start;
+		}
+	}
+
 	.about__grid {
 		display: grid;
 		gap: 1.5rem clamp(2rem, 5vw, 4rem);

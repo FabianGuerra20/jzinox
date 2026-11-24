@@ -5,6 +5,8 @@ export const catalogCategories = [
   "Carros",
   "Mesones",
   "Protectores",
+  // [PROPUESTA]
+  "Otros",
 ];
 
 export const catalog = [
@@ -23,11 +25,21 @@ export const catalog = [
     image: { src: "/img/campana-filtros.webp", alt: "Lateral separador de estaciones en acero inoxidable, con ganchos, junto a la línea de cocción" },
   },
   {
+    // [CLIENTE]
+    id: "revestimiento-lava-mopa",
+    name: "Revestimientos de lava mopa",
+    category: "Revestimientos",
+    image: { src: "/img/revestimiento-lava-mopa.webp", alt: "Revestimiento de acero inoxidable alrededor de un lava mopa, en el taller antes de instalarse" },
+  },
+  {
     id: "campana",
     name: "Campana",
     category: "Extracción",
     description: "De extracción, a la medida de tu línea de cocción.",
     image: { src: "/img/campana-asador.webp", alt: "Campana de acero inoxidable sobre una parrilla encendida" },
+    gallery: [
+      { src: "/img/campana-mural-freidoras.webp", alt: "Campana de acero inoxidable sobre una línea de freidoras en una cocina de comida rápida" },
+    ],
   },
   {
     id: "filtros-campana",
@@ -47,14 +59,16 @@ export const catalog = [
     id: "porta-nova",
     name: "Porta Nova",
     category: "Soportes y presentadores",
-    image: { pending: true, slot: "Porta Nova" },
+    image: { src: "/img/porta-nova.webp", alt: "Soporte de acero inoxidable con barra horizontal atornillado al muro" },
   },
   {
     id: "porta-impresora",
     name: "Porta impresora",
     category: "Soportes y presentadores",
     description: "Para la impresora de comandas.",
-    image: { pending: true, slot: "Porta impresora instalado" },
+    // [PROPUESTA]
+    note: "Foto referencial",
+    image: { src: "/img/porta-impresora.webp", alt: "Bandeja de acero inoxidable atornillada al muro, sobre los enchufes de la impresora" },
   },
   {
     id: "presentadores-pizza",
@@ -72,6 +86,7 @@ export const catalog = [
     gallery: [
       { src: "/img/soporte-kds-cocina.webp", alt: "Dos soportes de pantalla KDS colgados del cielo de una cocina" },
       { src: "/img/soporte-kds-brazo.webp", alt: "Brazo hidráulico del soporte con dos pantallas KDS montadas" },
+      { src: "/img/soporte-kds-base.webp", alt: "Soporte de pantalla KDS en el taller, con su brazo y la placa de montaje" },
     ],
   },
   {
@@ -95,7 +110,7 @@ export const catalog = [
     id: "carro-bidones-aceite",
     name: "Carro de bidones de aceite",
     category: "Carros",
-    image: { pending: true, slot: "Carro de bidones de aceite" },
+    image: { src: "/img/carro-bidones.webp", alt: "Carro plataforma de acero inoxidable con ruedas y manilla alta para mover bidones" },
   },
   {
     id: "meson-repisa",
@@ -124,6 +139,9 @@ export const catalog = [
     category: "Protectores",
     description: "Cubierta para el dispensador de jabón.",
     image: { src: "/img/protector-jabon.webp", alt: "Protector de acero inoxidable para dispensador de jabón sobre un lavamanos blanco y muro negro" },
+    gallery: [
+      { src: "/img/piezas-cortadas.webp", alt: "Protectores de jabón de acero inoxidable recién cortados y plegados en el taller" },
+    ],
   },
   {
     id: "protector-aromatizante",
@@ -138,5 +156,12 @@ export const catalog = [
     category: "Protectores",
     description: "Cubierta para el dispensador de papel higiénico.",
     image: { pending: true, slot: "Protector de confort" },
+  },
+  {
+    // [CLIENTE]
+    id: "aplastador-basura",
+    name: "Aplastador de basura",
+    category: "Otros",
+    image: { src: "/img/aplastador-basura.webp", alt: "Aplastador de basura de acero inoxidable con base cuadrada y mango vertical, en el taller" },
   },
 ];

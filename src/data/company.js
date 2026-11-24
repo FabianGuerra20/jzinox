@@ -8,30 +8,18 @@ export const pageHero = {
 };
 
 export const history = {
-  // [PDF, reformulado]
+  // [PDF]
   paragraphs: [
-    "En JZ INOX transformamos el acero inoxidable en soluciones duraderas para la industria alimentaria, restaurantes y locales de comida rápida. Hemos fabricado y diseñado a grandes empresas de la industria alimentaria de la comida rápida.",
+    "En JZ INOX llevamos más de dos décadas transformando el acero inoxidable en soluciones duraderas para la industria alimentaria, restaurantes y locales de comida rápida. Hemos fabricado y diseñado a grandes empresas de la industria alimentaria de la comida rápida.",
     "Nos dedicamos a la fabricación a medida, sabemos que cada cocina y espacio de trabajo tiene necesidades únicas que los muebles estandarizados no pueden resolver.",
   ],
 };
 
+// [PDF]
 export const mission = {
-  // [PROPUESTA]
-  title: "Misión y visión",
-  items: [
-    {
-      title: "Nuestra misión",
-      // [PDF]
-      description:
-        "Brindar equipamiento e infraestructura en acero inoxidable de la máxima calidad y resistencia, ofreciendo un producto robusto y personalizado que supere con creces la mueblería importada de baja durabilidad. Trabajamos para que tu inversión dure años en perfectas condiciones, optimizando la higiene y operatividad de tu negocio.",
-    },
-    {
-      title: "Nuestra visión",
-      // [PROPUESTA]
-      description:
-        "Ser el taller al que llaman cuando la pieza tiene que entrar exacta y aguantar el uso diario durante años.",
-    },
-  ],
+  title: "Nuestra misión",
+  description:
+    "Brindar equipamiento e infraestructura en acero inoxidable de la máxima calidad y resistencia, ofreciendo un producto robusto y personalizado que supere con creces la mueblería importada de baja durabilidad. Trabajamos para que tu inversión dure años en perfectas condiciones, optimizando la higiene y operatividad de tu negocio.",
 };
 
 export const valuesSection = {

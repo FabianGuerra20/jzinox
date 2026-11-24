@@ -129,6 +129,7 @@ const groups = catalogCategories
 											<div class="pcard__body">
 												<h3 id={`${item.id}-name`}>{item.name}</h3>
 												{item.description && <p>{item.description}</p>}
+												{item.note && <p class="pcard__note">{item.note}</p>}
 												<a
 													id={`${item.id}-cta`}
 													aria-labelledby={`${item.id}-cta ${item.id}-name`}
@@ -418,6 +419,11 @@ const groups = catalogCategories
 		color: var(--color-text);
 		cursor: pointer;
 		touch-action: manipulation;
+	}
+
+	.pcard__note {
+		font-size: 0.875rem;
+		color: var(--color-text-muted);
 	}
 
 	.pcard__step svg {

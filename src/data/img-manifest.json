@@ -17,7 +17,7 @@
    {
     "src": "/img/al-closet-madera-w800.webp",
     "w": 800,
-    "kb": 51.0
+    "kb": 51
    }
   ]
  },
@@ -44,7 +44,7 @@
    {
     "src": "/img/al-cocina-clara-w800.webp",
     "w": 800,
-    "kb": 30.0
+    "kb": 30
    }
   ]
  },
@@ -81,6 +81,11 @@
    }
   ]
  },
+ "/img/al-mueble-escalera.webp": {
+  "w": 738,
+  "h": 1600,
+  "variants": []
+ },
  "/img/al-recepcion.webp": {
   "w": 1600,
   "h": 740,
@@ -88,7 +93,29 @@
    {
     "src": "/img/al-recepcion-w800.webp",
     "w": 800,
-    "kb": 29.0
+    "kb": 29
+   }
+  ]
+ },
+ "/img/aplastador-basura.webp": {
+  "w": 900,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/aplastador-basura-w800.webp",
+    "w": 800,
+    "kb": 116.9
+   }
+  ]
+ },
+ "/img/barandas-acceso.webp": {
+  "w": 1152,
+  "h": 648,
+  "variants": [
+   {
+    "src": "/img/barandas-acceso-w800.webp",
+    "w": 800,
+    "kb": 53.8
    }
   ]
  },
@@ -127,6 +154,17 @@
     "src": "/img/campana-mural-freidoras-w800.webp",
     "w": 800,
     "kb": 43.3
+   }
+  ]
+ },
+ "/img/carro-bidones.webp": {
+  "w": 1200,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/carro-bidones-w800.webp",
+    "w": 800,
+    "kb": 65.1
    }
   ]
  },
@@ -215,6 +253,28 @@
    }
   ]
  },
+ "/img/porta-impresora.webp": {
+  "w": 1200,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/porta-impresora-w800.webp",
+    "w": 800,
+    "kb": 20.3
+   }
+  ]
+ },
+ "/img/porta-nova.webp": {
+  "w": 1200,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/porta-nova-w800.webp",
+    "w": 800,
+    "kb": 20.9
+   }
+  ]
+ },
  "/img/protector-jabon.webp": {
   "w": 899,
   "h": 1599,
@@ -223,6 +283,28 @@
     "src": "/img/protector-jabon-w800.webp",
     "w": 800,
     "kb": 46.6
+   }
+  ]
+ },
+ "/img/revestimiento-lava-mopa.webp": {
+  "w": 1200,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/revestimiento-lava-mopa-w800.webp",
+    "w": 800,
+    "kb": 28.9
+   }
+  ]
+ },
+ "/img/soporte-kds-base.webp": {
+  "w": 1200,
+  "h": 1600,
+  "variants": [
+   {
+    "src": "/img/soporte-kds-base-w800.webp",
+    "w": 800,
+    "kb": 57
    }
   ]
  },

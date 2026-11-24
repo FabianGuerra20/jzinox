@@ -99,7 +99,7 @@ Resumen. El detalle está en `DESIGN.md`.
 ### Botones y WhatsApp
 * Dos tamaños: base (44px) y `.btn--lg` (48px).
 * **Todo lo que abre WhatsApp lo dice, lleva el glifo y va en verde.**
-* Vocabulario único: "Cotizar proyecto", "Cotizar por WhatsApp", "Escríbenos por WhatsApp", "Ver productos", "Volver al inicio", "Enviar consulta". Solo la primera palabra en mayúscula.
+* Vocabulario único: "Cotizar proyecto", "Cotizar por WhatsApp", "Hablar con un asesor" (botón verde de WhatsApp, pedido del cliente el 24 nov), "Ver productos", "Volver al inicio", "Enviar consulta". Solo la primera palabra en mayúscula.
 * La marca se escribe **JZ INOX**, separado.
 
 ### Movimiento
@@ -110,7 +110,7 @@ Resumen. El detalle está en `DESIGN.md`.
 * Todo se reduce con `prefers-reduced-motion`.
 
 ### No reintroducir
-El zoom de fotos al pasar el mouse, el revelado «cut», la junta de 1px alrededor de fotos o tarjetas, `.bento`, las chispas naranjas, la línea naranja que se trazaba bajo los encabezados, los antetítulos sobre cada título, las tarjetas numeradas 01–02–03, los iconos en cuadrito, el carrusel, las fotos en gris y el bloque de color en el hover del menú.
+El zoom de fotos al pasar el mouse, el revelado «cut», la junta de 1px alrededor de fotos o tarjetas, `.bento`, las chispas naranjas, la línea naranja que se trazaba bajo los encabezados, los antetítulos sobre cada título, las tarjetas numeradas 01–02–03, los iconos en cuadrito las fotos en gris y el bloque de color en el hover del menú.
 
 ## 6. Contenido
 
@@ -153,7 +153,7 @@ Reglas:
 * El formulario envía a FormSubmit: la primera consulta dispara un correo de activación a `ventas@jzinox.cl` que el cliente debe confirmar. No se ha probado un envío real.
 * 10 de 18 productos sin foto (Filtros de campana quedó sin foto el 16 nov: la que tenía era del lateral separador). El hero usa desde el 16 nov la foto del mesón con rejillas que subió el cliente: es de buena resolución pero tiene desorden alrededor; sigue faltando una foto horizontal de obra terminada.
 * Rama `muestra/pedidos-y-mejoras` (16 nov): fusionada en `main` y publicada el 23 nov junto con el diseño elegido. Detalle en `MEJORAS.md §10`.
-* Fotos (23 nov, pedido del cliente): ya no se recortan. Todo marco de foto lleva `.photo-fill` y `style={photoFill(src)}` (`src/utils/img.js`): la foto va entera y centrada (`object-fit: contain`) sobre una copia desenfocada de sí misma. Las tarjetas del catálogo y de AL Mueblería usan marco cuadrado porque casi todas las fotos son verticales. No volver a `object-fit: cover` ni a `position` por foto en `src/data/`. Al sumar una foto, regenerar `src/data/img-blur.json` con `node scripts/generar-desenfoque.mjs`.
+* Fotos (23 nov, pedido del cliente): ya no se recortan. Todo marco de foto lleva `.photo-fill` y `style={photoFill(src)}` (`src/utils/img.js`): la foto va entera y centrada (`object-fit: contain`) sobre una copia desenfocada de sí misma. Las tarjetas del catálogo y de AL Mueblería usan marco cuadrado porque casi todas las fotos son verticales. No volver a `object-fit: cover` ni a `position` por foto en `src/data/`. Al sumar una foto: `node scripts/agregar-foto.mjs <original> <nombre>` (webp, variantes y manifiesto) y después `node scripts/generar-desenfoque.mjs`. Los videos van en `public/video/` (mp4 sin audio, 540px, con portada webp) y se muestran con `MediaPair.astro`, que los reproduce en bucle solo cuando están a la vista.
 * No se ha probado en un teléfono real ni en Safari.
 * Diseño: **elegido y aplicado el 23 nov** y **publicado** el mismo día (`main` → Vercel): Azul arco claro, Hanken + Inter, Texto y foto, Tarjetas grandes, orden de hoy, Blando, Suaves. Falta revisarlo en un teléfono real. Antes: Fabián quería salir del negro con naranjo o rojo (16 nov). El cliente elige en `propuestas/elegir-diseno.html`, el mismo selector de la plantilla de pymes, ahora con todo en un solo archivo (17 nov): 4 propuestas completas y, por separado y combinables, 28 paletas (las del archivo del 12 nov, las de octubre, 6 nuevas y 8 con color en la base, sin grises; cada una en modo oscuro y claro, con contraste AA validado), 12 letras de títulos × 9 de texto, 4 portadas, 8 órdenes del Inicio, 3 listados, 4 estilos y 3 esquinas, más una página de ficha técnica que se rellena con la elección. Las siete páginas son navegables y la elección se envía por WhatsApp. Las paletas extra están en `scripts/paletas.mjs`; las fuentes (OFL) en `propuestas/fuentes/`. Se genera con `npm run build && node scripts/generar-selector.mjs` y se prueba con `node scripts/probar-selector.mjs` (hace clic en cada opción, en escritorio y celular). La maqueta de octubre quedó en `propuestas/archivo/`. Falta mostrárselo.
 * Logos de clientes publicados por uso nominativo: falta que el cliente confirme que puede mostrarlos. Factory Nine se presenta hoy como pastelería: confirmar que es el mismo cliente.

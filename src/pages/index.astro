@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import BrandShowcase from "../components/BrandShowcase.astro";
 import ClientLogos from "../components/ClientLogos.astro";
+import MediaPair from "../components/MediaPair.astro";
 import WhatsAppIcon from "../components/WhatsAppIcon.astro";
 import { brands } from "../data/brands.js";
 import { facts, clients } from "../data/company.js";
@@ -16,8 +17,6 @@ const heroImage = {
 
 const heroTitle = "Fabricación, reparación y mantención de estructuras en acero inoxidable";
 const heroWords = heroTitle.split(" ");
-
-const servicePhoto = mainServices.flatMap((service) => service.media).find((media) => media.src);
 
 const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`;
 ---
@@ -46,7 +45,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 					<a href="/contacto" class="btn btn--primary btn--lg">Cotizar proyecto</a>
 					<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--lg">
 						<WhatsAppIcon size={18} />
-						Escríbenos por WhatsApp
+						Hablar con un asesor
 					</a>
 				</div>
 			</div>
@@ -109,42 +108,26 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	}
 
 	<section class="section services" aria-labelledby="servicios-principales">
-		<div class="container services__grid">
-			<div class="services__aside">
-				<div data-reveal>
-					<h2 id="servicios-principales">Lo que hacemos en taller</h2>
-				</div>
-
-				{
-					servicePhoto && (
-						<figure class="services__photo media-frame photo-fill" style={photoFill(servicePhoto.src)} data-reveal>
-							<img
-								src={servicePhoto.src}
-								srcset={srcset(servicePhoto.src)}
-								sizes="(min-width: 1024px) 38vw, 92vw"
-								alt={servicePhoto.alt}
-								width="900"
-								height="675"
-								loading="lazy"
-								decoding="async"
-							/>
-						</figure>
-					)
-				}
+		<div class="container">
+			<div class="services__head" data-reveal>
+				<h2 id="servicios-principales">Lo que hacemos en taller</h2>
 			</div>
 
 			<ol class="services__list" role="list">
 				{
-					mainServices.map((service, i) => (
-						<li class="services__item" data-reveal style={`--i: ${i}`}>
-							<h3>{service.title}</h3>
-							<p>{service.blurb}</p>
-							<a href={service.href ?? `/servicios#${service.slug}`} class="arrow-link link-press" aria-label={`Ver el detalle de ${service.title}`}>
-								Ver el detalle
-								<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-									<path d="M5 12h14M13 6l6 6-6 6" />
-								</svg>
-							</a>
+					mainServices.map((service) => (
+						<li class="services__item" data-reveal>
+							<div class="services__text">
+								<h3>{service.title}</h3>
+								<p>{service.blurb}</p>
+								<a href={service.href ?? `/servicios#${service.slug}`} class="arrow-link link-press" aria-label={`Ver el detalle de ${service.title}`}>
+									Ver el detalle
+									<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+										<path d="M5 12h14M13 6l6 6-6 6" />
+									</svg>
+								</a>
+							</div>
+							<MediaPair media={service.media} />
 						</li>
 					))
 				}
@@ -164,7 +147,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 					<a href="/contacto" class="btn btn--primary btn--lg">Cotizar proyecto</a>
 					<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp btn--lg">
 						<WhatsAppIcon size={18} />
-						Escríbenos por WhatsApp
+						Hablar con un asesor
 					</a>
 				</div>
 			</div>
@@ -396,43 +379,8 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		font-size: clamp(1.5rem, 2.4vw, 2rem);
 	}
 
-	.services__grid {
-		display: grid;
-		gap: clamp(2rem, 5vw, 4rem);
-	}
-
-	.services__aside h2 {
-		margin-bottom: 0;
-	}
-
-	.services__photo {
-		margin: clamp(1.5rem, 3vw, 2.25rem) 0 0;
-		aspect-ratio: 4 / 3;
-		border-radius: var(--radius-card);
-	}
-
-	@media (min-width: 1024px) {
-		.services__photo {
-			aspect-ratio: 5 / 6;
-		}
-	}
-
-	.services__photo img {
-		width: 100%;
-		height: 100%;
-		object-fit: contain;
-	}
-
-	@media (min-width: 1024px) {
-		.services__grid {
-			grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-			align-items: start;
-		}
-
-		.services__aside {
-			position: sticky;
-			top: calc(var(--header-height) + 2rem);
-		}
+	.services__head h2 {
+		margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
 	}
 
 	.services__list {
@@ -440,8 +388,18 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	}
 
 	.services__item {
-		padding: clamp(1.5rem, 3.4vw, 2.5rem) 0;
+		display: grid;
+		gap: 1.5rem;
+		padding: clamp(1.75rem, 3.6vw, 3rem) 0;
 		border-top: 1px solid var(--color-border);
+	}
+
+	@media (min-width: 900px) {
+		.services__item {
+			grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+			gap: clamp(2rem, 5vw, 4.5rem);
+			align-items: center;
+		}
 	}
 
 	.services__item h3 {

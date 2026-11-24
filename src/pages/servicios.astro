@@ -1,12 +1,14 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import WhatsAppIcon from "../components/WhatsAppIcon.astro";
-import { services, processSteps, faqs } from "../data/services.js";
+import MediaPair from "../components/MediaPair.astro";
+import { services, mainServices, processSteps, faqs } from "../data/services.js";
 import { site } from "../data/site.js";
 import { faqSchema } from "../utils/schema.js";
 
 const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent(site.whatsappDefaultMessage)}`;
 const faqLd = JSON.stringify(faqSchema(faqs));
+const mediaOf = (slug) => mainServices.find((service) => service.slug === slug)?.media;
 ---
 
 <Layout
@@ -53,6 +55,11 @@ const faqLd = JSON.stringify(faqSchema(faqs));
 							<ul class="check-list">
 								{service.details.map((detail) => <li>{detail}</li>)}
 							</ul>
+							{mediaOf(service.slug) && (
+								<div class="ledger__media">
+									<MediaPair media={mediaOf(service.slug)} sizes="(min-width: 1024px) 30vw, 46vw" />
+								</div>
+							)}
 						</article>
 					))
 				}
@@ -91,7 +98,7 @@ const faqLd = JSON.stringify(faqSchema(faqs));
 				<p>¿No está la tuya? Escríbenos y te respondemos en horario de taller.</p>
 				<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp">
 					<WhatsAppIcon size={18} />
-					Escríbenos por WhatsApp
+					Hablar con un asesor
 				</a>
 			</div>
 
@@ -123,6 +130,16 @@ const faqLd = JSON.stringify(faqSchema(faqs));
 </Layout>
 
 <style>
+	.ledger__media {
+		margin-top: 0.75rem;
+	}
+
+	@media (min-width: 1024px) {
+		.ledger__media {
+			grid-column: 2 / -1;
+		}
+	}
+
 	.timeline {
 		position: relative;
 	}

@@ -24,9 +24,12 @@ export const brands = [
       { name: "Soporte de pantalla KDS", note: "Con brazo hidráulico.", href: "/catalogo#soportes-y-presentadores" },
       { name: "Carro de bandejas de tocino", note: "Con guías para las bandejas.", href: "/catalogo#carros" },
     ],
+    // [CLIENTE]
     images: [
-      { src: "/img/campana-central.webp", alt: "Campana de extracción en acero inoxidable colgada del cielo de una cocina industrial" },
       { src: "/img/columna-inox.webp", alt: "Columna de acero inoxidable pulido fabricada a medida" },
+      { src: "/img/barandas-acceso.webp", alt: "Barandas de acero inoxidable en la entrada de un local" },
+      { src: "/img/taller-estanteria.webp", alt: "Estantería de acero inoxidable con repisas blancas en el taller de JZ INOX" },
+      { src: "/img/campana-central.webp", alt: "Campana de extracción en acero inoxidable colgada del cielo de una cocina industrial" },
       { src: "/img/campana-mural-freidoras.webp", alt: "Campana de acero inoxidable sobre una línea de freidoras en una cocina de comida rápida" },
     ],
   },
@@ -54,6 +57,7 @@ export const brands = [
       { name: "Estaciones de trabajo", note: "Mobiliario para personal de empresas.", href: "/al-muebleria#servicios" },
       { name: "Piezas en estilo industrial", note: "Madera combinada con estructura metálica.", href: "/al-muebleria#servicios" },
     ],
+    // [CLIENTE]
     images: [
       { src: "/img/al-cocina-barra.webp", alt: "Cocina de línea plana en gris grafito con barra de cuarzo, fabricada por AL Mueblería" },
       { src: "/img/al-estanteria-cajones.webp", alt: "Mueble de bodega con cajones abatibles y estantes, en línea plana gris" },
@@ -168,6 +172,14 @@ export const alMuebleriaCatalog = [
     description:
       "Clóset con puertas altas, cajoneras y barras de colgado, en melamina símil madera.",
     image: { src: "/img/al-closet-madera.webp", alt: "Clóset de piso a cielo con puertas abiertas, cajoneras y barras de colgado" },
+  },
+  {
+    id: "mueble-escalera",
+    name: "Mueble bajo escalera con botellero",
+    category: "Domiciliario",
+    description:
+      "Mueble con puertas y botellero de casilleros que aprovecha el espacio bajo la escalera.",
+    image: { src: "/img/al-mueble-escalera.webp", alt: "Mueble gris con puertas y botellero de casilleros bajo una escalera" },
   },
   {
     id: "cocina-azul",

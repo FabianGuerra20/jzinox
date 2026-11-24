@@ -1,0 +1,103 @@
+---
+import { photoFill, srcset } from "../utils/img.js";
+
+interface Media {
+  src?: string;
+  video?: string;
+  poster?: string;
+  alt: string;
+}
+
+interface Props {
+  media: Media[];
+  sizes?: string;
+}
+
+const { media, sizes = "(min-width: 1024px) 22vw, 46vw" } = Astro.props;
+---
+
+<div class="media-pair">
+  {
+    media.map((item) =>
+      item.video ? (
+        <figure class="media-pair__item media-pair__item--video">
+          <video
+            src={item.video}
+            poster={item.poster}
+            muted
+            loop
+            playsinline
+            preload="none"
+            aria-label={item.alt}
+            data-autoplay
+          />
+        </figure>
+      ) : (
+        <figure class="media-pair__item photo-fill" style={photoFill(item.src)}>
+          <img src={item.src} srcset={srcset(item.src)} sizes={sizes} alt={item.alt} width="600" height="800" loading="lazy" decoding="async" />
+        </figure>
+      ),
+    )
+  }
+</div>
+
+<style>
+  .media-pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .media-pair__item {
+    margin: 0;
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background-color: var(--color-surface);
+    box-shadow: var(--shadow-card);
+  }
+
+  .media-pair__item img,
+  .media-pair__item video {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .media-pair__item img {
+    object-fit: contain;
+  }
+
+  .media-pair__item video {
+    object-fit: cover;
+  }
+</style>
+
+<script>
+  const videos = document.querySelectorAll<HTMLVideoElement>("video[data-autoplay]");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (reduced) {
+    videos.forEach((video) => {
+      video.controls = true;
+      video.preload = "metadata";
+    });
+  } else if (videos.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            video.play().catch(() => {
+              video.controls = true;
+            });
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.25 },
+    );
+    videos.forEach((video) => observer.observe(video));
+  }
+</script>

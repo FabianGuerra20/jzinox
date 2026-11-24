@@ -18,7 +18,7 @@ interface Props {
 
 const { brand, flip = false } = Astro.props as Props;
 
-const photos = brand.images.filter((image) => !image.pending && image.src).slice(0, 3);
+const photos = brand.images.filter((image) => !image.pending && image.src);
 import { photoFill, srcset } from "../utils/img.js";
 
 const headingId = `marca-${brand.slug}`;
@@ -42,23 +42,38 @@ const indexId = `indice-${brand.slug}`;
     </div>
   </div>
 
-  <div class:list={["brand__mosaic", `brand__mosaic--${photos.length}`]} data-reveal>
-    {
-      photos.map((image) => (
-        <figure class="brand__tile media-frame photo-fill" style={photoFill(image.src)}>
-          <img
-            src={image.src}
-            srcset={srcset(image.src)}
-            sizes="(min-width: 1024px) 36vw, 60vw"
-            alt={image.alt}
-            width="800"
-            height="600"
-            loading="lazy"
-            decoding="async"
-          />
-        </figure>
-      ))
-    }
+  <div class="brand__carousel" data-carousel data-reveal role="region" aria-roledescription="carrusel" aria-label={`Fotos de ${brand.name}`}>
+    <div class="brand__track" data-carousel-track>
+      {
+        photos.map((image, i) => (
+          <figure class="brand__slide photo-fill" style={photoFill(image.src)} role="group" aria-roledescription="diapositiva" aria-label={`${i + 1} de ${photos.length}`}>
+            <img
+              src={image.src}
+              srcset={srcset(image.src)}
+              sizes="(min-width: 1024px) 56vw, 92vw"
+              alt={image.alt}
+              width="800"
+              height="600"
+              loading="lazy"
+              decoding="async"
+            />
+          </figure>
+        ))
+      }
+    </div>
+    <div class="brand__controls">
+      <button type="button" class="brand__control" data-carousel-toggle aria-label="Pausar el carrusel">
+        <svg class="brand__icon-pause" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M5 3v10M11 3v10" /></svg>
+        <svg class="brand__icon-play" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M5 3l8 5-8 5z" /></svg>
+      </button>
+      <button type="button" class="brand__control" data-carousel-step="-1" aria-label="Foto anterior">
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M10 3 5 8l5 5" /></svg>
+      </button>
+      <span class="brand__count" data-carousel-count aria-hidden="true">1 / {photos.length}</span>
+      <button type="button" class="brand__control" data-carousel-step="1" aria-label="Foto siguiente">
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="m6 3 5 5-5 5" /></svg>
+      </button>
+    </div>
   </div>
 
   <div class="brand__index">
@@ -90,7 +105,7 @@ const indexId = `indice-${brand.slug}`;
     display: grid;
     grid-template-areas:
       "head"
-      "mosaic"
+      "media"
       "index";
     gap: clamp(2rem, 5vw, 3.5rem) var(--gutter);
   }
@@ -99,7 +114,7 @@ const indexId = `indice-${brand.slug}`;
     .brand {
       grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
       grid-template-areas:
-        "head mosaic"
+        "head media"
         "index index";
       align-items: center;
     }
@@ -107,7 +122,7 @@ const indexId = `indice-${brand.slug}`;
     .brand--flip {
       grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
       grid-template-areas:
-        "mosaic head"
+        "media head"
         "index index";
     }
   }
@@ -155,48 +170,101 @@ const indexId = `indice-${brand.slug}`;
     margin-top: 2rem;
   }
 
-  .brand__mosaic {
-    grid-area: mosaic;
-    display: grid;
-    gap: 8px;
-    aspect-ratio: 4 / 3;
-  }
-
-  @media (max-width: 639.98px) {
-    .brand__mosaic {
-      aspect-ratio: 1 / 1;
-    }
-  }
-
-  .brand__mosaic--3 {
-    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
-  }
-
-  .brand__mosaic--3 .brand__tile:first-child {
-    grid-row: 1 / 3;
-  }
-
-  .brand__mosaic--2 {
-    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-  }
-
-  @media (min-width: 1024px) {
-    .brand__mosaic {
-      aspect-ratio: 16 / 10;
-    }
-  }
-
-  .brand__tile {
-    margin: 0;
-    min-height: 0;
+  .brand__carousel {
+    grid-area: media;
+    position: relative;
     border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
   }
 
-  .brand__tile img {
+  .brand__track {
+    display: flex;
+    aspect-ratio: 1 / 1;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .brand__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .brand__track {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  .brand__slide {
+    flex: 0 0 100%;
+    margin: 0;
+    scroll-snap-align: start;
+  }
+
+  .brand__slide img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+  }
+
+  .brand__controls {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    background-color: color-mix(in srgb, var(--color-bg) 92%, transparent);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .brand__control {
+    display: grid;
+    place-items: center;
+    width: var(--tap);
+    height: var(--tap);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-text);
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .brand__control svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+    transition: transform 0.12s var(--ease-out);
+  }
+
+  .brand__control:active svg {
+    transform: scale(0.9);
+  }
+
+  .brand__icon-play {
+    display: none;
+  }
+
+  .brand__carousel.is-paused .brand__icon-pause {
+    display: none;
+  }
+
+  .brand__carousel.is-paused .brand__icon-play {
+    display: block;
+  }
+
+  .brand__count {
+    min-width: 3.25rem;
+    font-family: var(--font-heading);
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    color: var(--color-text);
   }
 
   .brand__index {
@@ -315,3 +383,87 @@ const indexId = `indice-${brand.slug}`;
     }
   }
 </style>
+
+<script>
+  const INTERVAL = 5000;
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.querySelectorAll<HTMLElement>("[data-carousel]").forEach((carousel) => {
+    const track = carousel.querySelector<HTMLElement>("[data-carousel-track]");
+    const count = carousel.querySelector("[data-carousel-count]");
+    const toggle = carousel.querySelector<HTMLButtonElement>("[data-carousel-toggle]");
+    if (!track || !count || !toggle) return;
+
+    const total = track.children.length;
+    const current = () => Math.round(track.scrollLeft / track.clientWidth);
+    let userPaused = reduced;
+    let hovering = false;
+    let visible = false;
+    let timer: number | undefined;
+
+    const goTo = (index: number) => {
+      const next = (index + total) % total;
+      const wraps = Math.abs(next - current()) > 1;
+      track.scrollTo({ left: next * track.clientWidth, behavior: reduced || wraps ? "auto" : "smooth" });
+    };
+
+    const sync = () => {
+      window.clearInterval(timer);
+      const running = !userPaused && !hovering && visible && total > 1;
+      if (running) timer = window.setInterval(() => goTo(current() + 1), INTERVAL);
+      carousel.classList.toggle("is-paused", userPaused);
+      toggle.setAttribute("aria-label", userPaused ? "Reanudar el carrusel" : "Pausar el carrusel");
+    };
+
+    carousel.querySelectorAll<HTMLButtonElement>("[data-carousel-step]").forEach((button) => {
+      button.addEventListener("click", () => {
+        goTo(current() + Number(button.dataset.carouselStep));
+        sync();
+      });
+    });
+
+    toggle.addEventListener("click", () => {
+      userPaused = !userPaused;
+      sync();
+    });
+
+    carousel.addEventListener("pointerenter", () => {
+      hovering = true;
+      sync();
+    });
+    carousel.addEventListener("pointerleave", () => {
+      hovering = false;
+      sync();
+    });
+    carousel.addEventListener("focusin", () => {
+      hovering = true;
+      sync();
+    });
+    carousel.addEventListener("focusout", () => {
+      hovering = false;
+      sync();
+    });
+    track.addEventListener("pointerdown", () => {
+      userPaused = true;
+      sync();
+    });
+
+    track.addEventListener(
+      "scroll",
+      () => {
+        count.textContent = `${current() + 1} / ${total}`;
+      },
+      { passive: true },
+    );
+
+    new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        sync();
+      },
+      { threshold: 0.4 },
+    ).observe(carousel);
+
+    sync();
+  });
+</script>

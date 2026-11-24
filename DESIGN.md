@@ -26,6 +26,10 @@
 > en todo el sitio en azul de arco (gama clara sobre el lienzo, brillante sobre cabecera y pie).
 > La barra de categorías del catálogo usa botones con `--radius` y `--shadow-sm`, la cantidad de productos y marca en azul
 > la categoría visible.
+> **Material del cliente (24 nov):** los bloques de marca del Inicio son carruseles (`BrandShowcase.astro`) que avanzan
+> solos cada 5 s, con pausa, flechas y contador en la misma píldora del catálogo; se detienen al pasar el mouse, al
+> tocarlos, fuera de pantalla y con movimiento reducido. Cada servicio principal lleva dos imágenes (`MediaPair.astro`,
+> marcos 3:4): fotos enteras sobre desenfoque o videos en bucle, sin sonido, a sangre (`object-fit: cover`).
 > **Esto reemplaza** la regla de radio cero, la paleta cálida de §2 y la junta de 1px en las tarjetas; donde el resto
 > del documento diga lo contrario, manda esta nota.
 
