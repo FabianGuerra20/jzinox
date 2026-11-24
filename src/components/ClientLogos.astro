@@ -5,43 +5,60 @@ const logoBox = (ratio: number) => {
   const height = Math.min(3.3 / Math.sqrt(ratio), 3.4);
   return `--logo-w: ${(height * ratio).toFixed(2)}em; --logo-h: ${height.toFixed(2)}em`;
 };
+
+const copies = [false, true];
 ---
 
-<ul class="clients" role="list">
+<div class="clients-wrap">
   {
-    clients.list.map((client) => (
-      <li class="clients__cell">
-        {client.logo ? (
-          <span
-            class="clients__logo"
-            role="img"
-            aria-label={client.name}
-            style={`--logo: url("${client.logo}"); ${logoBox(client.ratio)}`}
-          />
-        ) : (
-          <span class="clients__name">{client.name}</span>
-        )}
-      </li>
+    copies.map((duplicate) => (
+      <ul class:list={["clients", { "clients--copy": duplicate }]} role="list" aria-hidden={duplicate ? "true" : undefined}>
+        {clients.list.map((client, i) => (
+          <li class="clients__cell" data-reveal={duplicate ? undefined : "fade"} style={`--i: ${i}`}>
+            {client.logo ? (
+              <span
+                class="clients__logo"
+                role={duplicate ? undefined : "img"}
+                aria-label={duplicate ? undefined : client.name}
+                style={`--logo: url("${client.logo}"); ${logoBox(client.ratio)}`}
+              />
+            ) : (
+              <span class="clients__name">{client.name}</span>
+            )}
+          </li>
+        ))}
+      </ul>
     ))
   }
-</ul>
+</div>
 
 <style>
+  .clients-wrap {
+    display: flex;
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
   .clients {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    border-top: 1px solid var(--color-border);
-    border-left: 1px solid var(--color-border);
+    display: flex;
+    flex: none;
+    gap: 8px;
+    margin: 0;
+    padding: 0 4px;
+    animation: clients-scroll 36s linear infinite;
   }
 
   .clients__cell {
     display: flex;
+    flex: none;
     align-items: center;
     justify-content: center;
-    min-height: 6.5rem;
+    width: 8.5rem;
+    min-height: 6rem;
     padding: 1rem 0.75rem;
-    border-right: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+    border-radius: var(--radius-card);
     font-size: clamp(0.875rem, 1.05vw, 1rem);
   }
 
@@ -53,6 +70,7 @@ const logoBox = (ratio: number) => {
     background-color: var(--color-text-muted);
     -webkit-mask: var(--logo) center / contain no-repeat;
     mask: var(--logo) center / contain no-repeat;
+    transition: background-color 0.2s var(--ease-out);
   }
 
   .clients__name {
@@ -66,13 +84,52 @@ const logoBox = (ratio: number) => {
     color: var(--color-text-muted);
   }
 
+  @keyframes clients-scroll {
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .clients-wrap:hover .clients {
+      animation-play-state: paused;
+    }
+
+    .clients__cell:hover .clients__logo {
+      background-color: var(--color-text);
+    }
+  }
+
+  @media (min-width: 1100px), (prefers-reduced-motion: reduce) {
+    .clients-wrap {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+
+    .clients {
+      display: grid;
+      flex: 1 1 auto;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      padding: 0;
+      animation: none;
+    }
+
+    .clients--copy {
+      display: none;
+    }
+
+    .clients__cell {
+      width: auto;
+    }
+  }
+
   @media (min-width: 1100px) {
     .clients {
       grid-template-columns: repeat(9, minmax(0, 1fr));
     }
 
     .clients__cell {
-      min-height: 7.5rem;
+      min-height: 7rem;
     }
   }
 </style>

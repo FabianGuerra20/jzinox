@@ -44,8 +44,8 @@ const logo = "/img/logo-jzinox.webp";
   <nav id="site-nav" class="header__nav" aria-label="Navegación principal">
     <ul class="header__list">
       {
-        navItems.map((item) => (
-          <li class:list={["header__item", { "header__item--ally": item.ally }]}>
+        navItems.map((item, i) => (
+          <li class:list={["header__item", { "header__item--ally": item.ally }]} style={`--i: ${i}`}>
             <a
               href={item.href}
               aria-current={isActive(item.href) ? "page" : undefined}
@@ -86,6 +86,12 @@ const logo = "/img/logo-jzinox.webp";
     padding: 0 var(--margin-mobile);
     background-color: var(--color-steel);
     border-bottom: 1px solid var(--color-steel-dark);
+  }
+
+  @media (min-width: 1024px) {
+    .header {
+      padding-inline: max(var(--margin-desktop), calc((100% - var(--container-width)) / 2 + var(--margin-desktop)));
+    }
   }
 
   .header :focus-visible {
@@ -293,6 +299,28 @@ const logo = "/img/logo-jzinox.webp";
       border-top: 1px solid var(--color-steel-medium);
     }
 
+    .header__item:has(+ .header__item--ally) .header__link {
+      border-bottom: 0;
+    }
+
+    .header__toggle-input:checked ~ .header__nav .header__item {
+      animation: menu-item-in 0.24s var(--ease-out) both;
+      animation-delay: calc(var(--i, 0) * 25ms);
+    }
+
+    @keyframes menu-item-in {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .header__toggle-input:checked ~ .header__nav .header__item {
+        animation: none;
+      }
+    }
+
     .header__cta--desktop {
       display: none;
     }
@@ -305,7 +333,6 @@ const logo = "/img/logo-jzinox.webp";
   @media (min-width: 1280px) {
     .header {
       gap: clamp(1rem, 3vw, 3rem);
-      padding: 0 var(--margin-desktop);
     }
 
     .header__nav {

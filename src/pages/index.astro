@@ -64,6 +64,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 			</figure>
 		</div>
 
+		<div class="container hero__facts">
 		<dl class="hero__block">
 			{
 				facts.map((cell, i) => (
@@ -83,12 +84,13 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 				))
 			}
 		</dl>
+		</div>
 	</section>
 
 	{
 		brands.map((brand, i) => (
 			<>
-				<section class:list={["section", "brand-section", { "section--alt": i % 2 === 1 }]}>
+				<section class="section section--alt">
 					<div class="container">
 						<BrandShowcase brand={brand} flip={i % 2 === 1} />
 					</div>
@@ -116,8 +118,8 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 			<ol class="services__list" role="list">
 				{
 					mainServices.map((service) => (
-						<li class="services__item" data-reveal>
-							<div class="services__text">
+						<li class="services__item">
+							<div class="services__text" data-reveal>
 								<h3>{service.title}</h3>
 								<p>{service.blurb}</p>
 								<a href={service.href ?? `/servicios#${service.slug}`} class="arrow-link link-press" aria-label={`Ver el detalle de ${service.title}`}>
@@ -127,7 +129,9 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 									</svg>
 								</a>
 							</div>
-							<MediaPair media={service.media} />
+							<div data-reveal style="--i: 1">
+								<MediaPair media={service.media} />
+							</div>
 						</li>
 					))
 				}
@@ -135,17 +139,16 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		</div>
 	</section>
 
-	<section class="closing section--alt" aria-labelledby="cierre">
+	<section class="section section--tight section--alt cta-band" aria-labelledby="cierre">
 		<div class="container">
-			<div class="closing__inner">
-				<div class="closing__text">
+			<div class="cta-band__inner" data-reveal>
+				<div class="cta-band__text">
 					<h2 id="cierre">Cotiza tu proyecto</h2>
 					<p>Medimos tu espacio, te mostramos la propuesta con plazos y recién ahí fabricamos.</p>
 				</div>
-
-				<div class="closing__actions">
-					<a href="/contacto" class="btn btn--primary btn--lg">Cotizar proyecto</a>
-					<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp btn--lg">
+				<div class="cta-band__actions">
+					<a href="/contacto" class="btn btn--primary">Cotizar proyecto</a>
+					<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp">
 						<WhatsAppIcon size={18} />
 						Hablar con un asesor
 					</a>
@@ -161,7 +164,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		grid-template-rows: 1fr auto;
 		min-height: 100svh;
 		background-color: var(--color-page);
-		border-bottom: 1px solid var(--color-border);
+		container-type: inline-size;
 	}
 
 	.hero__main {
@@ -181,7 +184,6 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		margin: 0;
 		min-height: 72vw;
 		overflow: hidden;
-		border-top: 1px solid var(--color-border);
 	}
 
 	.hero__figure img {
@@ -198,14 +200,13 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		}
 
 		.hero__copy {
-			padding-left: max(var(--margin-desktop), calc((100vw - var(--container-width)) / 2 + var(--margin-desktop)));
+			padding-left: max(var(--margin-desktop), calc((100cqw - var(--container-width)) / 2 + var(--margin-desktop)));
 			padding-right: clamp(2rem, 4vw, 4.5rem);
+			padding-bottom: clamp(4rem, 8vw, 6rem);
 		}
 
 		.hero__figure {
 			min-height: 0;
-			border-top: 0;
-			border-left: 1px solid var(--color-border);
 		}
 	}
 
@@ -245,21 +246,29 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		}
 	}
 
+	.hero__facts {
+		position: relative;
+		z-index: 1;
+		margin-top: calc(-1 * clamp(1.5rem, 4vw, 3rem));
+		padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+	}
+
 	.hero__block {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1px;
+		gap: 1.25rem 1.5rem;
 		margin: 0;
-		background-color: var(--color-border);
-		border-top: 1px solid var(--color-border);
+		padding: 1.25rem;
+		background-color: var(--color-bg);
+		border-radius: var(--radius-card);
+		box-shadow: var(--shadow-card);
 	}
 
 	.hero__cell {
 		display: flex;
 		flex-direction: column;
 		gap: 0.4rem;
-		padding: 1rem var(--margin-mobile) 1.1rem;
-		background-color: var(--color-bg);
+		min-width: 0;
 	}
 
 	.hero__cell dt {
@@ -283,18 +292,16 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 	@media (min-width: 960px) {
 		.hero__block {
 			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 0;
+			padding: 1.5rem 0;
 		}
 
 		.hero__cell {
-			padding: 1.25rem 2rem 1.4rem;
+			padding: 0 2rem;
 		}
 
-		.hero__cell:first-child {
-			padding-left: max(var(--margin-desktop), calc((100vw - var(--container-width)) / 2 + var(--margin-desktop)));
-		}
-
-		.hero__cell:last-child {
-			padding-right: 6rem;
+		.hero__cell + .hero__cell {
+			border-left: 1px solid var(--color-border);
 		}
 	}
 
@@ -307,12 +314,9 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		}
 	}
 
-	@keyframes cut-in {
+	@keyframes hero-fade {
 		from {
-			clip-path: inset(0 100% 0 0);
-		}
-		to {
-			clip-path: inset(0 0 0 0);
+			opacity: 0;
 		}
 	}
 
@@ -352,25 +356,21 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		}
 
 		.hero__figure {
-			animation: cut-in 0.8s var(--ease-in-out) both;
+			animation: hero-fade 0.6s var(--ease-out) both;
 		}
 
 		.hero__figure img {
 			animation: hero-settle 1s var(--ease-out) both;
 		}
 
+		.hero__block {
+			animation: hero-rise 0.6s var(--ease-out) 0.45s both;
+		}
+
 		.hero__cell > * {
 			animation: hero-rise 0.6s var(--ease-out) both;
-			animation-delay: calc(0.45s + var(--i) * 60ms);
+			animation-delay: calc(0.55s + var(--i) * 60ms);
 		}
-	}
-
-	.brand-section {
-		border-bottom: 1px solid var(--color-border);
-	}
-
-	.clients-band {
-		border-bottom: 1px solid var(--color-border);
 	}
 
 	.clients-band h2 {
@@ -398,7 +398,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		.services__item {
 			grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
 			gap: clamp(2rem, 5vw, 4.5rem);
-			align-items: center;
+			align-items: start;
 		}
 	}
 
@@ -416,44 +416,4 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		margin-bottom: 1rem;
 	}
 
-	.closing {
-		padding: clamp(3.5rem, 8vw, 6.5rem) 0;
-	}
-
-	.closing__inner {
-		display: grid;
-		gap: 2rem clamp(2rem, 6vw, 5rem);
-	}
-
-	@media (min-width: 900px) {
-		.closing__inner {
-			grid-template-columns: minmax(0, 1fr) minmax(20rem, 26rem);
-			align-items: stretch;
-		}
-	}
-
-	.closing h2 {
-		font-size: clamp(2.25rem, 5.2vw, 4.5rem);
-		font-weight: 800;
-		line-height: 0.95;
-		letter-spacing: -0.03em;
-		text-transform: uppercase;
-		margin: 0 0 1.25rem;
-	}
-
-	.closing p {
-		max-width: 46ch;
-		font-size: 1.125rem;
-		margin: 0;
-	}
-
-	.closing__actions {
-		display: grid;
-		grid-auto-rows: minmax(3.5rem, 1fr);
-		gap: 0.75rem;
-	}
-
-	.closing__actions .btn {
-		font-size: 1rem;
-	}
 </style>

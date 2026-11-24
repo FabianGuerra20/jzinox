@@ -9,7 +9,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 
 <a class="fab" href={whatsappHref} target="_blank" rel="noopener noreferrer" aria-label="Hablar con un asesor por WhatsApp">
   <WhatsAppIcon size={24} />
-  <span class="fab__label" aria-hidden="true">Escríbenos</span>
+  <span class="fab__label" aria-hidden="true">Hablar con un asesor</span>
 </a>
 
 <style>
@@ -41,7 +41,9 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
     transition:
       background-color 0.2s ease,
       border-color 0.2s ease,
-      transform 0.16s var(--ease-out);
+      opacity 0.24s var(--ease-out),
+      visibility 0s,
+      transform 0.24s var(--ease-out);
   }
 
   .fab__label {
@@ -72,6 +74,23 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
     border-color: var(--color-whatsapp-ink-dark);
   }
 
+  .fab.is-away {
+    opacity: 0;
+    transform: translateY(12px);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.2s var(--ease-out),
+      transform 0.2s var(--ease-out),
+      visibility 0s linear 0.2s;
+  }
+
+  @media (min-width: 1024px) {
+    .fab {
+      right: calc(0.75rem + env(safe-area-inset-right, 0px));
+    }
+  }
+
   .fab:focus-visible {
     outline: 2px solid var(--color-graphite);
     outline-offset: 3px;
@@ -89,3 +108,13 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
     }
   }
 </style>
+
+<script>
+  const hero = document.querySelector(".hero");
+  const fab = document.querySelector(".fab");
+  if (hero && fab) {
+    new IntersectionObserver(([entry]) => fab.classList.toggle("is-away", entry.intersectionRatio > 0.35), {
+      threshold: [0, 0.35, 1],
+    }).observe(hero);
+  }
+</script>
