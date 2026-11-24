@@ -3,6 +3,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import FloatingContact from "../components/FloatingContact.astro";
 import WeldingCursor from "../components/WeldingCursor.astro";
+import Analytics from "../components/Analytics.astro";
 import Seo from "../components/Seo.astro";
 import { site } from "../data/site.js";
 import "../styles/global.css";
@@ -42,22 +43,20 @@ const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
 			{jsonLd && <script type="application/ld+json" set:html={jsonLd} />}
 		</Seo>
 
-		{}
 		<link rel="preload" href="/fonts/hanken-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
 	</head>
 	<body>
 		<a href="#main-content" class="skip-link">Saltar al contenido</a>
 		<Header />
-		{}
 		<main id="main-content" class:list={{ "main--flush": flush }}>
 			<slot />
 		</main>
 		<Footer />
 		<FloatingContact />
 		<WeldingCursor />
+		<Analytics />
 
-		{}
 		<dialog class="lightbox" data-lightbox aria-label="Foto ampliada">
 			<button type="button" class="lightbox__close" data-lightbox-close aria-label="Cerrar la foto">
 				<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -77,7 +76,6 @@ const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
 			}
 		</style>
 
-		{}
 		<script is:inline>
 			(function () {
 				var items = document.querySelectorAll("[data-reveal]");

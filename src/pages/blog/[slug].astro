@@ -1,0 +1,97 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import { site } from "../../data/site.js";
+
+export async function getStaticPaths() {
+	const posts = await getCollection("blog", (post) => !post.data.draft);
+	return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const url = `${site.siteUrl}/blog/${post.id}`;
+const articleLd = JSON.stringify({
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	headline: post.data.title,
+	description: post.data.description,
+	datePublished: post.data.date.toISOString(),
+	dateModified: (post.data.updated ?? post.data.date).toISOString(),
+	inLanguage: "es-CL",
+	mainEntityOfPage: url,
+	...(post.data.image ? { image: `${site.siteUrl}${post.data.image}` } : {}),
+	author: { "@type": "Organization", name: site.name, url: `${site.siteUrl}/` },
+	publisher: { "@type": "Organization", name: site.name, logo: { "@type": "ImageObject", url: `${site.siteUrl}${site.logo}` } },
+});
+const formatDate = (date) => date.toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" });
+---
+
+<Layout title={post.data.title} description={post.data.description} breadcrumb={post.data.title} jsonLd={articleLd}>
+	<article class="section post">
+		<div class="container post__inner">
+			<a href="/blog" class="arrow-link link-press post__back">Volver al blog</a>
+			<h1>{post.data.title}</h1>
+			<time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+			{post.data.image && <img src={post.data.image} alt={post.data.imageAlt ?? ""} class="post__image" width="1200" height="900" />}
+			<div class="post__body">
+				<Content />
+			</div>
+			<div class="post__cta card">
+				<p>¿Necesitas algo así para tu cocina?</p>
+				<a href="/contacto" class="btn btn--primary">Cotizar proyecto</a>
+			</div>
+		</div>
+	</article>
+</Layout>
+
+<style>
+	.post__inner {
+		max-width: 72ch;
+	}
+
+	.post__back {
+		margin-bottom: 1rem;
+	}
+
+	.post time {
+		display: block;
+		margin-bottom: 2rem;
+		color: var(--color-text-muted);
+		font-size: 0.875rem;
+	}
+
+	.post__image {
+		width: 100%;
+		height: auto;
+		margin-bottom: 2rem;
+		border-radius: var(--radius-card);
+	}
+
+	.post__body :global(h2) {
+		margin-top: 2.25rem;
+		font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+	}
+
+	.post__body :global(p),
+	.post__body :global(li) {
+		font-size: 1.0625rem;
+		line-height: 1.7;
+	}
+
+	.post__cta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-top: 3rem;
+	}
+
+	.post__cta p {
+		margin: 0;
+		font-family: var(--font-heading);
+		font-weight: 600;
+		font-size: 1.125rem;
+	}
+</style>

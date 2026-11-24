@@ -1,0 +1,47 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { privacy } from "../data/privacy.js";
+---
+
+<Layout
+	title={privacy.title}
+	description="Qué datos recibe JZ INOX por el formulario de contacto y WhatsApp, para qué los usa y cómo pedir que se corrijan o eliminen."
+	breadcrumb="Privacidad"
+>
+	<section class="section page-hero" aria-labelledby="privacidad-titulo">
+		<div class="container">
+			<h1 id="privacidad-titulo">{privacy.title}</h1>
+			<p>Actualizada el {privacy.updated}.</p>
+		</div>
+	</section>
+
+	<section class="section section--tight">
+		<div class="container privacy">
+			{
+				privacy.sections.map((section) => (
+					<article class="privacy__item">
+						<h2>{section.title}</h2>
+						{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+					</article>
+				))
+			}
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.privacy {
+		display: grid;
+		gap: clamp(1.75rem, 4vw, 2.5rem);
+		max-width: 72ch;
+	}
+
+	.privacy__item h2 {
+		font-size: clamp(1.25rem, 2vw, 1.5rem);
+		margin-bottom: 0.5rem;
+	}
+
+	.privacy__item p {
+		margin: 0 0 0.75rem;
+	}
+</style>

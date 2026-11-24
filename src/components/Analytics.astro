@@ -1,0 +1,117 @@
+---
+const measurementId = process.env.PUBLIC_GA_ID;
+---
+
+{
+  measurementId && (
+    <>
+      <script is:inline define:vars={{ measurementId }}>
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () {
+          window.dataLayer.push(arguments);
+        };
+        const stored = localStorage.getItem("consentimiento-analitica");
+        window.gtag("consent", "default", {
+          ad_storage: "denied",
+          ad_user_data: "denied",
+          ad_personalization: "denied",
+          analytics_storage: stored === "si" ? "granted" : "denied",
+        });
+        window.gtag("js", new Date());
+        window.gtag("config", measurementId, { anonymize_ip: true });
+        const tag = document.createElement("script");
+        tag.async = true;
+        tag.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+        document.head.appendChild(tag);
+      </script>
+
+      <div class="consent" data-consent hidden role="region" aria-label="Aviso de cookies">
+        <p>
+          Usamos cookies de Google Analytics solo para contar visitas y mejorar el sitio, si nos das permiso.
+          <a href="/privacidad">Más información</a>
+        </p>
+        <div class="consent__actions">
+          <button type="button" class="btn btn--ghost btn--sm" data-consent-answer="no">Rechazar</button>
+          <button type="button" class="btn btn--primary btn--sm" data-consent-answer="si">Aceptar</button>
+        </div>
+      </div>
+    </>
+  )
+}
+
+<style>
+  .consent {
+    position: fixed;
+    left: calc(1rem + env(safe-area-inset-left, 0px));
+    right: calc(1rem + env(safe-area-inset-right, 0px));
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    z-index: 70;
+    display: grid;
+    gap: 0.75rem 1.5rem;
+    max-width: 44rem;
+    margin-inline: auto;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-card);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    box-shadow: var(--shadow-card);
+    animation: consent-in 0.28s var(--ease-out) both;
+  }
+
+  .consent[hidden] {
+    display: none;
+  }
+
+  .consent p {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .consent a {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .consent__actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+  }
+
+  @media (min-width: 720px) {
+    .consent {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+    }
+  }
+
+  @keyframes consent-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .consent {
+      animation-name: none;
+    }
+  }
+</style>
+
+<script>
+  const banner = document.querySelector<HTMLElement>("[data-consent]");
+  if (banner && !localStorage.getItem("consentimiento-analitica")) {
+    banner.hidden = false;
+    banner.querySelectorAll<HTMLButtonElement>("[data-consent-answer]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const answer = button.dataset.consentAnswer ?? "no";
+        localStorage.setItem("consentimiento-analitica", answer);
+        if (answer === "si") window.gtag?.("consent", "update", { analytics_storage: "granted" });
+        banner.hidden = true;
+      });
+    });
+  }
+</script>

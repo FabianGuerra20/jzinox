@@ -1,4 +1,5 @@
 import { resolve4 } from 'node:dns/promises';
+import { readdirSync, readFileSync } from 'node:fs';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
@@ -14,6 +15,12 @@ const resolves = (url) =>
 
 const siteUrl = (await resolves(wantedUrl)) ? wantedUrl : fallbackUrl;
 
+const blogDir = new URL('./src/content/blog/', import.meta.url);
+const hasPublishedPosts = readdirSync(blogDir)
+	.filter((file) => file.endsWith('.md') && !file.startsWith('_'))
+	.some((file) => !/^draft:\s*true\s*$/m.test(readFileSync(new URL(file, blogDir), 'utf8')));
+const hiddenFromSitemap = hasPublishedPosts ? /\/(gracias|404|productos)\/?$/ : /\/(gracias|404|productos|blog)\/?$/;
+
 export default defineConfig({
 	site: siteUrl,
 	trailingSlash: 'never',
@@ -22,7 +29,7 @@ export default defineConfig({
 	},
 	integrations: [
 		sitemap({
-			filter: (page) => !/\/(gracias|404|productos)\/?$/.test(page),
+			filter: (page) => !hiddenFromSitemap.test(page),
 		}),
 	],
 });

@@ -1,0 +1,95 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+const posts = (await getCollection("blog", (post) => !post.data.draft)).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const formatDate = (date) => date.toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" });
+---
+
+<Layout
+	title="Blog de acero inoxidable para cocinas profesionales"
+	description="Guías sobre mesones, campanas, soldadura y mantención de equipamiento de acero inoxidable para restaurantes y cocinas en Santiago."
+	breadcrumb="Blog"
+	noindex={posts.length === 0}
+>
+	<section class="section page-hero" aria-labelledby="blog-titulo">
+		<div class="container">
+			<h1 id="blog-titulo">Blog</h1>
+			<p>Guías sobre acero inoxidable para cocinas profesionales, desde el taller.</p>
+		</div>
+	</section>
+
+	<section class="section section--tight">
+		<div class="container">
+			{
+				posts.length === 0 ? (
+					<p class="blog-empty">Estamos preparando los primeros artículos.</p>
+				) : (
+					<ul class="blog-list" role="list">
+						{posts.map((post) => (
+							<li class="card blog-list__item" data-reveal>
+								<a href={`/blog/${post.id}`} class="blog-list__link">
+									<h2>{post.data.title}</h2>
+									<p>{post.data.description}</p>
+									<time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
+								</a>
+							</li>
+						))}
+					</ul>
+				)
+			}
+		</div>
+	</section>
+</Layout>
+
+<style>
+	.blog-empty {
+		color: var(--color-text-muted);
+	}
+
+	.blog-list {
+		display: grid;
+		gap: clamp(1rem, 2.4vw, var(--gutter));
+		margin: 0;
+		padding: 0;
+	}
+
+	@media (min-width: 900px) {
+		.blog-list {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	.blog-list__item {
+		padding: 0;
+	}
+
+	.blog-list__link {
+		display: grid;
+		gap: 0.5rem;
+		height: 100%;
+		padding: clamp(1.5rem, 3.6vw, 2rem);
+		color: var(--color-text);
+	}
+
+	.blog-list__link h2 {
+		font-size: clamp(1.25rem, 2vw, 1.5rem);
+		margin: 0;
+	}
+
+	.blog-list__link p {
+		margin: 0;
+		color: var(--color-text-muted);
+	}
+
+	.blog-list__link time {
+		font-size: 0.875rem;
+		color: var(--color-text-muted);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		.blog-list__link:hover h2 {
+			color: var(--color-accent);
+		}
+	}
+</style>

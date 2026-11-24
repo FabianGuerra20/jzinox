@@ -82,6 +82,22 @@ Si el dominio todavía no está conectado, se puede hacer lo mismo con una propi
 
 **Verificación sin tocar el DNS:** Search Console también ofrece una etiqueta HTML. El sitio ya la soporta: en Vercel → Settings → Environment Variables, crear `GOOGLE_SITE_VERIFICATION` con el código que entrega Google (solo el valor de `content`) y volver a desplegar. Sin esa variable la etiqueta no se emite.
 
+## 3b. Google Analytics 4 (cuando el sitio ya esté en `jzinox.cl`)
+
+El código está listo y apagado (`src/components/Analytics.astro`). Se activa así:
+
+1. En `analytics.google.com`, con la cuenta del negocio, crear una propiedad «JZ INOX», zona horaria Chile y moneda CLP, y un flujo web para `https://jzinox.cl`. Google entrega un ID `G-XXXXXXX`.
+2. En Vercel → Settings → Environment Variables, crear `PUBLIC_GA_ID` con ese ID y volver a desplegar.
+3. Desde ese despliegue aparece un aviso de cookies. Analytics solo mide a quien acepta (Consent Mode v2 con todo denegado por defecto), como pide la ley 21.719, vigente desde el 1 de diciembre de 2026. La página `/privacidad` explica qué se mide.
+4. En Analytics → Administrar → Vinculaciones, vincular con Search Console para ver las búsquedas junto a las visitas.
+5. Marcar como conversión el evento `page_view` de `/gracias` (consulta enviada por el formulario).
+
+## 3c. Formulario de contacto (FormSubmit → Zoho)
+
+El formulario envía a `ventas@jzinox.cl`, que es un buzón de Zoho, por medio de FormSubmit (gratis, sin claves). La primera vez que se envía, FormSubmit manda a ese correo un mensaje de **activación**: hay que abrirlo en Zoho y confirmar. Hasta entonces las consultas no llegan.
+
+Después de activarlo, FormSubmit ofrece una dirección aleatoria (por ejemplo `https://formsubmit.co/abc123…`) que oculta el correo real en el código: cambiar `formsubmitEndpoint` en `src/data/site.js` por esa dirección.
+
 ---
 
 ## 4. Otras fichas y enlaces
