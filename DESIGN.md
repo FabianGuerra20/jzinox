@@ -30,6 +30,14 @@
 > solos cada 5 s, con pausa, flechas y contador en la misma píldora del catálogo; se detienen al pasar el mouse, al
 > tocarlos, fuera de pantalla y con movimiento reducido. Cada servicio principal lleva dos imágenes (`MediaPair.astro`,
 > marcos 3:4): fotos enteras sobre desenfoque o videos en bucle, sin sonido, a sangre (`object-fit: cover`).
+> **Revisión completa del 24 nov (5 subagentes: diseño por página, competencia y referencias del rubro):**
+> botones en minúscula de oración (sin `text-transform`); franjas de datos como `.fact-card` (tarjeta blanca con
+> divisores internos) en Inicio, Nosotros y Soldadura; cierre único `.cta-band` como tarjeta (gris dentro de
+> `.section--alt`) con «Cotizar proyecto» + «Hablar con un asesor»; logos de clientes en tarjetas, cinta en bucle bajo
+> 1100px; cabecera alineada al contenedor; el botón flotante se oculta mientras se ve la portada del Inicio; catálogo en
+> 2 columnas desde 700px y AL en 3 desde 1100px (la última tarjeta impar va horizontal); Servicios en 2 columnas con
+> imágenes a la izquierda; línea de tiempo vertical en celular con puntos; preguntas con «+» que gira y respuesta que
+> aparece; tarjetas que suben 4px al pasar el mouse (propiedad `translate`).
 > **Esto reemplaza** la regla de radio cero, la paleta cálida de §2 y la junta de 1px en las tarjetas; donde el resto
 > del documento diga lo contrario, manda esta nota.
 

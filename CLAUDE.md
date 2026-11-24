@@ -99,7 +99,7 @@ Resumen. El detalle está en `DESIGN.md`.
 ### Botones y WhatsApp
 * Dos tamaños: base (44px) y `.btn--lg` (48px).
 * **Todo lo que abre WhatsApp lo dice, lleva el glifo y va en verde.**
-* Vocabulario único: "Cotizar proyecto", "Cotizar por WhatsApp", "Hablar con un asesor" (botón verde de WhatsApp, pedido del cliente el 24 nov), "Ver productos", "Volver al inicio", "Enviar consulta". Solo la primera palabra en mayúscula.
+* Vocabulario único: "Cotizar proyecto", "Cotizar por WhatsApp", "Hablar con un asesor" (botón verde de WhatsApp, pedido del cliente el 24 nov), "Ver productos", "Volver al inicio", "Enviar consulta". Solo la primera palabra en mayúscula (los botones no llevan `text-transform`).
 * La marca se escribe **JZ INOX**, separado.
 
 ### Movimiento
