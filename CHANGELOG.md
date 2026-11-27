@@ -3,6 +3,21 @@
 Lo que se hizo en el sitio de JZ INOX, por fecha. El detalle técnico de cada cambio está en el
 historial de git; las decisiones de diseño, en [`DESIGN.md`](DESIGN.md).
 
+## 27 nov 2026 · Pulido con QA en Playwright
+
+- QA automática con Playwright + Edge en 11 páginas × 4 anchos (390, 768, 1100, 1440): sin
+  desbordes, sin errores de consola y sin controles bajo 44 px, antes y después.
+- Composición: la misión de Nosotros pasa a dos columnas del mismo peso (texto | fotos); los
+  servicios del Inicio centran el texto contra sus fotos; la tarjeta impar del catálogo centra
+  su contenido; en Contacto el botón de WhatsApp queda junto a los datos.
+- Botones: el «Hablar con un asesor» del Inicio pasa a verde, como todo lo que abre WhatsApp;
+  en celular los botones de portada (Inicio, Soldadura, AL Mueblería) se apilan a todo el ancho.
+- Textos: «Qué hacemos / Lo que hacemos…» de Servicios se repetía; queda un solo título.
+- Tipografía: tamaños sueltos (13 y 13,6 px) llevados a la escala de 12 y 14 px.
+- Movimiento: toda transición usa la curva del sistema (`--ease-out`), sin `ease` genérico; la
+  entrada de la portada quedó en una sola regla por elemento.
+- Pie: «Política de privacidad» ya no queda con sangría al bajar de línea en celular.
+
 ## 24 nov 2026 · Material final del cliente
 
 - Se cargaron las fotos y videos que el cliente ordenó por sección: 8 fotos nuevas y 2 videos
