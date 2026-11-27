@@ -41,6 +41,11 @@
 > **Esto reemplaza** la regla de radio cero, la paleta cálida de §2 y la junta de 1px en las tarjetas; donde el resto
 > del documento diga lo contrario, manda esta nota.
 
+> **27 nov 2026 — Logo nuevo:** `public/img/logo-jzinox.webp` (900×210, variantes 360 y 540) es el logotipo
+> rediseñado en acero cepillado, sin la bajada «Soldadura industrial» (azul oscuro, ilegible sobre la cabecera).
+> Favicons (`favicon-32/180/512.png`): «JZ» blanco sobre cuadro negro con esquinas redondeadas; el de 180 va
+> opaco para iOS. Botón de WhatsApp: «Contáctanos por WhatsApp».
+
 Este documento describe el sistema tal como está construido. Si cambias un token,
 cámbialo en `global.css` y actualiza aquí.
 

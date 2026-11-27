@@ -191,17 +191,17 @@
  },
  "/img/logo-jzinox.webp": {
   "w": 900,
-  "h": 200,
+  "h": 210,
   "variants": [
    {
     "src": "/img/logo-jzinox-w360.webp",
     "w": 360,
-    "kb": 11.9
+    "kb": 13.5
    },
    {
     "src": "/img/logo-jzinox-w540.webp",
     "w": 540,
-    "kb": 20.1
+    "kb": 22.5
    }
   ]
  },

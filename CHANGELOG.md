@@ -3,6 +3,14 @@
 Lo que se hizo en el sitio de JZ INOX, por fecha. El detalle técnico de cada cambio está en el
 historial de git; las decisiones de diseño, en [`DESIGN.md`](DESIGN.md).
 
+## 27 nov 2026 · Logo nuevo y botón de WhatsApp
+
+- Logotipo rediseñado (JZINOX en acero cepillado) en cabecera y pie, y favicon nuevo «JZ» sobre
+  cuadro negro. El original venía con el fondo de cuadritos pintado; se recortó con BiRefNet.
+  Se dejó fuera la bajada «Soldadura industrial»: en azul oscuro no se lee sobre la cabecera.
+- El botón «Hablar con un asesor» pasa a «Contáctanos por WhatsApp» en todo el sitio, incluido el
+  botón flotante.
+
 ## 27 nov 2026 · Pulido con QA en Playwright
 
 - QA automática con Playwright + Edge en 11 páginas × 4 anchos (390, 768, 1100, 1440): sin
