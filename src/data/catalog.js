@@ -56,8 +56,8 @@ export const catalog = [
     image: { pending: true, slot: "Porta extintor instalado" },
   },
   {
-    id: "porta-nova",
-    name: "Porta Nova",
+    id: "porta-sticker",
+    name: "Porta sticker",
     category: "Soportes y presentadores",
     image: { src: "/img/porta-nova.webp", alt: "Soporte de acero inoxidable con barra horizontal atornillado al muro" },
   },
