@@ -27,3 +27,10 @@ fotos-originales/
 propuestas/selector-paletas.html
 propuestas/elegir-diseno.html
 .impeccable/
+
+# notas internas y material del cliente (solo local)
+MEJORAS.md
+AGENTS.md
+SEO-LOCAL.md
+CLAUDE.md
+mockup/

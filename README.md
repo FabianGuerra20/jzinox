@@ -107,9 +107,8 @@ docs/capturas/  imágenes de este README
 
 - [`DESIGN.md`](DESIGN.md): sistema de diseño y decisiones.
 - [`CHANGELOG.md`](CHANGELOG.md): qué se hizo y cuándo.
-- [`MEJORAS.md`](MEJORAS.md): pendientes técnicos y de SEO.
-- [`SEO-LOCAL.md`](SEO-LOCAL.md): pasos para la ficha de Google y el posicionamiento local.
-- [`CLAUDE.md`](CLAUDE.md): reglas de trabajo del proyecto (también para asistentes de código).
+- [`propuestas/`](propuestas/): selector de diseño que usó el cliente para elegir y fuente de la
+  imagen para redes.
 
 ## Derechos
 
