@@ -301,7 +301,7 @@ const indexId = `indice-${brand.slug}`;
     font-weight: 600;
     color: var(--color-accent);
     border-bottom: 1px solid currentColor;
-    transition: color 0.2s ease;
+    transition: color 0.2s var(--ease-out);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -343,7 +343,7 @@ const indexId = `indice-${brand.slug}`;
     font-weight: 600;
     line-height: 1.25;
     color: var(--color-text);
-    transition: color 0.2s ease;
+    transition: color 0.2s var(--ease-out);
   }
 
   .brand__row span {
@@ -359,7 +359,7 @@ const indexId = `indice-${brand.slug}`;
     color: var(--color-text-muted);
     transition:
       transform 0.2s var(--ease-out),
-      color 0.2s ease;
+      color 0.2s var(--ease-out);
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -375,7 +375,7 @@ const indexId = `indice-${brand.slug}`;
 
   @media (prefers-reduced-motion: reduce) {
     .brand__arrow {
-      transition: color 0.2s ease;
+      transition: color 0.2s var(--ease-out);
     }
 
     .brand__row:hover .brand__arrow {

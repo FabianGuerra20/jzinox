@@ -39,8 +39,8 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
     -webkit-user-select: none;
     user-select: none;
     transition:
-      background-color 0.2s ease,
-      border-color 0.2s ease,
+      background-color 0.2s var(--ease-out),
+      border-color 0.2s var(--ease-out),
       opacity 0.24s var(--ease-out),
       visibility 0s,
       transform 0.24s var(--ease-out);
@@ -99,8 +99,8 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
   @media (prefers-reduced-motion: reduce) {
     .fab {
       transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease;
+        background-color 0.2s var(--ease-out),
+        border-color 0.2s var(--ease-out);
     }
 
     .fab:active {

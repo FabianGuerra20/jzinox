@@ -345,9 +345,9 @@ ol[role="list"] {
   user-select: none;
   -webkit-touch-callout: none;
   transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease,
+    background-color 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out),
+    color 0.2s var(--ease-out),
     transform 0.16s var(--ease-out);
 }
 
@@ -453,7 +453,7 @@ ol[role="list"] {
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.25em;
-  transition: color 0.15s ease;
+  transition: color 0.15s var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -621,7 +621,7 @@ ol[role="list"] {
   font-weight: 600;
   font-size: 0.9375rem;
   color: var(--color-accent);
-  transition: color 0.2s ease;
+  transition: color 0.2s var(--ease-out);
 }
 
 .arrow-link svg {
@@ -939,7 +939,7 @@ ol[role="list"] {
   color: var(--color-text);
   cursor: pointer;
   list-style: none;
-  transition: color 0.16s ease;
+  transition: color 0.16s var(--ease-out);
 }
 
 @media (hover: hover) and (pointer: fine) {
