@@ -257,6 +257,17 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 		margin-top: clamp(1.5rem, 3vw, 2.25rem);
 	}
 
+	@media (max-width: 639.98px) {
+		.weld-hero__actions {
+			flex-direction: column;
+			gap: 0.75rem;
+		}
+
+		.weld-hero__actions .btn {
+			width: 100%;
+		}
+	}
+
 	.weld-jobs {
 		display: grid;
 		gap: clamp(2rem, 5vw, 4rem);
@@ -329,7 +340,7 @@ const pageLd = JSON.stringify([serviceLd, faqSchema(weldingFaqs)]);
 		text-decoration: underline;
 		text-decoration-thickness: 1px;
 		text-underline-offset: 0.25em;
-		transition: color 0.15s ease;
+		transition: color 0.15s var(--ease-out);
 	}
 
 	@media (hover: hover) and (pointer: fine) {

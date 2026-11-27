@@ -73,7 +73,7 @@ const logo = "/img/logo-jzinox.webp";
 
     <div class="footer__bottom">
       <p class="footer__copy">
-        &copy; {year} {site.name}. Todos los derechos reservados.
+        <span>&copy; {year} {site.name}. Todos los derechos reservados.</span>
         <a href="/privacidad" class="footer__legal">Política de privacidad</a>
       </p>
     </div>
@@ -156,7 +156,7 @@ const logo = "/img/logo-jzinox.webp";
     min-height: var(--tap);
     font-size: 0.875rem;
     color: var(--color-text-muted);
-    transition: color 0.15s ease;
+    transition: color 0.15s var(--ease-out);
   }
 
   .footer__col a.footer__social {
@@ -209,11 +209,17 @@ const logo = "/img/logo-jzinox.webp";
     }
   }
 
+  .footer__copy {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    column-gap: 1.25rem;
+  }
+
   .footer__legal {
     display: inline-flex;
     align-items: center;
     min-height: var(--tap);
-    margin-left: 1rem;
     text-decoration: underline;
     text-underline-offset: 3px;
   }

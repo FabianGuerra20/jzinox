@@ -301,7 +301,7 @@ const groups = catalogCategories
 		border-radius: var(--radius);
 		background-color: var(--color-page);
 		font-family: var(--font-body);
-		font-size: 0.8125rem;
+		font-size: 0.75rem;
 		font-weight: 600;
 		font-variant-numeric: tabular-nums;
 		color: var(--color-text-muted);
@@ -450,6 +450,18 @@ const groups = catalogCategories
 		.catalog .pgrid > .pcard:last-child:nth-child(odd) .pcard__gallery {
 			flex: 0 0 50%;
 			min-width: 0;
+		}
+
+		.catalog .pgrid > .pcard:last-child:nth-child(odd) .pcard__body {
+			justify-content: center;
+		}
+
+		.catalog .pgrid > .pcard:last-child:nth-child(odd) .btn {
+			margin-top: 0.75rem;
+		}
+
+		.catalog .pgrid > .pcard:last-child:nth-child(odd) h3 {
+			font-size: clamp(1.5rem, 2.2vw, 1.875rem);
 		}
 	}
 

@@ -43,7 +43,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 				<p class="hero__lead">{brands[0].heroLead}</p>
 				<div class="hero__actions">
 					<a href="/contacto" class="btn btn--primary btn--lg">Cotizar proyecto</a>
-					<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--ghost btn--lg">
+					<a href={whatsappHref} target="_blank" rel="noopener noreferrer" class="btn btn--whatsapp btn--lg">
 						<WhatsAppIcon size={18} />
 						Hablar con un asesor
 					</a>
@@ -244,6 +244,16 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		.hero__lead {
 			font-size: 1.0625rem;
 		}
+
+		.hero__actions {
+			flex-direction: column;
+			align-self: stretch;
+			gap: 0.75rem;
+		}
+
+		.hero__actions .btn {
+			width: 100%;
+		}
 	}
 
 	.hero__facts {
@@ -346,13 +356,12 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 			animation-delay: calc(var(--i) * 35ms);
 		}
 
-		.hero__lead,
-		.hero__actions {
+		.hero__lead {
 			animation: hero-rise 0.6s var(--ease-out) 0.35s both;
 		}
 
 		.hero__actions {
-			animation-delay: 0.42s;
+			animation: hero-rise 0.6s var(--ease-out) 0.42s both;
 		}
 
 		.hero__figure {
@@ -398,7 +407,7 @@ const whatsappHref = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompo
 		.services__item {
 			grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
 			gap: clamp(2rem, 5vw, 4.5rem);
-			align-items: start;
+			align-items: center;
 		}
 	}
 

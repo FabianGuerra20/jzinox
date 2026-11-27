@@ -96,11 +96,11 @@ const missionMedia = [
 	<section class="section section--alt" aria-labelledby="nosotros-mision">
 		<div class="container">
 			<div class="mission" data-reveal>
-				<div class="mission__head">
+				<div class="mission__copy">
 					<h2 id="nosotros-mision">{mission.title}</h2>
-					<MediaPair media={missionMedia} sizes="(min-width: 1024px) 16vw, 46vw" />
+					<p>{mission.description}</p>
 				</div>
-				<p>{mission.description}</p>
+				<MediaPair media={missionMedia} sizes="(min-width: 1024px) 28vw, 46vw" />
 			</div>
 		</div>
 	</section>
@@ -162,8 +162,9 @@ const missionMedia = [
 
 	@media (min-width: 1024px) {
 		.mission {
-			grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-			align-items: start;
+			grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
+			gap: clamp(2rem, 5vw, 4.5rem);
+			align-items: center;
 		}
 	}
 
@@ -233,9 +234,9 @@ const missionMedia = [
 		}
 	}
 
-	.mission__head {
+	.mission__copy {
 		display: grid;
-		gap: 1.5rem;
+		gap: 1.25rem;
 		align-content: start;
 	}
 </style>
